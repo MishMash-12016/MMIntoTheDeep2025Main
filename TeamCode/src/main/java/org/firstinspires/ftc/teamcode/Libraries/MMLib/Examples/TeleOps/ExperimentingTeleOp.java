@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Commands.ShootByS
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.Utils.OpModeType;
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils.OpModeType;
 
 import java.util.function.BooleanSupplier;
 

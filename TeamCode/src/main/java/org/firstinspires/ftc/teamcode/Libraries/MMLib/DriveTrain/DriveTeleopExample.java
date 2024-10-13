@@ -7,14 +7,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.DriveTrain.Commands.ResetFieldOrientedCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.Utils.OpModeType;
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils.OpModeType;
 
 /**
  * this class is all you need to run field-oriented drive.
  * <p>
  * <b>IMPORTANT:</b>
  * <p>
- * don't forget to change the ports at {@link org.firstinspires.ftc.teamcode.Utils.Configuration Configuration},
+ * don't forget to change the ports at {@link org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils.Configuration Configuration},
  * <p>
  * and reverse the motors at {@link org.firstinspires.ftc.teamcode.Libraries.MMLib.DriveTrain.Subsystem.MMDriveTrain MMDriveTrain}.
  */
