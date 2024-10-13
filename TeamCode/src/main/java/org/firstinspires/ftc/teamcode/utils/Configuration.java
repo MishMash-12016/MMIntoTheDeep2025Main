@@ -27,12 +27,12 @@ public class Configuration {
 
     public static final String AUTO_DRIVE_TRAIN_FRONT_LEFT = "leftFront";
     public static final String AUTO_DRIVE_TRAIN_BACK_LEFT = "leftBack";
-    public static final String AUTO_DRIVE_TRAIN_FRONT_RIGHT = "rightBack";
-    public static final String AUTO_DRIVE_TRAIN_BACK_RIGHT = "rightFront";
+    public static final String AUTO_DRIVE_TRAIN_FRONT_RIGHT = "rightFront";
+    public static final String AUTO_DRIVE_TRAIN_BACK_RIGHT = "rightBack";
 
 
-    public static final String PERPENDICULAR = AUTO_DRIVE_TRAIN_BACK_RIGHT;
-    public static final String PARALLEL = AUTO_DRIVE_TRAIN_BACK_RIGHT; //todo: choose the right motor, preferable port 0,3
+    public static final String PERPENDICULAR = AUTO_DRIVE_TRAIN_FRONT_LEFT;
+    public static final String PARALLEL = AUTO_DRIVE_TRAIN_BACK_LEFT; //todo: choose the right motor, preferable port 0,3
 
 
 
