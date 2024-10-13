@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils;
+package org.firstinspires.ftc.teamcode.utils;
 
 
 /**
@@ -48,6 +48,7 @@ public class Configuration {
     public static final int SCORING_ARM_RIGHT = 0;
     public static final int SCORING_ARM_LEFT = 1 ;
 
+    public static final String ROLLER_INTAKE = "intakeRoller";
 
 
 

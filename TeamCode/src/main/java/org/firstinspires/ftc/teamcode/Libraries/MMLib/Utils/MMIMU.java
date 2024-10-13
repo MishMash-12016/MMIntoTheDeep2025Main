@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils.Configuration;
+import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class MMIMU {
     BHI260IMU imu;
