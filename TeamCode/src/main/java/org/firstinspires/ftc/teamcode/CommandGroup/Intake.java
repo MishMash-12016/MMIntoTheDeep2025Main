@@ -6,12 +6,10 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 
 import org.firstinspires.ftc.teamcode.Commands.IntakeArmSetState;
-import org.firstinspires.ftc.teamcode.Commands.IntakeByPower;
+import org.firstinspires.ftc.teamcode.Commands.RollerByPower;
 import org.firstinspires.ftc.teamcode.Commands.LinearIntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.SetLinearPosition;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
-
-import java.util.function.DoubleSupplier;
 
 public class Intake extends ParallelDeadlineGroup {
 
@@ -21,7 +19,7 @@ public class Intake extends ParallelDeadlineGroup {
         super(
                 new LinearIntakeCommand(trigger),
                 new IntakeArmSetState(IntakeArm.Position.OUT),
-                new IntakeByPower(1)
+                new RollerByPower(1)
         );
     }
 
@@ -32,8 +30,11 @@ public class Intake extends ParallelDeadlineGroup {
                 new IntakeArmSetState(IntakeArm.Position.MID),
                 new WaitCommand(400),
                 new IntakeArmSetState(IntakeArm.Position.IN),
-                new IntakeByPower(0),
-                new SetLinearPosition(0)
+                new RollerByPower(0.3),
+                new SetLinearPosition(0.18),
+                new WaitCommand(200),
+                new SetLinearPosition(0),
+                new RollerByPower(0)
         );
 
 

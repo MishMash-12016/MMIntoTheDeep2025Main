@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Utils.OpModeType;
 public class NormalTeleOpTest extends MMTeleOp {
 
     public NormalTeleOpTest(){
-        super(OpModeType.NonCompetition.EXPERIMENTING);
+        super(OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION);
     }
 
     @Override
@@ -55,7 +55,6 @@ public class NormalTeleOpTest extends MMTeleOp {
     @Override
     public void run() {
         super.run();
-
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 
 

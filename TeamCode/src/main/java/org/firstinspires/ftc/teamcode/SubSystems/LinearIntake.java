@@ -12,15 +12,15 @@ public class LinearIntake extends SubsystemBase {
     CuttleServo rightServo;
     CuttleServo leftServo;
 
-    final double MAX_OPENING_VALUE = 0.7;
+    final double MAX_OPENING_VALUE = 1;
 
     public LinearIntake() {
         rightServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.RIGHT_LINEAR_INTAKE);
         leftServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.LEFT_LINEAR_INTAKE);
     }
     public void setPosition(double position) {
-        rightServo.setPosition(position*MAX_OPENING_VALUE);
-        leftServo.setPosition (1-position  *MAX_OPENING_VALUE);
+        rightServo.setPosition(position * MAX_OPENING_VALUE);
+        leftServo.setPosition (1-position * MAX_OPENING_VALUE);
     }
 
     public double getPosition() {

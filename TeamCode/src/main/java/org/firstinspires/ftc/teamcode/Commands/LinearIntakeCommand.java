@@ -13,7 +13,7 @@ public class LinearIntakeCommand extends CommandBase{
     private final double TRIG_INPUT_START = 0;
     private final double TRIG_INPUT_END = 1;
     private final double TRIG_OUTPUT_START = 0;
-    private final double TRIG_OUTPUT_END = 0.4;
+    private final double TRIG_OUTPUT_END = 0.85;
 
     public LinearIntakeCommand(Trigger trigger){
         this.trigger = trigger;
