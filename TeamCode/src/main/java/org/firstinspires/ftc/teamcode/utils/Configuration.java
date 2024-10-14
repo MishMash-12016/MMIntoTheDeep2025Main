@@ -25,14 +25,14 @@ public class Configuration {
     public static final int DRIVE_TRAIN_BACK_RIGHT = 0;
 
 
-    public static final String AUTO_DRIVE_TRAIN_FRONT_LEFT = "leftFront";
-    public static final String AUTO_DRIVE_TRAIN_BACK_LEFT = "leftBack";
-    public static final String AUTO_DRIVE_TRAIN_FRONT_RIGHT = "rightFront";
-    public static final String AUTO_DRIVE_TRAIN_BACK_RIGHT = "rightBack";
+    public static final String AUTO_DRIVE_TRAIN_FRONT_LEFT = "leftFront"; //2
+    public static final String AUTO_DRIVE_TRAIN_BACK_LEFT = "leftBack"; //1
+    public static final String AUTO_DRIVE_TRAIN_FRONT_RIGHT = "rightFront"; //3
+    public static final String AUTO_DRIVE_TRAIN_BACK_RIGHT = "rightBack"; //0
 
 
-    public static final String PERPENDICULAR = AUTO_DRIVE_TRAIN_FRONT_LEFT;
-    public static final String PARALLEL = AUTO_DRIVE_TRAIN_BACK_LEFT; //todo: choose the right motor, preferable port 0,3
+    public static final String PERPENDICULAR = AUTO_DRIVE_TRAIN_BACK_LEFT; // 1
+    public static final String PARALLEL = AUTO_DRIVE_TRAIN_BACK_RIGHT; //0 //todo: choose the right motor, preferable port 0,3
 
 
 

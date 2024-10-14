@@ -26,12 +26,12 @@ public class NormalTeleOpTest extends MMTeleOp {
     public void onInit() {
 
         MMRobot.getInstance().mmSystems.initDriveTrain();
-        MMRobot.getInstance().mmSystems.initIntake();
-        MMRobot.getInstance().mmSystems.initLinearIntake();
-        MMRobot.getInstance().mmSystems.initElevator();
-        MMRobot.getInstance().mmSystems.initIntakeArm();
-        MMRobot.getInstance().mmSystems.initScoringArm();
-        MMRobot.getInstance().mmSystems.initClaw();
+//        MMRobot.getInstance().mmSystems.initIntake();
+//        MMRobot.getInstance().mmSystems.initLinearIntake();
+//        MMRobot.getInstance().mmSystems.initElevator();
+//        MMRobot.getInstance().mmSystems.initIntakeArm();
+//        MMRobot.getInstance().mmSystems.initScoringArm();
+//        MMRobot.getInstance().mmSystems.initClaw();
 
 
 
@@ -55,9 +55,9 @@ public class NormalTeleOpTest extends MMTeleOp {
     @Override
     public void run() {
         super.run();
-        MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
+//        MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 
-
+        MMRobot.getInstance().mmSystems.driveTrain.
 
     }
 }
