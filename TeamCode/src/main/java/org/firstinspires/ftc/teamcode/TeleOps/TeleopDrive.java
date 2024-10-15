@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.CommandGroup.Intake;
 import org.firstinspires.ftc.teamcode.CommandGroup.OutTakeRoller;
 import org.firstinspires.ftc.teamcode.CommandGroup.Scoring;
 import org.firstinspires.ftc.teamcode.Commands.ClawSetState;
+import org.firstinspires.ftc.teamcode.Commands.ElevatorClimb;
 import org.firstinspires.ftc.teamcode.Commands.IntakeArmSetState;
 import org.firstinspires.ftc.teamcode.Commands.LinearIntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.ScoringArmSetState;
@@ -91,6 +92,9 @@ public class TeleopDrive extends MMTeleOp {
                 new ResetFieldOrientedCommand()
         );
 
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+                new ElevatorClimb()
+        );
 
     }
 
