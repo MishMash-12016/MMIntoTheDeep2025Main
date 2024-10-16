@@ -36,9 +36,11 @@ public class LocalizationTest extends LinearOpMode {
             drive.update();
 
             Pose2d poseEstimate = drive.getPoseEstimate();
+            telemetry.addData("wheelPos", drive.getWheelPositions());
+            telemetry.addData("wheelVel", drive.getWheelVelocities());
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
-            telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.addData("heading", Math.toDegrees(poseEstimate.getHeading()));
             telemetry.update();
         }
     }
