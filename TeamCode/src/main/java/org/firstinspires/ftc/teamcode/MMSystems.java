@@ -24,9 +24,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.RollerIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils.AllianceColor;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils.AllianceSide;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils.OpModeType;
+import org.firstinspires.ftc.teamcode.utils.AllianceColor;
+import org.firstinspires.ftc.teamcode.utils.AllianceSide;
+import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 /**
  * this class should contain all ur robot's attributes and systems

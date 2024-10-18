@@ -8,9 +8,9 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils.AllianceColor;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils.AllianceSide;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils.OpModeType;
+import org.firstinspires.ftc.teamcode.utils.AllianceColor;
+import org.firstinspires.ftc.teamcode.utils.AllianceSide;
+import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 import java.util.ArrayList;
 import java.util.Arrays;

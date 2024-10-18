@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.Shoote
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMTuningFFCommand;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils.OpModeType;
+import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 /**
  * obviously checking for friction in a spinwheel is pretty dumb,

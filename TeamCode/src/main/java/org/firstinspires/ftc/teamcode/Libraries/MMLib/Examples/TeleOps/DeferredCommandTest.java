@@ -7,7 +7,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Commands.MMDeferredCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.utils.OpModeType;
+import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 import java.util.Arrays;
 import java.util.HashSet;
