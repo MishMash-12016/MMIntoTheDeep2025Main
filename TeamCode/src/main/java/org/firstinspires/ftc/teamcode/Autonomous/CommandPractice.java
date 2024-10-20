@@ -1,25 +1,29 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.localization.Localizer;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.teamcode.Commands.TrajectroryFollowerCommend;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.AutoMecanumDrive;
-import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
-@Autonomous
-public class Practice extends LinearOpMode {
+import java.util.List;
+
+public class CommandPractice extends LinearOpMode {
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
 
-
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+    final AutoMecanumDrive drive = new AutoMecanumDrive(new SampleMecanumDrive(MMRobot.getInstance().mmSystems.hardwareMap));
 
         Pose2d startPose = new Pose2d(-60,0,0);
 
@@ -37,13 +41,14 @@ public class Practice extends LinearOpMode {
 
         if (!isStopRequested() && opModeIsActive()) {
 
-            drive.followTrajectory(START_POINT_TO_BASCET);
+//            new TrajectroryFollowerCommend(drive.trajectorySequenceBuilder(new Pose2d()));
 
-            drive.followTrajectory(FROM_THE_FIRST_SCORING_TO_THE_FIRST_INTAKE);
+//            drive.followTrajectory(START_POINT_TO_BASCET);
+//
+//            drive.followTrajectory(FROM_THE_FIRST_SCORING_TO_THE_FIRST_INTAKE);
 
         }
 
-//        MMRobot.getInstance().resetRobot();
 
     }
 }
