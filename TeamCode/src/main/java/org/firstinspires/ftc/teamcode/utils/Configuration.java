@@ -66,6 +66,8 @@ public class Configuration {
     public static final int ELEVATOR_RIGHT = 0;
     public static final int ELEVATOR_LEFT = 1;
     public static final int ELEVATOR_ENCODER = ELEVATOR_LEFT;
+    public static final int BUMPER_RIGHT = 2;
+    public static final int BUMPER_LEFT = 3;
 
 
 }

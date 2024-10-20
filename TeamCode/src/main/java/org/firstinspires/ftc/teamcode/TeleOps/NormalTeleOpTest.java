@@ -18,44 +18,29 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 public class NormalTeleOpTest extends MMTeleOp {
 
     public NormalTeleOpTest(){
-        super(OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION);
+        super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
     @Override
     public void onInit() {
+        MMRobot.getInstance().mmSystems.initElevator();
+        MMRobot.getInstance().mmSystems.initBumper();
 
-        MMRobot.getInstance().mmSystems.initDriveTrain();
-//        MMRobot.getInstance().mmSystems.initIntake();
-//        MMRobot.getInstance().mmSystems.initLinearIntake();
-//        MMRobot.getInstance().mmSystems.initElevator();
-//        MMRobot.getInstance().mmSystems.initIntakeArm();
-//        MMRobot.getInstance().mmSystems.initScoringArm();
-//        MMRobot.getInstance().mmSystems.initClaw();
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new MMPIDCommand(MMRobot.getInstance().mmSystems.elevator,40)
+        );
 
-
-
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-//                new MMPIDCommand(MMRobot.getInstance().mmSystems.elevator,20)
-//        );
-//
-//
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-//                new Scoring(
-//                        MMRobot.getInstance().mmSystems.elevator,
-//                        MMRobot.getInstance().mmSystems.scoringArm,
-//                        MMRobot.getInstance().mmSystems.claw,
-//                        MMRobot.getInstance().mmSystems.elevator.LOW_BASCET
-//                )
-//        );
-
-
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new MMPIDCommand(MMRobot.getInstance().mmSystems.elevator,0)
+        );
     }
+
 
     @Override
     public void run() {
         super.run();
-//        MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
+        MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 
-
+        MMRobot.getInstance().mmSystems.bumper.setPower(gamepad1.left_trigger);
     }
 }
