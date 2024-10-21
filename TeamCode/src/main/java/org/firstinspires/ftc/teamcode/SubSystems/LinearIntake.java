@@ -5,7 +5,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.Utils.Configuration;
+import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class LinearIntake extends SubsystemBase {
 

@@ -6,8 +6,7 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleMotor;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.Utils.OpModeType;
-
+import org.firstinspires.ftc.teamcode.utils.OpModeType;
 @TeleOp
 public class TEST extends MMTeleOp {
     public TEST() {

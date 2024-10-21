@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMTuningFFCommand;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.Utils.OpModeType;
+import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 public class TeleOpUsageExample extends MMTeleOp {
 
