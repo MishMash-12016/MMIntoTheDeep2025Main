@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.Utils.AllianceColor;
+import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 
 @Disabled
 @TeleOp(name = "MMTeleOpBlue")

@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Commands.ShootByPID;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.ShooterPID;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.Utils.OpModeType;
+import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp(name = "Teleop")
 public class BasicTeleOp extends CommandOpMode {

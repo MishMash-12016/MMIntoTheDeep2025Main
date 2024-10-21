@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class
 RollerIntake extends SubsystemBase{
@@ -13,7 +14,7 @@ RollerIntake extends SubsystemBase{
     CRServo servo;
     public boolean isRoll = false;
     public RollerIntake() {
-        servo = MMRobot.getInstance().mmSystems.hardwareMap.crservo.get("intakeRoller");
+        servo = MMRobot.getInstance().mmSystems.hardwareMap.crservo.get(Configuration.ROLLER_INTAKE);
 
     }
 

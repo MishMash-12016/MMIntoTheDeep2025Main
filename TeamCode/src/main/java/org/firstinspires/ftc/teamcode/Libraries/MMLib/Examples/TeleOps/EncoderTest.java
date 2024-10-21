@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
-import org.firstinspires.ftc.teamcode.Utils.OpModeType;
+import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @Disabled
 @TeleOp

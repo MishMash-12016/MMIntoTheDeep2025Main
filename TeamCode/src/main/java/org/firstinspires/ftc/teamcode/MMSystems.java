@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.Shoote
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.ShooterPID;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.ShooterTurret;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
+import org.firstinspires.ftc.teamcode.SubSystems.Bumper;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
@@ -24,9 +25,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.RollerIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
-import org.firstinspires.ftc.teamcode.Utils.AllianceColor;
-import org.firstinspires.ftc.teamcode.Utils.AllianceSide;
-import org.firstinspires.ftc.teamcode.Utils.OpModeType;
+import org.firstinspires.ftc.teamcode.utils.AllianceColor;
+import org.firstinspires.ftc.teamcode.utils.AllianceSide;
+import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 /**
  * this class should contain all ur robot's attributes and systems
@@ -50,7 +51,7 @@ public class MMSystems {
     //Subsystems
     //For example:
     public DriveTrain driveTrain;
-
+    public Bumper bumper;
     public Shooter shooter;
     public ShooterIntake shooterIntake;
     public ShooterPID shooterPID;
@@ -61,6 +62,7 @@ public class MMSystems {
     public ScoringArm scoringArm;
     public RollerIntake rollerIntake;
     public Claw claw;
+
     public Elevator elevator;
 
 
@@ -82,12 +84,11 @@ public class MMSystems {
     public  void initIntakeArm() {
         intakeArm = new IntakeArm();
     }
-
-    public
-    void initLinearIntake() {
+    public void initBumper(){bumper = new Bumper();}
+    public void initLinearIntake() {
         linearIntake = new LinearIntake();
     }
-    public void initIntake() {
+    public void initIntakeRoller() {
         rollerIntake = new RollerIntake();
     }
     public void initScoringArm(){scoringArm = new ScoringArm();}
