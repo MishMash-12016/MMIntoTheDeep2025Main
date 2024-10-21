@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Commands.TrajectroryFollowerCommend;
@@ -8,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.drive.SampleMecanumDr
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.AutoMecanumDrive;
-
+@Autonomous
 public class CommandPractice extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -21,19 +22,29 @@ public class CommandPractice extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence START_POINT_TO_BASCET = drive.trajectorySequenceBuilder(startPose)
-                .splineToLinearHeading(new Pose2d(-55, 54,Math.toRadians(-60)), Math.toRadians(90))
-                .build();
+                .splineToLinearHeading(
+                        new Pose2d(-52, 52,Math.toRadians(-45)),
+                        Math.toRadians(90)  //tangent
+                ).build();
 
         TrajectorySequence FROM_THE_FIRST_SCORING_TO_THE_FIRST_INTAKE = drive.trajectorySequenceBuilder(START_POINT_TO_BASCET.end())
-                .splineToLinearHeading(new Pose2d(-44,30,Math.toRadians(40)),Math.toRadians(0))
-                .build();
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(
+                        new Pose2d(-44,30,Math.toRadians(40)),
+                        Math.toRadians(0)  //tangent
+                ).build();
 
         TrajectorySequence FROM_FIRST_INTAKE_TO_SCORING = drive.trajectorySequenceBuilder(FROM_THE_FIRST_SCORING_TO_THE_FIRST_INTAKE.end())
-                .splineToLinearHeading(new Pose2d(-55,55,Math.toRadians(-45)),Math.toRadians(97))
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(
+                        new Pose2d(-55,55,Math.toRadians(-45)),
+                        Math.toRadians(97))//tangent
                 .build();
 
-        TrajectorySequence FROM_SCORING_TO_PARKING = drive.trajectorySequenceBuilder(FROM_THE_FIRST_SCORING_TO_THE_FIRST_INTAKE.end())
-                .splineToLinearHeading(new Pose2d(-10,23,Math.toRadians(90)),Math.toRadians(-90))
+        TrajectorySequence FROM_SCORING_TO_PARKING = drive.trajectorySequenceBuilder(FROM_FIRST_INTAKE_TO_SCORING.end())
+                .splineToLinearHeading(
+                        new Pose2d(-10,23,Math.toRadians(90)),
+                        Math.toRadians(-90))//tangent
                 .build();
 
 
