@@ -88,7 +88,7 @@ public class MMSystems {
     public void initLinearIntake() {
         linearIntake = new LinearIntake();
     }
-    public void initIntake() {
+    public void initIntakeRoller() {
         rollerIntake = new RollerIntake();
     }
     public void initScoringArm(){scoringArm = new ScoringArm();}

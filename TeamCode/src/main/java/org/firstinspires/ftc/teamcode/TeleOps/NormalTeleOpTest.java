@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.Scoring;
+import org.firstinspires.ftc.teamcode.Commands.ElevatorClimb;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleMotor;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDCommand;
@@ -27,14 +28,6 @@ public class NormalTeleOpTest extends MMTeleOp {
     public void onInit() {
         MMRobot.getInstance().mmSystems.initElevator();
         MMRobot.getInstance().mmSystems.initBumper();
-
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new MMPIDCommand(MMRobot.getInstance().mmSystems.elevator,40)
-        );
-
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                new MMPIDCommand(MMRobot.getInstance().mmSystems.elevator,0)
-        );
     }
 
 
@@ -44,8 +37,8 @@ public class NormalTeleOpTest extends MMTeleOp {
 
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 
-        MMRobot.getInstance().mmSystems.bumper.setPower(gamepad1.left_trigger);
 
+        MMRobot.getInstance().mmSystems.elevator.setPower((double)(gamepad1.left_trigger - gamepad1.right_trigger));
         MMRobot.getInstance().mmSystems.elevator.updateToDashboard();
 
     }

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.TeleOps;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -11,14 +10,11 @@ import org.firstinspires.ftc.teamcode.CommandGroup.OutTakeRoller;
 import org.firstinspires.ftc.teamcode.CommandGroup.Scoring;
 import org.firstinspires.ftc.teamcode.Commands.ClawSetState;
 import org.firstinspires.ftc.teamcode.Commands.IntakeArmSetState;
-import org.firstinspires.ftc.teamcode.Commands.LinearIntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.ScoringArmSetState;
-import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.DriveTrain.Commands.ResetFieldOrientedCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
-import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -36,7 +32,7 @@ public class TeleopDrive extends MMTeleOp {
     public void onInit() {
 
         MMRobot.getInstance().mmSystems.initDriveTrain();
-        MMRobot.getInstance().mmSystems.initIntake();
+        MMRobot.getInstance().mmSystems.initIntakeRoller();
         MMRobot.getInstance().mmSystems.initLinearIntake();
         MMRobot.getInstance().mmSystems.initElevator();
         MMRobot.getInstance().mmSystems.initIntakeArm();

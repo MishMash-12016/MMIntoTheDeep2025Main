@@ -33,7 +33,21 @@ public class Practice extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-44,30,Math.toRadians(40)),Math.toRadians(0))
                 .build();
 
+
+        Trajectory FROM_FIRST_INTAKE_TO_SCORING = drive.trajectoryBuilder(FROM_THE_FIRST_SCORING_TO_THE_FIRST_INTAKE.end())
+                .splineToLinearHeading(new Pose2d(-55,55,Math.toRadians(-45)),Math.toRadians(97))
+                .build();
+
+        Trajectory FROM_SCORING_TO_PARKING = drive.trajectoryBuilder(FROM_THE_FIRST_SCORING_TO_THE_FIRST_INTAKE.end())
+                .splineToLinearHeading(new Pose2d(-10,23,Math.toRadians(90)),Math.toRadians(-90))
+                .build();
+
+
+
+
+
         waitForStart();
+
 
         if (!isStopRequested() && opModeIsActive()) {
 
@@ -41,9 +55,13 @@ public class Practice extends LinearOpMode {
 
             drive.followTrajectory(FROM_THE_FIRST_SCORING_TO_THE_FIRST_INTAKE);
 
+            drive.followTrajectory(FROM_FIRST_INTAKE_TO_SCORING);
+
+            drive.followTrajectory(FROM_SCORING_TO_PARKING);
+
         }
 
-//        MMRobot.getInstance().resetRobot();
+
 
     }
 }
