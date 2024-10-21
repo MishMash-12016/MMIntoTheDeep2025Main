@@ -37,6 +37,9 @@ public class CommandPractice extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-44,30,Math.toRadians(40)),Math.toRadians(0))
                 .build();
 
+
+
+
         waitForStart();
 
         if (!isStopRequested() && opModeIsActive()) {

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.TeleOps;
 
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDCommand;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 @TeleOp
+@Config
 public class NormalTeleOpTest extends MMTeleOp {
 
     public NormalTeleOpTest(){
@@ -39,8 +41,12 @@ public class NormalTeleOpTest extends MMTeleOp {
     @Override
     public void run() {
         super.run();
+
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 
         MMRobot.getInstance().mmSystems.bumper.setPower(gamepad1.left_trigger);
+
+        MMRobot.getInstance().mmSystems.elevator.updateToDashboard();
+
     }
 }
