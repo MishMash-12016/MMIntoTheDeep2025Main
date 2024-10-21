@@ -20,7 +20,7 @@ public class Elevator extends MMPIDSubsystem {
     public CuttleMotor motorLeft;
     public CuttleEncoder motorLeftEncoder;
 
-    final double TICKS_PER_REV = 537.7;
+    final double TICKS_PER_REV = 268.85;
     final double LEVELS = 4;
     final double SPROCKET_PERIMETER = 6.56592;
 
