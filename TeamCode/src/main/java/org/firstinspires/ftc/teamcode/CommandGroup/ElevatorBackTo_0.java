@@ -16,9 +16,9 @@ public class ElevatorBackTo_0 extends SequentialCommandGroup {
 
     public ElevatorBackTo_0(){
         super(
-                new ClawSetState(MMRobot.getInstance().mmSystems.claw, Claw.State.OPEN),
+                new ClawSetState(Claw.State.OPEN),
                 new WaitCommand(300),
-                new ScoringArmSetState(MMRobot.getInstance().mmSystems.scoringArm,ScoringArm.Position.IN),
+                new ScoringArmSetState(ScoringArm.Position.IN),
                 new WaitCommand(300),
                 new MMPIDCommand(MMRobot.getInstance().mmSystems.elevator,10),
                 new WaitCommand(100),

@@ -46,8 +46,8 @@ public class TeleopDrive extends MMTeleOp {
         );
         addCommandsOnRun(
                 new IntakeArmSetState(IntakeArm.Position.IN),
-                new ClawSetState(MMRobot.getInstance().mmSystems.claw,Claw.State.OPEN),
-                new ScoringArmSetState(MMRobot.getInstance().mmSystems.scoringArm, ScoringArm.Position.IN)
+                new ClawSetState(Claw.State.OPEN),
+                new ScoringArmSetState(ScoringArm.Position.IN)
         );
 
 
@@ -68,19 +68,11 @@ public class TeleopDrive extends MMTeleOp {
         );
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new Scoring(
-                        MMRobot.getInstance().mmSystems.elevator,
-                        MMRobot.getInstance().mmSystems.scoringArm,
-                        MMRobot.getInstance().mmSystems.claw,
-                        MMRobot.getInstance().mmSystems.elevator.LOW_BASCET
-                )
+                new Scoring(MMRobot.getInstance().mmSystems.elevator.LOW_BASCET)
         );
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new Scoring(
-                        MMRobot.getInstance().mmSystems.elevator,
-                        MMRobot.getInstance().mmSystems.scoringArm,
-                        MMRobot.getInstance().mmSystems.claw,
                         MMRobot.getInstance().mmSystems.elevator.HIGH_BASKET
                 )
         );

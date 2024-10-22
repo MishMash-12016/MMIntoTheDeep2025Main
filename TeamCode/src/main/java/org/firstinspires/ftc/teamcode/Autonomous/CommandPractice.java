@@ -6,9 +6,16 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.CommandGroup.AutoIntake;
+import org.firstinspires.ftc.teamcode.CommandGroup.ElevatorBackTo_0;
+import org.firstinspires.ftc.teamcode.CommandGroup.Intake;
+import org.firstinspires.ftc.teamcode.CommandGroup.Scoring;
+import org.firstinspires.ftc.teamcode.Commands.ClawSetState;
+import org.firstinspires.ftc.teamcode.Commands.ElevatorGetToPosition;
 import org.firstinspires.ftc.teamcode.Commands.LinearIntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.SetLinearPosition;
 import org.firstinspires.ftc.teamcode.Commands.TrajectroryFollowerCommend;
@@ -16,6 +23,7 @@ import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.drive.SampleMecanumDr
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.AutoMecanumDrive;
+import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @Autonomous
@@ -25,8 +33,12 @@ public class CommandPractice extends CommandOpMode {
     public void initialize() {
 
         MMRobot.getInstance().init(OpModeType.NonCompetition.EXPERIMENTING,hardwareMap,gamepad1,gamepad2,telemetry);
-
+        MMRobot.getInstance().mmSystems.initElevator();
         MMRobot.getInstance().mmSystems.initLinearIntake();
+        MMRobot.getInstance().mmSystems.initClaw();
+        MMRobot.getInstance().mmSystems.initIntakeArm();
+        MMRobot.getInstance().mmSystems.initScoringArm();
+        MMRobot.getInstance().mmSystems.initIntakeRoller();
 
         final AutoMecanumDrive drive = new AutoMecanumDrive(new SampleMecanumDrive(hardwareMap));
 
@@ -67,10 +79,14 @@ public class CommandPractice extends CommandOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(),
                         new TrajectroryFollowerCommend(START_POINT_TO_BASCET, drive),
-                        new SetLinearPosition(0.5),
-                        new WaitCommand(3000),
+                        new Scoring(73),
+                        new WaitCommand(500),
+                        new ElevatorBackTo_0(),
                         new TrajectroryFollowerCommend(FROM_THE_FIRST_SCORING_TO_THE_FIRST_INTAKE, drive),
+                        new AutoIntake(),
                         new TrajectroryFollowerCommend(FROM_FIRST_INTAKE_TO_SCORING,drive),
+                        new Scoring(73),
+                        new ElevatorBackTo_0(),
                         new TrajectroryFollowerCommend(FROM_SCORING_TO_PARKING,drive)
                 )
         );

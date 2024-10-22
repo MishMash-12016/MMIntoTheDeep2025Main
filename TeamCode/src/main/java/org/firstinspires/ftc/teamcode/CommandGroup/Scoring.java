@@ -12,13 +12,19 @@ import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 
 public class Scoring extends SequentialCommandGroup {
-    public Scoring(Elevator elevator, ScoringArm scoringArm, Claw claw,double high){
+    public Scoring(double high){
         addCommands(
-                new ClawSetState(MMRobot.getInstance().mmSystems.claw,Claw.State.CLOSE),
+                new ClawSetState(Claw.State.CLOSE),
                 new WaitCommand(600),
                 new ElevatorGetToPosition(high),
-                new ScoringArmSetState(scoringArm,ScoringArm.Position.SCORING)
+                new ScoringArmSetState(
+                        ScoringArm.Position.SCORING
+                )
         );
-        addRequirements(elevator,scoringArm,claw);
+        addRequirements(
+                MMRobot.getInstance().mmSystems.elevator,
+                MMRobot.getInstance().mmSystems.scoringArm,
+                MMRobot.getInstance().mmSystems.claw
+        );
     }
 }
