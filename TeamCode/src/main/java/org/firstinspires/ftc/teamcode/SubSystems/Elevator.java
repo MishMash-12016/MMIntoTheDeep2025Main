@@ -25,15 +25,15 @@ public class Elevator extends MMPIDSubsystem {
     final double LEVELS = 4;
     final double SPROCKET_PERIMETER = 6.56592;
 
-    public static double kP = 0.08;
+    public static double kP = 0.16;
     public static double kI = 0;
     public static double kD = 0;
-    public static double TOLERANCE = 3;
+    public static double TOLERANCE = 2;
 
     double ticksOfset = 0;
 
     public final double LOW_BASCET = 40;
-    public final double HIGH_BASKET = 73;
+    public final double HIGH_BASKET = 67;
 
 
 
@@ -96,6 +96,6 @@ public class Elevator extends MMPIDSubsystem {
 
     @Override
     public void stop() {
-
+        setPower(0.1);
     }
 }
