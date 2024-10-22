@@ -14,9 +14,9 @@ public class IntakeArm extends SubsystemBase {
     CuttleServo servoLeft;
 
     public enum Position {
-        IN(0.4),
-        OUT(0.935),
-        MID(0.71);
+        IN(0.6),
+        OUT(0.05),
+        MID(0.4);
 
         //TODO: check tuning
         public double intakeArmPosition;

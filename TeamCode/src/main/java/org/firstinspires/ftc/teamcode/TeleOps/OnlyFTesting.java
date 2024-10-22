@@ -19,12 +19,14 @@ public class OnlyFTesting extends MMTeleOp {
 
     @Override
     public void onInit() {
-        MMRobot.getInstance().mmSystems.initLinearIntake();
+        MMRobot.getInstance().mmSystems.initScoringArm();
     }
 
     @Override
     public void run() {
         super.run();
-        MMRobot.getInstance().mmSystems.linearIntake.setPosition(0.1);
+        MMRobot.getInstance().mmSystems.scoringArm.setPosition(gamepad1.left_trigger);
+        telemetry.addData("meow",MMRobot.getInstance().mmSystems.scoringArm.getPosition());
+        telemetry.update();
     }
 }
