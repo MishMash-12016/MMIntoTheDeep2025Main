@@ -43,7 +43,7 @@ public class CommandPractice extends LinearOpMode {
 
         TrajectorySequence FROM_SCORING_TO_PARKING = drive.trajectorySequenceBuilder(FROM_FIRST_INTAKE_TO_SCORING.end())
                 .splineToLinearHeading(
-                        new Pose2d(-10,23,Math.toRadians(90)),
+                        new Pose2d(-60,-55,Math.toRadians(-90)),
                         Math.toRadians(-90))//tangent
                 .build();
 

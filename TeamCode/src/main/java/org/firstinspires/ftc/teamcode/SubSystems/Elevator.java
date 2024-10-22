@@ -20,7 +20,8 @@ public class Elevator extends MMPIDSubsystem {
     public CuttleMotor motorLeft;
     public CuttleEncoder motorLeftEncoder;
 
-    final double TICKS_PER_REV = 268.85;
+    final double TICKS_PER_REV = 384.5;
+    final double GIR_RATIO = 2;
     final double LEVELS = 4;
     final double SPROCKET_PERIMETER = 6.56592;
 
@@ -48,7 +49,7 @@ public class Elevator extends MMPIDSubsystem {
     }
 
     public double getHeight(){
-        return -1*((getTicks() / TICKS_PER_REV) * SPROCKET_PERIMETER * LEVELS) ;
+        return -1*((getTicks() / TICKS_PER_REV) * SPROCKET_PERIMETER * LEVELS / GIR_RATIO) ;
     }
 
     @Override
