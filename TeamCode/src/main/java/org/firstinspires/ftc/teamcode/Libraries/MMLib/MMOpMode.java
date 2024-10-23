@@ -29,7 +29,7 @@ import java.util.List;
  * {@link OpModeType.NonCompetition#EXPERIMENTING_NO_EXPANSION Experimenting Without Expansion}.
  *
  */
-public abstract class MMTeleOp extends CommandOpMode {
+public abstract class MMOpMode extends CommandOpMode {
 
     private final MMRobot mmRobot = MMRobot.getInstance();
 
@@ -46,7 +46,7 @@ public abstract class MMTeleOp extends CommandOpMode {
      * use this to choose a {@link OpModeType.NonCompetition NonComp} opmode.
      * @param opModeType which non-competition opmode to activate
      */
-    public MMTeleOp(OpModeType.NonCompetition opModeType) {
+    public MMOpMode(OpModeType.NonCompetition opModeType) {
         this.opModeType = opModeType;
     }
 
@@ -55,7 +55,7 @@ public abstract class MMTeleOp extends CommandOpMode {
      * this is what u might want if the sides are irrelevant in ur teleop.
      * @param allianceColor the color of the alliance
      */
-    public MMTeleOp(AllianceColor allianceColor) {
+    public MMOpMode(AllianceColor allianceColor) {
         this.allianceColor = allianceColor;
     }
 
@@ -64,7 +64,7 @@ public abstract class MMTeleOp extends CommandOpMode {
      * @param allianceColor the color of the alliance
      * @param allianceSide the side of the alliance
      */
-    public MMTeleOp(AllianceColor allianceColor, AllianceSide allianceSide) {
+    public MMOpMode(AllianceColor allianceColor, AllianceSide allianceSide) {
         this(allianceColor);
         this.allianceSide = allianceSide;
     }

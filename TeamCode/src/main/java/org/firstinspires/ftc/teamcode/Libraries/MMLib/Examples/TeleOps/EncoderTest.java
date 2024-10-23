@@ -4,12 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @Disabled
 @TeleOp
-public class EncoderTest extends MMTeleOp {
+public class EncoderTest extends MMOpMode {
 
     public EncoderTest() {
         super(OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION);

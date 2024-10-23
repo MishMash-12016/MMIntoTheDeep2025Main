@@ -13,6 +13,9 @@ RollerIntake extends SubsystemBase{
 
     CRServo servo;
     public boolean isRoll = false;
+    public final static double ON = 1;
+    public final static double OFF = 0;
+
     public RollerIntake() {
         servo = MMRobot.getInstance().mmSystems.hardwareMap.crservo.get(Configuration.ROLLER_INTAKE);
 

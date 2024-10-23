@@ -31,7 +31,7 @@ public class ScoringArm extends SubsystemBase {
     }
 
     public void setPosition(double position) {
-        servoRight.setPosition(position);
+        servoRight.setPosition(1-position);
         servoLeft.setPosition(position);
     }
 

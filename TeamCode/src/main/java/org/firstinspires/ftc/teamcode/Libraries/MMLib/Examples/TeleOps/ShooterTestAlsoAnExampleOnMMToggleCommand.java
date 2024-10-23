@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Commands.RotateTu
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.ShooterIntake;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.ShooterTurret;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.SubsystemStructure.IMMPositionSubsystem;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.SubsystemStructure.IMMPowerSubsystem;
@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
  */
 @Disabled
 @TeleOp(name = "Nimrod's Shooter")
-public class ShooterTestAlsoAnExampleOnMMToggleCommand extends MMTeleOp {
+public class ShooterTestAlsoAnExampleOnMMToggleCommand extends MMOpMode {
 
     public ShooterTestAlsoAnExampleOnMMToggleCommand() {
         super(OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION);

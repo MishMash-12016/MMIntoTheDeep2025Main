@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.TeleOps;
 
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
-public class MMBatteryTest extends MMTeleOp {
+public class MMBatteryTest extends MMOpMode {
 
     public MMBatteryTest() {
         super(OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION);

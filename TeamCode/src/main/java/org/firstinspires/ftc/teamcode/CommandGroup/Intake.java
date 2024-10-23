@@ -13,8 +13,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 
 public class Intake extends ParallelDeadlineGroup {
 
-    Trigger trigger;
-
     public Intake(Trigger trigger) {
         super(
                 new LinearIntakeCommand(trigger),

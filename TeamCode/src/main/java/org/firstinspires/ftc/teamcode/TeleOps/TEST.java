@@ -4,11 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleEncoder;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleMotor;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 @TeleOp
-public class TEST extends MMTeleOp {
+public class TEST extends MMOpMode {
     public TEST() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }

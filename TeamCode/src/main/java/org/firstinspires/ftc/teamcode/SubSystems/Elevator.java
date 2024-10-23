@@ -32,8 +32,8 @@ public class Elevator extends MMPIDSubsystem {
 
     double ticksOfset = 0;
 
-    public final double LOW_BASCET = 40;
-    public final double HIGH_BASKET = 67;
+    public final static double LOW_BASCET = 40;
+    public final static double HIGH_BASKET = 70;
 
 
 
@@ -42,8 +42,8 @@ public class Elevator extends MMPIDSubsystem {
         this.motorRight = new CuttleMotor(robot.mmSystems.expansionHub, Configuration.ELEVATOR_RIGHT);
         this.motorLeft = new CuttleMotor(robot.mmSystems.expansionHub, Configuration.ELEVATOR_LEFT);
         this.motorLeft.setDirection(Direction.REVERSE);
-        this.motorLeft.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
-        this.motorRight.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+//        this.motorLeft.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+//        this.motorRight.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motorLeftEncoder = new CuttleEncoder(robot.mmSystems.expansionHub,Configuration.ELEVATOR_ENCODER,TICKS_PER_REV);
         resetTicks();
     }

@@ -6,14 +6,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMUtils;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @Disabled
 @TeleOp
-public class Mapping extends MMTeleOp {
+public class Mapping extends MMOpMode {
 
     public Mapping() {
         super(OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION);

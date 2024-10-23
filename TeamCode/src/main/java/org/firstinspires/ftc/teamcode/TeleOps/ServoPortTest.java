@@ -4,11 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 @TeleOp
-public class ServoPortTest extends MMTeleOp {
+public class ServoPortTest extends MMOpMode {
     public ServoPortTest() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }

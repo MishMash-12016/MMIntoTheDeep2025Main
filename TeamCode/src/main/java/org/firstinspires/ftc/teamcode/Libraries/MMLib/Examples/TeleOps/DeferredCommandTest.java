@@ -5,7 +5,7 @@ import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Commands.MMDeferredCommand;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
-public class DeferredCommandTest extends MMTeleOp {
+public class DeferredCommandTest extends MMOpMode {
 
     public DeferredCommandTest() {
         super(OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION);

@@ -7,13 +7,7 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 public class RollerByPower extends InstantCommand {
     double power;
 
-    public RollerByPower(double power){
-        this.power = power;
-        this.addRequirements(MMRobot.getInstance().mmSystems.rollerIntake);
-    }
-
-    @Override
-    public void initialize() {
-        MMRobot.getInstance().mmSystems.rollerIntake.setPower(power);
+    public RollerByPower(double power) {
+        super(()->MMRobot.getInstance().mmSystems.rollerIntake.setPower(power));
     }
 }

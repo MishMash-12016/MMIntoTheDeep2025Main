@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Commands.ShootBySupplier;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.Shooter;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
@@ -16,7 +16,7 @@ import java.util.function.BooleanSupplier;
 
 @Disabled
 @TeleOp(name = "Experimenting")
-public class ExperimentingTeleOp extends MMTeleOp {
+public class ExperimentingTeleOp extends MMOpMode {
 
     MMRobot mmRobot = MMRobot.getInstance();
 

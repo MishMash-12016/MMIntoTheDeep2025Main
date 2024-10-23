@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.DriveTrain.Commands.ResetFieldOrientedCommand;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
  */
 @Disabled
 @TeleOp
-public class DriveTeleopExample extends MMTeleOp {
+public class DriveTeleopExample extends MMOpMode {
     public DriveTeleopExample() {
         super(OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION);
     }

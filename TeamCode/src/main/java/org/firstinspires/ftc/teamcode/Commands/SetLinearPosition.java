@@ -7,7 +7,8 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 public class SetLinearPosition extends InstantCommand {
 
     public SetLinearPosition(double position){
-        MMRobot.getInstance().mmSystems.linearIntake.setPosition(position);
+        super(()-> MMRobot.getInstance().mmSystems.linearIntake.setPosition(position));
     }
+
 
 }

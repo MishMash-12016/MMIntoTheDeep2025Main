@@ -17,9 +17,7 @@ public class Scoring extends SequentialCommandGroup {
                 new ClawSetState(Claw.State.CLOSE),
                 new WaitCommand(600),
                 new ElevatorGetToPosition(high),
-                new ScoringArmSetState(
-                        ScoringArm.Position.SCORING
-                )
+                new ScoringArmSetState(ScoringArm.Position.SCORING)
         );
         addRequirements(
                 MMRobot.getInstance().mmSystems.elevator,

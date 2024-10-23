@@ -13,7 +13,7 @@ public class IntakeArm extends SubsystemBase {
     CuttleServo servoRight;
     CuttleServo servoLeft;
 
-    public enum Position {
+    public static enum Position {
         IN(0.6),
         OUT(0.05),
         MID(0.4);

@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Commands.ElevatorClimb;
 import org.firstinspires.ftc.teamcode.Commands.IntakeArmSetState;
 import org.firstinspires.ftc.teamcode.Commands.ScoringArmSetState;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.DriveTrain.Commands.ResetFieldOrientedCommand;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMTeleOp;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
-public class TeleopDrive extends MMTeleOp {
+public class TeleopDrive extends MMOpMode {
 
     MMRobot robot = MMRobot.getInstance();
 
