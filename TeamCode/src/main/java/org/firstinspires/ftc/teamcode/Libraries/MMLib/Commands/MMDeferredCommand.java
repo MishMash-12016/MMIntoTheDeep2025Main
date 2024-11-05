@@ -5,8 +5,6 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SelectCommand;
 import com.arcrobotics.ftclib.command.Subsystem;
-
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.TeleOps.DeferredCommandTest;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMUtils;
 
 import java.util.Set;
@@ -33,7 +31,7 @@ public class MMDeferredCommand extends CommandBase {
      *
      * @param commandSupplier The command supplier
      * @param requireSubsystems The command requirements. This is a {@link Set} to prevent accidental
-     *     omission of command requirements. Use {@link java.util.HashSet#add(Object) HashSet.add(Subsystem)} to <s>easily</s> (see {@link DeferredCommandTest}) construct a requirement
+     *     omission of command requirements. Use {@link java.util.HashSet#add(Object) HashSet.add(Subsystem)} to <s>easily</s>  construct a requirement
      *     set.
      */
     public MMDeferredCommand(Supplier<Command> commandSupplier, Set<Subsystem> requireSubsystems) {

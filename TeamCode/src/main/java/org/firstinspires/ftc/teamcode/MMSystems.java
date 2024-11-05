@@ -7,24 +7,11 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.ElevatorPIDExample.ExampleElevator;
+import org.firstinspires.ftc.teamcode.CommandGroup.DriveCommand;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.Shooter;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.ShooterIntake;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.ShooterPID;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.Subsystems.ShooterTurret;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
-import org.firstinspires.ftc.teamcode.SubSystems.Bumper;
-import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
-import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.RollerIntake;
-import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -49,21 +36,7 @@ public class MMSystems {
 
 
     //Subsystems
-    //For example:
     public DriveTrain driveTrain;
-    public Bumper bumper;
-    public Shooter shooter;
-    public ShooterIntake shooterIntake;
-    public ShooterPID shooterPID;
-    public ShooterTurret shooterTurret;
-    public ExampleElevator exampleElevator;
-    public IntakeArm intakeArm;
-    public LinearIntake linearIntake;
-    public ScoringArm scoringArm;
-    public RollerIntake rollerIntake;
-    public Claw claw;
-
-    public Elevator elevator;
 
 
     public void initDriveTrain() {
@@ -72,29 +45,6 @@ public class MMSystems {
                 new DriveCommand()
         );
     }
-
-    public void initShooterPID() {
-        shooterPID = new ShooterPID();
-    }
-
-    public void initExampleElevator() {
-        exampleElevator = new ExampleElevator();
-    }
-
-    public  void initIntakeArm() {
-        intakeArm = new IntakeArm();
-    }
-    public void initBumper(){bumper = new Bumper();}
-    public void initLinearIntake() {
-        linearIntake = new LinearIntake();
-    }
-    public void initIntakeRoller() {
-        rollerIntake = new RollerIntake();
-    }
-    public void initScoringArm(){scoringArm = new ScoringArm();}
-    public void initClaw() {claw = new Claw();}
-    public void initElevator() {elevator = new Elevator();}
-
 
 
     public MMSystems(OpModeType type, HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {

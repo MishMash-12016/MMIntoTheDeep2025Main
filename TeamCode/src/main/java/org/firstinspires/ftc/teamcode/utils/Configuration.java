@@ -19,10 +19,10 @@ public class Configuration {
 
     //CONTROL HUB
     //DriveTrain
-    public static final int DRIVE_TRAIN_FRONT_LEFT = 2;
+    public static final int DRIVE_TRAIN_FRONT_LEFT = 0;
     public static final int DRIVE_TRAIN_BACK_LEFT = 1;
-    public static final int DRIVE_TRAIN_FRONT_RIGHT = 3;
-    public static final int DRIVE_TRAIN_BACK_RIGHT = 0;
+    public static final int DRIVE_TRAIN_FRONT_RIGHT = 2;
+    public static final int DRIVE_TRAIN_BACK_RIGHT = 3;
 
 
     public static final String AUTO_DRIVE_TRAIN_FRONT_LEFT = "leftFront"; //2
@@ -36,38 +36,8 @@ public class Configuration {
 
 
 
-    public static final int INTAKE = 0;
-    public static final int ARM_INTAKE_RIGHT = 2;
-    public static final int ARM_INTAKE_LEFT = 3;
-    public static final int CLAW_SCORING = 4;
-
-
-    public static final int RIGHT_LINEAR_INTAKE = 1;
-    public static final int LEFT_LINEAR_INTAKE = 5;
-
-    public static final int SCORING_ARM_RIGHT = 0;
-    public static final int SCORING_ARM_LEFT = 1 ;
-
-    public static final String ROLLER_INTAKE = "intakeRoller";
-
-
-
-
-    public static final int SHOOTER1 = 0;
-    public static final int SHOOTER2 = 1;
-    public static final int SHOOTER_INTAKE = 2;
-    public static final int SHOOTER_TURRET = 3;
-    public static final int SHOOTER_SERVO = 0;
-
-    //this is an example of normal string configuration. (the rest are using cuttlefish for port numbers)
-    ;
 
     //EXPANSION HUB
-    public static final int ELEVATOR_RIGHT = 0;
-    public static final int ELEVATOR_LEFT = 1;
-    public static final int ELEVATOR_ENCODER = ELEVATOR_LEFT;
-    public static final int BUMPER_RIGHT = 2;
-    public static final int BUMPER_LEFT = 3;
 
 
 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Commands;
+package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;

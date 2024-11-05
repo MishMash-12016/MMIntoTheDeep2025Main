@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.utils;
 
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.Examples.ElevatorPIDExample.TeleOpUsageExample;
 
 /**
  * this represents the OpMode type that has been activated.

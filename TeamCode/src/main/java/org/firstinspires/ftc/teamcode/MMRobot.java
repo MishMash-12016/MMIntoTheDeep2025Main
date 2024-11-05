@@ -82,8 +82,6 @@ public class MMRobot extends Robot {
      * initialize subsystems required for teleop
      */
     private void initTele() {
-        //for example:
-        MMRobot.getInstance().mmSystems.initShooterPID();
     }
 
     /**
