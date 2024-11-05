@@ -34,6 +34,9 @@ public class Configuration {
     public static final String PERPENDICULAR = AUTO_DRIVE_TRAIN_BACK_LEFT; // 1
     public static final String PARALLEL = AUTO_DRIVE_TRAIN_BACK_RIGHT; //0 //todo: choose the right motor, preferable port 0,3
 
+    //linear intake end unit. both th eclaw and the intake:
+    public static final int intakeArm=0;
+    public static final String rollerServo="rollerServo";
 
 
 

@@ -12,6 +12,8 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -37,6 +39,8 @@ public class MMSystems {
 
     //Subsystems
     public DriveTrain driveTrain;
+    public IntakEndUnit intakEndUnit;
+    public IntakeArm intakeArm;
 
 
     public void initDriveTrain() {
@@ -59,6 +63,9 @@ public class MMSystems {
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
         this.imu = new MMIMU(hardwareMap);
+        this.intakEndUnit = new IntakEndUnit();
+        this.intakeArm = new IntakeArm();
+
         CommandScheduler.getInstance().reset(); //reset the scheduler
     }
 }
