@@ -35,10 +35,11 @@ public class Configuration {
     public static final String PARALLEL = AUTO_DRIVE_TRAIN_BACK_RIGHT; //0 //todo: choose the right motor, preferable port 0,3
 
     //Linear Intake
-    public static final int LEFT_SERVO_LINEAR_INTAKE_PORT=1;
-    public static final int RIGHT_SERVO_LINEAR_INTAKE_PORT=2;
+    public static final int LEFT_INTAKE=1;
+
 
     //EXPANSION HUB
+    public static final int RIGHT_INTAKE=2;
 
 
 }
