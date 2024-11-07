@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnit;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -41,6 +42,7 @@ public class MMSystems {
     public DriveTrain driveTrain;
     public IntakEndUnit intakEndUnit;
     public IntakeArm intakeArm;
+    public ScoringEndUnit scoringEndUnit;
 
 
     public void initDriveTrain() {
@@ -65,6 +67,7 @@ public class MMSystems {
         this.imu = new MMIMU(hardwareMap);
         this.intakEndUnit = new IntakEndUnit();
         this.intakeArm = new IntakeArm();
+        this.scoringEndUnit = new ScoringEndUnit();
 
         CommandScheduler.getInstance().reset(); //reset the scheduler
     }

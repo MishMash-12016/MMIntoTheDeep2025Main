@@ -12,19 +12,21 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class IntakEndUnit extends SubsystemBase {
-    CuttleServo intakeArm;
-    CRServo rollerServo;
-    public final double intakePower = 0.5;
 
+    CuttleServo clawintakeServo;
+    public final double open = 0.5;
+    public final double close = 22;
+
+    // claw close or open
     public IntakEndUnit() {
-        rollerServo = MMRobot.getInstance().mmSystems.hardwareMap.crservo.get(Configuration.rollerServo);
+        clawintakeServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.clawintakeServo);
     }
-    public Command setIntakePower() {
-        return new RunCommand(() -> rollerServo.setPower(intakePower), this);
+    public Command openIntakeClaw() {
+        return new RunCommand(() -> clawintakeServo.setPosition(open), this);
     }
 
-    public Command stopIntakePower() {
-        return new InstantCommand(() -> rollerServo.setPower(0), this);
+    public Command closeIntakeClaw() {
+        return new InstantCommand(() -> clawintakeServo.setPosition(close), this);
     }
 
 
