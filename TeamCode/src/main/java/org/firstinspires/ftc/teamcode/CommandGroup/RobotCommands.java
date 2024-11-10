@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.Subsystem;
@@ -16,18 +17,18 @@ public class RobotCommands {
     private static MMSystems mmSystems = MMRobot.getInstance().mmSystems;
 
     // intake down and open the intake claw
-    public static Command IntakeCommand(){
+    public static Command IntakeCommand() {
         return new ParallelCommandGroup(
-            mmSystems.intakeArm.intakeDown(),
-            mmSystems.intakEndUnit.openIntakeClaw());
+                mmSystems.intakeArm.intakeDown(),
+                mmSystems.intakEndUnit.openIntakeClaw());
     }
+
     //intake close and then intake up
-    public static Command IntakeDoneCommand(){
+    public static Command IntakeDoneCommand() {
         return new SequentialCommandGroup(
                 mmSystems.intakEndUnit.closeIntakeClaw(),
                 mmSystems.intakeArm.intakeUp());
     }
 
-
-    }
+}
 
