@@ -24,7 +24,7 @@ public class ElevatorTeleOp extends MMOpMode {
     @Override
     public void onInit() {
 
-        MMRobot.getInstance().mmSystems.elevator = new Elevator();
+        MMRobot.getInstance().mmSystems.initRobotSystems();
         Trigger leftTriggerCondition = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
         );

@@ -47,6 +47,8 @@ public class MMSystems {
         driveTrain.setDefaultCommand(
                 new DriveCommand()
         );
+
+        elevator = new Elevator();
     }
 
 
