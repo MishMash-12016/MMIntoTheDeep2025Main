@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
+import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -39,14 +40,19 @@ public class MMSystems {
     //Subsystems
     public DriveTrain driveTrain;
     public LinearIntake linearIntake;
+    public Elevator elevator;
 
 
-    public void initDriveTrain() {
+    //creating and initiating all subsystems
+    public void initRobotSystems(){
         driveTrain = new DriveTrain();
         driveTrain.setDefaultCommand(
                 new DriveCommand()
         );
+
+        elevator = new Elevator();
     }
+
 
 
     public MMSystems(OpModeType type, HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
