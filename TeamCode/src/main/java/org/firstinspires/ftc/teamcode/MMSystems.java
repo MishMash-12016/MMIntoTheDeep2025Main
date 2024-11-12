@@ -55,6 +55,10 @@ public class MMSystems {
         );
 
         elevator = new Elevator();
+
+        this.intakEndUnit = new IntakEndUnit();
+        this.intakeArm = new IntakeArm();
+        this.scoringEndUnit = new ScoringEndUnit();
     }
 
 
@@ -71,9 +75,6 @@ public class MMSystems {
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
         this.imu = new MMIMU(hardwareMap);
-        this.intakEndUnit = new IntakEndUnit();
-        this.intakeArm = new IntakeArm();
-        this.scoringEndUnit = new ScoringEndUnit();
 
         CommandScheduler.getInstance().reset(); //reset the scheduler
     }
