@@ -51,6 +51,7 @@ public class MMSystems {
         );
 
         elevator = new Elevator();
+        linearIntake = new LinearIntake();
     }
 
 

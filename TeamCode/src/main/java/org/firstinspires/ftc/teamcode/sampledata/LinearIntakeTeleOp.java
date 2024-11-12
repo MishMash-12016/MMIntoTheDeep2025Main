@@ -25,7 +25,7 @@ public class LinearIntakeTeleOp extends MMOpMode {
     @Override
     public void onInit() {
 
-        robotInstance.mmSystems.linearIntake = new LinearIntake();
+        robotInstance.mmSystems.initRobotSystems();
         Trigger leftTriggerCondition = new Trigger(
                 () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
         );
