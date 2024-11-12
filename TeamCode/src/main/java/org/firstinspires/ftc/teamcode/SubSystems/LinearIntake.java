@@ -15,35 +15,35 @@ import java.util.function.DoubleSupplier;
 public class LinearIntake extends SubsystemBase {
 
     private final MMRobot robotInstance = MMRobot.getInstance();
+
     private final CuttleServo servoLeft;
     private final CuttleServo servoRight;
 
     public LinearIntake(){
         servoLeft=new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LEFT_INTAKE);
         servoRight=new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.RIGHT_INTAKE);
+
         servoRight.setPosition(0);
         servoLeft.setPosition(0);
+
         this.setDefaultCommand(setPosition(0).perpetually());
     }
 
     public Command setPosition(double newPos){
         return new InstantCommand(()-> {
             servoLeft.setPosition(1 - newPos);
-            servoRight.setPosition(newPos);}, this);
+            servoRight.setPosition(newPos);} ,
+                this);
     }
 
     public Command setPositionByJoystick(DoubleSupplier doubleSupplier){
-
         return new RunCommand(()-> {
             servoLeft.setPosition(1 - doubleSupplier.getAsDouble());
-            servoRight.setPosition(doubleSupplier.getAsDouble());}, this);
+            servoRight.setPosition(doubleSupplier.getAsDouble());} ,
+                this);
     }
 
     public String getPosition(){
         return String.valueOf(servoLeft.getPosition())+String.valueOf(servoRight.getPosition()) ;
     }
-
-
-
-
 }
