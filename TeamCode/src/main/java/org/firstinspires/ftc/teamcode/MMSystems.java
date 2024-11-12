@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -37,6 +38,7 @@ public class MMSystems {
 
     //Subsystems
     public DriveTrain driveTrain;
+    public Elevator elevator;
 
 
     //creating and initiating all subsystems
@@ -45,6 +47,8 @@ public class MMSystems {
         driveTrain.setDefaultCommand(
                 new DriveCommand()
         );
+
+        elevator = new Elevator();
     }
 
 
