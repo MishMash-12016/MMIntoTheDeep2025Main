@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -43,14 +44,19 @@ public class MMSystems {
     public IntakEndUnit intakEndUnit;
     public IntakeArm intakeArm;
     public ScoringEndUnit scoringEndUnit;
+    public Elevator elevator;
 
 
-    public void initDriveTrain() {
+    //creating and initiating all subsystems
+    public void initRobotSystems(){
         driveTrain = new DriveTrain();
         driveTrain.setDefaultCommand(
                 new DriveCommand()
         );
+
+        elevator = new Elevator();
     }
+
 
 
     public MMSystems(OpModeType type, HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {

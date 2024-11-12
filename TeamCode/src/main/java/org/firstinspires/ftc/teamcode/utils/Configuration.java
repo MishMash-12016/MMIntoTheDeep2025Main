@@ -41,6 +41,9 @@ public class Configuration {
     //scoring units
     public static final int scoringClawServo = 2;
 
+    public static final int ELEVATOR_RIGHT = 0;
+    public static final int ELEVATOR_LEFT = 1;
+    public static final int ELEVATOR_ENCODER = 0;
 
 
     //EXPANSION HUB

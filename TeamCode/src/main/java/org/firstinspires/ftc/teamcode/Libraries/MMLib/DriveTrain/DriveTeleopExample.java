@@ -27,7 +27,7 @@ public class DriveTeleopExample extends MMOpMode {
 
     @Override
     public void onInit() {
-        MMRobot.getInstance().mmSystems.initDriveTrain();
+        MMRobot.getInstance().mmSystems.initRobotSystems();
 
         //you can also add a reset button:
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
