@@ -26,7 +26,6 @@ public class MMPIDCommand extends CommandBase {
         subsystem.setPower(pidController.calculate(subsystem.getCurrentValue()) + subsystem.getFeedForwardPower());
     }
 
-
     @Override
     public boolean isFinished() {
         return pidController.atSetPoint();
