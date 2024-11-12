@@ -36,6 +36,7 @@ public class Elevator extends MMPIDSubsystem {
 
     public final static double LOW_BASKET = 40;
     public final static double HIGH_BASKET = 70;
+    public final static  double elevatorDown= 0;
 
     public Elevator() {
         super(kP, kI, kD, TOLERANCE);
@@ -61,7 +62,7 @@ public class Elevator extends MMPIDSubsystem {
 
     public Command setPowerByJoystick(DoubleSupplier power){
         return new RunCommand(
-                ()->setPower(power.getAsDouble())
+                ()-> setPower(power.getAsDouble())
                 ,this);
     }
 
