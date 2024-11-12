@@ -39,12 +39,14 @@ public class MMSystems {
     public DriveTrain driveTrain;
 
 
-    public void initDriveTrain() {
+    //creating and initiating all subsystems
+    public void initRobotSystems(){
         driveTrain = new DriveTrain();
         driveTrain.setDefaultCommand(
                 new DriveCommand()
         );
     }
+
 
 
     public MMSystems(OpModeType type, HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
