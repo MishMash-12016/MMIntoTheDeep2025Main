@@ -40,7 +40,7 @@ public class Configuration {
 
     //scoring units
     public static final int scoringClawServo = 2;
-    public static final int scoringServo = 3;
+    public static final int posscoringServo = 3;
 
     //Elevator
     public static final int ELEVATOR_RIGHT = 0;

@@ -19,6 +19,7 @@ public class RobotCommands {
     private static MMSystems mmSystems = MMRobot.getInstance().mmSystems;
     private static int timeLinearIntake= 500; //millis
     private static double linearIntakeOpen = 2.22;
+    private  static double linearIntakeClosed = 0;
     /* intake recieve -
     1. open linear intake
     2. wait  ,
@@ -42,7 +43,7 @@ public class RobotCommands {
         return new SequentialCommandGroup(
                 mmSystems.intakEndUnit.closeIntakeClaw(),
                 mmSystems.intakeArm.intakeUp()).
-                andThen(mmSystems.linearIntake.setPosition(0));
+                andThen(mmSystems.linearIntake.setPosition(linearIntakeClosed));
     }
 
     /* score sample-
@@ -51,7 +52,7 @@ public class RobotCommands {
     3. scoring claw open
      */
     public static Command ScoreSample(){
-        return new SequentialCommandGroup(
+        return new ParallelCommandGroup(
                 mmSystems.elevator.moveToPose(Elevator.HIGH_BASKET),
                 mmSystems.scoringEndUnit.scoreScoringServo(),
                 mmSystems.scoringEndUnit.openScoringClaw(),new WaitCommand(timeLinearIntake));

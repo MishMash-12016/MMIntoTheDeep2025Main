@@ -19,7 +19,7 @@ public class ScoringEndUnit extends SubsystemBase {
 
     public ScoringEndUnit() {
         clawscoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.scoringClawServo);
-        posscoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.scoringServo);
+        posscoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.posscoringServo);
     }
 
     public Command openScoringClaw() {
@@ -31,9 +31,9 @@ public class ScoringEndUnit extends SubsystemBase {
 
     }
     public Command scoreScoringServo(){
-        return new InstantCommand(()-> posscoringServo.setPosition(scoring_score));
+        return new InstantCommand(()-> posscoringServo.setPosition(scoring_score),this);
     }
     public Command holdScoringServo(){
-        return new InstantCommand(()-> posscoringServo.setPosition(scoring_hold));
+        return new InstantCommand(()-> posscoringServo.setPosition(scoring_hold),this);
     }
 }
