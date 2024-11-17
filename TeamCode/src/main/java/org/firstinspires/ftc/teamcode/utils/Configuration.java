@@ -34,8 +34,10 @@ public class Configuration {
     public static final String PERPENDICULAR = AUTO_DRIVE_TRAIN_BACK_LEFT; // 1
     public static final String PARALLEL = AUTO_DRIVE_TRAIN_BACK_RIGHT; //0 //todo: choose the right motor, preferable port 0,3
 
-    public static final int ELEVATOR_RIGHT = 0;
-    public static final int ELEVATOR_LEFT = 1;
+    public static final int ELEVATOR1 = 0;
+    public static final int ELEVATOR2 = 1;
+    public static final int ELEVATOR3 = 2;
+
     public static final int ELEVATOR_ENCODER = 0;
 
 
