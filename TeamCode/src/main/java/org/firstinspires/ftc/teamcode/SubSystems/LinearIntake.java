@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
@@ -19,7 +20,7 @@ public class LinearIntake extends SubsystemBase {
     private final CuttleServo servoLeft;
     private final CuttleServo servoRight;
 
-    public LinearIntake(){
+    public LinearIntake() {
         servoLeft = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LEFT_INTAKE);
         servoRight = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.RIGHT_INTAKE);
 
@@ -29,21 +30,23 @@ public class LinearIntake extends SubsystemBase {
         this.setDefaultCommand(setPosition(0).perpetually());
     }
 
-    public Command setPosition(double newPos){
-        return new InstantCommand(()-> {
+    public Command setPosition(double newPos) {
+        return new InstantCommand(() -> {
             servoLeft.setPosition(1 - newPos);
-            servoRight.setPosition(newPos);} ,
+            servoRight.setPosition(newPos);
+        },
                 this);
     }
 
-    public Command setPositionByJoystick(DoubleSupplier joystickValue){
-        return new RunCommand(()-> {
+    public Command setPositionByJoystick(DoubleSupplier joystickValue) {
+        return new RunCommand(() -> {
             servoLeft.setPosition(1 - joystickValue.getAsDouble());
-            servoRight.setPosition(joystickValue.getAsDouble());} ,
+            servoRight.setPosition(joystickValue.getAsDouble());
+        },
                 this);
     }
 
-    public String getPosition(){
-        return String.valueOf(servoLeft.getPosition())+String.valueOf(servoRight.getPosition()) ;
+    public String getPosition() {
+        return String.valueOf(servoLeft.getPosition()) + String.valueOf(servoRight.getPosition());
     }
 }

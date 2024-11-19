@@ -1,36 +1,35 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.Subsystem;
+
 import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.function.DoubleSupplier;
 
 public class RobotCommands {
 
-    private static MMSystems mmSystems = MMRobot.getInstance().mmSystems;
-    private static int timeLinearIntake= 500; //millis
-    private static double linearIntakeOpen = 2.22;
-    private  static double linearIntakeClosed = 0;
+    private static final MMSystems mmSystems = MMRobot.getInstance().mmSystems;
+    private static final int timeLinearIntake = 500; //millis
+    private static final double linearIntakeOpen = 2.22;
+    private static final double linearIntakeClosed = 0;
+    private final double maxOpening = 0.23;
     /* intake recieve -
     1. open linear intake
     2. wait  ,
     3. intake down and open claw*/
 
-    public static Command IntakeCommand() {
-        return new SequentialCommandGroup(mmSystems.linearIntake.setPosition(linearIntakeOpen),
+    public static Command IntakeCommand(DoubleSupplier intake_trigger) {
+        return new SequentialCommandGroup(mmSystems.linearIntake.setPositionByJoystick(joysxlj),
                 new WaitCommand(timeLinearIntake),
                 new ParallelCommandGroup(
-                mmSystems.intakeArm.intakeDown(),
-                mmSystems.intakEndUnit.openIntakeClaw()), new WaitCommand(2*timeLinearIntake));
+                        mmSystems.intakeArm.intakeDown(),
+                        mmSystems.intakEndUnit.openIntakeClaw()));
 
 
     }
@@ -51,17 +50,18 @@ public class RobotCommands {
     2. scoring servo turn
     3. scoring claw open
      */
-    public static Command ScoreSample(){
+    public static Command PrepareHighSample() {
         return new ParallelCommandGroup(
                 mmSystems.elevator.moveToPose(Elevator.HIGH_BASKET),
-                mmSystems.scoringEndUnit.scoreScoringServo(),
-                mmSystems.scoringEndUnit.openScoringClaw(),new WaitCommand(timeLinearIntake));
+                mmSystems.scoringEndUnit.scoreScoringServo())
+                ;
     }
+
     /* scoring back to hold-
     1. scoring claw close
     2. elevator go back to desired height and scoring servo turn
      */
-    public static Command HoldPosScoring(){
+    public static Command DefaultPosScoring() {
         return new SequentialCommandGroup(mmSystems.scoringEndUnit.closeScoringClaw(),
                 new ParallelCommandGroup(
                         mmSystems.elevator.moveToPose(Elevator.elevatorDown),

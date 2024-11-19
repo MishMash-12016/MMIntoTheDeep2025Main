@@ -28,7 +28,7 @@ public class LinearIntakeTeleOp extends MMOpMode {
                 () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
         );
         leftTriggerCondition.whenActive(
-                robotInstance.mmSystems.linearIntake.setPositionByJoystick(()-> gamepad1.left_trigger*maxOpening));
+                robotInstance.mmSystems.linearIntake.setPositionByJoystick(() -> gamepad1.left_trigger * maxOpening));
 
 
         waitForStart();
