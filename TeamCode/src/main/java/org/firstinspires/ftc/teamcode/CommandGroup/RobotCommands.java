@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
+
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+
 import com.arcrobotics.ftclib.command.WaitCommand;
+
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
@@ -12,21 +15,25 @@ import java.util.function.DoubleSupplier;
 public class RobotCommands {
 
     private static final MMSystems mmSystems = MMRobot.getInstance().mmSystems;
+    private static final int timeLinearIntake = 500; //millis
+    private static final double linearIntakeOpen = 2.22;
     private static final double linearIntakeClosed = 0;
-    private static final int clawCloseTime = 500;
-
+    private final double maxOpening = 0.23;
     /* intake recieve -
-    1. open linear intake and
+    1. open linear intake
+    2. wait  ,
     3. intake down and open claw*/
 
-    public static Command IntakeCommand(DoubleSupplier intake_trigger) {
-        return new ParallelCommandGroup(
-                mmSystems.linearIntake.setPositionByJoystick(intake_trigger),
+    public static Command IntakeCommand(DoubleSupplier intakeTrigger) {
+        return new SequentialCommandGroup(mmSystems.linearIntake.setPositionByJoystick(intakeTrigger),
+                new WaitCommand(timeLinearIntake),
+                new ParallelCommandGroup(
                         mmSystems.intakeArm.intakeDown(),
-                        mmSystems.intakEndUnit.openIntakeClaw());
+                        mmSystems.intakEndUnit.openIntakeClaw()));
 
 
     }
+
     /* intake done  -
     1. close claw
     2. intake arm up  ,
@@ -34,10 +41,8 @@ public class RobotCommands {
     public static Command IntakeDoneCommand() {
         return new SequentialCommandGroup(
                 mmSystems.intakEndUnit.closeIntakeClaw(),
-                new WaitCommand(clawCloseTime),
-                new ParallelCommandGroup(
-                mmSystems.intakeArm.intakeUp(),
-                mmSystems.linearIntake.setPosition(linearIntakeClosed)));
+                mmSystems.intakeArm.intakeUp()).
+                andThen(mmSystems.linearIntake.setPosition(linearIntakeClosed));
     }
 
     /* score sample-
@@ -56,7 +61,7 @@ public class RobotCommands {
     1. scoring claw close
     2. elevator go back to desired height and scoring servo turn
      */
-    public static Command AfterScoring() {
+    public static Command ScoringDone() {
         return new SequentialCommandGroup(mmSystems.scoringEndUnit.closeScoringClaw(),
                 new ParallelCommandGroup(
                         mmSystems.elevator.moveToPose(Elevator.elevatorDown),
