@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
-
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
@@ -13,6 +13,7 @@ public class RobotCommands {
 
     private static final MMSystems mmSystems = MMRobot.getInstance().mmSystems;
     private static final double linearIntakeClosed = 0;
+    private static final int clawCloseTime = 500;
 
     /* intake recieve -
     1. open linear intake and
@@ -26,7 +27,6 @@ public class RobotCommands {
 
 
     }
-
     /* intake done  -
     1. close claw
     2. intake arm up  ,
@@ -34,8 +34,10 @@ public class RobotCommands {
     public static Command IntakeDoneCommand() {
         return new SequentialCommandGroup(
                 mmSystems.intakEndUnit.closeIntakeClaw(),
-                mmSystems.intakeArm.intakeUp()).
-                andThen(mmSystems.linearIntake.setPosition(linearIntakeClosed));
+                new WaitCommand(clawCloseTime),
+                new ParallelCommandGroup(
+                mmSystems.intakeArm.intakeUp(),
+                mmSystems.linearIntake.setPosition(linearIntakeClosed)));
     }
 
     /* score sample-
@@ -54,11 +56,11 @@ public class RobotCommands {
     1. scoring claw close
     2. elevator go back to desired height and scoring servo turn
      */
-    public static Command DefaultPosScoring() {
+    public static Command AfterScoring() {
         return new SequentialCommandGroup(mmSystems.scoringEndUnit.closeScoringClaw(),
                 new ParallelCommandGroup(
                         mmSystems.elevator.moveToPose(Elevator.elevatorDown),
-                        mmSystems.scoringEndUnit.holdScoringServo()));
+                        mmSystems.scoringEndUnit.scoringArmServo()));
     }
 }
 

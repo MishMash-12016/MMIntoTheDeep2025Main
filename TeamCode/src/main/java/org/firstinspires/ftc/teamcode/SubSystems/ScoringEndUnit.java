@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class ScoringEndUnit extends SubsystemBase {
     CuttleServo clawscoringServo;
-    CuttleServo posscoringServo;
+    CuttleServo scoringArmServo;
 
     public static double open = 1;
     public static double close = -1;
@@ -19,7 +19,7 @@ public class ScoringEndUnit extends SubsystemBase {
 
     public ScoringEndUnit() {
         clawscoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.scoringClawServo);
-        posscoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.posscoringServo);
+        scoringArmServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.posscoringServo);
     }
 
     public Command openScoringClaw() {
@@ -33,10 +33,10 @@ public class ScoringEndUnit extends SubsystemBase {
     }
 
     public Command scoreScoringServo() {
-        return new InstantCommand(() -> posscoringServo.setPosition(scoring_score), this);
+        return new InstantCommand(() -> scoringArmServo.setPosition(scoring_score), this);
     }
 
-    public Command holdScoringServo() {
-        return new InstantCommand(() -> posscoringServo.setPosition(scoring_hold), this);
+    public Command scoringArmServo() {
+        return new InstantCommand(() -> scoringArmServo.setPosition(scoring_hold), this);
     }
 }
