@@ -3,9 +3,6 @@ package org.firstinspires.ftc.teamcode.CommandGroup;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-
-import com.arcrobotics.ftclib.command.WaitCommand;
-
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
@@ -15,21 +12,17 @@ import java.util.function.DoubleSupplier;
 public class RobotCommands {
 
     private static final MMSystems mmSystems = MMRobot.getInstance().mmSystems;
-    private static final int timeLinearIntake = 500; //millis
-    private static final double linearIntakeOpen = 2.22;
     private static final double linearIntakeClosed = 0;
-    private final double maxOpening = 0.23;
+
     /* intake recieve -
-    1. open linear intake
-    2. wait  ,
+    1. open linear intake and
     3. intake down and open claw*/
 
     public static Command IntakeCommand(DoubleSupplier intake_trigger) {
-        return new SequentialCommandGroup(mmSystems.linearIntake.setPositionByJoystick(joysxlj),
-                new WaitCommand(timeLinearIntake),
-                new ParallelCommandGroup(
+        return new ParallelCommandGroup(
+                mmSystems.linearIntake.setPositionByJoystick(intake_trigger),
                         mmSystems.intakeArm.intakeDown(),
-                        mmSystems.intakEndUnit.openIntakeClaw()));
+                        mmSystems.intakEndUnit.openIntakeClaw());
 
 
     }

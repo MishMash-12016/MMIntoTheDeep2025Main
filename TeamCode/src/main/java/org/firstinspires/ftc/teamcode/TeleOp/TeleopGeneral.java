@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 public class TeleopGeneral extends MMOpMode {
 
 
-    public TeleopGeneral(OpModeType.NonCompetition opModeType) {
+    public TeleopGeneral() {
         super(OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION);
     }
 
@@ -22,26 +22,25 @@ public class TeleopGeneral extends MMOpMode {
     public void onInit() {
         MMRobot.getInstance().mmSystems.initRobotSystems();
 
-        Trigger prepareScore = new Trigger(
+        Trigger scoreHighSample = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.X)
         );
 
-        Trigger scoreSample = new Trigger(
+        Trigger scoreHightSample = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.Y)
         );
 
-        Trigger totalIntake = new Trigger(
+        Trigger Intake = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05);
 
         //button that prepares score- x
-        prepareScore.whileActiveOnce(RobotCommands.PrepareHighSample());
+        scoreHighSample.whileActiveOnce(RobotCommands.PrepareHighSample());
 
         //new button that score- y
-        scoreSample.whileActiveOnce(MMRobot.getInstance().mmSystems.scoringEndUnit.openScoringClaw());
-
+        scoreHightSample.whileActiveOnce(MMRobot.getInstance().mmSystems.scoringEndUnit.openScoringClaw());
 
         // intake using trigger
-        totalIntake.whileActiveOnce(
+        Intake.whileActiveOnce(
                 RobotCommands.IntakeCommand(() -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)).whenFinished(
                         () -> RobotCommands.IntakeDoneCommand().schedule()));
 
