@@ -9,37 +9,39 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 
 import java.util.function.DoubleSupplier;
 
 public class RobotCommands {
-
-    private static final MMSystems mmSystems = MMRobot.getInstance().mmSystems;
+    private static final  MMSystems mmSystems= MMRobot.getInstance().mmSystems;
     private static final double linearIntakeClosed = 0;
     private static final int timeClawClose = 200;
-    private static final int timeClawOpen= 100;
+    private static final int timeClawOpen = 100;
     public final static double elevatorDown = 0;
-    public final static int timeScoringArm= 150;
+    public final static int timeScoringArm = 150;
 
-    /* intake recieve -
+    /* intake receive -
     1. open linear intake
-    3. intake down and open claw*/
+    2. intake down
+    3. open claw */
 
     public static Command IntakeCommand(DoubleSupplier intakeTrigger) {
         return new ParallelCommandGroup(
                 mmSystems.linearIntake.setPositionByJoystick(intakeTrigger),
                 mmSystems.intakeArm.intakeDown(),
+                mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.inatkepose),
                 mmSystems.intakEndUnit.openIntakeClaw());
 
 
     }
     /* specimen intake
     open claw
-    elavtor down
-    prepere scoring angle
+    elevator down
+    prepare scoring angle
      */
 
-    public static Command prepareSpecimanIntake() {
+    public static Command prepareSpecimenIntake() {
         return new ParallelCommandGroup(
                 mmSystems.scoringEndUnit.openScoringClaw(),
                 mmSystems.elevator.moveToPose(Elevator.elevatorWallHeight),
@@ -50,7 +52,11 @@ public class RobotCommands {
     /* intake done  -
     1. close claw
     2. intake arm up  ,
-    3. close linear intake */
+    3. close linear intake
+    4. elevator down
+    5. open+close scoring claw
+    6. open intake claw
+    */
     public static Command IntakeDoneCommand() {
         return new SequentialCommandGroup(
                 mmSystems.intakEndUnit.closeIntakeClaw(),
@@ -58,6 +64,7 @@ public class RobotCommands {
                 new ParallelCommandGroup(
                         //move the angle of claw to prepare to transfer
                         mmSystems.intakeArm.intakeUp(),
+                        mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdpose),
                         mmSystems.linearIntake.setPosition(linearIntakeClosed),
                         mmSystems.elevator.moveToPose(elevatorDown),
                         mmSystems.scoringEndUnit.scoringArmHold(),
@@ -97,7 +104,7 @@ public class RobotCommands {
                 mmSystems.scoringEndUnit.scoreSample());
     }
 
-    public static Command prepareSpecimanScore() {
+    public static Command prepareSpecimenScore() {
         return new SequentialCommandGroup(
                 mmSystems.scoringEndUnit.closeScoringClaw(),
                 new WaitCommand(timeClawClose),
@@ -117,25 +124,28 @@ public class RobotCommands {
                         mmSystems.elevator.moveToPose(Elevator.elevatorDown)
 
                 ));
-    }
-    public static Command ScoreSample(){
-        return new SequentialCommandGroup(
-                mmSystems.scoringEndUnit.openScoringClaw(),
-                new WaitCommand(timeClawOpen),
-                new ParallelCommandGroup(
-                        mmSystems.elevator.moveToPose(Elevator.elevatorDown),
-                        mmSystems.scoringEndUnit.scoringArmHold()
-                ));
-    }
-    public static Command FoldSystems(){
-        return new ParallelCommandGroup(
-                mmSystems.elevator.moveToPose(Elevator.elevatorDown),
-                mmSystems.scoringEndUnit.scoringArmHold(),
-                mmSystems.linearIntake.setPosition(linearIntakeClosed),
-                mmSystems.intakeArm.intakeUp(),
-                mmSystems.intakEndUnit.openIntakeClaw()
-        );
-    }
+}
+
+public static Command ScoreSample() {
+    return new SequentialCommandGroup(
+            mmSystems.scoringEndUnit.openScoringClaw(),
+            new WaitCommand(timeClawOpen),
+            new ParallelCommandGroup(
+                    mmSystems.elevator.moveToPose(Elevator.elevatorDown),
+                    mmSystems.scoringEndUnit.scoringArmHold()
+            ));
+}
+
+public static Command FoldSystems() {
+    return new ParallelCommandGroup(
+            mmSystems.elevator.moveToPose(Elevator.elevatorDown),
+            mmSystems.scoringEndUnit.scoringArmHold(),
+            mmSystems.linearIntake.setPosition(linearIntakeClosed),
+            mmSystems.intakeArm.intakeUp(),
+            mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdpose),
+            mmSystems.intakEndUnit.openIntakeClaw()
+    );
+}
 
 
 }

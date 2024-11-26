@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
@@ -44,20 +45,20 @@ public class MMSystems {
     public LinearIntake linearIntake;
     public IntakEndUnit intakEndUnit;
     public IntakeArm intakeArm;
+    public IntakeEndUnitRotator intakeEndUnitRotator;
 
     public ScoringEndUnit scoringEndUnit;
     public Elevator elevator;
 
 
-
     //creating and initiating all subsystems
-    public void initRobotSystems(){
+    public void initRobotSystems() {
         driveTrain = new DriveTrain();
         driveTrain.setDefaultCommand(
                 MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
-                () -> gamepadEx1.getLeftX(),
-                ()->  gamepadEx1.getLeftY(),
-                ()->  gamepadEx1.getRightX())
+                        () -> gamepadEx1.getLeftX(),
+                        () -> gamepadEx1.getLeftY(),
+                        () -> gamepadEx1.getRightX())
         );
 
         elevator = new Elevator();
@@ -70,12 +71,11 @@ public class MMSystems {
     }
 
 
-
     public MMSystems(OpModeType type, HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
         this.opModeType = type;
         this.hardwareMap = hardwareMap;
         this.controlHub = new CuttleRevHub(hardwareMap, CuttleRevHub.HubTypes.CONTROL_HUB);
-        if(type != OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION) {
+        if (type != OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION) {
             this.expansionHub = new CuttleRevHub(hardwareMap, "Expansion Hub 2");
         }
         this.gamepadEx1 = new GamepadEx(gamepad1);

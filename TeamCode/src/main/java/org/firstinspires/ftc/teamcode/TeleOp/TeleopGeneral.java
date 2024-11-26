@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.CommandGroup.RobotCommands;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
@@ -42,7 +43,7 @@ public class TeleopGeneral extends MMOpMode {
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.RIGHT_BUMPER)
         );
         Trigger prepareSpecimenScoreTrigger = new Trigger(
-                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.LEFT_BUMPER)
+                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.LEFT_BUMPER)
         );
 
         //driver 2
@@ -57,7 +58,10 @@ public class TeleopGeneral extends MMOpMode {
                 () -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.B)
         );
         Trigger foldSystemsTrigger = new Trigger(
-                ()-> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.Y)
+                () -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.Y)
+        );
+        Trigger intakeAngleTrigger = new Trigger(
+                () -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.DPAD_RIGHT)
         );
 
 
@@ -74,6 +78,10 @@ public class TeleopGeneral extends MMOpMode {
         //eject sample (Button A)
         ejectTrigger.whenActive(
                 RobotCommands.EjectSampleCommand()
+        );
+        //prepare score specimen
+        prepareSpecimenScoreTrigger.whenActive(
+                RobotCommands.prepareSpecimenScore()
         );
 
 
@@ -98,17 +106,21 @@ public class TeleopGeneral extends MMOpMode {
                         () -> scoringtype
                 )
         );
+        //intake specimen (Button B)
         specimenIntakeTrigger.whenActive(
-                RobotCommands.prepareSpecimanIntake()
+                RobotCommands.prepareSpecimenIntake()
         );
-        prepareSpecimenScoreTrigger.whenActive(
-                RobotCommands.prepareSpecimanScore()
-        );
+        //fold systems(Button Y)
         foldSystemsTrigger.whenActive(
                 RobotCommands.FoldSystems()
         );
+        //end unit angle (right d-pad)
+        intakeAngleTrigger.whenActive(
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(IntakeEndUnitRotator.inatkepose)
 
-        
+        );
+
+
         //hanging joystick
 
     }
