@@ -14,8 +14,9 @@ public class ScoringEndUnit extends SubsystemBase {
 
     public static double open = 1;
     public static double close = -1;
-    public static double scoring_hold = -1;
-    public static double scoring_score = 1;
+    public static double scoringHold = -1;
+    public static double scoringSampleScore = 1;
+    public static double scoringSpecimen=2;
 
     public ScoringEndUnit() {
         clawscoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.scoringClawServo);
@@ -32,11 +33,14 @@ public class ScoringEndUnit extends SubsystemBase {
 
     }
 
-    public Command scoreScoringServo() {
-        return new InstantCommand(() -> scoringArmServo.setPosition(scoring_score), this);
+    public Command scoreSample() {
+        return new InstantCommand(() -> scoringArmServo.setPosition(scoringSampleScore), this);
+    }
+    public Command scoreSpecimen(){
+        return new InstantCommand(()-> scoringArmServo.setPosition(scoringSpecimen), this);
     }
 
-    public Command scoringArmServo() {
-        return new InstantCommand(() -> scoringArmServo.setPosition(scoring_hold), this);
+    public Command scoringArmHold() {
+        return new InstantCommand(() -> scoringArmServo.setPosition(scoringHold), this);
     }
 }

@@ -1,14 +1,17 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
-import com.arcrobotics.ftclib.command.RunCommand;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.RobotCommands;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
+@TeleOp
 public class TeleopGeneral extends MMOpMode {
     //Constructor for TeleopGeneral.
     public TeleopGeneral() {
@@ -19,7 +22,7 @@ public class TeleopGeneral extends MMOpMode {
      * Initializes the robot systems and sets up button triggers for specific actions.
      */
     public static boolean specimantoggled = true;
-    public static boolean eleavatortoggled = true;
+    public static boolean scoringtype = true;
 
     @Override
     public void onInit() {
@@ -29,10 +32,17 @@ public class TeleopGeneral extends MMOpMode {
 
         //define robot triggers
         //driver 1
-        Trigger intakeTrigger = new Trigger(
+
+        Trigger intakeSampleTrigger = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05);
         Trigger ejectTrigger = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.A)
+        );
+        Trigger scoreTrigger = new Trigger(
+                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.RIGHT_BUMPER)
+        );
+        Trigger prepareSpecimenScoreTrigger = new Trigger(
+                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.LEFT_BUMPER)
         );
 
         //driver 2
@@ -43,74 +53,62 @@ public class TeleopGeneral extends MMOpMode {
                 () -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.A)
         );
 
-        Trigger scoreHigheSampleTrigger = new Trigger(
-                () -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.Y)
-        );
-        Trigger specimanIntakeTrigger = new Trigger(
+        Trigger specimenIntakeTrigger = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.B)
         );
+        Trigger foldSystemsTrigger = new Trigger(
+                ()-> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.Y)
+        );
 
-        Trigger prepareIntakeAngle = new Trigger( //command to change the intake servo
-                () -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
-        );
-        Trigger specimanScoreTrigger = new Trigger(
-                () -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.RIGHT_BUMPER)
-        );
+
         //define actions for triggers
 
-        // Execute scoring (Button Y)
-        scoreHigheSampleTrigger.whileActiveOnce(
-                MMRobot.getInstance().mmSystems.scoringEndUnit.openScoringClaw()
-        );
-
         //driver 1
-        // Handle intake (Right Trigger)
-        intakeTrigger.whileActiveOnce(
+        // Handle sample intake (Right Trigger)
+        intakeSampleTrigger.whileActiveOnce(
                 RobotCommands.IntakeCommand(
                         () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)
 
                 ).whenFinished(
                         () -> RobotCommands.IntakeDoneCommand().schedule()));
         //eject sample (Button A)
-        ejectTrigger.whileActiveOnce(
+        ejectTrigger.whenActive(
                 RobotCommands.EjectSampleCommand()
         );
+
 
         //driver 2
 
         // Prepare to score High Basket(Button X)
-        prepareHighSampleTrigger.whileActiveOnce(
+        prepareHighSampleTrigger.whenActive(
                 RobotCommands.PrepareHighSample()
+                        .alongWith(new InstantCommand(() -> scoringtype = true))
         );
+
         // Prepare to score Low Basket(Button A)
-        prepareLowSampleTrigger.whileActiveOnce(
+        prepareLowSampleTrigger.whenActive(
                 RobotCommands.PrepareLowSample()
+                        .alongWith(new InstantCommand(() -> scoringtype = true))
         );
-        //score speciman (right bumper)
-        specimanScoreTrigger.whileActiveOnce(new RunCommand(() -> {
-            if (eleavatortoggled) {
-                RobotCommands.elevatorDowm();
-                eleavatortoggled = false;
-            } else {
-                RobotCommands.ScoreSpeciman();
-                eleavatortoggled = true;
+        //score specimen/specimen (right bumper)
+        scoreTrigger.whenActive(
+                new ConditionalCommand(
+                        RobotCommands.ScoreSample(),
+                        RobotCommands.ScoreSpecimen(),
+                        () -> scoringtype
+                )
+        );
+        specimenIntakeTrigger.whenActive(
+                RobotCommands.prepareSpecimanIntake()
+        );
+        prepareSpecimenScoreTrigger.whenActive(
+                RobotCommands.prepareSpecimanScore()
+        );
+        foldSystemsTrigger.whenActive(
+                RobotCommands.FoldSystems()
+        );
 
-            }
-        }));
-
-        //joystick prepare angle of intake
-
-        //intake speciman (Button B)
-        specimanIntakeTrigger.whileActiveOnce(new RunCommand(() -> { //run command cause gpt told me to
-            if (specimantoggled) {
-                RobotCommands.SpecimanIntake();
-                specimantoggled = false;
-            } else {
-                RobotCommands.PrepareSpecimanScore();
-                specimantoggled = true;
-            }
-        }));
-
+        
         //hanging joystick
 
     }

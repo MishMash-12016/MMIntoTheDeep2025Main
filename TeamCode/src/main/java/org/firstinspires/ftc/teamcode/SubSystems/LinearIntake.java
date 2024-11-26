@@ -27,7 +27,6 @@ public class LinearIntake extends SubsystemBase {
         servoRight.setPosition(0);
         servoLeft.setPosition(0);
 
-        this.setDefaultCommand(setPosition(0).perpetually());
     }
 
     public Command setPosition(double newPos) {

@@ -17,7 +17,9 @@ public class RobotCommands {
     private static final MMSystems mmSystems = MMRobot.getInstance().mmSystems;
     private static final double linearIntakeClosed = 0;
     private static final int timeClawClose = 200;
+    private static final int timeClawOpen= 100;
     public final static double elevatorDown = 0;
+    public final static int timeScoringArm= 150;
 
     /* intake recieve -
     1. open linear intake
@@ -31,17 +33,17 @@ public class RobotCommands {
 
 
     }
-    /*speciman intake
+    /* specimen intake
     open claw
     elavtor down
     prepere scoring angle
      */
 
-    public static Command SpecimanIntake() {
+    public static Command prepareSpecimanIntake() {
         return new ParallelCommandGroup(
                 mmSystems.scoringEndUnit.openScoringClaw(),
                 mmSystems.elevator.moveToPose(Elevator.elevatorWallHeight),
-                mmSystems.scoringEndUnit.scoreScoringServo()
+                mmSystems.scoringEndUnit.scoreSpecimen()
         );
     }
 
@@ -58,7 +60,7 @@ public class RobotCommands {
                         mmSystems.intakeArm.intakeUp(),
                         mmSystems.linearIntake.setPosition(linearIntakeClosed),
                         mmSystems.elevator.moveToPose(elevatorDown),
-                        mmSystems.scoringEndUnit.scoringArmServo(),
+                        mmSystems.scoringEndUnit.scoringArmHold(),
                         mmSystems.scoringEndUnit.openScoringClaw()
                 ), mmSystems.scoringEndUnit.closeScoringClaw(),
                 mmSystems.intakEndUnit.openIntakeClaw()
@@ -69,9 +71,12 @@ public class RobotCommands {
 
     public static Command EjectSampleCommand() {
         return new SequentialCommandGroup(
-                mmSystems.scoringEndUnit.scoreScoringServo(),
-                new WaitCommand(timeClawClose),
-                mmSystems.scoringEndUnit.openScoringClaw()
+                mmSystems.scoringEndUnit.scoreSample(),
+                new WaitCommand(timeScoringArm),
+                mmSystems.scoringEndUnit.openScoringClaw(),
+                new WaitCommand(timeClawOpen),
+                mmSystems.scoringEndUnit.scoringArmHold()
+
         );
     }
 
@@ -83,51 +88,56 @@ public class RobotCommands {
     public static Command PrepareHighSample() {
         return new ParallelCommandGroup(
                 mmSystems.elevator.moveToPose(Elevator.HIGH_BASKET),
-                mmSystems.scoringEndUnit.scoreScoringServo());
+                mmSystems.scoringEndUnit.scoreSample());
     }
 
     public static Command PrepareLowSample() {
         return new ParallelCommandGroup(
                 mmSystems.elevator.moveToPose(Elevator.LOW_BASKET),
-                mmSystems.scoringEndUnit.scoreScoringServo());
+                mmSystems.scoringEndUnit.scoreSample());
     }
 
-    public static Command PrepareSpecimanScore() {
+    public static Command prepareSpecimanScore() {
         return new SequentialCommandGroup(
                 mmSystems.scoringEndUnit.closeScoringClaw(),
                 new WaitCommand(timeClawClose),
                 new ParallelCommandGroup(
                         mmSystems.elevator.moveToPose(Elevator.highChamber),
-                        mmSystems.scoringEndUnit.scoreScoringServo()
+                        mmSystems.scoringEndUnit.scoreSpecimen()
                 )
         );
     }
 
-    public static Command ScoreSpeciman() {
+    public static Command ScoreSpecimen() {
         return new SequentialCommandGroup(
-                mmSystems.elevator.moveToPose(Elevator.highChamber),
+                mmSystems.elevator.moveToPose(Elevator.highChamberScorePose),
                 mmSystems.scoringEndUnit.openScoringClaw(),
                 new ParallelCommandGroup(
-                        mmSystems.scoringEndUnit.scoringArmServo(),
+                        mmSystems.scoringEndUnit.scoreSample(),
                         mmSystems.elevator.moveToPose(Elevator.elevatorDown)
 
                 ));
     }
-
-    /* scoring back to hold-
-    1. scoring claw close
-    2. elevator go back to desired height and scoring servo turn
-     */
-    public static Command elevatorDowm() {
+    public static Command ScoreSample(){
         return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.scoringEndUnit.openScoringClaw(),
-                new WaitCommand(timeClawClose),
+                mmSystems.scoringEndUnit.openScoringClaw(),
+                new WaitCommand(timeClawOpen),
                 new ParallelCommandGroup(
-                        mmSystems.scoringEndUnit.scoringArmServo(),
-                        mmSystems.elevator.moveToPose(Elevator.elevatorDown)
-                )
+                        mmSystems.elevator.moveToPose(Elevator.elevatorDown),
+                        mmSystems.scoringEndUnit.scoringArmHold()
+                ));
+    }
+    public static Command FoldSystems(){
+        return new ParallelCommandGroup(
+                mmSystems.elevator.moveToPose(Elevator.elevatorDown),
+                mmSystems.scoringEndUnit.scoringArmHold(),
+                mmSystems.linearIntake.setPosition(linearIntakeClosed),
+                mmSystems.intakeArm.intakeUp(),
+                mmSystems.intakEndUnit.openIntakeClaw()
         );
     }
+
+
 }
 
 

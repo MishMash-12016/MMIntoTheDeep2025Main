@@ -39,6 +39,7 @@ public class Elevator extends MMPIDSubsystem {
     public final static double elevatorDown = 0;
     public final static double elevatorWallHeight = 3;
     public final static double highChamber = 4;
+    public final static double highChamberScorePose = 4;
 
 
     public Elevator() {
