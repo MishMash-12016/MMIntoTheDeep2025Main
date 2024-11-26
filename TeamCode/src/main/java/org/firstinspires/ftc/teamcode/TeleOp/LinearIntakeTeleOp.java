@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.sampledata;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 
@@ -8,8 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
-
-import java.util.jar.Attributes;
 
 @TeleOp
 public class LinearIntakeTeleOp extends MMOpMode {
