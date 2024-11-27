@@ -20,13 +20,13 @@ public class RobotCommands {
     public static Command IntakeCommand() {
         return new ParallelCommandGroup(
                 mmSystems.intakeArm.setPosition(mmSystems.intakeArm.down),
-                mmSystems.intakEndUnit.openIntakeClaw());
+                mmSystems.intakEndUnit.openClaw());
     }
 
     //intake close and then intake up
     public static Command IntakeDoneCommand() {
         return new SequentialCommandGroup(
-                mmSystems.intakEndUnit.closeIntakeClaw(),
+                mmSystems.intakEndUnit.closeClaw(),
                 mmSystems.intakeArm.setPosition(mmSystems.intakeArm.up));
     }
 
