@@ -34,8 +34,9 @@ public class Configuration {
     public static final String PERPENDICULAR = AUTO_DRIVE_TRAIN_BACK_LEFT; // 1
     public static final String PARALLEL = AUTO_DRIVE_TRAIN_BACK_RIGHT; //0 //todo: choose the right motor, preferable port 0,3
 
-    //linear intake end unit:
-    public static final int clawintakeServo=1;
+    //linear intake end unit. both the claw and the intake:
+    public static final int intakeArm=0;
+    public static final int clawIntakeServo =1;
 
     //Linear Intake Arm:
     public static final int intakeArmServoRight =3;
@@ -50,10 +51,13 @@ public class Configuration {
     public static final int ELEVATOR_ENCODER = 0;
 
     //Linear Intake
-    public static final int LEFT_INTAKE=1;
+    public static final int LEFT_INTAKE = 1;
+
+    //Linear Intake End Unit Rotator:
+    public static final int END_UNIT_ROTATOR = 5;
 
     //EXPANSION HUB
-    public static final int RIGHT_INTAKE=2;
+    public static final int RIGHT_INTAKE = 2;
 
 
 }
