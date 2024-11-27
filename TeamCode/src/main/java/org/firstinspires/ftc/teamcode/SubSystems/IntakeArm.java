@@ -9,21 +9,22 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class IntakeArm extends SubsystemBase {
-    CuttleServo intakeArm;
+    CuttleServo servoLeft;
+    CuttleServo servoRight;
 
     public final double up = 0.5;
     public final double down = -1.5;
 
     public IntakeArm() {
-        intakeArm = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.intakeArm);
+        servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.intakeArmServoLeft);
+        servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.intakeArmServoRight);
     }
 
     //tell servo intake to get to down position
-    public Command intakeUp() {
-        return new InstantCommand(() -> intakeArm.setPosition(up), this);
-    }
-
-    public Command intakeDown() {
-        return new InstantCommand(() -> intakeArm.setPosition(down), this);
+    public Command setPosition(double newPos) {
+        return new InstantCommand(()-> {
+            servoLeft.setPosition(newPos);
+            servoRight.setPosition(newPos);} ,
+                this);
     }
 }
