@@ -44,7 +44,6 @@ public class Configuration {
 
     //scoring units
     public static final int scoringClawServo = 2;
-    public static final int posscoringServo = 3;
 
     //Scoring arm:
     public static final int SERVO_LEFT_SCORING_ARM = 6;
