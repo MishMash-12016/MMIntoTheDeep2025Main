@@ -24,10 +24,8 @@ public class LinearIntakeEndUnitRotatorTeleOp extends MMOpMode {
         Trigger leftTriggerCondition = new Trigger(
                 () -> robotInstance.mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
         );
-        leftTriggerCondition.whenActive(
+        leftTriggerCondition.whileActiveOnce(
                 robotInstance.mmSystems.linearIntake.setPositionByJoystick(()-> gamepad2.left_trigger));
-
-        waitForStart();
     }
 
     @Override

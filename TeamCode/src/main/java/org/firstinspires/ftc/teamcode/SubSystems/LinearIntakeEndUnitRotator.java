@@ -36,7 +36,7 @@ public class LinearIntakeEndUnitRotator extends SubsystemBase {
                 this);
     }
 
-    public String getPosition(){
-        return String.valueOf(servo.getPosition());
+    public Double getTargetPosition(){
+        return servo.getPosition();
     }
 }
