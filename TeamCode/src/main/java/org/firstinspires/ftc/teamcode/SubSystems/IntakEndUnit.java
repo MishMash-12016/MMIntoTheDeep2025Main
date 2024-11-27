@@ -10,19 +10,19 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class IntakEndUnit extends SubsystemBase {
 
-    CuttleServo cuttleServo;
+    CuttleServo clawIntakeServo;
     public final double open = 0.5;
     public final double close = 22;
 
     // claw close or open
     public IntakEndUnit() {
-        cuttleServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.clawIntakeServo);
+        clawIntakeServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.clawIntakeServo);
     }
     public Command openClaw() {
-        return new InstantCommand(() -> cuttleServo.setPosition(open), this);
+        return new InstantCommand(() -> clawIntakeServo.setPosition(open), this);
     }
 
     public Command closeClaw() {
-        return new InstantCommand(() -> cuttleServo.setPosition(close), this);
+        return new InstantCommand(() -> clawIntakeServo.setPosition(close), this);
     }
 }
