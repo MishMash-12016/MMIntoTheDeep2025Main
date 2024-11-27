@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.CommandGroup.RobotCommands;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
+import org.firstinspires.ftc.teamcode.SubSystems.LinearIntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
@@ -116,7 +116,7 @@ public class TeleopGeneral extends MMOpMode {
         );
         //end unit angle (right d-pad)
         intakeAngleTrigger.whenActive(
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(IntakeEndUnitRotator.inatkepose)
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeEndUnitRotator.inatkepose)
 
         );
 

@@ -9,7 +9,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
+import org.firstinspires.ftc.teamcode.SubSystems.LinearIntakeEndUnitRotator;
 
 import java.util.function.DoubleSupplier;
 
@@ -30,7 +30,7 @@ public class RobotCommands {
         return new ParallelCommandGroup(
                 mmSystems.linearIntake.setPositionByJoystick(intakeTrigger),
                 mmSystems.intakeArm.intakeDown(),
-                mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.inatkepose),
+                mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.inatkepose),
                 mmSystems.intakEndUnit.openIntakeClaw());
 
 
@@ -64,7 +64,7 @@ public class RobotCommands {
                 new ParallelCommandGroup(
                         //move the angle of claw to prepare to transfer
                         mmSystems.intakeArm.intakeUp(),
-                        mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdpose),
+                        mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
                         mmSystems.linearIntake.setPosition(linearIntakeClosed),
                         mmSystems.elevator.moveToPose(elevatorDown),
                         mmSystems.scoringEndUnit.scoringArmHold(),
@@ -142,7 +142,7 @@ public static Command FoldSystems() {
             mmSystems.scoringEndUnit.scoringArmHold(),
             mmSystems.linearIntake.setPosition(linearIntakeClosed),
             mmSystems.intakeArm.intakeUp(),
-            mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdpose),
+            mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
             mmSystems.intakEndUnit.openIntakeClaw()
     );
 }
