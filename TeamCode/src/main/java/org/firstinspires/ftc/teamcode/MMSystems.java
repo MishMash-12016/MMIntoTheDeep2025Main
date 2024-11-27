@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
@@ -45,7 +45,7 @@ public class MMSystems {
     public LinearIntake linearIntake;
     public IntakEndUnit intakEndUnit;
     public IntakeArm intakeArm;
-    public ScoringEndUnit scoringEndUnit;
+    public ScoringClawEndUnit scoringEndUnit;
     public Elevator elevator;
 
 
@@ -61,7 +61,7 @@ public class MMSystems {
 
         this.intakEndUnit = new IntakEndUnit();
         this.intakeArm = new IntakeArm();
-        this.scoringEndUnit = new ScoringEndUnit();
+        this.scoringEndUnit = new ScoringClawEndUnit();
     }
 
 
