@@ -43,9 +43,9 @@ public class RobotCommands {
 
     public static Command prepareSpecimenIntake() {
         return new ParallelCommandGroup(
-                mmSystems.scoringEndUnit.openScoringClaw(),
+                mmSystems.scoringArm.openScoringClaw(),
                 mmSystems.elevator.moveToPose(Elevator.elevatorWallHeight),
-                mmSystems.scoringEndUnit.scoreSpecimen()
+                mmSystems.scoringArm.scoreSpecimen()
         );
     }
 
@@ -67,9 +67,9 @@ public class RobotCommands {
                         mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
                         mmSystems.linearIntake.setPosition(linearIntakeClosed),
                         mmSystems.elevator.moveToPose(elevatorDown),
-                        mmSystems.scoringEndUnit.scoringArmHold(),
-                        mmSystems.scoringEndUnit.openScoringClaw()
-                ), mmSystems.scoringEndUnit.closeScoringClaw(),
+                        mmSystems.scoringArm.scoringArmHold(),
+                        mmSystems.scoringArm.openScoringClaw()
+                ), mmSystems.scoringArm.closeScoringClaw(),
                 mmSystems.intakEndUnit.openIntakeClaw()
 
         );
@@ -78,11 +78,11 @@ public class RobotCommands {
 
     public static Command EjectSampleCommand() {
         return new SequentialCommandGroup(
-                mmSystems.scoringEndUnit.scoreSample(),
+                mmSystems.scoringArm.scoreSample(),
                 new WaitCommand(timeScoringArm),
-                mmSystems.scoringEndUnit.openScoringClaw(),
+                mmSystems.scoringArm.openScoringClaw(),
                 new WaitCommand(timeClawOpen),
-                mmSystems.scoringEndUnit.scoringArmHold()
+                mmSystems.scoringArm.scoringArmHold()
 
         );
     }
@@ -95,22 +95,22 @@ public class RobotCommands {
     public static Command PrepareHighSample() {
         return new ParallelCommandGroup(
                 mmSystems.elevator.moveToPose(Elevator.HIGH_BASKET),
-                mmSystems.scoringEndUnit.scoreSample());
+                mmSystems.scoringArm.scoreSample());
     }
 
     public static Command PrepareLowSample() {
         return new ParallelCommandGroup(
                 mmSystems.elevator.moveToPose(Elevator.LOW_BASKET),
-                mmSystems.scoringEndUnit.scoreSample());
+                mmSystems.scoringArm.scoreSample());
     }
 
     public static Command prepareSpecimenScore() {
         return new SequentialCommandGroup(
-                mmSystems.scoringEndUnit.closeScoringClaw(),
+                mmSystems.scoringArm.closeScoringClaw(),
                 new WaitCommand(timeClawClose),
                 new ParallelCommandGroup(
                         mmSystems.elevator.moveToPose(Elevator.highChamber),
-                        mmSystems.scoringEndUnit.scoreSpecimen()
+                        mmSystems.scoringArm.scoreSpecimen()
                 )
         );
     }
@@ -118,9 +118,9 @@ public class RobotCommands {
     public static Command ScoreSpecimen() {
         return new SequentialCommandGroup(
                 mmSystems.elevator.moveToPose(Elevator.highChamberScorePose),
-                mmSystems.scoringEndUnit.openScoringClaw(),
+                mmSystems.scoringArm.openScoringClaw(),
                 new ParallelCommandGroup(
-                        mmSystems.scoringEndUnit.scoreSample(),
+                        mmSystems.scoringArm.scoreSample(),
                         mmSystems.elevator.moveToPose(Elevator.elevatorDown)
 
                 ));
@@ -128,18 +128,18 @@ public class RobotCommands {
 
 public static Command ScoreSample() {
     return new SequentialCommandGroup(
-            mmSystems.scoringEndUnit.openScoringClaw(),
+            mmSystems.scoringArm.openScoringClaw(),
             new WaitCommand(timeClawOpen),
             new ParallelCommandGroup(
                     mmSystems.elevator.moveToPose(Elevator.elevatorDown),
-                    mmSystems.scoringEndUnit.scoringArmHold()
+                    mmSystems.scoringArm.scoringArmHold()
             ));
 }
 
 public static Command FoldSystems() {
     return new ParallelCommandGroup(
             mmSystems.elevator.moveToPose(Elevator.elevatorDown),
-            mmSystems.scoringEndUnit.scoringArmHold(),
+            mmSystems.scoringArm.scoringArmHold(),
             mmSystems.linearIntake.setPosition(linearIntakeClosed),
             mmSystems.intakeArm.intakeUp(),
             mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
