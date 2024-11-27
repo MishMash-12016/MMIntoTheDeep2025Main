@@ -47,10 +47,13 @@ public class Configuration {
     public static final int ELEVATOR_ENCODER = 0;
 
     //Linear Intake
-    public static final int LEFT_INTAKE=1;
+    public static final int LEFT_INTAKE = 1;
+
+    //Linear Intake End Unit Rotator:
+    public static final int END_UNIT_ROTATOR = 5;
 
     //EXPANSION HUB
-    public static final int RIGHT_INTAKE=2;
+    public static final int RIGHT_INTAKE = 2;
 
 
 }
