@@ -35,7 +35,7 @@ public class LinearIntakeArmTeleOp extends MMOpMode {
                 RobotCommands.IntakeCommand());
 
         rightTriggerCondition.whileActiveOnce(
-                RobotCommands.IntakeCommand());
+                RobotCommands.IntakeDoneCommand());
     }
 
     @Override
