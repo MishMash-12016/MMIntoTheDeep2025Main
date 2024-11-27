@@ -116,7 +116,7 @@ public class TeleopGeneral extends MMOpMode {
         );
         //end unit angle (right d-pad)
         intakeAngleTrigger.whenActive(
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeEndUnitRotator.inatkepose)
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeEndUnitRotator.intakePose)
 
         );
 

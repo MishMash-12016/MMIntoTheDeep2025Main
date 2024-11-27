@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 public class LinearIntakeArmTeleOp extends MMOpMode {
     MMRobot robotInstance = MMRobot.getInstance();
 
-    public LinearIntakeArmTeleOp(){
+    public LinearIntakeArmTeleOp() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
@@ -32,7 +32,9 @@ public class LinearIntakeArmTeleOp extends MMOpMode {
         );
 
         leftTriggerCondition.whenActive(
-                RobotCommands.IntakeCommand());
+                RobotCommands.IntakeCommand(
+                        () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER))
+        );
 
         rightTriggerCondition.whenActive(
                 RobotCommands.IntakeDoneCommand());

@@ -12,8 +12,8 @@ public class IntakeArm extends SubsystemBase {
     CuttleServo servoLeft;
     CuttleServo servoRight;
 
-    public final double up = 0.5;
-    public final double down = -1.5;
+    public final static double up = 0.5;
+    public final static double down = -1.5;
 
     public IntakeArm() {
         servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.intakeArmServoLeft);
