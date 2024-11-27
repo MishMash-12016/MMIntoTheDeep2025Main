@@ -38,6 +38,10 @@ public class Configuration {
     public static final int intakeArm=0;
     public static final int clawIntakeServo =1;
 
+    //Linear Intake Arm:
+    public static final int intakeArmServoRight =3;
+    public static final int intakeArmServoLeft =4;
+
     //scoring units
     public static final int scoringClawServo = 2;
 
