@@ -24,7 +24,6 @@ public class ClimbingTeleOp extends MMOpMode {
         );
         leftTriggerCondition.whenActive(
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(1.0).whenFinished(()-> MMRobot.getInstance().mmSystems.elevator.moveToPose(0.0)).withTimeout(10));
-        waitForStart();
     }
 
 
