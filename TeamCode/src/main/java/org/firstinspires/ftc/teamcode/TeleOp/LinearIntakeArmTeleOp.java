@@ -43,7 +43,7 @@ public class LinearIntakeArmTeleOp extends MMOpMode {
     @Override
     public void run() {
         super.run();
-        telemetry.addData("Joystick Position: ", robotInstance.mmSystems.linearIntake.getPosition());
+        telemetry.addData("Joystick Position: ", robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
         telemetry.update();
     }
 

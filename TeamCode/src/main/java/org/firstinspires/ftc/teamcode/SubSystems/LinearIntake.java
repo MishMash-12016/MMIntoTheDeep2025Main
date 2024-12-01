@@ -36,12 +36,12 @@ public class LinearIntake extends SubsystemBase {
 
     public Command setPositionByJoystick(DoubleSupplier doubleSupplier){
         return new RunCommand(()-> {
-            servoLeft.setPosition(1 - doubleSupplier.getAsDouble());
-            servoRight.setPosition(doubleSupplier.getAsDouble());} ,
+            servoLeft.setPosition(doubleSupplier.getAsDouble());
+            servoRight.setPosition(1 - doubleSupplier.getAsDouble());} ,
                 this);
     }
 
     public String getPosition(){
-        return String.valueOf(servoLeft.getPosition())+String.valueOf(servoRight.getPosition()) ;
+        return String.valueOf(servoLeft.getPosition())+" "+String.valueOf(servoRight.getPosition()) ;
     }
 }

@@ -21,7 +21,7 @@ public class LinearIntakeEndUnitRotator extends SubsystemBase {
 
 
     public LinearIntakeEndUnitRotator(){
-        servo = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.END_UNIT_ROTATOR);
+        servo = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.END_UNIT_ROTATOR);
 
         servo.setPosition(0);
     }

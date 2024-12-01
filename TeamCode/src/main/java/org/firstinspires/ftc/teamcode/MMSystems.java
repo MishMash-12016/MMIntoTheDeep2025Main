@@ -70,6 +70,7 @@ public class MMSystems {
         this.intakeArm = new IntakeArm();
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
+        linearIntakeEndUnitRotator = new LinearIntakeEndUnitRotator();
 
     }
 
