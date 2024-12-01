@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
@@ -20,8 +18,8 @@ public class LinearIntake extends SubsystemBase {
     private final CuttleServo servoRight;
 
     public LinearIntake(){
-        servoLeft = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LEFT_INTAKE);
-        servoRight = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.RIGHT_INTAKE);
+        servoLeft = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LEFT_LINEAR_INTAKE);
+        servoRight = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.RIGHT_LINEAR_INTAKE);
 
         servoRight.setPosition(0);
         servoLeft.setPosition(0);

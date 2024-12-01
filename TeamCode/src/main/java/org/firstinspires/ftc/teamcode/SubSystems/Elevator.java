@@ -45,8 +45,8 @@ public class Elevator extends MMPIDSubsystem {
     public Elevator() {
         super(kP, kI, kD, TOLERANCE);
 
-        motorLeft = new CuttleMotor(MMRobot.getInstance().mmSystems.controlHub, Configuration.ELEVATOR_LEFT);
-        motorRight = new CuttleMotor(MMRobot.getInstance().mmSystems.controlHub, Configuration.ELEVATOR_RIGHT);
+        motorLeft = new CuttleMotor(MMRobot.getInstance().mmSystems.controlHub, Configuration.ELEVATOR_LIFTER_LEFT);
+        motorRight = new CuttleMotor(MMRobot.getInstance().mmSystems.controlHub, Configuration.ELEVATOR_LIFTER_RIGHT);
 
         motorLeft.setDirection(Direction.REVERSE);
 
