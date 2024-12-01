@@ -48,6 +48,9 @@ public class Configuration {
     public static final int SERVO_RIGHT_SCORING_ARM = 7;
 
     //Elevator
+    public static final int ELEVATOR1 = 0;
+    public static final int ELEVATOR2 = 1;
+    public static final int ELEVATOR3 = 2;
     public static final int ELEVATOR_ENCODER = 0;
 
     //Linear Intake
