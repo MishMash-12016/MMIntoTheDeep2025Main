@@ -29,9 +29,7 @@ public class LinearIntakeArmTeleOp extends MMOpMode {
         );
 
         rightTriggerCondition.whenActive(
-                RobotCommands.IntakeCommand(
-                        () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)).andThen(RobotCommands.IntakeDoneCommand())
-        );
+                robotInstance.mmSystems.intakeArm.setPosition(1).andThen(robotInstance.mmSystems.intakeArm.setPosition(0)));
     }
 
     @Override
