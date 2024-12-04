@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
@@ -33,7 +34,7 @@ public class RobotCommands {
                 mmSystems.linearIntake.setPositionByJoystick(intakeTrigger),
                 mmSystems.intakeArm.setPosition(IntakeArm.down),
                 mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.intakePose),
-                mmSystems.intakEndUnit.openIntakeClaw());
+                mmSystems.intakEndUnit.openIntakeClaw(IntakEndUnit.open));
 
 
     }
@@ -61,7 +62,7 @@ public class RobotCommands {
     */
     public static Command IntakeDoneCommand() {
         return new SequentialCommandGroup(
-                mmSystems.intakEndUnit.closeIntakeClaw(),
+                mmSystems.intakEndUnit.closeIntakeClaw(IntakEndUnit.close),
                 new WaitCommand(timeClawClose),
                 new ParallelCommandGroup(
                         //move the angle of claw to prepare to transfer
@@ -72,7 +73,7 @@ public class RobotCommands {
                         mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold),
                         mmSystems.scoringClawEndUnit.openScoringClaw()
                 ), mmSystems.scoringClawEndUnit.closeScoringClaw(),
-                mmSystems.intakEndUnit.openIntakeClaw()
+                mmSystems.intakEndUnit.openIntakeClaw(IntakEndUnit.open)
 
         );
 
@@ -145,7 +146,7 @@ public static Command FoldSystems() {
             mmSystems.linearIntake.setPosition(linearIntakeClosed),
             mmSystems.intakeArm.setPosition(IntakeArm.up),
             mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
-            mmSystems.intakEndUnit.openIntakeClaw()
+            mmSystems.intakEndUnit.openIntakeClaw(IntakEndUnit.open)
     );
 }
 

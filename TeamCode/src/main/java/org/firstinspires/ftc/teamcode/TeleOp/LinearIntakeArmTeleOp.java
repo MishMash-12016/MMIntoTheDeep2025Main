@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.ButtonReader;
@@ -9,11 +11,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.CommandGroup.RobotCommands;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
 public class LinearIntakeArmTeleOp extends MMOpMode {
     MMRobot robotInstance = MMRobot.getInstance();
+
 
     public LinearIntakeArmTeleOp() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -28,10 +32,19 @@ public class LinearIntakeArmTeleOp extends MMOpMode {
                 () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05
         );
 
-        rightTriggerCondition.whenActive(
-                RobotCommands.IntakeCommand(
-                        () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)).andThen(RobotCommands.IntakeDoneCommand())
+        Trigger leftTriggerCondition = new Trigger(
+                () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
         );
+
+
+        rightTriggerCondition.whileActiveOnce(
+                robotInstance.mmSystems.intakeArm.setPosition(0.5)
+        );
+
+        leftTriggerCondition.whileActiveOnce(
+                robotInstance.mmSystems.intakeArm.setPosition(1)
+        );
+
     }
 
     @Override
