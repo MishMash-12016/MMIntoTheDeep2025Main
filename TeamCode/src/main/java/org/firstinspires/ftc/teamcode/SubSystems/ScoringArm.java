@@ -19,7 +19,7 @@ public class ScoringArm extends SubsystemBase {
     public final static double scoreSample= 45;
 
     public ScoringArm() {
-        servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.SERVO_LEFT_SCORING_ARM);
+        servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SERVO_LEFT_SCORING_ARM);
         servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.SERVO_RIGHT_SCORING_ARM);
     }
 

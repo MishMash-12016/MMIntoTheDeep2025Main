@@ -18,7 +18,7 @@ import java.util.function.DoubleSupplier;
 public class RobotCommands {
     private static final  MMSystems mmSystems= MMRobot.getInstance().mmSystems;
     private static final double linearIntakeClosed = 0;
-    private static final int timeClawClose = 200;
+    private static final int timeClawClose = 400;
     private static final int timeClawOpen = 100;
     public final static double elevatorDown = 0;
     public final static int timeScoringArm = 150;
@@ -68,11 +68,11 @@ public class RobotCommands {
                         mmSystems.intakeArm.setPosition(IntakeArm.up),
                         mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
                         mmSystems.linearIntake.setPosition(linearIntakeClosed),
-                        mmSystems.elevator.moveToPose(elevatorDown),
+//                        mmSystems.elevator.moveToPose(elevatorDown),
                         mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold),
                         mmSystems.scoringClawEndUnit.openScoringClaw()
-                ), mmSystems.scoringClawEndUnit.closeScoringClaw(),
-                mmSystems.intakEndUnit.openIntakeClaw()
+                ), mmSystems.scoringClawEndUnit.closeScoringClaw()
+//                mmSystems.intakEndUnit.openIntakeClaw()
 
         );
 

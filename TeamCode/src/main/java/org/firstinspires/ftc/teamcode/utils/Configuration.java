@@ -35,33 +35,36 @@ public class Configuration {
 
 
     //Linear Intake Arm:
-    public static final int INTAKE_ARM_SERVO_LEFT =5;
+    public static final int SCORING_CLAW_SERVO = 2;
 
     //Scoring arm:
-    public static final int SERVO_LEFT_SCORING_ARM = 2;
-    public static final int SERVO_RIGHT_SCORING_ARM = 3;
+    public static final int SERVO_RIGHT_SCORING_ARM = 4;
 
     //Linear Intake
-    public static final int LEFT_LINEAR_INTAKE = 5;
+    public static final int LEFT_LINEAR_INTAKE = 1;
+
+    public static final int RIGHT_LINEAR_INTAKE = 3;
+
 
     //EXPANSION HUB
-    public static final int RIGHT_LINEAR_INTAKE = 2;
-
     //Elevator
     public static final int ELEVATOR1 = 0;
     public static final int ELEVATOR2 = 1;
     public static final int ELEVATOR3 = 2;
+
     public static final int ELEVATOR_ENCODER = 0;
 
     //linear intake end unit. both the claw and the intake:
-    public static final int CLAW_INTAKE_SERVO =4;
+    public static final int CLAW_INTAKE_SERVO = 4;
 
     //Linear Intake End Unit Rotator:
-    public static final int END_UNIT_ROTATOR = 3;
+    public static final int END_UNIT_ROTATOR = 2;
+
+    public static final int INTAKE_ARM_SERVO_LEFT =3;
 
     //Linear Intake Arm:
-    public static final int INTAKE_ARM_SERVO_RIGHT =3;
+    public static final int INTAKE_ARM_SERVO_RIGHT =1;
 
     //scoring units
-    public static final int SCORING_CLAW_SERVO = 5;
+    public static final int SERVO_LEFT_SCORING_ARM = 0;
 }
