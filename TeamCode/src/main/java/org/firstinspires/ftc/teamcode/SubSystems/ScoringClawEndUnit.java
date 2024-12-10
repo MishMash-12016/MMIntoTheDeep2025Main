@@ -11,18 +11,18 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 public class ScoringClawEndUnit extends SubsystemBase {
     CuttleServo clawScoringServo;
 
-    public static double open = 1;
-    public static double close = -1;
+    public static double open = 0.7;
+    public static double close = 0.1;
 
     public ScoringClawEndUnit() {
         clawScoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.SCORING_CLAW_SERVO);
     }
 
-    public Command openScoringClaw() {
+    public Command openScoringClaw(double open ) {
         return new InstantCommand(() -> clawScoringServo.setPosition(open), this);
     }
 
-    public Command closeScoringClaw() {
+    public Command closeScoringClaw(double close) {
         return new InstantCommand(() -> clawScoringServo.setPosition(close), this);
     }
 }

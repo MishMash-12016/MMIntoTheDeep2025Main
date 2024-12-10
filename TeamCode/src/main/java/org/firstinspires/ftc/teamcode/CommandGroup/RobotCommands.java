@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 
 import java.util.function.DoubleSupplier;
 
@@ -46,7 +47,7 @@ public class RobotCommands {
 
     public static Command prepareSpecimenIntake() {
         return new ParallelCommandGroup(
-                mmSystems.scoringClawEndUnit.openScoringClaw(),
+                mmSystems.scoringClawEndUnit.openScoringClaw(ScoringClawEndUnit.open),
                 mmSystems.elevator.moveToPose(Elevator.elevatorWallHeight),
                 mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen)
         );
@@ -71,8 +72,8 @@ public class RobotCommands {
                         mmSystems.linearIntake.setPosition(linearIntakeClosed),
                         mmSystems.elevator.moveToPose(elevatorDown),
                         mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold),
-                        mmSystems.scoringClawEndUnit.openScoringClaw()
-                ), mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                        mmSystems.scoringClawEndUnit.openScoringClaw(ScoringClawEndUnit.open)
+                ), mmSystems.scoringClawEndUnit.closeScoringClaw(ScoringClawEndUnit.close),
                 mmSystems.intakEndUnit.openIntakeClaw(IntakEndUnit.open)
 
         );
@@ -83,7 +84,7 @@ public class RobotCommands {
         return new SequentialCommandGroup(
                 mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen),
                 new WaitCommand(timeScoringArm),
-                mmSystems.scoringClawEndUnit.openScoringClaw(),
+                mmSystems.scoringClawEndUnit.openScoringClaw(ScoringClawEndUnit.open),
                 new WaitCommand(timeClawOpen),
                 mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold)
 
@@ -109,7 +110,7 @@ public class RobotCommands {
 
     public static Command prepareSpecimenScore() {
         return new SequentialCommandGroup(
-                mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                mmSystems.scoringClawEndUnit.closeScoringClaw(ScoringClawEndUnit.close),
                 new WaitCommand(timeClawClose),
                 new ParallelCommandGroup(
                         mmSystems.elevator.moveToPose(Elevator.highChamber),
@@ -121,7 +122,7 @@ public class RobotCommands {
     public static Command ScoreSpecimen() {
         return new SequentialCommandGroup(
                 mmSystems.elevator.moveToPose(Elevator.highChamberScorePose),
-                mmSystems.scoringClawEndUnit.openScoringClaw(),
+                mmSystems.scoringClawEndUnit.openScoringClaw(ScoringClawEndUnit.open),
                 new ParallelCommandGroup(
                         mmSystems.scoringArm.setPosition(ScoringArm.scoreSample),
                         mmSystems.elevator.moveToPose(Elevator.elevatorDown)
@@ -131,7 +132,7 @@ public class RobotCommands {
 
 public static Command ScoreSample() {
     return new SequentialCommandGroup(
-            mmSystems.scoringClawEndUnit.openScoringClaw(),
+            mmSystems.scoringClawEndUnit.openScoringClaw(ScoringClawEndUnit.open),
             new WaitCommand(timeClawOpen),
             new ParallelCommandGroup(
                     mmSystems.elevator.moveToPose(Elevator.elevatorDown),

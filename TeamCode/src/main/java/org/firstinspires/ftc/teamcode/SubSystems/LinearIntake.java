@@ -19,7 +19,7 @@ public class LinearIntake extends SubsystemBase {
 
     public LinearIntake(){
         servoLeft = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LEFT_LINEAR_INTAKE);
-        servoRight = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.RIGHT_LINEAR_INTAKE);
+        servoRight = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.RIGHT_LINEAR_INTAKE);
 
         servoRight.setPosition(0);
         servoLeft.setPosition(0);
