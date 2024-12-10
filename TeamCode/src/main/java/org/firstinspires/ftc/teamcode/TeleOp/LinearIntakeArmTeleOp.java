@@ -9,13 +9,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.CommandGroup.RobotCommands;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
 public class LinearIntakeArmTeleOp extends MMOpMode {
-    MMRobot robotInstance = MMRobot.getInstance();
+    static MMRobot robotInstance = MMRobot.getInstance();
 
-    static double currentPose=0;
+    static double currentPose= 0 ;
 
     public LinearIntakeArmTeleOp() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -26,17 +27,27 @@ public class LinearIntakeArmTeleOp extends MMOpMode {
 
         robotInstance.mmSystems.initRobotSystems();
 
-        Trigger dothishit = new Trigger(
+        Trigger leftTrigger = new Trigger(
                 () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
         );
 
-        Trigger finish = new Trigger(
+        Trigger rightTrigger = new Trigger(
                 () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05
         );
 
-        dothishit.whileActiveOnce(RobotCommands.IntakeCommand(()->gamepad1.left_trigger));
 
-        finish.whenInactive(RobotCommands.IntakeDoneCommand());
+        leftTrigger.whileActiveOnce(
+                RobotCommands.IntakeCommand(()-> gamepad1.left_trigger)
+        );
+
+        leftTrigger.whenInactive(
+                RobotCommands.IntakeDoneCommand()
+        );
+
+        rightTrigger.whileActiveOnce(
+                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.down)
+
+        );
 
 //        Trigger addToPoseCondition = new Trigger(
 //                () -> robotInstance.mmSystems.gamepadEx1.getButton(GamepadKeys.Button.A)
@@ -64,7 +75,6 @@ public class LinearIntakeArmTeleOp extends MMOpMode {
     @Override
     public void run() {
         super.run();
-
         telemetry.addData("Joystick Position: ", robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
         telemetry.addData("current pose: ", currentPose);
         telemetry.update();

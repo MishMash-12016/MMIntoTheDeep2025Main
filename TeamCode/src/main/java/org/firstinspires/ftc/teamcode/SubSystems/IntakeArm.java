@@ -15,8 +15,8 @@ public class IntakeArm extends SubsystemBase {
     CuttleServo servoLeft;
     CuttleServo servoRight;
 
-    public final static double up = 0.64;
-    public final static double down = 0.06;
+    public final static double up = 0.7;
+    public final static double down = 0.1;
 
     public IntakeArm() {
         servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.INTAKE_ARM_SERVO_LEFT);
@@ -32,11 +32,11 @@ public class IntakeArm extends SubsystemBase {
     }
 
 
-    //tell servo intake to get to down position
-    public Command setPosition(DoubleSupplier newPos) {
-        return new RunCommand(()-> {
-            servoLeft.setPosition(newPos.getAsDouble());
-            servoRight.setPosition(1-newPos.getAsDouble());} ,
-                this);
-    }
+//    //tell servo intake to get to down position
+//    public Command setPosition(DoubleSupplier newPos) {
+//        return new RunCommand(()-> {
+//            servoLeft.setPosition(newPos.getAsDouble());
+//            servoRight.setPosition(1-newPos.getAsDouble());} ,
+//                this);
+//    }
 }
