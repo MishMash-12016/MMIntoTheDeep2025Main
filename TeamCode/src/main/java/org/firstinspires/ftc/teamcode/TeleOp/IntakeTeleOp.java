@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.ButtonReader;
@@ -14,9 +16,9 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
 public class LinearIntakeArmTeleOp extends MMOpMode {
-    static MMRobot robotInstance = MMRobot.getInstance();
+    MMRobot robotInstance = MMRobot.getInstance();
 
-    static double currentPose= 0 ;
+    double currentPose= 0 ;
 
     public LinearIntakeArmTeleOp() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -37,11 +39,16 @@ public class LinearIntakeArmTeleOp extends MMOpMode {
 
 
         leftTrigger.whileActiveOnce(
-                RobotCommands.IntakeCommand(()-> gamepad1.left_trigger)
+                new SequentialCommandGroup(
+                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.down),
+                new WaitCommand(500),
+                robotInstance.mmSystems.intakEndUnit.closeIntakeClaw()
+                )
         );
 
         leftTrigger.whenInactive(
-                RobotCommands.IntakeDoneCommand()
+                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.up)
+                //RobotCommands.IntakeDoneCommand()
         );
 
         rightTrigger.whileActiveOnce(
