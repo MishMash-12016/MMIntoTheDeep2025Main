@@ -10,14 +10,14 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
+import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 
 import java.util.function.DoubleSupplier;
 
 public class RobotCommands {
-    private static final  MMSystems mmSystems= MMRobot.getInstance().mmSystems;
-    private static final double linearIntakeClosed = 0;
+    private static final double linearIntakeClosed = 0.13;
     private static final int timeClawClose = 400;
     private static final int timeClawOpen = 100;
     public final static double elevatorDown = 0;
@@ -30,10 +30,10 @@ public class RobotCommands {
 
     public static Command IntakeCommand(DoubleSupplier intakeTrigger) {
         return new ParallelCommandGroup(
-                mmSystems.linearIntake.setPositionByJoystick(intakeTrigger),
-                mmSystems.intakeArm.setPosition(IntakeArm.down),
-                mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.intakePose),
-                mmSystems.intakEndUnit.openIntakeClaw());
+                MMRobot.getInstance().mmSystems.linearIntake.setPositionByJoystick(intakeTrigger),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.down),
+                MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.intakePose),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw());
 
 
     }
@@ -45,9 +45,9 @@ public class RobotCommands {
 
     public static Command prepareSpecimenIntake() {
         return new ParallelCommandGroup(
-                mmSystems.scoringClawEndUnit.openScoringClaw(),
-                mmSystems.elevator.moveToPose(Elevator.elevatorWallHeight),
-                mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen)
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorWallHeight),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen)
         );
     }
 
@@ -61,18 +61,20 @@ public class RobotCommands {
     */
     public static Command IntakeDoneCommand() {
         return new SequentialCommandGroup(
-                mmSystems.intakEndUnit.closeIntakeClaw(),
+                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(timeClawClose),
                 new ParallelCommandGroup(
                         //move the angle of claw to prepare to transfer
-                        mmSystems.intakeArm.setPosition(IntakeArm.up),
-                        mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
-                        mmSystems.linearIntake.setPosition(linearIntakeClosed),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.up),
+                        MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.transferPose),
 //                        mmSystems.elevator.moveToPose(elevatorDown),
-                        mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold),
-                        mmSystems.scoringClawEndUnit.openScoringClaw()
-                ), mmSystems.scoringClawEndUnit.closeScoringClaw()
-//                mmSystems.intakEndUnit.openIntakeClaw()
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold),
+                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                ),
+                new WaitCommand(1500),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
 
         );
 
@@ -80,11 +82,11 @@ public class RobotCommands {
 
     public static Command EjectSampleCommand() {
         return new SequentialCommandGroup(
-                mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen),
                 new WaitCommand(timeScoringArm),
-                mmSystems.scoringClawEndUnit.openScoringClaw(),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new WaitCommand(timeClawOpen),
-                mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold)
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold)
 
         );
     }
@@ -96,56 +98,56 @@ public class RobotCommands {
      */
     public static Command PrepareHighSample() {
         return new ParallelCommandGroup(
-                mmSystems.elevator.moveToPose(Elevator.HIGH_BASKET),
-                mmSystems.scoringArm.setPosition(ScoringArm.scoreSample));
+                //mmSystems.elevator.moveToPose(Elevator.HIGH_BASKET),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSample));
     }
 
     public static Command PrepareLowSample() {
         return new ParallelCommandGroup(
-                mmSystems.elevator.moveToPose(Elevator.LOW_BASKET),
-                mmSystems.scoringArm.setPosition(ScoringArm.scoreSample));
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.LOW_BASKET),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSample));
     }
 
     public static Command prepareSpecimenScore() {
         return new SequentialCommandGroup(
-                mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 new WaitCommand(timeClawClose),
                 new ParallelCommandGroup(
-                        mmSystems.elevator.moveToPose(Elevator.highChamber),
-                        mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen)
+                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.highChamber),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen)
                 )
         );
     }
 
     public static Command ScoreSpecimen() {
         return new SequentialCommandGroup(
-                mmSystems.elevator.moveToPose(Elevator.highChamberScorePose),
-                mmSystems.scoringClawEndUnit.openScoringClaw(),
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.highChamberScorePose),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new ParallelCommandGroup(
-                        mmSystems.scoringArm.setPosition(ScoringArm.scoreSample),
-                        mmSystems.elevator.moveToPose(Elevator.elevatorDown)
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSample),
+                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown)
 
                 ));
 }
 
 public static Command ScoreSample() {
     return new SequentialCommandGroup(
-            mmSystems.scoringClawEndUnit.openScoringClaw(),
+            MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
             new WaitCommand(timeClawOpen),
             new ParallelCommandGroup(
-                    mmSystems.elevator.moveToPose(Elevator.elevatorDown),
-                    mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold)
+                    //mmSystems.elevator.moveToPose(Elevator.elevatorDown),
+                    MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSample)
             ));
 }
 
 public static Command FoldSystems() {
     return new ParallelCommandGroup(
-            mmSystems.elevator.moveToPose(Elevator.elevatorDown),
-            mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold),
-            mmSystems.linearIntake.setPosition(linearIntakeClosed),
-            mmSystems.intakeArm.setPosition(IntakeArm.up),
-            mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
-            mmSystems.intakEndUnit.openIntakeClaw()
+            MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
+            MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold),
+            MMRobot.getInstance().mmSystems.linearIntake.setPosition(linearIntakeClosed),
+            MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.up),
+            MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
+            MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
     );
 }
 

@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.Trigger;
-import com.arcrobotics.ftclib.gamepad.ButtonReader;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,21 +10,22 @@ import org.firstinspires.ftc.teamcode.CommandGroup.RobotCommands;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
+import org.firstinspires.ftc.teamcode.SubSystems.LinearIntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
-public class LinearIntakeArmTeleOp extends MMOpMode {
-    MMRobot robotInstance = MMRobot.getInstance();
+public class IntakeTeleOp extends MMOpMode {
+    MMRobot robotInstance;
 
     double currentPose= 0 ;
 
-    public LinearIntakeArmTeleOp() {
+    public IntakeTeleOp() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
     @Override
     public void onInit() {
-
+        robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
 
         Trigger leftTrigger = new Trigger(
@@ -41,15 +40,20 @@ public class LinearIntakeArmTeleOp extends MMOpMode {
         leftTrigger.whileActiveOnce(
                 new SequentialCommandGroup(
                 robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.down),
-                new WaitCommand(500),
-                robotInstance.mmSystems.intakEndUnit.closeIntakeClaw()
-                )
-        );
+                robotInstance.mmSystems.intakEndUnit.openIntakeClaw()
+
+                //RobotCommands.IntakeCommand(()->gamepad1.left_trigger)
+        ));
 
         leftTrigger.whenInactive(
-                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.up)
+                new SequentialCommandGroup(
+                robotInstance.mmSystems.intakEndUnit.closeIntakeClaw(),
+                new WaitCommand(300),
+                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.up),
+                robotInstance.mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose)
+
                 //RobotCommands.IntakeDoneCommand()
-        );
+        ));
 
         rightTrigger.whileActiveOnce(
                 robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.down)

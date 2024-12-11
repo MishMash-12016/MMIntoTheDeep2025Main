@@ -16,6 +16,10 @@ public class LinearIntake extends SubsystemBase {
 
     private final CuttleServo servoLeft;
     private final CuttleServo servoRight;
+    public final double maxopening = 0.27;
+    public final double offset = 0.25;
+    public static final double transferPose = 0.21;
+
 
     public LinearIntake(){
         servoLeft = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LEFT_LINEAR_INTAKE);
@@ -24,16 +28,21 @@ public class LinearIntake extends SubsystemBase {
     }
 
     public Command setPosition(double newPos){
+
         return new InstantCommand(()-> {
-            servoLeft.setPosition(newPos);
-            servoRight.setPosition(1-newPos);} ,
+
+            double setPosevar = newPos * maxopening  + offset;
+            servoLeft.setPosition(setPosevar);
+            servoRight.setPosition(1-setPosevar);} ,
                 this);
     }
 
     public Command setPositionByJoystick(DoubleSupplier doubleSupplier){
         return new RunCommand(()-> {
-            servoLeft.setPosition(doubleSupplier.getAsDouble());
-            servoRight.setPosition(1 - doubleSupplier.getAsDouble());} ,
+            double targetPose = doubleSupplier.getAsDouble() * maxopening;
+            targetPose += offset;
+            servoLeft.setPosition(targetPose);
+            servoRight.setPosition(1 - targetPose);} ,
                 this);
     }
 

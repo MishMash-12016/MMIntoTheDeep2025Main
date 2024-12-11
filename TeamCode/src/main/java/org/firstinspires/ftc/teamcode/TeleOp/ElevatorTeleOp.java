@@ -24,14 +24,20 @@ public class ElevatorTeleOp extends MMOpMode {
         Trigger leftTriggerCondition = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
         );
-        leftTriggerCondition.whenActive(
-                MMRobot.getInstance().mmSystems.elevator.setPowerByJoystick(()-> -gamepad1.left_trigger));
-
         Trigger rightTriggerCondition = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05
         );
+        Trigger gotoCondition = new Trigger(
+                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.A)
+        );
+        leftTriggerCondition.whenActive(
+                MMRobot.getInstance().mmSystems.elevator.setPowerByJoystick(()-> -gamepad1.left_trigger));
         rightTriggerCondition.whenActive(
                 MMRobot.getInstance().mmSystems.elevator.setPowerByJoystick(()-> gamepad1.right_trigger));
+        gotoCondition.whileActiveOnce(
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(700)
+        );
+
     }
 
 
@@ -41,6 +47,7 @@ public class ElevatorTeleOp extends MMOpMode {
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
         FtcDashboard.getInstance().getTelemetry().addData("height", MMRobot.getInstance().mmSystems.elevator.getTicks());
         FtcDashboard.getInstance().getTelemetry().addData("right trigger", gamepad1.right_trigger);
+        FtcDashboard.getInstance().getTelemetry().addData("target pose:",MMRobot.getInstance().mmSystems.elevator.targetPose);
         FtcDashboard.getInstance().getTelemetry().update();
     }
 }

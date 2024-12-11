@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 @TeleOp
 public class LinearIntakeTeleOp extends MMOpMode {
     MMRobot robotInstance = MMRobot.getInstance();
-    private final double maxOpening = 0.27;
+    private final double maxOpening = 1;
     Trigger leftTriggerCondition;
 
     public LinearIntakeTeleOp(){
@@ -24,11 +24,16 @@ public class LinearIntakeTeleOp extends MMOpMode {
 
         robotInstance.mmSystems.initRobotSystems();
         leftTriggerCondition = new Trigger(
-                () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
+                () -> robotInstance.mmSystems.gamepadEx2.getRightY() > 0.05
+        );
+        Trigger rightCondition= new Trigger(
+                ()->  robotInstance.mmSystems.gamepadEx2.getButton(GamepadKeys.Button.A)
         );
         leftTriggerCondition.whileActiveOnce(
-                robotInstance.mmSystems.linearIntake.setPositionByJoystick(()-> gamepad1.left_trigger*maxOpening));
-
+                robotInstance.mmSystems.linearIntake.setPositionByJoystick(()-> gamepad2.right_stick_y));
+        rightCondition.whenActive(
+                robotInstance.mmSystems.linearIntake.setPosition(0)
+        );
 
 
     }

@@ -28,9 +28,11 @@ public class Elevator extends MMPIDSubsystem {
     private final double SPROCKET_PERIMETER = 12.9;
 
     //PID:
-    public static final double kP = 0.16;
+    public static final double kP = 0.0025;
     public static final double kI = 0;
     public static final double kD = 0;
+    public static final double kG = 0.11;
+
     public static final double TOLERANCE = 2;
 
     double ticksOffset = 0;
@@ -42,7 +44,7 @@ public class Elevator extends MMPIDSubsystem {
     public final static double highChamber = 4;
     public final static double highChamberScorePose = 4;
 
-    public static double targetPose = 0;
+    public double targetPose = 0;
 
     public Elevator() {
         super(kP, kI, kD, TOLERANCE);
@@ -105,7 +107,7 @@ public class Elevator extends MMPIDSubsystem {
 
     @Override
     public double getFeedForwardPower() {
-        return 0.0 * Math.signum(targetPose - getHeight());
+        return kG * Math.signum(targetPose - getHeight());
     }
 
     @Override
