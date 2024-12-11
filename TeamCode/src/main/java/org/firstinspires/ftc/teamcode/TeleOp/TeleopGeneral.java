@@ -22,7 +22,7 @@ public class TeleopGeneral extends MMOpMode {
     /**
      * Initializes the robot systems and sets up button triggers for specific actions.
      */
-    public static boolean specimantoggled = true;
+    //public static boolean specimantoggled = true;
     public static boolean scoringtype = true;
 
     @Override

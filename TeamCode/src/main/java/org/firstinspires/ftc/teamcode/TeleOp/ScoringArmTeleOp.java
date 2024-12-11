@@ -26,7 +26,7 @@ public class ScoringArmTeleOp extends MMOpMode {
         );
 
         rightTriggerCondition.whenActive(
-                robotInstance.mmSystems.scoringArm.setPosition(1));
+                robotInstance.mmSystems.scoringArm.setPosition(0.5));
         rightTriggerCondition.whenInactive(
                 robotInstance.mmSystems.scoringArm.setPosition(0));
     }

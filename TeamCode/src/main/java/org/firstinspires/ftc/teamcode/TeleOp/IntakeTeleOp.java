@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 public class IntakeTeleOp extends MMOpMode {
     MMRobot robotInstance;
 
-    double currentPose= 0 ;
+    double currentPose = 0 ;
 
     public IntakeTeleOp() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -35,7 +35,6 @@ public class IntakeTeleOp extends MMOpMode {
         Trigger rightTrigger = new Trigger(
                 () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05
         );
-
 
         leftTrigger.whileActiveOnce(
                 new SequentialCommandGroup(

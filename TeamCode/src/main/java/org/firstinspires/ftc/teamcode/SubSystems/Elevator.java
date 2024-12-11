@@ -28,18 +28,18 @@ public class Elevator extends MMPIDSubsystem {
     private final double SPROCKET_PERIMETER = 12.9;
 
     //PID:
-    public static final double kP = 0.0025;
+    public static final double kP = 0.04;
     public static final double kI = 0;
     public static final double kD = 0;
-    public static final double kG = 0.11;
+    public static final double kG = 0.2;
 
-    public static final double TOLERANCE = 2;
+    public static final double TOLERANCE = 0.5;
 
     double ticksOffset = 0;
 
-    public final static double LOW_BASKET = 40;
-    public final static double HIGH_BASKET = 70;
-    public final static double elevatorDown = 0;
+    public final static double LOW_BASKET = 80;
+    public final static double HIGH_BASKET = 140;
+    public final static double elevatorDown = 0.001;
     public final static double elevatorWallHeight = 3;
     public final static double highChamber = 4;
     public final static double highChamberScorePose = 4;
@@ -97,7 +97,7 @@ public class Elevator extends MMPIDSubsystem {
         //getTicks-> current ticks value(current position of the encoder)
         //SPROCKET_PERIMETER -> gear diameter
         //LEVELS -> how many elevator levels there is
-        return -1 * ((getTicks() / TICKS_PER_REV) * SPROCKET_PERIMETER * LEVELS / GEAR_RATIO);
+        return 1 * ((getTicks() / TICKS_PER_REV) * SPROCKET_PERIMETER * LEVELS / GEAR_RATIO);
     }
 
     @Override

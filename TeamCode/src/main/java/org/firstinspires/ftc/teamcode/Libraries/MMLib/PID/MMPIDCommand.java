@@ -28,6 +28,7 @@ public class MMPIDCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
+//        return false;
         return pidController.atSetPoint();
     }
 

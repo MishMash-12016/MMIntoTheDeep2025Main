@@ -50,8 +50,8 @@ public class DriveTrain extends SubsystemBase {
         motorBR = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_BACK_RIGHT);
 
         //TODO: reverse motors as needed
-        motorBL.setDirection(Direction.REVERSE);
-        motorFL.setDirection(Direction.REVERSE);
+        motorBR.setDirection(Direction.REVERSE);
+        motorFR.setDirection(Direction.REVERSE);
 
     }
 

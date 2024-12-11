@@ -5,11 +5,9 @@ import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.CommandGroup.RobotCommands;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
@@ -30,7 +28,7 @@ public class ScoringTeleOp extends MMOpMode {
 
         );
         rightTriggerCondition.whenInactive(
-                robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.scoreSample).andThen(
+                robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleHigh).andThen(
                         new WaitCommand(500).andThen(
                                 robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw()
                         ))
