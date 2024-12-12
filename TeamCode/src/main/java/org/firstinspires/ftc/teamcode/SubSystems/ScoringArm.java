@@ -12,9 +12,11 @@ public class ScoringArm extends SubsystemBase {
     private final CuttleServo servoLeft;
     private final CuttleServo servoRight;
 
-    public final static double up = 0.9;
+    public final static double up = 0.55;
+    public final static double hold = 0.0;
+
+
     public final static double  scoreSpecimen= 0.9;
-    public final static double scoringArmHold= 0.1;
     public final static double scoreSampleHigh = 0.5;
     public final static double scoreSampleLow = 0.6;
 

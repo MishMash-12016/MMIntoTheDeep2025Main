@@ -65,10 +65,10 @@ public class RobotCommands {
                 new ParallelCommandGroup(
                         //move the angle of claw to prepare to transfer
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.up),
-                        MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
+                        MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(0.3), //TODO: here change to desired amount
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.transferPose),
                         MMRobot.getInstance().mmSystems.elevator.moveToPose(elevatorDown),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.hold),
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                 ),
                 new WaitCommand(1000),
@@ -86,7 +86,7 @@ public class RobotCommands {
                 new WaitCommand(timeScoringArm),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new WaitCommand(timeClawOpen),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold)
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.hold)
 
         );
     }
@@ -136,14 +136,14 @@ public static Command ScoreSample() {
             new WaitCommand(timeClawOpen),
             new ParallelCommandGroup(
                     MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
-                    MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold)
+                    MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.hold)
             ));
 }
 
 public static Command FoldSystems() {
     return new ParallelCommandGroup(
             MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
-            MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmHold),
+            MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.hold),
             MMRobot.getInstance().mmSystems.linearIntake.setPosition(linearIntakeClosed),
             MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.up),
             MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
