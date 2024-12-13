@@ -14,8 +14,8 @@ import java.util.function.DoubleSupplier;
 public class LinearIntakeEndUnitRotator extends SubsystemBase {
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
-    public static final double intakePose= 30;
-    public static final double holdpose= 20;
+    public static final double intakePose= 0;
+    public static final double holdpose= 0;
 
     private final CuttleServo servo;
 

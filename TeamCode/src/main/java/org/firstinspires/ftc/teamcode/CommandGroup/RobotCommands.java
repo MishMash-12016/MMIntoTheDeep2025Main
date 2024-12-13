@@ -65,7 +65,7 @@ public class RobotCommands {
                 new ParallelCommandGroup(
                         //move the angle of claw to prepare to transfer
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.up),
-                        MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(0.3), //TODO: here change to desired amount
+                        MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose), //TODO: here change to desired amount
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.transferPose),
                         MMRobot.getInstance().mmSystems.elevator.moveToPose(elevatorDown),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.hold),
