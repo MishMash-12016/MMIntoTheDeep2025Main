@@ -6,11 +6,14 @@ import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.Robot;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.RobotCommands;
+import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
@@ -35,14 +38,15 @@ public class FollowPath extends MMOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, currentPose);
 
 
-        TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose).strafeToConstantHeading(new Vector2d(15,58));
+        TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose).strafeToConstantHeading(new Vector2d(13,58));
         TrajectoryActionBuilder driveToPickUpSecondSample = driveToScorePreloadSample.endTrajectory().fresh().lineToX(8);
-        TrajectoryActionBuilder driveToPickUpSecondSample1 = driveToScorePreloadSample.endTrajectory().fresh().lineToY(10);
+        TrajectoryActionBuilder driveToPickUpSecondSample1 = driveToPickUpSecondSample.endTrajectory().fresh().lineToY(10);
         TrajectoryActionBuilder DriveToScoreSecondsample = driveToPickUpSecondSample1.endTrajectory().fresh().lineToX(10);
         TrajectoryActionBuilder drivetoPickUpthirdsample = DriveToScoreSecondsample.endTrajectory().fresh().lineToX(10);
 
         new SequentialCommandGroup(
 
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 //drive to score first pre load sample
                 new ActionCommand(driveToScorePreloadSample.build(), Collections.emptySet()),
                 RobotCommands.PrepareLowSample(),

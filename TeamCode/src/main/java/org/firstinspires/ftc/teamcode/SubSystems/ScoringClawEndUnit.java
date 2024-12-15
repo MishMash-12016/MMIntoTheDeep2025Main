@@ -11,8 +11,9 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 public class ScoringClawEndUnit extends SubsystemBase {
     CuttleServo clawScoringServo;
 
-    public static double open = 1;
+    public static double open = 0.3;
     public static double close = 0;
+
 
     public ScoringClawEndUnit() {
         clawScoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.SCORING_CLAW_SERVO);

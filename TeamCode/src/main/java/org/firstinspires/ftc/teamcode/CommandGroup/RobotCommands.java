@@ -65,7 +65,7 @@ public class RobotCommands {
                 new ParallelCommandGroup(
                         //move the angle of claw to prepare to transfer
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.up),
-                        MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(0.3), //TODO: here change to desired amount
+                        MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose), //TODO: here change to desired amount
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.transferPose),
                         MMRobot.getInstance().mmSystems.elevator.moveToPose(elevatorDown),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.hold),
@@ -98,14 +98,17 @@ public class RobotCommands {
      */
     public static Command PrepareHighSample() {
         return new ParallelCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.HIGH_BASKET),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleHigh));
     }
 
     public static Command PrepareLowSample() {
         return new ParallelCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.LOW_BASKET),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleLow));
+
     }
 
     public static Command prepareSpecimenScore() {
