@@ -98,6 +98,7 @@ public class RobotCommands {
      */
     public static Command PrepareHighSample() {
         return new ParallelCommandGroup(
+                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.HIGH_BASKET),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleHigh));
     }
