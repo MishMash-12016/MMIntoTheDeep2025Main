@@ -21,6 +21,7 @@ public class Elevator extends MMPIDSubsystem {
     private final CuttleMotor motor3;
     private final CuttleEncoder motorEncoder;
 
+
     //constants:
     private final double TICKS_PER_REV = 537.7;
     private final double GEAR_RATIO = 1;
