@@ -107,7 +107,9 @@ public class RobotCommands {
         return new ParallelCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.LOW_BASKET),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleLow));
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleLow),
+                new WaitCommand(300)
+        );
 
     }
 
