@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RoadRunner;
+package org.firstinspires.ftc.teamcode.Libraries.RoadRunner;
 
 import androidx.annotation.NonNull;
 
@@ -83,7 +83,7 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 4.0;
+        public double axialGain = 5.0;
         public double lateralGain = 4.0;
         public double headingGain = 2.0; // shared with turn
 
