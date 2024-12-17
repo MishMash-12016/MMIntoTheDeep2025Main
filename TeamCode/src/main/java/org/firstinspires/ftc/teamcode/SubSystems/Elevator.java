@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.roboctopi.cuttlefish.utils.Direction;
 
@@ -21,6 +22,7 @@ public class Elevator extends MMPIDSubsystem {
     private final CuttleMotor motor3;
     private final CuttleEncoder motorEncoder;
 
+
     //constants:
     private final double TICKS_PER_REV = 537.7;
     private final double GEAR_RATIO = 1;
@@ -28,18 +30,18 @@ public class Elevator extends MMPIDSubsystem {
     private final double SPROCKET_PERIMETER = 12.9;
 
     //PID:
-    public static final double kP = 0.04;
+    public static final double kP = 0.05;
     public static final double kI = 0;
     public static final double kD = 0;
-    public static final double kG = 0.2;
+    public static final double kG = 0.3;
 
-    public static final double TOLERANCE = 0.5;
+public static final double TOLERANCE = 1;
 
     double ticksOffset = 0;
 
     public final static double LOW_BASKET = 80;
     public final static double HIGH_BASKET = 140;
-    public final static double elevatorDown = 0.001;
+    public final static double elevatorDown = 0.1;
     public final static double elevatorWallHeight = 3;
     public final static double highChamber = 4;
     public final static double highChamberScorePose = 4;
@@ -63,8 +65,8 @@ public class Elevator extends MMPIDSubsystem {
     }
 
     public Command moveToPose(double setPoint) {
-        targetPose = setPoint;
-        return new MMPIDCommand(this, setPoint);
+        return new MMPIDCommand(this, setPoint)
+                .alongWith(new InstantCommand(()->targetPose = setPoint));
     }
 
     public Command setPowerByJoystick(DoubleSupplier power) {

@@ -64,10 +64,7 @@ public class ElevatorTeleOp extends MMOpMode {
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
         FtcDashboard.getInstance().getTelemetry().addData("height", MMRobot.getInstance().mmSystems.elevator.getHeight());
         FtcDashboard.getInstance().getTelemetry().addData("right trigger", gamepad1.right_trigger);
-        FtcDashboard.getInstance(
-
-
-        ).getTelemetry().addData("target pose:", MMRobot.getInstance().mmSystems.elevator.targetPose);
+        FtcDashboard.getInstance().getTelemetry().addData("target pose:", MMRobot.getInstance().mmSystems.elevator.targetPose);
         FtcDashboard.getInstance().getTelemetry().update();
     }
 }

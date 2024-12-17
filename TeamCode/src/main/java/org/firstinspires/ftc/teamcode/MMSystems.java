@@ -55,15 +55,8 @@ public class MMSystems {
 
     //creating and initiating all subsystems
     public void initRobotSystems() {
-        driveTrain = new DriveTrain();
-        driveTrain.setDefaultCommand(
-                MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
-                        () -> gamepadEx1.getLeftX(),
-                        () -> gamepadEx1.getLeftY(),
-                        () -> gamepadEx1.getRightX())
-        );
 
-        elevator = new Elevator();
+            elevator = new Elevator();
         linearIntake = new LinearIntake();
 
         this.intakEndUnit = new IntakEndUnit();
@@ -72,6 +65,17 @@ public class MMSystems {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         linearIntakeEndUnitRotator = new LinearIntakeEndUnitRotator();
 
+    }
+
+    public void initDriveTrain() {
+        driveTrain = new DriveTrain();
+        driveTrain.setDefaultCommand(
+                MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
+                        () -> gamepadEx1.getLeftX(),
+                        () -> gamepadEx1.getLeftY(),
+                        () -> gamepadEx1.getRightX())
+
+        );
     }
 
 

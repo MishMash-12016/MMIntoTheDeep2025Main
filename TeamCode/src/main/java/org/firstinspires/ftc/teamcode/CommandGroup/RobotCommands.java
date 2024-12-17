@@ -104,15 +104,19 @@ public class RobotCommands {
      */
     public static Command PrepareHighSample() {
         return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.HIGH_BASKET),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleHigh));
     }
 
     public static Command PrepareLowSample() {
         return new ParallelCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.LOW_BASKET),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleLow));
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleLow),
+                new WaitCommand(300)
+        );
+
     }
 
     public static Command prepareSpecimenScore() {
