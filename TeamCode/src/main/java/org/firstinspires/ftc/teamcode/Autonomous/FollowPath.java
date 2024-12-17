@@ -43,7 +43,7 @@ public class FollowPath extends MMOpMode {
 
         // x4 y 13 heading2
 
-        TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose).splineTo(new Vector2d(7, 50) , Math.toRadians(310));
+        TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose).splineTo(new Vector2d(7, 49) , Math.toRadians(310));
 //        TrajectoryActionBuilder driveToScorePreloadSample1 =driveToScorePreloadSample.endTrajectory();
         TrajectoryActionBuilder driveToPickUpSecondSample = driveToScorePreloadSample.endTrajectory().fresh().splineToConstantHeading(new Vector2d(25 , 23) , Math.toRadians(50));
         TrajectoryActionBuilder driveToPickUpSecondSample1 = driveToPickUpSecondSample.endTrajectory().fresh().lineToY(11) ;
@@ -52,13 +52,12 @@ public class FollowPath extends MMOpMode {
 
         new SequentialCommandGroup(
 
-//                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
-//                MMRobot.getInstance().mmSystems.scoringArm.setPosition(0.3),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 //drive to score first pre load sample
-                new ActionCommand(driveToScorePreloadSample.build(), Collections.emptySet())
-//                RobotCommands.PrepareHighSample(),
-//                new WaitCommand(500),
-//                RobotCommands.ScoreSample(),
+                new ActionCommand(driveToScorePreloadSample.build(), Collections.emptySet()),
+                RobotCommands.PrepareHighSample(),
+                new WaitCommand(500),
+                RobotCommands.ScoreSample()
                 //driving to pick up second sample + pick up sample commands
 //                new ActionCommand(driveToPickUpSecondSample.build(), Collections.emptySet()),
 //                new ActionCommand(driveToPickUpSecondSample1.build() , Collections.emptySet())
