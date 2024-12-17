@@ -25,13 +25,15 @@ public class LinearIntakeEndUnitRotatorTeleOp extends MMOpMode {
                 () -> robotInstance.mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
         );
         leftTriggerCondition.whileActiveOnce(
-                robotInstance.mmSystems.linearIntake.setPositionByJoystick(()-> gamepad2.left_trigger));
+                robotInstance.mmSystems.linearIntakeEndUnitRotator.setPosition(0));
+        leftTriggerCondition.whenInactive(
+                robotInstance.mmSystems.linearIntakeEndUnitRotator.setPosition(1));
     }
 
     @Override
     public void run() {
         super.run();
-        telemetry.addData("Joystick Position: ", robotInstance.mmSystems.linearIntake.getPosition());
+        //telemetry.addData("Joystick Position: ", robotInstance.mmSystems.linearIntake.getPosition());
         telemetry.update();
     }
 

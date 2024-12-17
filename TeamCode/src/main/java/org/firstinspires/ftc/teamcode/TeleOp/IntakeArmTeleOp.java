@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -32,9 +34,8 @@ public class IntakeArmTeleOp extends MMOpMode {
 
 
         leftTrigger.whenActive(
-                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.up).andThen(
-                robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.hold)
-                ));
+                        robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.up)
+                );
 
 
 //                new SequentialCommandGroup(
@@ -45,9 +46,10 @@ public class IntakeArmTeleOp extends MMOpMode {
 
         rightTrigger.whenActive(
                 robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.down)
+
                 //robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.up)
                 //RobotCommands.IntakeDoneCommand()
-        );
+                );
 
     }
     @Override
