@@ -24,6 +24,7 @@ public class CycleTeleOP extends MMOpMode {
     public void onInit() {
 
         MMRobot.getInstance().mmSystems.initRobotSystems();
+        MMRobot.getInstance().mmSystems.initDriveTrain();
         Trigger leftTrigger = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)>0.05
         );
@@ -36,11 +37,17 @@ public class CycleTeleOP extends MMOpMode {
         Trigger scoreCondition = new Trigger(
                 ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.DPAD_LEFT)
         );
+        Trigger resetDrive= new Trigger(
+                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.DPAD_UP)
+        );
         rightTrigger.whileActiveOnce(
                 RobotCommands.IntakeCommand(()->gamepad1.right_trigger)
         );
         closeClawCondition.whenActive(
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
+        );
+        resetDrive.whenActive(()->
+                MMRobot.getInstance().mmSystems.imu.resetYaw()
         );
         rightTrigger.whenInactive(
                 RobotCommands.IntakeDoneCommand()

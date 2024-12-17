@@ -15,15 +15,13 @@ public class LinearIntakeEndUnitRotator extends SubsystemBase {
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
     public static final double intakePose= 1;
-    public static final double holdpose= 0.5;
+    public static final double holdpose= 1;
 
     private final CuttleServo servo;
 
 
     public LinearIntakeEndUnitRotator(){
         servo = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.END_UNIT_ROTATOR);
-
-        servo.setPosition(0);
     }
 
     public Command setPosition(double newPos){

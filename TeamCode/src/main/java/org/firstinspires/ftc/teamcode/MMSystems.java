@@ -72,7 +72,7 @@ public class MMSystems {
         driveTrain.setDefaultCommand(
                 MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
                         () -> gamepadEx1.getLeftX(),
-                        () -> gamepadEx1.getLeftY(),
+                        () -> -gamepadEx1.getLeftY(),
                         () -> gamepadEx1.getRightX())
 
         );

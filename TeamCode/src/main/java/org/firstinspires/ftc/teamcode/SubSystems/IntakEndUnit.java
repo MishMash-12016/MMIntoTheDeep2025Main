@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 public class IntakEndUnit extends SubsystemBase {
 
     CuttleServo clawIntakeServo;
-    public final double open = 0.6;
+    public final double open = 0.5;
     public final double close = 0;
 
     // claw close or open
