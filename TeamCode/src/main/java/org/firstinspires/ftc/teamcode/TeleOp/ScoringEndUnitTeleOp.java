@@ -24,11 +24,11 @@ public class ScoringEndUnitTeleOp extends MMOpMode {
 
         robotInstance.mmSystems.initRobotSystems();
         Trigger buttonTrigger = new Trigger(
-                () -> robotInstance.mmSystems.gamepadEx2.getButton(GamepadKeys.Button.A)
+                () -> robotInstance.mmSystems.gamepadEx1.getButton(GamepadKeys.Button.DPAD_UP)
         );
 
         Trigger buttonTrigger1 = new Trigger(
-                () -> robotInstance.mmSystems.gamepadEx2.getButton(GamepadKeys.Button.B)
+                () -> robotInstance.mmSystems.gamepadEx1.getButton(GamepadKeys.Button.DPAD_DOWN)
         );
 
         buttonTrigger.whileActiveOnce(

@@ -53,7 +53,7 @@ public class CycleTeleOP extends MMOpMode {
                 RobotCommands.IntakeDoneCommand()
         );
         leftTrigger.whenActive(
-                RobotCommands.PrepareLowSample()
+                RobotCommands.PrepareHighSample()
         );
         scoreCondition.whenActive(
                 RobotCommands.ScoreSample()

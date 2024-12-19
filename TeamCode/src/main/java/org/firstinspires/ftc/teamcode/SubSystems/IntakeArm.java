@@ -15,8 +15,8 @@ public class IntakeArm extends SubsystemBase {
     CuttleServo servoLeft;
     CuttleServo servoRight;
 
-    public final static double up = 0.7;
-    public final static double down = 0.03;
+    public final static double up = 0.67;
+    public final static double down = 0.032;
     public final static double midpose = 0.67;
 
     public IntakeArm() {

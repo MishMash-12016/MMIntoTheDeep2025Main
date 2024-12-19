@@ -40,7 +40,7 @@ public class Autoclose extends MMOpMode {
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();
 
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose).strafeToLinearHeading(new Vector2d(9, 52) , toRadians(-60));
-        TrajectoryActionBuilder driveToPickUpSecondSample = driveToScorePreloadSample.endTrajectory().fresh().splineToConstantHeading(new Vector2d(25 , 23) , Math.toRadians(50));
+        TrajectoryActionBuilder driveToPickUpSecondSample = driveToScorePreloadSample.endTrajectory().fresh().splineToSplineHeading(new Pose2d(9.45 , 41.74, 0) , Math.toRadians(0));
         TrajectoryActionBuilder driveToPickUpSecondSample1 = driveToPickUpSecondSample.endTrajectory().fresh().lineToY(11) ;
         TrajectoryActionBuilder DriveToScoreSecondsample = driveToPickUpSecondSample1.endTrajectory().fresh().lineToX(10);
         TrajectoryActionBuilder drivetoPickUpthirdsample = DriveToScoreSecondsample.endTrajectory().fresh().lineToX(10);
@@ -51,15 +51,15 @@ public class Autoclose extends MMOpMode {
 
                 //drive to score first pre load sample
                 new ActionCommand(driveToScorePreloadSample.build(), Collections.emptySet()),
-                RobotCommands.PrepareHighSample(),
+//                RobotCommands.PrepareHighSample(),
                 new WaitCommand(300),
-                RobotCommands.ScoreSample()
+//                RobotCommands.ScoreSample()
                 //driving to pick up second sample + pick up sample commands
-//                new ActionCommand(driveToPickUpSecondSample.build(), Collections.emptySet()),
+                new ActionCommand(driveToPickUpSecondSample.build(), Collections.emptySet()),
 //                new ActionCommand(driveToPickUpSecondSample1.build() , Collections.emptySet())
-//                RobotCommands.IntakeCommand(()-> 10),
-//                new WaitCommand(500),
-//                RobotCommands.IntakeDoneCommand(),
+                RobotCommands.IntakeCommand(()-> 10),
+                new WaitCommand(500),
+               RobotCommands.IntakeDoneCommand()
                 // driving to score second sample + elevator commands
 //                new ActionCommand(DriveToScoreSecondsample.build() , Collections.emptySet()),
 //                RobotCommands.PrepareHighSample(),

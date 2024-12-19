@@ -18,8 +18,8 @@ public class ScoringArm extends SubsystemBase {
     public final static double midpose = 0.23;
 
 
-    public final static double  scoreSpecimen= 0.9;
-    public final static double scoreSampleHigh = 0.6;
+    public final static double  scoreSpecimen= 0.8;
+    public final static double scoreSampleHigh = 0.67;
     public final static double scoreSampleLow = 0.6;
 
     public ScoringArm() {

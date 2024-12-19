@@ -66,14 +66,16 @@ public class RobotCommands {
                 new SequentialCommandGroup(
                         //move the angle of claw to prepare to transfer
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.up),
-                        new WaitCommand(200),
+                        new WaitCommand(300),
                         MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose), //TODO: here change to desired amount
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.transferPose),
                         MMRobot.getInstance().mmSystems.elevator.moveToPose(elevatorDown),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferhold),
+                        new WaitCommand(200),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferhold),
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                 ),
-                new WaitCommand(1000),
+                new WaitCommand(700),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
@@ -105,6 +107,7 @@ public class RobotCommands {
     public static Command PrepareHighSample() {
         return new ParallelCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.HIGH_BASKET),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleHigh));
     }
@@ -112,6 +115,7 @@ public class RobotCommands {
     public static Command PrepareLowSample() {
         return new ParallelCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.LOW_BASKET),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleLow),
                 new WaitCommand(300)
