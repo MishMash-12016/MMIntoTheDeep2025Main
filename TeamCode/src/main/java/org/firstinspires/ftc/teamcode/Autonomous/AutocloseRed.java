@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 
-import static java.lang.Math.toRadians;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
@@ -20,12 +18,12 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 import java.util.Collections;
 
 @Autonomous
-public class Autoclose extends MMOpMode {
+public class AutocloseRed extends MMOpMode {
 
     MMRobot robotInstance;
 
 
-    public Autoclose() {
+    public AutocloseRed() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
@@ -35,31 +33,31 @@ public class Autoclose extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
 
-        Pose2d currentPose= new Pose2d(0,0,0);
+        Pose2d currentPose= (new Pose2d(-15.18, -63.52, Math.toRadians(90.00)));
         MecanumDrive drive = new MecanumDrive(hardwareMap, currentPose);
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();
 
-        TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose).strafeToLinearHeading(new Vector2d(9, 52) , Math.toRadians(-60));
-        TrajectoryActionBuilder driveToPickUpSecondSample = driveToScorePreloadSample.endTrajectory().fresh().splineToConstantHeading(new Vector2d(20 ,50 ) , Math.toRadians(120    ));
-        TrajectoryActionBuilder driveToPickUpSecondSample1 = driveToPickUpSecondSample.endTrajectory().fresh().lineToY(11) ;
-        TrajectoryActionBuilder DriveToScoreSecondsample = driveToPickUpSecondSample1.endTrajectory().fresh().lineToX(10);
-        TrajectoryActionBuilder drivetoPickUpthirdsample = DriveToScoreSecondsample.endTrajectory().fresh().lineToX(10);
-
+        TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose).splineToLinearHeading(new Pose2d(-57.50, -58.00, Math.toRadians(50.00)), Math.toRadians(191.51));
+        TrajectoryActionBuilder driveToPickUpSecondSample = driveToScorePreloadSample.endTrajectory().fresh().splineToLinearHeading(new Pose2d(-48.74, -37.62, Math.toRadians(90.00)), Math.toRadians(78.16));
+        TrajectoryActionBuilder driveToPickUpSecondSample1 = driveToPickUpSecondSample.endTrajectory().fresh().setTangent(Math.toRadians(240));
+        TrajectoryActionBuilder DriveToScoreSecondsample = driveToPickUpSecondSample1.endTrajectory().fresh().splineToSplineHeading(new Pose2d(-54.00, -55.21, Math.toRadians(50.00)), Math.toRadians(78.60));
+        TrajectoryActionBuilder drivetoPickUpthirdsample = DriveToScoreSecondsample.endTrajectory().fresh();
         new SequentialCommandGroup(
 
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
 
                 //drive to score first pre load sample
                 new ActionCommand(driveToScorePreloadSample.build(), Collections.emptySet()),
-//                RobotCommands.PrepareHighSample(),
-//                new WaitCommand(300),
-//                RobotCommands.ScoreSample()
+                RobotCommands.PrepareHighSample(),
+                new WaitCommand(300),
+                RobotCommands.ScoreSample(),
                 //driving to pick up second sample + pick up sample commands
                 new ActionCommand(driveToPickUpSecondSample.build(), Collections.emptySet()),
                 RobotCommands.IntakeCommand(()-> 3),
                 new WaitCommand(300),
-                RobotCommands.IntakeDoneCommand()
+                RobotCommands.IntakeDoneCommand(),
+                new ActionCommand(driveToPickUpSecondSample1.build(), Collections.emptySet())
                 // driving to score second sample + elevator commands
 //                new ActionCommand(DriveToScoreSecondsample.build() , Collections.emptySet()),
 //                RobotCommands.PrepareHighSample(),

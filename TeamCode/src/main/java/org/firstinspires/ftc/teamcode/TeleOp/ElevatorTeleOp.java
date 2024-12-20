@@ -23,38 +23,25 @@ public class ElevatorTeleOp extends MMOpMode {
     public void onInit() {
 
         MMRobot.getInstance().mmSystems.initRobotSystems();
-//        Trigger leftTriggerCondition = new Trigger(
-//                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
-//        );
-//        Trigger rightTriggerCondition = new Trigger(
-//                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05
-//        );
-//        Trigger setPowerCondition = new Trigger(
-//                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.A)
-//        );
+        Trigger leftTriggerCondition = new Trigger(
+                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.03
+        );
+        Trigger rightTriggerCondition = new Trigger(
+                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.03
+        );
+
         Trigger gotoPoseCondition = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.B)
         );
-//        Trigger gotoPoseCondition2 = new Trigger(
-//                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.X)
-//        );
-//        leftTriggerCondition.whenActive(
-//                MMRobot.getInstance().mmSystems.elevator.setPowerByJoystick(() -> -gamepad1.left_trigger));
-//        rightTriggerCondition.whenActive(
-//                MMRobot.getInstance().mmSystems.elevator.setPowerByJoystick(() -> gamepad1.right_trigger));
-        gotoPoseCondition.whileActiveOnce(
-                RobotCommands.PrepareLowSample()
-//                MMRobot.getInstance().mmSystems.elevator.moveToPose(80).alongWith(
-//                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleLow))
 
+        leftTriggerCondition.whenActive(
+                MMRobot.getInstance().mmSystems.elevator.setPowerByJoystick(() -> -gamepad1.left_trigger));
+        rightTriggerCondition.whenActive(
+                MMRobot.getInstance().mmSystems.elevator.setPowerByJoystick(() -> gamepad1.right_trigger));
+        gotoPoseCondition.whileActiveOnce(
+                RobotCommands.PrepareHighSample()
         );
-//        setPowerCondition.whileActiveOnce(
-//                new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.2))
-//        );
-//        gotoPoseCondition2.whileActiveOnce(
-//                MMRobot.getInstance().mmSystems.elevator.moveToPose(140).alongWith(
-//                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleHigh)
-//                )        );
+
     }
 
 
