@@ -26,7 +26,6 @@ public class IntakeClawTeleop extends MMOpMode {
         );
                rightTriggerCondition.whileActiveOnce(
                    robotInstance.mmSystems.intakEndUnit.closeIntakeClaw());
-                //robotInstance.mmSystems.intakEndUnit.closeIntakeClaw());
 
         Trigger leftTriggerCondition = new Trigger(
                 () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
