@@ -39,19 +39,20 @@ public class IntakeTeleOp extends MMOpMode {
         leftTrigger.whileActiveOnce(
                 new SequentialCommandGroup(
                 robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.down),
-                robotInstance.mmSystems.intakEndUnit.openIntakeClaw()
+                robotInstance.mmSystems.intakEndUnit.openIntakeClaw(),
+                robotInstance.mmSystems.scoringArm.setPosition(0.3),
 
-                //RobotCommands.IntakeCommand(()->gamepad1.left_trigger)
+                RobotCommands.IntakeCommand(()->gamepad1.left_trigger)
         ));
 
         leftTrigger.whenInactive(
                 new SequentialCommandGroup(
                 robotInstance.mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(300),
-                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.up),
-                robotInstance.mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose)
+                robotInstance.mmSystems.linearIntake.setPosition(IntakeArm.up),
+                robotInstance.mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
 
-                //RobotCommands.IntakeDoneCommand()
+                RobotCommands.IntakeDoneCommand()
         ));
 
         rightTrigger.whileActiveOnce(
