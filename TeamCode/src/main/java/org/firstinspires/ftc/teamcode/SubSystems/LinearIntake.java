@@ -16,7 +16,7 @@ public class LinearIntake extends SubsystemBase {
 
     private final CuttleServo servoLeft;
     private final CuttleServo servoRight;
-    public final double maxopening = 0.27;
+    public final double maxopening = 0.67;
     public final double offset = 0.25;
     public static final double transferPose = 0;
     public static final double closedPose = 0.0;

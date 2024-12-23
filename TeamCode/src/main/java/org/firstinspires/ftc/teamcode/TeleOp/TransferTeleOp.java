@@ -39,7 +39,7 @@ public class TransferTeleOp extends MMOpMode {
                         robotInstance.mmSystems.intakEndUnit.closeIntakeClaw());
         rightTriggerCondition.whenInactive(
                 new SequentialCommandGroup(
-                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.transferhold),
+                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
                         robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
                         new WaitCommand(200),
                         robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.transferPose),
