@@ -31,11 +31,9 @@ public class RobotCommands {
         return new ParallelCommandGroup(
                 MMRobot.getInstance().mmSystems.linearIntake.setPositionByJoystick(intakeTrigger),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.intakepose),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.beforeCatching),
                 MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.intakePose),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw());
-
-
     }
     /* specimen intake
     open claw
@@ -61,10 +59,12 @@ public class RobotCommands {
     */
     public static Command IntakeDoneCommand() {
         return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.intakePose),
+                new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(timeClawClose),
                 //move the angle of claw to prepare to transfer
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.transferpose),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.transferPose),
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.transferPose),
