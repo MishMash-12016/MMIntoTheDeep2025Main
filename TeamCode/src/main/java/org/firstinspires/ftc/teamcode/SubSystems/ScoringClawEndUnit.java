@@ -12,7 +12,7 @@ public class ScoringClawEndUnit extends SubsystemBase {
     CuttleServo clawScoringServo;
 
 
-    public static double open = 0.6;
+    public static double open = 0.49;
     public static double close = 0;
 
 
