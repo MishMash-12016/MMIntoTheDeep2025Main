@@ -40,7 +40,7 @@ public class LinearIntake extends SubsystemBase {
 
     public Command setPositionByJoystick(DoubleSupplier doubleSupplier){
         return new RunCommand(()-> {
-            double targetPose = doubleSupplier.getAsDouble() * maxopening;
+            double targetPose = Math.pow(doubleSupplier.getAsDouble(),3) * maxopening;
             targetPose += offset;
             servoLeft.setPosition(targetPose);
             servoRight.setPosition(1 - targetPose);} ,

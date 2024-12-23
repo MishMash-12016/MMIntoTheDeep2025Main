@@ -68,15 +68,14 @@ public class RobotCommands {
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.transferPose),
-                //MMRobot.getInstance().mmSystems.elevator.moveToPose(elevatorDown),
-                new WaitCommand(200),
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(elevatorDown),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                new WaitCommand(200),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.midPose)
-//                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSampleHigh),
-//                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
 //
 //                new WaitCommand(700),
 //                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
