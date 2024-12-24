@@ -33,10 +33,10 @@ public class CycleTeleOP extends MMOpMode {
         Trigger elevatorHighCondition = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.B)
         );
-        Trigger closeClawCondition= new Trigger(
+        Trigger intakeDoneCondition= new Trigger(
                 ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.A)
         );
-        Trigger openScoringClawCondition= new Trigger(
+        Trigger scoreSampleCondition= new Trigger(
                 ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.Y)
         );
 
@@ -50,10 +50,11 @@ public class CycleTeleOP extends MMOpMode {
                 RobotCommands.IntakeCommand(()->gamepad1.right_trigger)
         );
         //Buttons:
-        openScoringClawCondition.whenActive(RobotCommands.ScoreSample());
-        elevatorHighCondition.whenActive(RobotCommands.PrepareHighSample());
-        elevatorLowCondition.whenActive(RobotCommands.PrepareLowSample());
-        closeClawCondition.whenActive(MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw());
+        scoreSampleCondition.whenActive(RobotCommands.ScoreSample()); //y
+        elevatorHighCondition.whenActive(RobotCommands.PrepareHighSample()); //b
+        elevatorLowCondition.whenActive(RobotCommands.PrepareLowSample()); //x
+        intakeDoneCondition.whenActive(RobotCommands.IntakeDoneCommand()); //a
+
 
 
 

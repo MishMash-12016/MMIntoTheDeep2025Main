@@ -64,7 +64,9 @@ public class MMSystems {
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         linearIntakeEndUnitRotator = new LinearIntakeEndUnitRotator();
-
+        linearIntake.setDefaultCommand(
+                linearIntake.setPosition(0).perpetually()
+        );
     }
 
     public void initDriveTrain() {
