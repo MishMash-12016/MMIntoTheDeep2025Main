@@ -26,8 +26,7 @@ public class LinearIntakeEndUnitRotatorTeleOp extends MMOpMode {
         );
         leftTriggerCondition.whileActiveOnce(
                 robotInstance.mmSystems.linearIntakeEndUnitRotator.setPosition(0));
-        leftTriggerCondition.whenInactive(
-                robotInstance.mmSystems.linearIntakeEndUnitRotator.setPosition(1));
+
     }
 
     @Override

@@ -24,33 +24,38 @@ public class CycleTeleOP extends MMOpMode {
     public void onInit() {
 
         MMRobot.getInstance().mmSystems.initRobotSystems();
-        Trigger leftTrigger = new Trigger(
-                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)>0.05
+        MMRobot.getInstance().mmSystems.initDriveTrain();
+
+        //Buttons:
+        Trigger elevatorLowCondition= new Trigger(
+                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.X)
         );
-        Trigger closeClawCondition= new Trigger(
+        Trigger elevatorHighCondition = new Trigger(
+                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.B)
+        );
+        Trigger intakeDoneCondition= new Trigger(
                 ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.A)
         );
+        Trigger scoreSampleCondition= new Trigger(
+                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.Y)
+        );
+
+        //Trigger
         Trigger rightTrigger= new Trigger(
                 ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)>0.05
         );
-        Trigger scoreCondition = new Trigger(
-                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.DPAD_LEFT)
-        );
+
+
         rightTrigger.whileActiveOnce(
                 RobotCommands.IntakeCommand(()->gamepad1.right_trigger)
         );
-        closeClawCondition.whenActive(
-                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
-        );
-        rightTrigger.whenInactive(
-                RobotCommands.IntakeDoneCommand()
-        );
-        leftTrigger.whenActive(
-                RobotCommands.PrepareLowSample()
-        );
-        scoreCondition.whenActive(
-                RobotCommands.ScoreSample()
-        );
+        //Buttons:
+        scoreSampleCondition.whenActive(RobotCommands.ScoreSample()); //y
+        elevatorHighCondition.whenActive(RobotCommands.PrepareHighSample()); //b
+        elevatorLowCondition.whenActive(RobotCommands.PrepareLowSample()); //x
+        intakeDoneCondition.whenActive(RobotCommands.IntakeDoneCommand()); //a
+
+
 
 
     }

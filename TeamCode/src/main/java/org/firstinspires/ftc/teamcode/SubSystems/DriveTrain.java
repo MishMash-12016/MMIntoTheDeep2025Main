@@ -39,7 +39,6 @@ public class DriveTrain extends SubsystemBase {
     private final CuttleMotor motorFL;
     private final CuttleMotor motorBL;
     private final CuttleMotor motorBR;
-    private double yawOffset = 0;
 
     public DriveTrain() {
         super(); //register this subsystem, in order to schedule default command later on.
@@ -59,7 +58,6 @@ public class DriveTrain extends SubsystemBase {
         this();
         mmRobot.mmSystems.imu.setYaw(lastAngle);
     }
-
 
     private double[] joystickToPower(double x, double y, double yaw) {
 
@@ -102,7 +100,7 @@ public class DriveTrain extends SubsystemBase {
     public Command fieldOrientedDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier yaw) {
         return new RunCommand(
                 () -> {
-                    Vector2d joystickDirection = new Vector2d(x.getAsDouble(), y.getAsDouble());
+                    Vector2d joystickDirection = new Vector2d(x.getAsDouble(), -y.getAsDouble());
                     Vector2d fieldOrientedVector = joystickDirection.rotateBy(-mmRobot.mmSystems.imu.getYawInDegrees());
                     drive(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());
                 }, this);
@@ -114,6 +112,8 @@ public class DriveTrain extends SubsystemBase {
         FtcDashboard.getInstance().getTelemetry().addData("backLeft", power[1]);
         FtcDashboard.getInstance().getTelemetry().addData("frontRight", power[2]);
         FtcDashboard.getInstance().getTelemetry().addData("backRight", power[3]);
+        FtcDashboard.getInstance().getTelemetry().addData("yaw", -mmRobot.mmSystems.imu.getYawInDegrees());
+
         FtcDashboard.getInstance().getTelemetry().update();
     }
 

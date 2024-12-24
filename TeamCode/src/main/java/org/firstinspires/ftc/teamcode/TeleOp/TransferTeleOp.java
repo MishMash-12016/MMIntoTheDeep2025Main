@@ -8,12 +8,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 @TeleOp
 public class TransferTeleOp extends MMOpMode {
@@ -34,14 +32,14 @@ public class TransferTeleOp extends MMOpMode {
         rightTriggerCondition.whileActiveOnce(
                 new SequentialCommandGroup(
                         robotInstance.mmSystems.intakEndUnit.openIntakeClaw(),
-                        robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.down),
+                        robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.intakePose),
                         robotInstance.mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.intakePose)
                         ));
         randbuttonCondition.whenActive(
                         robotInstance.mmSystems.intakEndUnit.closeIntakeClaw());
         rightTriggerCondition.whenInactive(
                 new SequentialCommandGroup(
-                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.transferhold),
+                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
                         robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
                         new WaitCommand(200),
                         robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.transferPose),

@@ -64,7 +64,9 @@ public class MMSystems {
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         linearIntakeEndUnitRotator = new LinearIntakeEndUnitRotator();
-
+        linearIntake.setDefaultCommand(
+                linearIntake.setPosition(0).perpetually()
+        );
     }
 
     public void initDriveTrain() {
@@ -72,7 +74,7 @@ public class MMSystems {
         driveTrain.setDefaultCommand(
                 MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
                         () -> gamepadEx1.getLeftX(),
-                        () -> gamepadEx1.getLeftY(),
+                        () -> -gamepadEx1.getLeftY(),
                         () -> gamepadEx1.getRightX())
 
         );
