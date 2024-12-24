@@ -6,7 +6,7 @@ import org.rowlandhall.meepmeep.MeepMeep;
 import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
 import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class MeepMeepTesting {
+public class MeepMeepTeasting {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
@@ -15,12 +15,13 @@ public class MeepMeepTesting {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12.59)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(16.49, 64.22, Math.toRadians(-90)))
-                .splineToSplineHeading(new Pose2d(57.52, 60.45, Math.toRadians(-140.00)), Math.toRadians(-54.61))
+                        drive.trajectorySequenceBuilder(new Pose2d(-16.18, -68.52, Math.toRadians(90.00)))
+                                .splineToLinearHeading(new Pose2d(-59.50, -59.50, Math.toRadians(50.00)), Math.toRadians(191.51))
+                                .splineToLinearHeading(new Pose2d(-48.74, -37.62, Math.toRadians(90.00)), Math.toRadians(78.16))
                                 .setTangent(Math.toRadians(240))
-                .splineToSplineHeading(new Pose2d(59.34, 36.96, Math.toRadians(270.00)), Math.toRadians(270.00))
-                .splineToSplineHeading(new Pose2d(57.52, 60.45, Math.toRadians(-145.00)), Math.toRadians(117.44))
-                        .build());
+                                .splineToSplineHeading(new Pose2d(-54.00, -55.21, Math.toRadians(50.00)), Math.toRadians(78.60))
+                                .build());
+
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)
                 .setDarkMode(true)

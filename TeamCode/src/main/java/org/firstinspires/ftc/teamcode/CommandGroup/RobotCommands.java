@@ -143,6 +143,7 @@ public static Command ScoreSample() {
     return new SequentialCommandGroup(
             MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
             new WaitCommand(timeClawOpen),
+            new WaitCommand(600),
             new ParallelCommandGroup(
                     new WaitCommand(600),
                     MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
