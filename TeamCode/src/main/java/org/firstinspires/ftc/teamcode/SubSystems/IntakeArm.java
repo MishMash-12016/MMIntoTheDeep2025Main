@@ -15,7 +15,7 @@ public class IntakeArm extends SubsystemBase {
     public final static double up = 0.79;
     public final static double intakePose = 0.15;
     public final static double beforeCatching = 0.22;
-    public final static double transferPose = 0.7;
+    public final static double transferPose = 0.76;
 
     public IntakeArm() {
         servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.INTAKE_ARM_SERVO_LEFT);
