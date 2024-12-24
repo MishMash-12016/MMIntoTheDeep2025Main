@@ -144,6 +144,7 @@ public static Command ScoreSample() {
             MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
             new WaitCommand(timeClawOpen),
             new ParallelCommandGroup(
+                    new WaitCommand(500),
                     MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
                     MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold)
             ));
