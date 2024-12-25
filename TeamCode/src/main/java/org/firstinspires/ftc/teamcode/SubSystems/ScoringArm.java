@@ -18,7 +18,7 @@ public class ScoringArm extends SubsystemBase {
 
 
     public final static double  scoreSpecimen= 0.8;
-    public final static double scoreSampleHigh = 0.67;
+    public final static double scoreSampleHigh = 0.5;
     public final static double scoreSampleLow = 0.6;
 
     public ScoringArm() {
@@ -27,9 +27,21 @@ public class ScoringArm extends SubsystemBase {
     }
 
     //Tell arm to get to position
+    public Command setleftPosition(double newPos) {
+        return new InstantCommand(()-> {
+            servoLeft.setPosition(newPos);},
+            //servoRight.setPosition(newPos);} ,
+                this);
+    }
     public Command setPosition(double newPos) {
         return new InstantCommand(()-> {
             servoLeft.setPosition(newPos);
+                servoRight.setPosition(newPos);} ,
+                this);
+    }
+    public Command setrightPosition(double newPos) {
+        return new InstantCommand(()-> {
+            //servoLeft.setPosition(newPos);
             servoRight.setPosition(newPos);} ,
                 this);
     }

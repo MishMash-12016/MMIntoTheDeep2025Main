@@ -13,14 +13,14 @@ public class MMIMU {
 
     double yawOffset = 0;
 
+    BHI260IMU.Parameters imuParameters = new IMU.Parameters(
+            new RevHubOrientationOnRobot(
+                    RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                    RevHubOrientationOnRobot.UsbFacingDirection.UP
+            )
+    );
     public MMIMU(HardwareMap hardwareMap) {
         imu = hardwareMap.get(BHI260IMU.class, Configuration.IMU);
-        BHI260IMU.Parameters imuParameters = new IMU.Parameters(
-                new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                        RevHubOrientationOnRobot.UsbFacingDirection.UP
-                )
-        );
         imu.initialize(imuParameters);
     }
 
@@ -33,6 +33,8 @@ public class MMIMU {
     }
 
     public void resetYaw() {
+        imu.close();
+        imu.initialize(imuParameters);
         setYaw(0);
     }
 

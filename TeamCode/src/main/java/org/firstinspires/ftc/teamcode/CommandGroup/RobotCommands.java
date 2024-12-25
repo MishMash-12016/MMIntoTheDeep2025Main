@@ -31,6 +31,7 @@ public class RobotCommands {
         return new ParallelCommandGroup(
                 MMRobot.getInstance().mmSystems.linearIntake.setPositionByJoystick(intakeTrigger),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.beforeCatching),
                 MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.intakePose),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw());
@@ -67,13 +68,13 @@ public class RobotCommands {
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.transferPose),
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.transferPose),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.closedPose),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(elevatorDown),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                new WaitCommand(300),
+                new WaitCommand(450),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
-                new WaitCommand(300),
+                new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.midPose),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.closedPose)
@@ -144,7 +145,7 @@ public static Command ScoreSample() {
             MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
             new WaitCommand(timeClawOpen),
             new ParallelCommandGroup(
-                    new WaitCommand(500),
+                    new WaitCommand(1000),
                     MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
                     MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold)
             ));
