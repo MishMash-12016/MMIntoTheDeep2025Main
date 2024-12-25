@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
-import org.firstinspires.ftc.teamcode.SubSystems.LinearIntakeEndUnitRotator;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
@@ -46,7 +46,7 @@ public class MMSystems {
     public LinearIntake linearIntake;
     public IntakEndUnit intakEndUnit;
     public IntakeArm intakeArm;
-    public LinearIntakeEndUnitRotator linearIntakeEndUnitRotator;
+    public IntakeEndUnitRotator intakeEndUnitRotator;
 
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
@@ -63,7 +63,7 @@ public class MMSystems {
         this.intakeArm = new IntakeArm();
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
-        linearIntakeEndUnitRotator = new LinearIntakeEndUnitRotator();
+        intakeEndUnitRotator = new IntakeEndUnitRotator();
         linearIntake.setDefaultCommand(
                 linearIntake.setPosition(0).perpetually()
         );

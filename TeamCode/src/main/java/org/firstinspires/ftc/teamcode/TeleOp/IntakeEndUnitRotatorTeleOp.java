@@ -10,10 +10,10 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 
 @TeleOp
-public class LinearIntakeEndUnitRotatorTeleOp extends MMOpMode {
+public class IntakeEndUnitRotatorTeleOp extends MMOpMode {
     MMRobot robotInstance = MMRobot.getInstance();
 
-    public LinearIntakeEndUnitRotatorTeleOp(){
+    public IntakeEndUnitRotatorTeleOp(){
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
@@ -25,7 +25,7 @@ public class LinearIntakeEndUnitRotatorTeleOp extends MMOpMode {
                 () -> robotInstance.mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
         );
         leftTriggerCondition.whileActiveOnce(
-                robotInstance.mmSystems.linearIntakeEndUnitRotator.setPosition(0));
+                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(0));
 
     }
 

@@ -14,7 +14,8 @@ public class IntakeArm extends SubsystemBase {
 
     public final static double up = 0.79;
     public final static double intakePose = 0.15;
-    public final static double beforeCatching = 0.2;
+    public final static double prepareSampleIntake = 0.2;
+    public final static double prepareSpecimanIntake = 0.2;
     public final static double transferPose = 0.8;
 
     public IntakeArm() {

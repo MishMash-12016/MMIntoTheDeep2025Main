@@ -10,31 +10,32 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
-import org.firstinspires.ftc.teamcode.SubSystems.LinearIntakeEndUnitRotator;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 
 import java.util.function.DoubleSupplier;
 
 public class RobotCommands {
-    private static final double linearIntakeClosed = 0.13;
-    private static final int timeClawClose = 400;
-    private static final int timeClawOpen = 100;
-    public final static double elevatorDown = 0;
-    public final static int timeScoringArm = 150;
 
-    /* intake receive -
+    private static final int timeClawClose = 200;
+
+    /*
+    intake command -
     1. open linear intake
-    2. intake down
-    3. open claw */
+    2. prepare scoring: scoring arm down,scoring, open claw
+    3. prepare to intake: intake arm partly down,rotator, open claw
+    */
 
     public static Command IntakeCommand(DoubleSupplier intakeTrigger) {
         return new ParallelCommandGroup(
                 MMRobot.getInstance().mmSystems.linearIntake.setPositionByJoystick(intakeTrigger),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.beforeCatching),
-                MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.intakePose),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.prepareSampleIntake),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.intakePose),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw());
+
+
     }
     /* specimen intake
     open claw
@@ -44,9 +45,7 @@ public class RobotCommands {
 
     public static Command prepareSpecimenIntake() {
         return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorWallHeight),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen)
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.prepareSpecimanIntake)
         );
     }
 
@@ -63,13 +62,13 @@ public class RobotCommands {
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.intakePose),
                 new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
-                new WaitCommand(timeClawClose),
+                new WaitCommand(200),
                 //move the angle of claw to prepare to transfer
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.transferPose),
                 new WaitCommand(300),
-                MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdpose),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.closedPose),
-                MMRobot.getInstance().mmSystems.elevator.moveToPose(elevatorDown),
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new WaitCommand(450),
@@ -86,9 +85,9 @@ public class RobotCommands {
     public static Command EjectSampleCommand() {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen),
-                new WaitCommand(timeScoringArm),
+                new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                new WaitCommand(timeClawOpen),
+                new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold)
 
         );
@@ -143,7 +142,7 @@ public class RobotCommands {
 public static Command ScoreSample() {
     return new SequentialCommandGroup(
             MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-            new WaitCommand(timeClawOpen),
+            new WaitCommand(200),
             new ParallelCommandGroup(
                     new WaitCommand(1000),
                     MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
@@ -155,9 +154,9 @@ public static Command FoldSystems() {
     return new ParallelCommandGroup(
             MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
             MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
-            MMRobot.getInstance().mmSystems.linearIntake.setPosition(linearIntakeClosed),
+            MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.closedPose),
             MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.up),
-            MMRobot.getInstance().mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
+            MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdpose),
             MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
     );
 }

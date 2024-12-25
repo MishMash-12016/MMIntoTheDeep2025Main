@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.CommandGroup.RobotCommands;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
-import org.firstinspires.ftc.teamcode.SubSystems.LinearIntakeEndUnitRotator;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
@@ -49,7 +49,7 @@ public class IntakeTeleOp extends MMOpMode {
                 robotInstance.mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(300),
                 robotInstance.mmSystems.linearIntake.setPosition(IntakeArm.up),
-                robotInstance.mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.holdpose),
+                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdpose),
 
                 RobotCommands.IntakeDoneCommand()
         ));

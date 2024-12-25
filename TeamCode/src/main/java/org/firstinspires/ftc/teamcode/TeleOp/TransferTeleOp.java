@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
-import org.firstinspires.ftc.teamcode.SubSystems.LinearIntakeEndUnitRotator;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 @TeleOp
@@ -33,7 +33,7 @@ public class TransferTeleOp extends MMOpMode {
                 new SequentialCommandGroup(
                         robotInstance.mmSystems.intakEndUnit.openIntakeClaw(),
                         robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.intakePose),
-                        robotInstance.mmSystems.linearIntakeEndUnitRotator.setPosition(LinearIntakeEndUnitRotator.intakePose)
+                        robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.intakePose)
                         ));
         randbuttonCondition.whenActive(
                         robotInstance.mmSystems.intakEndUnit.closeIntakeClaw());

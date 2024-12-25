@@ -15,6 +15,8 @@ public class ScoringArm extends SubsystemBase {
     public final static double up = 1;
     public final static double transferHold = 0;
     public final static double midPose = 0.33;
+    public final static double intakeSpeciman = 0.33; //not checked
+
 
 
     public final static double  scoreSpecimen= 0.8;
