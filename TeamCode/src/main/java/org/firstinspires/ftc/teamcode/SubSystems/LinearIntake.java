@@ -16,10 +16,9 @@ public class LinearIntake extends SubsystemBase {
 
     private final CuttleServo servoLeft;
     private final CuttleServo servoRight;
-    public final double maxopening = 0.67;
-    public final double offset = 0.25;
-    public static final double transferPose = 0;
-    public static final double closedPose = 0.0;
+    public final double maxopening = 0.6;
+    public final double offset = 0.22;
+    public static final double closedPose = -0.1;
 
 
     public LinearIntake(){
@@ -32,7 +31,7 @@ public class LinearIntake extends SubsystemBase {
 
         return new InstantCommand(()-> {
 
-            double setPosevar = newPos * maxopening  + offset;
+            double setPosevar = newPos * (maxopening - offset) + offset;
             servoLeft.setPosition(setPosevar);
             servoRight.setPosition(1-setPosevar);} ,
                 this);
@@ -40,7 +39,7 @@ public class LinearIntake extends SubsystemBase {
 
     public Command setPositionByJoystick(DoubleSupplier doubleSupplier){
         return new RunCommand(()-> {
-            double targetPose = Math.pow(doubleSupplier.getAsDouble(),3) * maxopening;
+            double targetPose = Math.pow(doubleSupplier.getAsDouble(),3) * (maxopening - offset);
             targetPose += offset;
             servoLeft.setPosition(targetPose);
             servoRight.setPosition(1 - targetPose);} ,

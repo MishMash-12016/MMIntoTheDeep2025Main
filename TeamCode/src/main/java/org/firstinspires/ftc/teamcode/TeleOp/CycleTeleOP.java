@@ -44,17 +44,20 @@ public class CycleTeleOP extends MMOpMode {
         Trigger rightTrigger= new Trigger(
                 ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)>0.05
         );
+        Trigger restYawCondition= new Trigger(
+                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.RIGHT_BUMPER)
+        );
 
 
         rightTrigger.whileActiveOnce(
-                RobotCommands.IntakeCommand(()->gamepad1.right_trigger)
+                RobotCommands.IntakeCommand(()-> gamepad1.right_trigger)
         );
         //Buttons:
         scoreSampleCondition.whenActive(RobotCommands.ScoreSample()); //y
         elevatorHighCondition.whenActive(RobotCommands.PrepareHighSample()); //b
         elevatorLowCondition.whenActive(RobotCommands.PrepareLowSample()); //x
         intakeDoneCondition.whenActive(RobotCommands.IntakeDoneCommand()); //a
-
+        restYawCondition.whenActive(()->MMRobot.getInstance().mmSystems.imu.resetYaw());
 
 
 
