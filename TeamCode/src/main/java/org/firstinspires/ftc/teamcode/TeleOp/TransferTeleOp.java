@@ -33,7 +33,7 @@ public class TransferTeleOp extends MMOpMode {
                 new SequentialCommandGroup(
                         robotInstance.mmSystems.intakEndUnit.openIntakeClaw(),
                         robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.intakePose),
-                        robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.intakePose)
+                        robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.intakeSamplePose)
                         ));
         randbuttonCondition.whenActive(
                         robotInstance.mmSystems.intakEndUnit.closeIntakeClaw());
