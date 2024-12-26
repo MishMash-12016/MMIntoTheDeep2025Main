@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.CommandGroup.RobotCommands;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
@@ -27,38 +28,42 @@ public class CycleTeleOP extends MMOpMode {
         MMRobot.getInstance().mmSystems.initDriveTrain();
 
         //Buttons:
-        Trigger elevatorLowCondition= new Trigger(
-                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.X)
+        Trigger elevatorLowCondition = new Trigger(
+                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.X)
         );
         Trigger elevatorHighCondition = new Trigger(
                 () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.B)
         );
-        Trigger intakeDoneCondition= new Trigger(
-                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.A)
+        Trigger intakeDoneCondition = new Trigger(
+                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.A)
         );
-        Trigger scoreSampleCondition= new Trigger(
-                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.Y)
+        Trigger scoreSampleCondition = new Trigger(
+                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.Y)
         );
 
         //Trigger
-        Trigger rightTrigger= new Trigger(
-                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)>0.05
+        Trigger intakeCondition = new Trigger(
+                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05
         );
-        Trigger restYawCondition= new Trigger(
-                ()-> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.RIGHT_BUMPER)
+        Trigger restYawCondition = new Trigger(
+                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.RIGHT_BUMPER)
+        );
+        Trigger changeIntakeRotator = new Trigger(
+                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.BACK)
         );
 
 
-        rightTrigger.whileActiveOnce(
-                RobotCommands.IntakeCommand(()-> gamepad1.right_trigger)
+        intakeCondition.whileActiveOnce(
+                RobotCommands.IntakeCommand(() -> gamepad1.right_trigger) //right trigger
         );
         //Buttons:
         scoreSampleCondition.whenActive(RobotCommands.ScoreSample()); //y
         elevatorHighCondition.whenActive(RobotCommands.PrepareHighSample()); //b
         elevatorLowCondition.whenActive(RobotCommands.PrepareLowSample()); //x
         intakeDoneCondition.whenActive(RobotCommands.IntakeDoneCommand()); //a
-        restYawCondition.whenActive(()->MMRobot.getInstance().mmSystems.imu.resetYaw());
-
+        restYawCondition.whenActive(() -> MMRobot.getInstance().mmSystems.imu.resetYaw()); //right bumper
+        changeIntakeRotator.whenActive(
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.rotateangle)); //back or share
 
 
     }
