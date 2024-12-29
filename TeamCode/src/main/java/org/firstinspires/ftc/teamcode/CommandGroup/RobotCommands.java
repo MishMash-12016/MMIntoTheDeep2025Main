@@ -18,7 +18,7 @@ import java.util.function.DoubleSupplier;
 public class RobotCommands {
 
     private static final int timeIntakeClawClose = 200;
-    private static final int timeScoringClaw = 200;
+    private static final int timeScoringClaw = 300;
     private static final int timeintakeClose = 100;
     private static final int timeScoringArm = 350;
 
@@ -177,7 +177,7 @@ public class RobotCommands {
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
         ); }
         public static Command EjectSampleCommand() {
-            return new SequentialCommandGroup(
+            return new ParallelCommandGroup(
                     MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen),
                     new WaitCommand(timeScoringArm),
                     MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
