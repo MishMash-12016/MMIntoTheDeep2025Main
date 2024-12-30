@@ -11,16 +11,19 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 import java.util.function.DoubleSupplier;
 
-public class LinearIntakeEndUnitRotator extends SubsystemBase {
+public class IntakeEndUnitRotator extends SubsystemBase {
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
-    public static final double intakePose= 0;
+    public static final double intakeSamplePose = 0;
     public static final double holdpose= 0;
+    public static final double intakeSpecimanPose = 0;
+
+    public static final double rotateangle= 0.5; //need to check
 
     private final CuttleServo servo;
 
 
-    public LinearIntakeEndUnitRotator(){
+    public IntakeEndUnitRotator(){
         servo = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.END_UNIT_ROTATOR);
     }
 
