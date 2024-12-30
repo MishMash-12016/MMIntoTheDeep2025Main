@@ -29,18 +29,16 @@ public class LinearIntake extends SubsystemBase {
 
     public Command setPosition(double newPos){
 
-        return new InstantCommand(()-> {
+        return new RunCommand(()-> {
 
-            double setPosevar = newPos * (maxopening - offset) + offset;
-            servoLeft.setPosition(setPosevar);
-            servoRight.setPosition(1-setPosevar);} ,
+            servoLeft.setPosition(newPos);
+            servoRight.setPosition(1-newPos);} ,
                 this);
     }
 
     public Command setPositionByJoystick(DoubleSupplier doubleSupplier){
         return new RunCommand(()-> {
-            double targetPose = Math.pow(doubleSupplier.getAsDouble(),3) * (maxopening - offset);
-            targetPose += offset;
+            double targetPose = Math.pow(doubleSupplier.getAsDouble(),3);
             servoLeft.setPosition(targetPose);
             servoRight.setPosition(1 - targetPose);} ,
                 this);

@@ -60,7 +60,7 @@ public class Configuration {
     //Linear Intake End Unit Rotator:
     public static final int END_UNIT_ROTATOR = 2;
 
-    public static final int INTAKE_ARM_SERVO_LEFT =3;
+    public static final int INTAKE_ARM_SERVO_LEFT = 2;
 
     //Linear Intake Arm:
     public static final int INTAKE_ARM_SERVO_RIGHT =1;
