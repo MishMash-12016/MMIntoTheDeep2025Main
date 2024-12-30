@@ -27,17 +27,18 @@ public class CycleTeleOP extends MMOpMode {
         MMRobot.getInstance().mmSystems.initDriveTrain();
 
         //Buttons:
-        //gamepad 1:
+        //Gamepad 1:
         Trigger intakeCondition = new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05);
         Trigger intakeDoneCondition = new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.A));
         Trigger changeIntakeRotator = new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.B));
         Trigger scoreSampleCondition = new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.Y));
         Trigger restYawCondition = new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx1.getButton(GamepadKeys.Button.RIGHT_BUMPER));
-        //gamepad2:
+
+        //Gamepad 2:
         Trigger prepareHighSampleCondition = new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.DPAD_UP));
         Trigger prepareLowSampleCondition = new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.DPAD_DOWN));
-        Trigger foldSystemCondition = new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.A));
-        Trigger ejectCondition = new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.B));
+        Trigger foldSystemCondition = new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.B));
+        Trigger ejectCondition = new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx2.getButton(GamepadKeys.Button.Y));
 
 
         //Buttons:
@@ -53,8 +54,8 @@ public class CycleTeleOP extends MMOpMode {
         //gamepad 2: prepare high,prepare low,fold,eject
         prepareHighSampleCondition.whenActive(RobotCommands.PrepareHighSample()); // dpad up
         prepareLowSampleCondition.whenActive(RobotCommands.PrepareLowSample()); //dpad down
-        foldSystemCondition.whenActive(RobotCommands.FoldSystems()); // A
-        ejectCondition.whenActive(RobotCommands.EjectSampleCommand()); //B
+        foldSystemCondition.whenActive(RobotCommands.FoldSystems()); // B
+        ejectCondition.whenActive(RobotCommands.EjectSampleCommand()); // Y
 
 
     }
