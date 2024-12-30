@@ -9,21 +9,34 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class IntakeArm extends SubsystemBase {
-    CuttleServo intakeArm;
+    CuttleServo servoLeft;
+    CuttleServo servoRight;
 
-    public final double up = 0.5;
-    public final double down = -1.5;
+    public final static double up = 0.79;
+    public final static double intakePose = 0.15;
+    public final static double prepareSampleIntake = 0.2;
+    public final static double specimanIntake = 0.2;
+    public final static double transferPose = 0.8;
 
     public IntakeArm() {
-        intakeArm = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.intakeArm);
+        servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.INTAKE_ARM_SERVO_LEFT);
+        servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.INTAKE_ARM_SERVO_RIGHT);
     }
 
     //tell servo intake to get to down position
-    public Command intakeUp() {
-        return new InstantCommand(() -> intakeArm.setPosition(up), this);
+    public Command setPosition(double newPos) {
+        return new InstantCommand(()-> {
+            servoLeft.setPosition(newPos);
+            servoRight.setPosition(1-newPos);} ,
+                this);
     }
 
-    public Command intakeDown() {
-        return new InstantCommand(() -> intakeArm.setPosition(down), this);
-    }
+
+//    //tell servo intake to get to down position
+//    public Command setPosition(DoubleSupplier newPos) {
+//        return new RunCommand(()-> {
+//            servoLeft.setPosition(newPos.getAsDouble());
+//            servoRight.setPosition(1-newPos.getAsDouble());} ,
+//                this);
+//    }
 }

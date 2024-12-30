@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.CommandGroup.DriveCommand;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
@@ -15,8 +14,10 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -45,33 +46,47 @@ public class MMSystems {
     public LinearIntake linearIntake;
     public IntakEndUnit intakEndUnit;
     public IntakeArm intakeArm;
-    public ScoringEndUnit scoringEndUnit;
+    public IntakeEndUnitRotator intakeEndUnitRotator;
+
+    public ScoringArm scoringArm;
+    public ScoringClawEndUnit scoringClawEndUnit;
     public Elevator elevator;
 
 
     //creating and initiating all subsystems
-    public void initRobotSystems(){
-        driveTrain = new DriveTrain();
-        driveTrain.setDefaultCommand(
-                new DriveCommand()
-        );
+    public void initRobotSystems() {
 
-        elevator = new Elevator();
+            elevator = new Elevator();
         linearIntake = new LinearIntake();
 
         this.intakEndUnit = new IntakEndUnit();
         this.intakeArm = new IntakeArm();
-        this.scoringEndUnit = new ScoringEndUnit();
+        this.scoringArm = new ScoringArm();
+        this.scoringClawEndUnit = new ScoringClawEndUnit();
+        intakeEndUnitRotator = new IntakeEndUnitRotator();
+        linearIntake.setDefaultCommand(
+                linearIntake.setPosition(0).perpetually()
+        );
     }
 
+    public void initDriveTrain() {
+        driveTrain = new DriveTrain();
+        driveTrain.setDefaultCommand(
+                MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
+                        () -> gamepadEx1.getLeftX(),
+                        () -> -gamepadEx1.getLeftY(),
+                        () -> gamepadEx1.getRightX())
+
+        );
+    }
 
 
     public MMSystems(OpModeType type, HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
         this.opModeType = type;
         this.hardwareMap = hardwareMap;
         this.controlHub = new CuttleRevHub(hardwareMap, CuttleRevHub.HubTypes.CONTROL_HUB);
-        if(type != OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION) {
-            this.expansionHub = new CuttleRevHub(hardwareMap, "Expansion Hub 2");
+        if (type != OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION) {
+            this.expansionHub = new CuttleRevHub(hardwareMap, "Expansion Hub 1");
         }
         this.gamepadEx1 = new GamepadEx(gamepad1);
         this.gamepadEx2 = new GamepadEx(gamepad2);
