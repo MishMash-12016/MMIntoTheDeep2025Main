@@ -41,19 +41,6 @@ public class RobotCommands {
 
 
     }
-    /* specimen intake
-    1. prepare scoring: scoring arm down,scoring, open claw
-    2. prepare to intake: intake arm speciman ,rotator, open claw
-     */
-
-    public static Command prepareSpecimenIntake() {
-        return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
-                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.specimanIntake),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.intakeSpecimanPose),
-                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw());
-    }
 
     /* intake sample done  -
     1. intake go down
@@ -111,7 +98,41 @@ public class RobotCommands {
 
     }
 
-    /* prepare score speciman-
+    /* specimen intake
+        1. prepare scoring: scoring arm down,scoring, open claw
+        2. prepare to intake: intake arm speciman ,rotator, open claw
+     */
+    public static Command prepareSpecimenIntake() {
+        return new ParallelCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.specimanIntake),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.intakeSpecimanPose),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw());
+    }
+
+
+    public static Command takeSpecimenIntake() {
+        return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.transferPose),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdpose),
+                new WaitCommand(100),
+                //transfer
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.closedPose),
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                new WaitCommand(timeScoringClaw),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                new WaitCommand(timeScoringClaw),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.midPose)
+        );
+    }
+
+
+    /* prepare score specimen-
     1. make sure scoring claw is closed
     2. elevator get to desired position
     3. scoring arm
@@ -120,11 +141,11 @@ public class RobotCommands {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 new WaitCommand(timeIntakeClawClose),
-                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.highChamber),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen)
-
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.highChamber),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen)
         );
     }
+
 
     /* score speciman-
     1. elevater down a little
@@ -138,8 +159,7 @@ public class RobotCommands {
                 new WaitCommand(timeScoringClaw),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown)
-
-            );
+        );
     }
 
      /* score sample-
