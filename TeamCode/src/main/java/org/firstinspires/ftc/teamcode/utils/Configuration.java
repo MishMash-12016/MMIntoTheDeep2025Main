@@ -41,9 +41,9 @@ public class Configuration {
     public static final int SERVO_RIGHT_SCORING_ARM = 4;
 
     //Linear Intake
-    public static final int LEFT_LINEAR_INTAKE = 1;
+    public static final int LEFT_LINEAR_INTAKE = 0;
 
-    public static final int RIGHT_LINEAR_INTAKE = 3;
+    public static final int RIGHT_LINEAR_INTAKE = 1;
 
 
     //EXPANSION HUB
@@ -60,7 +60,7 @@ public class Configuration {
     //Linear Intake End Unit Rotator:
     public static final int END_UNIT_ROTATOR = 2;
 
-    public static final int INTAKE_ARM_SERVO_LEFT = 2;
+    public static final int INTAKE_ARM_SERVO_LEFT =3;
 
     //Linear Intake Arm:
     public static final int INTAKE_ARM_SERVO_RIGHT =1;

@@ -22,15 +22,15 @@ public class LinearIntakeTeleOp extends MMOpMode {
 
         robotInstance.mmSystems.initRobotSystems();
 
-        Trigger rightCondition= new Trigger(
+        Trigger aButton= new Trigger(
                 ()->  robotInstance.mmSystems.gamepadEx2.getButton(GamepadKeys.Button.A)
         );
-        Trigger leftCondition= new Trigger(
+        Trigger bButton= new Trigger(
                 ()->  robotInstance.mmSystems.gamepadEx2.getButton(GamepadKeys.Button.B)
         );
-        leftCondition.whenActive(robotInstance.mmSystems.linearIntake.setPosition(0.4));
+        bButton.whenActive(robotInstance.mmSystems.linearIntake.setPosition(0.6));
 
-        rightCondition.whenActive(
+        aButton.whenActive(
                 robotInstance.mmSystems.linearIntake.setPosition(0)
         );
 
