@@ -24,14 +24,10 @@ public class ScoringArmTeleOp extends MMOpMode {
         Trigger rightTriggerCondition = new Trigger(
                 () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05
         );
-        Trigger leftTriggerCondition = new Trigger(
-                () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
-        );
 
-        rightTriggerCondition.whenActive(
-                robotInstance.mmSystems.scoringArm.setleftPosition(1));
-        leftTriggerCondition.whenInactive(
-                robotInstance.mmSystems.scoringArm.setrightPosition(1));
+        rightTriggerCondition.whileActiveOnce(
+                robotInstance.mmSystems.scoringArm.setPosition(1));
+        rightTriggerCondition.whenInactive( robotInstance.mmSystems.scoringArm.setPosition(0));
     }
 
     @Override
