@@ -57,13 +57,13 @@ public class CycleTeleOP extends MMOpMode {
                 RobotCommands.IntakeCommand(() -> gamepad1.right_trigger) //right trigger
         );
         //Buttons:
-        scoreSampleCondition.whenActive(RobotCommands.ScoreSample()); //y
-        elevatorHighCondition.whenActive(RobotCommands.PrepareHighSample()); //b
-        elevatorLowCondition.whenActive(RobotCommands.PrepareLowSample()); //x
-        intakeDoneCondition.whenActive(RobotCommands.IntakeDoneCommand()); //a
+        scoreSampleCondition.whenActive(RobotCommands.ScoreSample()); //y or triangle
+        elevatorHighCondition.whenActive(RobotCommands.PrepareHighSample()); //b or circle
+        elevatorLowCondition.whenActive(RobotCommands.PrepareLowSample()); //x square
+        intakeDoneCondition.whenActive(RobotCommands.IntakeDoneCommand()); //a or x
         restYawCondition.whenActive(() -> MMRobot.getInstance().mmSystems.imu.resetYaw()); //right bumper
-        changeIntakeRotator.whenActive(
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.rotateangle)); //back or share
+//        changeIntakeRotator.whenActive(
+//                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.rotateangle)); //back or share
 
 
     }

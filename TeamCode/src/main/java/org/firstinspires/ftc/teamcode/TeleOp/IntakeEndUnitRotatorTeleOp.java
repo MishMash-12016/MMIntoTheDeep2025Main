@@ -25,7 +25,8 @@ public class IntakeEndUnitRotatorTeleOp extends MMOpMode {
                 () -> robotInstance.mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
         );
         leftTriggerCondition.whileActiveOnce(
-                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(0));
+                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(1));
+        leftTriggerCondition.whenInactive(robotInstance.mmSystems.intakeEndUnitRotator.setPosition(0));
 
     }
 

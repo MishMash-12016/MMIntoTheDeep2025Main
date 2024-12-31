@@ -12,15 +12,14 @@ public class IntakeArm extends SubsystemBase {
     CuttleServo servoLeft;
     CuttleServo servoRight;
 
-    public final static double up = 0.79;
-    public final static double intakePose = 0.15;
-    public final static double prepareSampleIntake = 0.2;
+    public final static double intakePose = 0.69;
+    public final static double prepareSampleIntake = 0.64;
     public final static double specimanIntake = 0.2;
-    public final static double transferPose = 0.8;
+    public final static double transferPose = 0.0;
 
     public IntakeArm() {
-        servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.INTAKE_ARM_SERVO_LEFT);
-        servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.INTAKE_ARM_SERVO_RIGHT);
+        servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_LEFT);
+        servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_RIGHT);
     }
 
     //tell servo intake to get to down position

@@ -44,7 +44,7 @@ public class TransferTeleOp extends MMOpMode {
                         new WaitCommand(200),
                         robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.closedPose),
                         new WaitCommand(200),
-                        robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.up),
+                        robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.transferPose),
                         robotInstance.mmSystems.scoringClawEndUnit.closeScoringClaw(),
                         new WaitCommand(1000),
                         robotInstance.mmSystems.intakEndUnit.openIntakeClaw(),

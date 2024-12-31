@@ -24,7 +24,7 @@ public class IntakeEndUnitRotator extends SubsystemBase {
 
 
     public IntakeEndUnitRotator(){
-        servo = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.END_UNIT_ROTATOR);
+        servo = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LINEAR_END_UNIT_ROTATOR);
     }
 
     public Command setPosition(double newPos){

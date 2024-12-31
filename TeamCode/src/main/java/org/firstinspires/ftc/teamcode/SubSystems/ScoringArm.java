@@ -23,7 +23,7 @@ public class ScoringArm extends SubsystemBase {
 
     public ScoringArm() {
         servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SERVO_LEFT_SCORING_ARM);
-        servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.SERVO_RIGHT_SCORING_ARM);
+        servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SERVO_RIGHT_SCORING_ARM);
     }
 
     //Tell arm to get to position

@@ -42,7 +42,7 @@ public class IntakeArmTeleOp extends MMOpMode {
 
 
         rightTrigger.whenActive(
-                robotInstance.mmSystems.intakeArm.setPosition(1)
+                robotInstance.mmSystems.intakeArm.setPosition(0.69)
 
                 //robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.up)
                 //RobotCommands.IntakeDoneCommand()

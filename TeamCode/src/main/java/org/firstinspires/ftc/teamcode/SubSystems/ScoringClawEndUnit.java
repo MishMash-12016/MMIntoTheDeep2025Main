@@ -17,7 +17,7 @@ public class ScoringClawEndUnit extends SubsystemBase {
 
 
     public ScoringClawEndUnit() {
-        clawScoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.SCORING_CLAW_SERVO);
+        clawScoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_CLAW_SERVO);
     }
 
     public Command openScoringClaw() {

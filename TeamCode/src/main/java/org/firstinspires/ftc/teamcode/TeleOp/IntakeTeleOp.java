@@ -48,7 +48,7 @@ public class IntakeTeleOp extends MMOpMode {
                 new SequentialCommandGroup(
                 robotInstance.mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(300),
-                robotInstance.mmSystems.linearIntake.setPosition(IntakeArm.up),
+                robotInstance.mmSystems.linearIntake.setPosition(IntakeArm.transferPose),
                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdpose),
 
                 RobotCommands.IntakeDoneCommand()
