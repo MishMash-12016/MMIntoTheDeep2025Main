@@ -198,7 +198,7 @@ public class RobotCommands {
      */
 
     public static Command FoldSystems() {
-        return new ParallelCommandGroup(
+        return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.closedPose),
@@ -207,7 +207,7 @@ public class RobotCommands {
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
         ); }
         public static Command EjectSampleCommand() {
-            return new ParallelCommandGroup(
+            return new SequentialCommandGroup(
                     MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoreSpecimen),
                     new WaitCommand(timeScoringArm),
                     MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),

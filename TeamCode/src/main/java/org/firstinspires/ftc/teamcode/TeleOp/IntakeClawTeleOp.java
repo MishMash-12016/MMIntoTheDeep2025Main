@@ -4,17 +4,13 @@ import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.CommandGroup.RobotCommands;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
-
-
-@TeleOp
-public class TestTelOp extends MMOpMode {
+    @TeleOp
+public class IntakeClawTeleOp extends MMOpMode {
     MMRobot robotInstance = MMRobot.getInstance();
-
-    public TestTelOp() {
+    public IntakeClawTeleOp() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
@@ -23,33 +19,34 @@ public class TestTelOp extends MMOpMode {
 
         robotInstance.mmSystems.initRobotSystems();
 
-        Trigger rightTriggerCondition = new Trigger(
-                () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05
-        );
-        Trigger leftTriggerCondition = new Trigger(
+        Trigger leftTrigger = new Trigger(
                 () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05
         );
-        Trigger upButtton = new Trigger(
-                ()-> robotInstance.mmSystems.gamepadEx1.getButton(GamepadKeys.Button.DPAD_UP)
-        );
-        Trigger downButtton = new Trigger(
-                ()-> robotInstance.mmSystems.gamepadEx1.getButton(GamepadKeys.Button.DPAD_DOWN)
+
+        Trigger rightTrigger = new Trigger(
+                () -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05
         );
 
-        upButtton.whenActive(
-                RobotCommands.EjectSampleCommand()
+
+        leftTrigger.whenActive(
+                robotInstance.mmSystems.intakEndUnit.openIntakeClaw()
         );
-        downButtton.whenActive(
-                RobotCommands.FoldSystems()
+
+
+        rightTrigger.whenActive(
+                robotInstance.mmSystems.intakEndUnit.closeIntakeClaw()
+
         );
+
     }
-
     @Override
     public void run() {
         super.run();
         telemetry.addData("Joystick Position: ", robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
+
         telemetry.update();
     }
 
 }
+
 
