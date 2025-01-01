@@ -36,7 +36,7 @@ public class RobotCommands {
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.prepareSampleIntake),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.intakeSamplePose),
+//                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.intakeSamplePose),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw());
 
 
@@ -114,11 +114,8 @@ public class RobotCommands {
      */
     public static Command prepareSpecimenIntake() {
         return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
-                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.specimanIntake),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.intakeSpecimanPose),
-                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw());
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(0.65),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw());
     }
 
 

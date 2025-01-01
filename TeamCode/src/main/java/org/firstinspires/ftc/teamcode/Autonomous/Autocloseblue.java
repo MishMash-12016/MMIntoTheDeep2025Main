@@ -12,6 +12,8 @@ import org.firstinspires.ftc.teamcode.CommandGroup.RobotCommands;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
+import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 import java.util.Collections;
@@ -51,6 +53,9 @@ public class Autocloseblue extends MMOpMode {
                 RobotCommands.PrepareHighSample(),
                 new WaitCommand(300),
                 RobotCommands.ScoreSample(),
+                new WaitCommand(3000),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
                 //driving to pick up second sample + pick up sample commands
                 new ActionCommand(driveToPickUpSecondSample.build(), Collections.emptySet()),
                 new ActionCommand(driveToPickUpSecondSample1.build(), Collections.emptySet())

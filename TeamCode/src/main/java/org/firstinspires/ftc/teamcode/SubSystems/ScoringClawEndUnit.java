@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class ScoringClawEndUnit extends SubsystemBase {
-    CuttleServo clawScoringServo;
+     public CuttleServo clawScoringServo;
 
 
     public static double open = 0.49;

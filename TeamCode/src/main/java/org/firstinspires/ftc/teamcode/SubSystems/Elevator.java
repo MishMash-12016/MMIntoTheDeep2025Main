@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
@@ -30,12 +31,12 @@ public class Elevator extends MMPIDSubsystem {
     private final double SPROCKET_PERIMETER = 12.9;
 
     //PID:
-    public static final double kP = 0.09;
+    public static final double kP = 0.15;
     public static final double kI = 0;
     public static final double kD = 0;
     public static final double kG = 0.3;
 
-public static final double TOLERANCE = 2;
+public static final double TOLERANCE = 4;
 
     double ticksOffset = 0;
 
@@ -50,6 +51,7 @@ public static final double TOLERANCE = 2;
 
     public Elevator() {
         super(kP, kI, kD, TOLERANCE);
+    register();
 
         motor1 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR1);
         motor2 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR2);
@@ -116,9 +118,17 @@ public static final double TOLERANCE = 2;
     public void stop() {
         setPower(0.0);
     }
-
     @Override
     public void periodic() {
-        super.periodic();
+        updateToDashboard();
+    }
+
+    public void updateToDashboard(){
+//        FtcDashboard.getInstance().getTelemetry().addData("motorLeftPower", motorLeft.getPower());
+//        FtcDashboard.getInstance().getTelemetry().addData("motorRightPower",motorRight.getPower());
+        FtcDashboard.getInstance().getTelemetry().addData("height",getHeight());
+        FtcDashboard.getInstance().getTelemetry().addData("target", getPidController().getSetPoint());
+        FtcDashboard.getInstance().getTelemetry().update();
+
     }
 }
