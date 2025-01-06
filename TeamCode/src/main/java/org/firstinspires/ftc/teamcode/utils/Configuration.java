@@ -34,29 +34,31 @@ public class Configuration {
     public static final String PARALLEL = AUTO_DRIVE_TRAIN_BACK_RIGHT; //0 //todo: choose the right motor, preferable port 0,3
 
 
+    //CONTROL HUB
+    //Linear Intake
+    public static final int LEFT_LINEAR_INTAKE = 2;
 
+    public static final int RIGHT_LINEAR_INTAKE = 3;
 
     //Linear Intake End Unit Rotator:
     public static final int LINEAR_END_UNIT_ROTATOR = 4;
 
-    public static final int CLAW_INTAKE_SERVO = 3;
+    public static final int CLAW_INTAKE_SERVO = 0;
 
     //Linear Intake Arm:
-    public static final int INTAKE_ARM_SERVO_RIGHT = 2;
+    public static final int INTAKE_ARM_SERVO_RIGHT = 5;
     public static final int INTAKE_ARM_SERVO_LEFT = 1;
 
 
     //EXPANSION HUB
-    public static final int SCORING_CLAW_SERVO = 2;
+    public static final int SCORING_CLAW_SERVO = 0;
+    public static final int SCORING_ROTATOR_SERVO = 1;
     //Scoring arm:
-    public static final int SERVO_RIGHT_SCORING_ARM = 3;
+    public static final int SERVO_RIGHT_SCORING_ARM = 5;
 
     public static final int SERVO_LEFT_SCORING_ARM =4;
 
-    //Linear Intake
-    public static final int LEFT_LINEAR_INTAKE = 0;
 
-    public static final int RIGHT_LINEAR_INTAKE = 1;
 
     //Elevator
     public static final int ELEVATOR1 = 0;
