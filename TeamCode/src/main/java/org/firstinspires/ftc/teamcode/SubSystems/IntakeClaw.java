@@ -8,12 +8,12 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
-public class IntakeArm extends SubsystemBase {
-    CuttleServo intakeArm;
+public class IntakeClaw extends SubsystemBase {
 
+    CuttleServo clawIntakeServo;
     public enum State {
-        UP(0.5),
-        DOWN(-1.5);
+        OPEN(0.5),
+        CLOSE(22);//??
         public double position;
 
         State(double position) {
@@ -21,16 +21,17 @@ public class IntakeArm extends SubsystemBase {
         }
     }
 
-    public IntakeArm() {
-        intakeArm = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.intakeArm);
+    // claw close or open
+    public IntakeClaw() {
+        clawIntakeServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.clawintakeServo);
+    }
+    public Command openIntakeClaw() {
+        return new InstantCommand(() -> clawIntakeServo.setPosition(State.OPEN.position), this);
     }
 
-    //tell servo intake to get to down position
-    public Command intakeUp() {
-        return new InstantCommand(() -> intakeArm.setPosition(State.UP.position), this);
+    public Command closeIntakeClaw() {
+        return new InstantCommand(() -> clawIntakeServo.setPosition(State.CLOSE.position), this);
     }
 
-    public Command intakeDown() {
-        return new InstantCommand(() -> intakeArm.setPosition(State.DOWN.position), this);
-    }
+
 }

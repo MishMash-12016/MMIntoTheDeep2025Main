@@ -8,13 +8,13 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
-public class ScoringEndUnit extends SubsystemBase {
+public class ScoringClaw extends SubsystemBase {
     CuttleServo clawscoringServo;
 
     public static double open = 1;
     public static double close = -1;
 
-    public ScoringEndUnit() {
+    public ScoringClaw() {
         clawscoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.scoringClawServo);
     }
 

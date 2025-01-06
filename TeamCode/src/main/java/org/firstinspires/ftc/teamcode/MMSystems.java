@@ -13,9 +13,9 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeClaw;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringClaw;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
@@ -43,9 +43,9 @@ public class MMSystems {
     //Subsystems
     public DriveTrain driveTrain;
     public LinearIntake linearIntake;
-    public IntakEndUnit intakEndUnit;
+    public IntakeClaw intakEndUnit;
     public IntakeArm intakeArm;
-    public ScoringEndUnit scoringEndUnit;
+    public ScoringClaw scoringEndUnit;
     public Elevator elevator;
 
 
@@ -59,9 +59,9 @@ public class MMSystems {
         elevator = new Elevator();
         linearIntake = new LinearIntake();
 
-        this.intakEndUnit = new IntakEndUnit();
+        this.intakEndUnit = new IntakeClaw();
         this.intakeArm = new IntakeArm();
-        this.scoringEndUnit = new ScoringEndUnit();
+        this.scoringEndUnit = new ScoringClaw();
     }
 
 
