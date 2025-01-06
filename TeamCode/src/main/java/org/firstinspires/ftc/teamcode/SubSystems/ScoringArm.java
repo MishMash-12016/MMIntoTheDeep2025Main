@@ -11,13 +11,12 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 public class ScoringArm extends SubsystemBase {
     private final CuttleServo servoLeft;
     private final CuttleServo servoRight;
-    public final static double transferHold = 0;
-    public final static double midPose = 0.33;
-    public final static double intakeSpecimen = 0.33; //not checked
+    public static double transferHold = 0.1;
+    public static double midPose = 0.43;
 
 
 
-    public final static double  scoreSpecimen= 0.8;
+    public final static double  scoreSpecimen= 0.5;
     public final static double scoreSampleHigh = 0.5;
     public final static double scoreSampleLow = 0.6;
 
@@ -36,7 +35,7 @@ public class ScoringArm extends SubsystemBase {
     public Command setPosition(double newPos) {
         return new InstantCommand(()-> {
             servoLeft.setPosition(newPos);
-                servoRight.setPosition(newPos);} ,
+                servoRight.setPosition(1-newPos);} ,
                 this);
     }
     public Command setrightPosition(double newPos) {

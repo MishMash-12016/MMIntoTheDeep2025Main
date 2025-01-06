@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.arcrobotics.ftclib.command.Command;
@@ -11,20 +12,17 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 import java.util.function.DoubleSupplier;
 
-public class IntakeEndUnitRotator extends SubsystemBase {
+public class ScoringEndUnitRotator extends SubsystemBase {
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
-    public static final double intakeSamplePose = 0;
-    public static final double holdposespeciman = 0;
-    public static final double intakeSpecimanPose = 0.5;
 
-    public static final double rotateangle= 0.5; //need to check
+    public static final double holdpose= 0;
 
     private final CuttleServo servo;
 
 
-    public IntakeEndUnitRotator(){
-        servo = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LINEAR_END_UNIT_ROTATOR);
+    public ScoringEndUnitRotator(){
+        servo = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.SCORING_ROTATOR_SERVO);
     }
 
     public Command setPosition(double newPos){
@@ -43,3 +41,4 @@ public class IntakeEndUnitRotator extends SubsystemBase {
         return servo.getPosition();
     }
 }
+

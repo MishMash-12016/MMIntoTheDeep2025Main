@@ -51,8 +51,8 @@ public class Configuration {
 
 
     //EXPANSION HUB
-    public static final int SCORING_CLAW_SERVO = 0;
-    public static final int SCORING_ROTATOR_SERVO = 1;
+    public static final int SCORING_CLAW_SERVO = 2;
+    public static final int SCORING_ROTATOR_SERVO = 3;
     //Scoring arm:
     public static final int SERVO_RIGHT_SCORING_ARM = 5;
 
