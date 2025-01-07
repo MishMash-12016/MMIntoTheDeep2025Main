@@ -28,7 +28,7 @@ public class Test {
                 .splineToLinearHeading(new Pose2d(-55.97, -59.18, Math.toRadians(45.00)), Math.toRadians(270)) //go back
                 .setTangent(Math.toRadians(100))
                 .splineToLinearHeading(new Pose2d(-60.875, -40.84, Math.toRadians(90)), Math.toRadians(95)) //pick up 2
-                
+
                 .build());
 
 
