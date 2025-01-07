@@ -19,7 +19,7 @@ public class LinearIntake extends SubsystemBase {
     public final double maxOpening = 0.6;
     public final double offset = 0.22;
     public static final double closedPose = -0.1;
-
+            //bound the values that open will be 1 and close is 2
 
     public LinearIntake(){
         servoLeft = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.LEFT_LINEAR_INTAKE);
