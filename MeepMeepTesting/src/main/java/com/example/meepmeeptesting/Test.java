@@ -17,11 +17,18 @@ public class Test {
 
         myBot.runAction(myBot.getDrive().actionBuilder (new Pose2d(-14.54, -59.87, Math.toRadians(90.00)))
                         .setTangent(Math.toRadians(130))
-                .splineToLinearHeading(new Pose2d(-57.12, -60.32, Math.toRadians(45.00)), Math.toRadians(180.62))
+                .splineToLinearHeading(new Pose2d(-55.97, -59.18, Math.toRadians(45.00)), Math.toRadians(180.62))
                         .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(-48.84, -44.84, Math.toRadians(60.80)), Math.toRadians(60.80))
+                .splineToLinearHeading(new Pose2d(-48.84, -44.84, Math.toRadians(90)), Math.toRadians(60.80)) //pick up 1
                         .setTangent(Math.toRadians(240))
-                .splineToLinearHeading(new Pose2d(-57.12, -60.32, Math.toRadians(45.00)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-55.97, -59.18, Math.toRadians(45.00)), Math.toRadians(270)) //go back
+                .setTangent(Math.toRadians(100))
+                .splineToLinearHeading(new Pose2d(-57.875, -44.84, Math.toRadians(90)), Math.toRadians(95)) //pick up 2
+                .setTangent(Math.toRadians(275))
+                .splineToLinearHeading(new Pose2d(-55.97, -59.18, Math.toRadians(45.00)), Math.toRadians(270)) //go back
+                .setTangent(Math.toRadians(100))
+                .splineToLinearHeading(new Pose2d(-60.875, -40.84, Math.toRadians(90)), Math.toRadians(95)) //pick up 2
+                
                 .build());
 
 
