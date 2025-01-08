@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.roboctopi.cuttlefish.utils.Direction;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleEncoder;
@@ -40,7 +41,7 @@ public static final double TOLERANCE = 4;
 
     double ticksOffset = 0;
     public enum ElevatorState {
-        LOW_BASKET(80), HIGH_BASKET(140),ELEVATOR_DOWN(-0.1);
+        LOW_BASKET(80), HIGH_BASKET(140),ELEVATOR_DOWN(1);
 
         public double position;
 
@@ -62,8 +63,9 @@ public static final double TOLERANCE = 4;
 
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
 
-//        this.motorLeft.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
-//        this.motorRight.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motor1.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motor2.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motor3.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
         resetTicks();
     }
