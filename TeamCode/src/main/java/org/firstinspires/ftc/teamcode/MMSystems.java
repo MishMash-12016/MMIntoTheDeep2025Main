@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -47,6 +48,7 @@ public class MMSystems {
     public IntakEndUnit intakEndUnit;
     public IntakeArm intakeArm;
     public IntakeEndUnitRotator intakeEndUnitRotator;
+    public ScoringEndUnitRotator scoringEndUnitRotator;
 
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
@@ -63,6 +65,7 @@ public class MMSystems {
         this.intakeArm = new IntakeArm();
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
+        this.scoringEndUnitRotator=new ScoringEndUnitRotator();
         intakeEndUnitRotator = new IntakeEndUnitRotator();
         linearIntake.setDefaultCommand(
                 linearIntake.setPosition(0)
