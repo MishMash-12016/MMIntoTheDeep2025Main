@@ -11,11 +11,12 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 public class IntakeArm extends SubsystemBase {
     CuttleServo servoLeft;
     CuttleServo servoRight;
-
-    public final static double intakePose = 0.69;
-    public final static double prepareSampleIntake = 0.57;
-    public final static double specimanIntake = 0.2;
-    public final static double transferPose = 0.0;
+    public enum IntakeArmState {
+        INTAKE_POSE(0.69), PREPARE_SAMPLE_INTAKE(0.57), SPECIMEN_INTAKE(0.48),  MID_INTAKE_SPECIMEN(0.3),TRANSFER_POSE(0.15);
+        public double position;
+        IntakeArmState(double position){
+            this.position = position;
+        }}
 
     public IntakeArm() {
         servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_LEFT);
@@ -27,6 +28,12 @@ public class IntakeArm extends SubsystemBase {
         return new InstantCommand(()-> {
             servoLeft.setPosition(newPos);
             servoRight.setPosition(1-newPos);} ,
+                this);
+    }
+    public Command setPosition(IntakeArmState state) {
+        return new InstantCommand(()-> {
+            servoLeft.setPosition(state.position);
+            servoRight.setPosition(1-state.position);} ,
                 this);
     }
 

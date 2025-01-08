@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.arcrobotics.ftclib.command.Command;
@@ -11,20 +12,21 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 import java.util.function.DoubleSupplier;
 
-public class IntakeEndUnitRotator extends SubsystemBase {
+public class ScoringEndUnitRotator extends SubsystemBase {
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
-    public enum IntakeRotatorState {
-        INTAKE_SAMPLE_POSE(0), HOLD_POSE_SPECIMEN(1), INTAKE_SPECIMEN_POSE(0),ROATATE_ANGLE(0.5);
+    public enum ScoringRotatorState {
+        HOLD_POSE(0);
         public double position;
-        IntakeRotatorState(double position){
+        ScoringRotatorState(double position){
             this.position = position;
         }}
+
     private final CuttleServo servo;
 
 
-    public IntakeEndUnitRotator(){
-        servo = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LINEAR_END_UNIT_ROTATOR);
+    public ScoringEndUnitRotator(){
+        servo = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.SCORING_ROTATOR_SERVO);
     }
 
     public Command setPosition(double newPos){
@@ -32,7 +34,7 @@ public class IntakeEndUnitRotator extends SubsystemBase {
             servo.setPosition(newPos);} ,
                 this);
     }
-    public Command setPosition(IntakeRotatorState state){
+    public Command setPosition(ScoringRotatorState state){
         return new InstantCommand(()-> {
             servo.setPosition(state.position);} ,
                 this);
@@ -48,3 +50,4 @@ public class IntakeEndUnitRotator extends SubsystemBase {
         return servo.getPosition();
     }
 }
+

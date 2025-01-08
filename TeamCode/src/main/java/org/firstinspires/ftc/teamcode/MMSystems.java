@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -38,7 +39,6 @@ public class MMSystems {
     public GamepadEx gamepadEx2;
     public Telemetry telemetry;
     public MMBattery battery;
-    public MMIMU imu;
 
 
     //Subsystems
@@ -47,6 +47,7 @@ public class MMSystems {
     public IntakEndUnit intakEndUnit;
     public IntakeArm intakeArm;
     public IntakeEndUnitRotator intakeEndUnitRotator;
+    public ScoringEndUnitRotator scoringEndUnitRotator;
 
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
@@ -57,15 +58,17 @@ public class MMSystems {
     public void initRobotSystems() {
 
             elevator = new Elevator();
-        linearIntake = new LinearIntake();
+        this.linearIntake = new LinearIntake();
 
         this.intakEndUnit = new IntakEndUnit();
+        this.scoringEndUnitRotator = new ScoringEndUnitRotator();
         this.intakeArm = new IntakeArm();
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
+        this.scoringEndUnitRotator=new ScoringEndUnitRotator();
         intakeEndUnitRotator = new IntakeEndUnitRotator();
         linearIntake.setDefaultCommand(
-                linearIntake.setPosition(0)
+                linearIntake.defultCommand(0)
         );
     }
 
@@ -92,7 +95,6 @@ public class MMSystems {
         this.gamepadEx2 = new GamepadEx(gamepad2);
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
-        this.imu = new MMIMU(hardwareMap);
 
         CommandScheduler.getInstance().reset(); //reset the scheduler
     }
