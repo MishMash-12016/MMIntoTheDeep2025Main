@@ -14,12 +14,12 @@ import java.util.function.DoubleSupplier;
 public class IntakeEndUnitRotator extends SubsystemBase {
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
-    public static final double intakeSamplePose = 0;
-    public static final double holdpose= 0;
-    public static final double intakeSpecimanPose = 0;
-
-    public static final double rotateangle= 0.5; //need to check
-
+    public enum IntakeRotatorState {
+        INTAKE_SAMPLE_POSE(0), HOLD_POSE_SPECIMEN(1), INTAKE_SPECIMEN_POSE(0),ROATATE_ANGLE(0.5);
+        public double position;
+        IntakeRotatorState(double position){
+            this.position = position;
+        }}
     private final CuttleServo servo;
 
 
@@ -30,6 +30,11 @@ public class IntakeEndUnitRotator extends SubsystemBase {
     public Command setPosition(double newPos){
         return new InstantCommand(()-> {
             servo.setPosition(newPos);} ,
+                this);
+    }
+    public Command setPosition(IntakeRotatorState state){
+        return new InstantCommand(()-> {
+            servo.setPosition(state.position);} ,
                 this);
     }
 

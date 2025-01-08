@@ -6,8 +6,7 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 
 public class ResetFieldOrientedCommand extends InstantCommand {
     public ResetFieldOrientedCommand() {
-        super(
-                () -> MMRobot.getInstance().mmSystems.imu.resetYaw()
-        );
+        super(() -> MMRobot.getInstance().mmSystems.driveTrain.localizer.setYawScalar(
+                MMRobot.getInstance().mmSystems.driveTrain.localizer.getHeading()));
     }
 }

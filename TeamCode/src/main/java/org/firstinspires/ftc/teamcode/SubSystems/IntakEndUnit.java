@@ -11,18 +11,22 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 public class IntakEndUnit extends SubsystemBase {
 
     CuttleServo clawIntakeServo;
-    public final double open = 0.4;
-    public final double close = 0;
+    public enum IntakeClawState {
+        OPEN(0.4), CLOSE(0);
+        public double position;
+        IntakeClawState(double position){
+            this.position = position;
+        }}
 
     // claw close or open
     public IntakEndUnit() {
         clawIntakeServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.CLAW_INTAKE_SERVO);
     }
     public Command openIntakeClaw() {
-        return new InstantCommand(() -> clawIntakeServo.setPosition(open), this);
+        return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.OPEN.position), this);
     }
 
     public Command closeIntakeClaw() {
-        return new InstantCommand(() -> clawIntakeServo.setPosition(close), this);
+        return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.CLOSE.position), this);
     }
 }
