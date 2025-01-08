@@ -10,11 +10,12 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class ScoringClawEndUnit extends SubsystemBase {
      public CuttleServo clawScoringServo;
-
-
-    public static double open = 0.9;
-    public static double close = 0;
-    public static double barelyopen = 0.3;
+    public enum ScoringClawState {
+        OPEN(0.9), CLOSE(0);
+        public double position;
+        ScoringClawState(double position){
+            this.position = position;
+        }}
 
 
     public ScoringClawEndUnit() {
@@ -24,7 +25,7 @@ public class ScoringClawEndUnit extends SubsystemBase {
     public Command openScoringClaw() {
         return new InstantCommand(() -> {
             clawScoringServo.enablePWM(true);
-            clawScoringServo.setPosition(open);}, this);
+            clawScoringServo.setPosition(ScoringClawState.OPEN.position);}, this);
     }
 
 
@@ -38,7 +39,7 @@ public class ScoringClawEndUnit extends SubsystemBase {
     public Command closeScoringClaw() {
         return new InstantCommand(() -> {
                 clawScoringServo.enablePWM(true);
-                clawScoringServo.setPosition(close);}, this);
+                clawScoringServo.setPosition(ScoringClawState.CLOSE.position);}, this);
     }
     public  Command disablePWM(){
         return new InstantCommand(()->

@@ -11,14 +11,13 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 public class ScoringArm extends SubsystemBase {
     private final CuttleServo servoLeft;
     private final CuttleServo servoRight;
-    public static double transferHold = 0.12;
-    public static double midPose = 0.28;
 
-
-
-    public final static double  scoreSpecimen= 0.55;
-    public final static double scoreSampleHigh = 0.5;
-    public final static double scoreSampleLow = 0.6;
+    public enum ScoringArmState {
+        TRANSFER_POSE(0.12), MID_POSE(0.28), SCORE_SPECIMEN(0.55),  SCORE_SAMPLE_HIGH(0.5),SCORE_SAMPLE_LOW(0.6);
+        public double position;
+        ScoringArmState(double position){
+            this.position = position;
+        }}
 
     public ScoringArm() {
         servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SERVO_LEFT_SCORING_ARM);
@@ -36,6 +35,14 @@ public class ScoringArm extends SubsystemBase {
         return new InstantCommand(()-> {
             servoLeft.setPosition(newPos);
                 servoRight.setPosition(1-newPos);} ,
+                this);
+    }
+
+
+    public Command setPosition(ScoringArmState state) {
+        return new InstantCommand(()-> {
+            servoLeft.setPosition(state.position);
+            servoRight.setPosition(1-state.position);} ,
                 this);
     }
     public Command setrightPosition(double newPos) {

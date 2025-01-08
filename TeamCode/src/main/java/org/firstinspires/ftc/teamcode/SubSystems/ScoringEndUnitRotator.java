@@ -15,8 +15,12 @@ import java.util.function.DoubleSupplier;
 public class ScoringEndUnitRotator extends SubsystemBase {
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
-
-    public static final double holdpose= 0;
+    public enum ScoringRotatorState {
+        HOLD_POSE(0);
+        public double position;
+        ScoringRotatorState(double position){
+            this.position = position;
+        }}
 
     private final CuttleServo servo;
 
@@ -28,6 +32,11 @@ public class ScoringEndUnitRotator extends SubsystemBase {
     public Command setPosition(double newPos){
         return new InstantCommand(()-> {
             servo.setPosition(newPos);} ,
+                this);
+    }
+    public Command setPosition(ScoringRotatorState state){
+        return new InstantCommand(()-> {
+            servo.setPosition(state.position);} ,
                 this);
     }
 

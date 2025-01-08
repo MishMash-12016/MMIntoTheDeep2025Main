@@ -39,12 +39,12 @@ public class Elevator extends MMPIDSubsystem {
 public static final double TOLERANCE = 4;
 
     double ticksOffset = 0;
-    public enum State {
-        LOW_BASKET(80), HIGH_BASKET(140),elevatorDown(-0.1);
+    public enum ElevatorState {
+        LOW_BASKET(80), HIGH_BASKET(140),ELEVATOR_DOWN(-0.1);
 
         public double position;
 
-        State(double position){
+        ElevatorState(double position){
             this.position = position;
         }
     }
@@ -71,6 +71,10 @@ public static final double TOLERANCE = 4;
     public Command moveToPose(double setPoint) {
         return new MMPIDCommand(this, setPoint)
                 .alongWith(new InstantCommand(()->targetPose = setPoint));
+    }
+    public Command moveToPose(ElevatorState state) {
+        return new MMPIDCommand(this, state.position)
+                .alongWith(new InstantCommand(()->targetPose = state.position));
     }
 
     public Command setPowerByJoystick(DoubleSupplier power) {

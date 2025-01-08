@@ -38,7 +38,7 @@ public class SpecimanTestTeleOp extends MMOpMode {
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
         );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                MMRobot.getInstance().mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.barelyopen)
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
         );
 
 
