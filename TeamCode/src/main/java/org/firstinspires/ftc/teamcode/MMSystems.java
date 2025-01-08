@@ -39,7 +39,6 @@ public class MMSystems {
     public GamepadEx gamepadEx2;
     public Telemetry telemetry;
     public MMBattery battery;
-    public MMIMU imu;
 
 
     //Subsystems
@@ -95,7 +94,6 @@ public class MMSystems {
         this.gamepadEx2 = new GamepadEx(gamepad2);
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
-        this.imu = new MMIMU(hardwareMap);
 
         CommandScheduler.getInstance().reset(); //reset the scheduler
     }

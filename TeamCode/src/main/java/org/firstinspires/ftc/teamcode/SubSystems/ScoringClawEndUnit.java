@@ -14,7 +14,7 @@ public class ScoringClawEndUnit extends SubsystemBase {
 
     public static double open = 0.9;
     public static double close = 0;
-    public static double barelyopen = 0.2;
+    public static double barelyopen = 0.3;
 
 
     public ScoringClawEndUnit() {
