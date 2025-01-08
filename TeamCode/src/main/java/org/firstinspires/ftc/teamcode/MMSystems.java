@@ -39,7 +39,6 @@ public class MMSystems {
     public GamepadEx gamepadEx2;
     public Telemetry telemetry;
     public MMBattery battery;
-    public MMIMU imu;
 
 
     //Subsystems
@@ -59,16 +58,17 @@ public class MMSystems {
     public void initRobotSystems() {
 
             elevator = new Elevator();
-        linearIntake = new LinearIntake();
+        this.linearIntake = new LinearIntake();
 
         this.intakEndUnit = new IntakEndUnit();
+        this.scoringEndUnitRotator = new ScoringEndUnitRotator();
         this.intakeArm = new IntakeArm();
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.scoringEndUnitRotator=new ScoringEndUnitRotator();
         intakeEndUnitRotator = new IntakeEndUnitRotator();
         linearIntake.setDefaultCommand(
-                linearIntake.setPosition(0)
+                linearIntake.defultCommand(0)
         );
     }
 
@@ -95,7 +95,6 @@ public class MMSystems {
         this.gamepadEx2 = new GamepadEx(gamepad2);
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
-        this.imu = new MMIMU(hardwareMap);
 
         CommandScheduler.getInstance().reset(); //reset the scheduler
     }

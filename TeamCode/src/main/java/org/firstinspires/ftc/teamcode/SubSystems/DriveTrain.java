@@ -10,6 +10,7 @@ import com.qualcomm.hardware.bosch.BHI260IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.roboctopi.cuttlefish.utils.Direction;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMPinPoint;
 
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -39,6 +40,7 @@ public class DriveTrain extends SubsystemBase {
     private final CuttleMotor motorFL;
     private final CuttleMotor motorBL;
     private final CuttleMotor motorBR;
+    public MMPinPoint localizer;
 
     public DriveTrain() {
         super(); //register this subsystem, in order to schedule default command later on.
@@ -47,16 +49,19 @@ public class DriveTrain extends SubsystemBase {
         motorBL = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_BACK_LEFT);
         motorFR = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_FRONT_RIGHT);
         motorBR = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_BACK_RIGHT);
+        localizer = MMRobot.getInstance().mmSystems.hardwareMap.get(MMPinPoint.class,"localizer");
 
         //TODO: reverse motors as needed
         motorBR.setDirection(Direction.REVERSE);
         motorFR.setDirection(Direction.REVERSE);
+        localizer.resetPosAndIMU();
+
 
     }
 
     public DriveTrain(double lastAngle) {
         this();
-        mmRobot.mmSystems.imu.setYaw(lastAngle);
+        localizer.setYawScalar(lastAngle);
     }
 
     private double[] joystickToPower(double x, double y, double yaw) {
@@ -100,8 +105,8 @@ public class DriveTrain extends SubsystemBase {
     public Command fieldOrientedDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier yaw) {
         return new RunCommand(
                 () -> {
-                    Vector2d joystickDirection = new Vector2d(x.getAsDouble(), -y.getAsDouble());
-                    Vector2d fieldOrientedVector = joystickDirection.rotateBy(-mmRobot.mmSystems.imu.getYawInDegrees());
+                    Vector2d joystickDirection = new Vector2d(x.getAsDouble(), y.getAsDouble());
+                    Vector2d fieldOrientedVector = joystickDirection.rotateBy(-localizer.getHeading());
                     drive(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());
                 }, this);
     }
@@ -112,7 +117,7 @@ public class DriveTrain extends SubsystemBase {
         FtcDashboard.getInstance().getTelemetry().addData("backLeft", power[1]);
         FtcDashboard.getInstance().getTelemetry().addData("frontRight", power[2]);
         FtcDashboard.getInstance().getTelemetry().addData("backRight", power[3]);
-        FtcDashboard.getInstance().getTelemetry().addData("yaw", -mmRobot.mmSystems.imu.getYawInDegrees());
+        FtcDashboard.getInstance().getTelemetry().addData("yaw", localizer.getHeading());
 
         FtcDashboard.getInstance().getTelemetry().update();
     }

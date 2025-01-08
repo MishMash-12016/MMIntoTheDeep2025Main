@@ -54,13 +54,13 @@ public class RobotCommands {
     */
     public static Command IntakeDoneCommand() {
         return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.intakePose),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.sampleinatkePose),
                 new WaitCommand(timeintakeClose),
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(timeIntakeClawClose),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.transferPose),
                 new WaitCommand(timeintakeClose),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdpose),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdposespeciman),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.closedPose),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.elevatorDown),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
@@ -123,7 +123,7 @@ public class RobotCommands {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.transferPose),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdpose),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdposespeciman),
                 new WaitCommand(100),
                 //transfer
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.closedPose),
@@ -200,7 +200,7 @@ public class RobotCommands {
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.transferHold),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.closedPose),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.transferPose),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdpose),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.holdposespeciman),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
         ); }
         public static Command EjectSampleCommand() {

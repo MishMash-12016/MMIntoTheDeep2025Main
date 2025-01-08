@@ -15,7 +15,7 @@ public class IntakeEndUnitRotator extends SubsystemBase {
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
     public static final double intakeSamplePose = 0;
-    public static final double holdpose= 0;
+    public static final double holdposespeciman = 1;
     public static final double intakeSpecimanPose = 0;
 
     public static final double rotateangle= 0.5; //need to check
