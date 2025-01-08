@@ -42,7 +42,7 @@ public static final double TOLERANCE = 4;
 
     public final static double LOW_BASKET = 80;
     public final static double HIGH_BASKET = 140;
-    public final static double elevatorDown = -0.1;
+    public final static double elevatorDown = 1;
     public final static double elevatorWallHeight = 3;
     public final static double highChamber = 4;
     public final static double highChamberScorePose = 4;

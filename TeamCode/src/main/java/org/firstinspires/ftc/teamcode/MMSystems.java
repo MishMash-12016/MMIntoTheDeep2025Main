@@ -68,7 +68,7 @@ public class MMSystems {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         intakeEndUnitRotator = new IntakeEndUnitRotator();
         linearIntake.setDefaultCommand(
-                linearIntake.setPosition(0)
+                linearIntake.defultCommand(0)
         );
     }
 

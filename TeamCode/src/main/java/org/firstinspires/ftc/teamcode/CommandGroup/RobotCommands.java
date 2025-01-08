@@ -54,7 +54,7 @@ public class RobotCommands {
     */
     public static Command IntakeDoneCommand() {
         return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.intakePose),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.sampleinatkePose),
                 new WaitCommand(timeintakeClose),
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(timeIntakeClawClose),
