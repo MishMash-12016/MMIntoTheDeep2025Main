@@ -22,16 +22,26 @@ public class ScoringClawEndUnit extends SubsystemBase {
     }
 
     public Command openScoringClaw() {
-        return new InstantCommand(() -> clawScoringServo.setPosition(open), this);
+        return new InstantCommand(() -> {
+            clawScoringServo.enablePWM(true);
+            clawScoringServo.setPosition(open);}, this);
     }
+
+
     public Command setPosition(double newPos){
         return new InstantCommand(()-> {
+            clawScoringServo.enablePWM(true);
             clawScoringServo.setPosition(newPos);} ,
                 this);
     }
 
     public Command closeScoringClaw() {
-        return new InstantCommand(() ->
-                clawScoringServo.setPosition(close), this);
+        return new InstantCommand(() -> {
+                clawScoringServo.enablePWM(true);
+                clawScoringServo.setPosition(close);}, this);
+    }
+    public  Command disablePWM(){
+        return new InstantCommand(()->
+                clawScoringServo.enablePWM(false));
     }
 }

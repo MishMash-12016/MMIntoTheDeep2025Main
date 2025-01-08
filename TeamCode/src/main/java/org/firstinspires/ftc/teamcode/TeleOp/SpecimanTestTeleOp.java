@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -33,7 +32,7 @@ public class SpecimanTestTeleOp extends MMOpMode {
 //        }
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-                ScoringSpecimanCommand.PrepareSpecimanScore()
+                ScoringSpecimanCommand.SpecimanScore()
         );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
