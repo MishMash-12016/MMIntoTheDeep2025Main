@@ -39,13 +39,15 @@ public class Elevator extends MMPIDSubsystem {
 public static final double TOLERANCE = 4;
 
     double ticksOffset = 0;
+    public enum State {
+        LOW_BASKET(80), HIGH_BASKET(140),elevatorDown(-0.1);
 
-    public final static double LOW_BASKET = 80;
-    public final static double HIGH_BASKET = 140;
-    public final static double elevatorDown = -0.1;
-    public final static double elevatorWallHeight = 3;
-    public final static double highChamber = 4;
-    public final static double highChamberScorePose = 4;
+        public double position;
+
+        State(double position){
+            this.position = position;
+        }
+    }
 
     public double targetPose = 0;
 
