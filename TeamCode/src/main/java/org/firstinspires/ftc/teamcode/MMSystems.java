@@ -89,7 +89,7 @@ public class MMSystems {
         this.hardwareMap = hardwareMap;
         this.controlHub = new CuttleRevHub(hardwareMap, CuttleRevHub.HubTypes.CONTROL_HUB);
         if (type != OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION) {
-            this.expansionHub = new CuttleRevHub(hardwareMap, "Expansion Hub 1");
+            this.expansionHub = new CuttleRevHub(hardwareMap, "Expansion Hub 2 ");
         }
         this.gamepadEx1 = new GamepadEx(gamepad1);
         this.gamepadEx2 = new GamepadEx(gamepad2);

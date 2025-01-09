@@ -112,6 +112,45 @@ public class DriveTrain extends SubsystemBase {
     }
 
 
+    // Normalize angle to the range [-180, 180] for easier calculation
+    private double normalizeAngle(double angle) {
+        while (angle > 180) {
+            angle -= 360;
+        }
+        while (angle < -180) {
+            angle += 360;
+        }
+        return angle;
+    }
+
+    //change angle
+    public void setHeading(double targetAngle) {
+        double currentAngle = localizer.getHeading();
+        double error = normalizeAngle(targetAngle - currentAngle);
+        double turnPower = 0.5;  // You can adjust this value for faster/slower turns
+
+        while (Math.abs(error) > 1) {  // You can set a threshold for how precise you want the turn
+            currentAngle = localizer.getHeading();
+            error = normalizeAngle(targetAngle - currentAngle);
+
+            // Apply rotation power to achieve the turn
+            if (error > 0) {
+                // Turn clockwise
+                setMotorPower(new double[]{-turnPower, -turnPower, turnPower, turnPower});
+            } else {
+                // Turn counterclockwise
+                setMotorPower(new double[]{turnPower, turnPower, -turnPower, -turnPower});
+            }
+
+            // Update telemetry during the turn
+            updateTelemetry(new double[]{turnPower, turnPower, turnPower, turnPower});
+        }
+
+        // Stop the motors once the desired angle is reached
+        setMotorPower(new double[]{0, 0, 0, 0});
+    }
+
+
     public void updateTelemetry(double[] power) {
         FtcDashboard.getInstance().getTelemetry().addData("frontLeft", power[0]);
         FtcDashboard.getInstance().getTelemetry().addData("backLeft", power[1]);
