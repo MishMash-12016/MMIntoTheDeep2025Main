@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMDS;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
@@ -40,6 +41,7 @@ public class MMSystems {
     public GamepadEx gamepadEx2;
     public Telemetry telemetry;
     public MMBattery battery;
+    public MMDS intakeDistSensor;
 
 
     //Subsystems
@@ -49,7 +51,6 @@ public class MMSystems {
     public IntakeArm intakeArm;
     public IntakeEndUnitRotator intakeEndUnitRotator;
     public ScoringEndUnitRotator scoringEndUnitRotator;
-    public DistanceSensor intakeDistSensor;
 
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;

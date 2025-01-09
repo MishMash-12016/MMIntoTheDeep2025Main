@@ -4,22 +4,19 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm.IntakeArmState;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake.LinearIntakeState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm.ScoringArmState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator.ScoringRotatorState;
-
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class IntakeSampleCommand {
 
-    public static Command prepareSampleIntake(DoubleSupplier trigger, BooleanSupplier bool){
+    public static Command prepareSampleIntake(DoubleSupplier trigger, BooleanSupplier bool) {
         return new ParallelCommandGroup(
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(trigger),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
@@ -27,7 +24,17 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.rotateByButton(bool)
         );
     }
-    public static Command SampleIntake(){
+
+    public static Command CloseClawBYsensorTest(BooleanSupplier bool) {
+        return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+                new WaitCommand(500),
+        !MMRobot.getInstance().mmSystems.intakeDistSensor.checkDis()?
+         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw() : MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
+        );
+    }
+
+    public static Command SampleIntake() {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.INTAKE_POSE), //collect pose
                 new WaitCommand(300),
@@ -49,7 +56,8 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE)
         );
     }
-    public static Command sampleEject(){
+
+    public static Command sampleEject() {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORE_SAMPLE_HIGH),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
