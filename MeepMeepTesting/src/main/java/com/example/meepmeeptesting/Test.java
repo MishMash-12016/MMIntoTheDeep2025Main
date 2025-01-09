@@ -17,7 +17,7 @@ public class Test {
 
         myBot.runAction(myBot.getDrive().actionBuilder (new Pose2d(-5.5, -65.5, Math.toRadians(90.00)))
                         .setTangent(Math.toRadians(100))
-                .splineToLinearHeading(new Pose2d(-5, -30, Math.toRadians(90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-5, -30, Math.toRadians(90)), Math.toRadians(90)) //score secimen
                         .setTangent(Math.toRadians(240))
                 .splineToLinearHeading(new Pose2d(-48.84, -44.84, Math.toRadians(270)), Math.toRadians(180)) //pick up 1
                         .setTangent(Math.toRadians(240))
@@ -28,7 +28,7 @@ public class Test {
                 .splineToLinearHeading(new Pose2d(-55.97, -59.18, Math.toRadians(225)), Math.toRadians(270)) //go back
                 .setTangent(Math.toRadians(100))
                 .splineToLinearHeading(new Pose2d(-50.8, -45.8, Math.toRadians(315)), Math.toRadians(95)) //pick up 3
-                .setTangent(Math.toRadians(260))
+                .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(-55.97, -59.18, Math.toRadians(225)), Math.toRadians(270))
 
                 .build());
