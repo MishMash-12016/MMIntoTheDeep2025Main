@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -48,6 +49,7 @@ public class MMSystems {
     public IntakeArm intakeArm;
     public IntakeEndUnitRotator intakeEndUnitRotator;
     public ScoringEndUnitRotator scoringEndUnitRotator;
+    public DistanceSensor intakeDistSensor;
 
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
