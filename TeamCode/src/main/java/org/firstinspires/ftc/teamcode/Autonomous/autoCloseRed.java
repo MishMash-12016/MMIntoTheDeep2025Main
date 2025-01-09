@@ -43,8 +43,19 @@ public class autoCloseRed extends MMOpMode {
                 .splineToLinearHeading(new Pose2d(-48.84, -44.84, Math.toRadians(270)), Math.toRadians(180));
         TrajectoryActionBuilder drivetToScoreFirstSample = driveToPickUpFirstSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(240))
-                .splineToLinearHeading(new Pose2d(-55.97, -59.18, Math.toRadians(225)), Math.toRadians(270))
-
+                .splineToLinearHeading(new Pose2d(-55.97, -59.18, Math.toRadians(225)), Math.toRadians(270));
+        TrajectoryActionBuilder driveToPickUpSecondSample = driveToScorePreloadSpecimen.endTrajectory().fresh()
+                .setTangent(Math.toRadians(100))
+                .splineToLinearHeading(new Pose2d(-57.875, -44.84, Math.toRadians(270)), Math.toRadians(95));
+        TrajectoryActionBuilder driveToScoreSecondSample = driveToPickUpSecondSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(275))
+                .splineToLinearHeading(new Pose2d(-55.97, -59.18, Math.toRadians(225)), Math.toRadians(270));
+        TrajectoryActionBuilder driveToPickUpThirdSample= driveToScoreSecondSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(100))
+                .splineToLinearHeading(new Pose2d(-50.8, -45.8, Math.toRadians(315)), Math.toRadians(95));
+        TrajectoryActionBuilder driveToScoreThirdSample = driveToPickUpThirdSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-55.97, -59.18, Math.toRadians(225)), Math.toRadians(270));
 
     }
 
