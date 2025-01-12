@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMDistSensor;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
@@ -39,6 +39,7 @@ public class MMSystems {
     public GamepadEx gamepadEx2;
     public Telemetry telemetry;
     public MMBattery battery;
+    public MMDistSensor intakeDistSensor;
 
 
     //Subsystems
@@ -95,6 +96,7 @@ public class MMSystems {
         this.gamepadEx2 = new GamepadEx(gamepad2);
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
+        this.intakeDistSensor = new MMDistSensor(hardwareMap);
 
         CommandScheduler.getInstance().reset(); //reset the scheduler
     }

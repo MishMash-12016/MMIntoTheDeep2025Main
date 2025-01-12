@@ -16,6 +16,7 @@ package org.firstinspires.ftc.teamcode.utils;
 public class Configuration {
 
     public static final String IMU = "imu";
+    public static final String DS1 = "DS1";
 
     //CONTROL HUB
     //DriveTrain
@@ -48,6 +49,8 @@ public class Configuration {
     //Linear Intake Arm:
     public static final int INTAKE_ARM_SERVO_RIGHT = 5;
     public static final int INTAKE_ARM_SERVO_LEFT = 1;
+
+
 
 
     //EXPANSION HUB
