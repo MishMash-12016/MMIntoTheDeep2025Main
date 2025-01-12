@@ -4,6 +4,8 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm.IntakeArmState;
@@ -25,7 +27,8 @@ public class IntakeSampleCommand {
         );
     }
 
-    public static Command CloseClawBYsensorTest(BooleanSupplier bool) {
+    public static Command CloseClawBYsensorTest() {
+
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(500),

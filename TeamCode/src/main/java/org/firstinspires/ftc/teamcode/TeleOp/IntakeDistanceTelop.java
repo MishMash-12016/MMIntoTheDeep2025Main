@@ -24,7 +24,7 @@ public class IntakeDistanceTelop extends MMOpMode {
 //
 //        );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                IntakeSampleCommand.CloseClawBYsensorTest(() -> MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).get())
+                IntakeSampleCommand.CloseClawBYsensorTest()
         );
     }
 
