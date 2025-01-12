@@ -2,17 +2,23 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
+import java.util.function.BooleanSupplier;
+
 public class IntakEndUnit extends SubsystemBase {
 
     CuttleServo clawIntakeServo;
+    DistanceSensor IntakeDistSensor;
     public enum IntakeClawState {
-        OPEN(0.4), CLOSE(0);
+        OPEN(0.7), CLOSE(1);
         public double position;
         IntakeClawState(double position){
             this.position = position;
@@ -24,6 +30,14 @@ public class IntakEndUnit extends SubsystemBase {
     }
     public Command openIntakeClaw() {
         return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.OPEN.position), this);
+    }
+    public Command closeBySensor(BooleanSupplier bool){
+        return new RunCommand(() -> {
+            clawIntakeServo.setPosition(bool.getAsBoolean() ?
+                    IntakeClawState.OPEN.position :
+                    IntakeClawState.CLOSE.position);
+        },
+                this);
     }
 
     public Command closeIntakeClaw() {
