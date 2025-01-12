@@ -6,18 +6,13 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.geometry.Vector2d;
-import com.qualcomm.hardware.bosch.BHI260IMU;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.roboctopi.cuttlefish.utils.Direction;
+
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMPinPoint;
 
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleMotor;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
@@ -30,7 +25,7 @@ public class DriveTrain extends SubsystemBase {
     final double[][] transformationMatrix = {
             {1, 1, 1}, //frontLeft
             {-1, 1, 1}, //backLeft
-            {-1, 1,-1}, //frontRight
+            {-1, 1, -1}, //frontRight
             {1, 1, -1} //backRight
     };
 
@@ -49,7 +44,7 @@ public class DriveTrain extends SubsystemBase {
         motorBL = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_BACK_LEFT);
         motorFR = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_FRONT_RIGHT);
         motorBR = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_BACK_RIGHT);
-        localizer = MMRobot.getInstance().mmSystems.hardwareMap.get(MMPinPoint.class,"localizer");
+        localizer = MMRobot.getInstance().mmSystems.hardwareMap.get(MMPinPoint.class, "localizer");
 
         //TODO: reverse motors as needed
         motorBR.setDirection(Direction.REVERSE);
@@ -123,32 +118,6 @@ public class DriveTrain extends SubsystemBase {
         return angle;
     }
 
-    //change angle
-    public void setHeading(double targetAngle) {
-        double currentAngle = localizer.getHeading();
-        double error = normalizeAngle(targetAngle - currentAngle);
-        double turnPower = 0.5;  // You can adjust this value for faster/slower turns
-
-        while (Math.abs(error) > 1) {  // You can set a threshold for how precise you want the turn
-            currentAngle = localizer.getHeading();
-            error = normalizeAngle(targetAngle - currentAngle);
-
-            // Apply rotation power to achieve the turn
-            if (error > 0) {
-                // Turn clockwise
-                setMotorPower(new double[]{-turnPower, -turnPower, turnPower, turnPower});
-            } else {
-                // Turn counterclockwise
-                setMotorPower(new double[]{turnPower, turnPower, -turnPower, -turnPower});
-            }
-
-            // Update telemetry during the turn
-            updateTelemetry(new double[]{turnPower, turnPower, turnPower, turnPower});
-        }
-
-        // Stop the motors once the desired angle is reached
-        setMotorPower(new double[]{0, 0, 0, 0});
-    }
 
 
     public void updateTelemetry(double[] power) {

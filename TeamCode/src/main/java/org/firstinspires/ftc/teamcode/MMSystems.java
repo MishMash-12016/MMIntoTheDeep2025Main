@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.LimeLight;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
@@ -52,6 +53,8 @@ public class MMSystems {
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
     public Elevator elevator;
+    public LimeLight limeLight;
+
 
 
     //creating and initiating all subsystems
@@ -66,6 +69,8 @@ public class MMSystems {
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.scoringEndUnitRotator=new ScoringEndUnitRotator();
+        this.limeLight = new LimeLight();
+
         intakeEndUnitRotator = new IntakeEndUnitRotator();
         linearIntake.setDefaultCommand(
                 linearIntake.defultCommand(0)

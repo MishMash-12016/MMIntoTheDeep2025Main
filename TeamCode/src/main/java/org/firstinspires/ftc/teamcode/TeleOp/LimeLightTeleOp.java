@@ -1,9 +1,10 @@
-package org.firstinspires.ftc.teamcode.LimeLight;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.LimeLight;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -17,7 +18,7 @@ import org.opencv.core.Mat;
 import java.util.List;
 
 @TeleOp(name = "Sensor: Limelight3A", group = "Sensor")
-public class LimeLight extends MMOpMode {
+public class LimeLightTeleOp extends MMOpMode {
     private Limelight3A limelight;
 
     public final double maxOpeningLinearCM = 34.5 ;//cm
@@ -26,7 +27,7 @@ public class LimeLight extends MMOpMode {
     public final double sampleHeight = 3.9; //cm
 
 
-    public LimeLight() {
+    public LimeLightTeleOp() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
@@ -60,33 +61,10 @@ public class LimeLight extends MMOpMode {
     public void run() {
         super.run();
         MMRobot.getInstance().mmSystems.controlHub.pullBulkData();
-
-        LLStatus status = limelight.getStatus();
         LLResult result = limelight.getLatestResult();
-        if (result != null) {
-            // Access general information
-            Pose3D botpose = result.getBotpose();
 
-            if (result.isValid()) {
-                telemetry.addData("tx", result.getTx());
-                telemetry.addData("txnc", result.getTxNC());
-                telemetry.addData("ty", result.getTy());
-                telemetry.addData("tync", result.getTyNC());
-                telemetry.addData("Botpose", botpose.toString());
-
-
-                // Access detector results
-                List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
-                for (LLResultTypes.DetectorResult dr : detectorResults) {
-                    telemetry.addData("Detector", "Class: %s, Area: %.2f", dr.getClassName(), dr.getTargetArea());
-                    telemetry.addData("distance: %d", calculateDistance(result.getTy()));
-                    MMRobot.getInstance().mmSystems.driveTrain.setHeading(result.getTy());
-                    MMRobot.getInstance().mmSystems.linearIntake.setPosition(calculateDistance(result.getTy() / maxOpeningLinearCM * LinearIntake.maxOpening));
-                }
-            }
-        } else {
-            telemetry.addData("Limelight", "No data available");
-        }
+        List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
+        MMRobot.getInstance().mmSystems.limeLight.gotoSample(limelight);
 
         telemetry.update();
     }
