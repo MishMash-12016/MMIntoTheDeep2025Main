@@ -54,9 +54,9 @@ public class Configuration {
     public static final int SCORING_CLAW_SERVO = 2;
     public static final int SCORING_ROTATOR_SERVO = 3;
     //Scoring arm:
-    public static final int SERVO_RIGHT_SCORING_ARM = 5;
+    public static final int SERVO_RIGHT_SCORING_ARM = 4;
 
-    public static final int SERVO_LEFT_SCORING_ARM =4;
+    public static final int SERVO_LEFT_SCORING_ARM = 5;
 
 
 

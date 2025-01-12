@@ -32,16 +32,17 @@ public class Elevator extends MMPIDSubsystem {
     final double SPROCKET_PERIMETER = 6.56592;
 
     //PID:
-    public static double kP = 0.11;
+    public static double kP = 0.15;
     public static double kI = 0.01;
-    public static double kD = 0;
-    public static double TOLERANCE = 0.5;
-    public static double kG = 0.1;
+    public static double kD = 0.002;
+    public static double TOLERANCE = 0.2;
+    public static double kG = 0.15;
 
     double ticksOffset = 0;
 
+
     public enum ElevatorState {
-        LOW_BASKET(80), HIGH_BASKET(73), ELEVATOR_DOWN(1);
+        LOW_BASKET(30), HIGH_BASKET(60), ELEVATOR_DOWN(1);
 
         public double position;
 
@@ -76,8 +77,8 @@ public class Elevator extends MMPIDSubsystem {
     }
 
     public Command moveToPose(ElevatorState state) {
-        return new MMPIDCommand(this, state.position)
-                .alongWith(new InstantCommand(() -> targetPose = state.position));
+            return new MMPIDCommand(this, state.position)
+                    .alongWith(new InstantCommand(() -> targetPose = state.position));
     }
 
     public Command setPowerByJoystick(DoubleSupplier power) {
@@ -88,10 +89,16 @@ public class Elevator extends MMPIDSubsystem {
 
     @Override
     public void setPower(Double power) {
-        motor1.setPower(power);
-        motor2.setPower(power);
-        motor3.setPower(power);
+        if(targetPose == ElevatorState.ELEVATOR_DOWN.position) {
+            if (power > 0.5) {
+                power = 0.48;
+            }
+        }
+            motor1.setPower(power);
+            motor2.setPower(power);
+            motor3.setPower(power);
     }
+
 
     public double getTicks() {
         return motorEncoder.getCounts() + ticksOffset;
@@ -125,7 +132,7 @@ public class Elevator extends MMPIDSubsystem {
 
     @Override
     public void stop() {
-        setPower(0.0);
+        setPower(kG);
     }
 
     @Override
@@ -138,6 +145,7 @@ public class Elevator extends MMPIDSubsystem {
 //        FtcDashboard.getInstance().getTelemetry().addData("motorRightPower",motorRight.getPower());
         FtcDashboard.getInstance().getTelemetry().addData("height", getHeight());
         FtcDashboard.getInstance().getTelemetry().addData("target", getPidController().getSetPoint());
+
         FtcDashboard.getInstance().getTelemetry().update();
 
     }
