@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
@@ -10,13 +11,17 @@ import org.firstinspires.ftc.teamcode.SubSystems.Elevator.ElevatorState;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm.ScoringArmState;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 
 public class ScoringSampleCommand {
     public static Command PrepareScoreHigh(){
         return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.CLOSE.position),
+                new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET), //the height of the high basket
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORE_SAMPLE_HIGH)
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORE_SAMPLE_HIGH),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE)
         );
     }
     public static Command PrepareScoreLow(){

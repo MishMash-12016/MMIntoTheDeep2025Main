@@ -1,4 +1,6 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+
+
+    package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.button.Trigger;
@@ -15,11 +17,11 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
-public class SampleTestTeleOp extends MMOpMode {
+public class ScoringRotaterTleOP extends MMOpMode {
     MMRobot robotInstance;
     MMSystems mmSystems;
 
-    public SampleTestTeleOp() {
+    public ScoringRotaterTleOP() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
@@ -32,35 +34,22 @@ public class SampleTestTeleOp extends MMOpMode {
         robotInstance.mmSystems.initRobotSystems();
         robotInstance.mmSystems.initDriveTrain();
 
-        new Trigger(() -> mmSystems.gamepadEx1.getTrigger(
-                GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-                .whileActiveOnce(IntakeSampleCommand.prepareSampleIntake(
-                        () -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER),
-                        () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()));
 
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                IntakeSampleCommand.SampleIntake()
-        );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                ScoringSampleCommand.PrepareScoreLow());
-               mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                ScoringSampleCommand.PrepareScoreHigh()
+                mmSystems.scoringArm.setPosition(0)
+        );        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                mmSystems.scoringArm.setPosition(1)
         );
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-                ScoringSampleCommand.ScoreSample()
-        );
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                IntakeSampleCommand.sampleEject()
-        );
-
 
     }
     @Override
     public void run() {
         super.run();
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
-       mmSystems.elevator.updateToDashboard();
+        mmSystems.elevator.updateToDashboard();
 
 
     }
 }
+
+

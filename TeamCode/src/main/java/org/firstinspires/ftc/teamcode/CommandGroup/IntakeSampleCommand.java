@@ -49,7 +49,7 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.HOLD_POSE),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.OPEN.position),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE),
-                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_DOWN),
+               // MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_DOWN),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new WaitCommand(600),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
