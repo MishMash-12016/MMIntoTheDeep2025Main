@@ -32,15 +32,15 @@ public class SampleTestTeleOp extends MMOpMode {
         robotInstance.mmSystems.initRobotSystems();
         robotInstance.mmSystems.initDriveTrain();
 
-        new Trigger(() -> mmSystems.gamepadEx1.getTrigger(
-                GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-                .whileActiveOnce(IntakeSampleCommand.prepareSampleIntake(
-                        () -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER),
-                        () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()));
-
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                IntakeSampleCommand.SampleIntake()
-        );
+//        new Trigger(() -> mmSystems.gamepadEx1.getTrigger(
+//                GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+//                .whileActiveOnce(IntakeSampleCommand.prepareSampleIntake(
+//                        () -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER),
+//                        () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()));
+//
+//        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+//                IntakeSampleCommand.SampleIntake()
+//        );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
                 ScoringSampleCommand.PrepareScoreLow()
         );        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
@@ -53,17 +53,17 @@ public class SampleTestTeleOp extends MMOpMode {
                 IntakeSampleCommand.sampleEject()
         );
 
-
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-          mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.TRANSFER_POSE)
-        );
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-                mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET)
-        );
-
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_DOWN)
-        );
+//
+//        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+//          mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.TRANSFER_POSE)
+//        );
+//        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+//                mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET)
+//        );
+//
+//        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+//                mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_DOWN)
+//        );
     }
     @Override
     public void run() {
