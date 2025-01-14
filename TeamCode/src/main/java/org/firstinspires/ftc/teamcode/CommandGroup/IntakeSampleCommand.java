@@ -62,7 +62,7 @@ public class IntakeSampleCommand {
 
     public static Command sampleEject() {
         return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORE_SAMPLE_HIGH),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORE_SAMPLE),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
         );
     }

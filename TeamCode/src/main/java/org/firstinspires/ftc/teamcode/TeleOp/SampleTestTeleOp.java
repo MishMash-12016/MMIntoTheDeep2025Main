@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
@@ -32,26 +33,64 @@ public class SampleTestTeleOp extends MMOpMode {
         robotInstance.mmSystems.initRobotSystems();
         robotInstance.mmSystems.initDriveTrain();
 
-        new Trigger(() -> mmSystems.gamepadEx1.getTrigger(
-                GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-                .whileActiveOnce(IntakeSampleCommand.prepareSampleIntake(
-                        () -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER),
-                        () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()));
+//        new Trigger(() -> mmSystems.gamepadEx1.getTrigger(
+//                GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+//                .whileActiveOnce(IntakeSampleCommand.prepareSampleIntake(
+//                        () -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER),
+//                        () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()));
 
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                IntakeSampleCommand.SampleIntake()
-        );
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                ScoringSampleCommand.PrepareScoreLow());
-               mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+//                robotInstance.mmSystems.scoringArm.setPosition(0.15)
+//        );         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+//                robotInstance.mmSystems.scoringArm.setPosition(0.75)
+//        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 ScoringSampleCommand.PrepareScoreHigh()
-        );
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+        );        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                ScoringSampleCommand.PrepareScoreLow()
+        );        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
                 ScoringSampleCommand.ScoreSample()
         );
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                IntakeSampleCommand.sampleEject()
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE)
         );
+       MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+               MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+        );       MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+               MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
+        );
+
+
+        /*
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                robotInstance.mmSystems.scoringArm.setPosition(0)
+        );         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                robotInstance.mmSystems.scoringArm.setPosition(0.15)//this
+        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                robotInstance.mmSystems.scoringArm.setPosition(0.2)
+        );         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                robotInstance.mmSystems.scoringArm.setPosition(0.3)
+        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+                robotInstance.mmSystems.scoringArm.setPosition(0.4)
+        );         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+                robotInstance.mmSystems.scoringArm.setPosition(0.5)
+        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                robotInstance.mmSystems.scoringArm.setPosition(0.6)
+        );         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+                robotInstance.mmSystems.scoringArm.setPosition(0.75)//this
+        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+                robotInstance.mmSystems.scoringArm.setPosition(0.8)
+        );         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+                robotInstance.mmSystems.scoringArm.setPosition(0.9)
+        );
+
+
+         */
+
 
 
     }
@@ -60,7 +99,8 @@ public class SampleTestTeleOp extends MMOpMode {
         super.run();
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
        mmSystems.elevator.updateToDashboard();
-
+        telemetry.addData("elevator: ", mmSystems.elevator.getHeight());
+        telemetry.update();
 
     }
 }

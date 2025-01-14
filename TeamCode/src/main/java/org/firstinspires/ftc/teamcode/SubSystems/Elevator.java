@@ -42,7 +42,7 @@ public class Elevator extends MMPIDSubsystem {
 
 
     public enum ElevatorState {
-        LOW_BASKET(30), HIGH_BASKET(60), ELEVATOR_DOWN(5);
+        LOW_BASKET(30), HIGH_BASKET(68), ELEVATOR_DOWN(5);
 
         public double position;
 
