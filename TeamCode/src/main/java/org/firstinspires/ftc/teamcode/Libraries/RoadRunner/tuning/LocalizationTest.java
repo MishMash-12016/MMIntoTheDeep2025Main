@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.Drawing;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.TankDrive;
 
-@Disabled
+//@Disabled
 public class LocalizationTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

@@ -44,7 +44,7 @@ public class autoCloseRed extends MMOpMode {
         TrajectoryActionBuilder drivetToScoreFirstSample = driveToPickUpFirstSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(240))
                 .splineToLinearHeading(new Pose2d(-55.97, -59.18, Math.toRadians(225)), Math.toRadians(270));
-        TrajectoryActionBuilder driveToPickUpSecondSample = driveToScorePreloadSpecimen.endTrajectory().fresh()
+        TrajectoryActionBuilder driveToPickUpSecondSample = drivetToScoreFirstSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(100))
                 .splineToLinearHeading(new Pose2d(-57.875, -44.84, Math.toRadians(270)), Math.toRadians(95));
         TrajectoryActionBuilder driveToScoreSecondSample = driveToPickUpSecondSample.endTrajectory().fresh()
