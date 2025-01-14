@@ -34,7 +34,7 @@ public class ScoringArm extends SubsystemBase {
     public Command setPosition(double newPos) {
         return new InstantCommand(()-> {
             servoLeft.setPosition(newPos);
-                servoRight.setPosition(newPos);} ,
+                servoRight.setPosition(1-newPos);} ,
                 this);
     }
 

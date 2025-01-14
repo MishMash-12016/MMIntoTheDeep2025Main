@@ -20,20 +20,13 @@ public class ScoringArmTeleOp extends MMOpMode {
     @Override
     public void onInit() {
         robotInstance.mmSystems.initRobotSystems();
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                robotInstance.mmSystems.scoringArm.setPosition(0)
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                robotInstance.mmSystems.scoringArm.setPosition(0.07)
+        );         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                robotInstance.mmSystems.scoringArm.setPosition(0.8)
         );
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                robotInstance.mmSystems.scoringArm.setPosition(1)
-        );
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-//                new InstantCommand(()->
-//                        ScoringArm.transferHold +=0.05
-//                ));
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-//                new InstantCommand(()->
-//                        ScoringArm.midPose +=0.05
-//                ));
+
+
     }
 
     @Override
