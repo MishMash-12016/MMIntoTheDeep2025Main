@@ -59,7 +59,7 @@ public class Configuration {
     //Scoring arm:
     public static final int SERVO_RIGHT_SCORING_ARM = 5;
 
-    public static final int SERVO_LEFT_SCORING_ARM =4;
+    public static final int SERVO_LEFT_SCORING_ARM = 4;
 
 
 

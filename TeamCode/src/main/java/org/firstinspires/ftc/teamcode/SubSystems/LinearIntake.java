@@ -38,6 +38,12 @@ public class LinearIntake extends SubsystemBase {
             servoRight.setPosition(1-newPos);} ,
                 this);
     }
+    public Command setPosition(DoubleSupplier newPos){
+        return new RunCommand(()-> {
+            servoLeft.setPosition(newPos.getAsDouble());
+            servoRight.setPosition(1-newPos.getAsDouble());} ,
+                this);
+    }
     public Command setPosition(LinearIntakeState state){
         return new InstantCommand(()-> {
             servoLeft.setPosition(state.position);
