@@ -1,9 +1,11 @@
 package com.example.meepmeeptesting;
 
-import com.acmerobotics.roadrunner.Pose2d;
-import com.noahbres.meepmeep.MeepMeep;
-import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
-import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
+
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+
+import org.rowlandhall.meepmeep.MeepMeep;
+import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
+import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class RedFar {
     public static void main(String[] args) {
@@ -13,9 +15,8 @@ public class RedFar {
                 .setDimensions(11.02,14.5)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
-                .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder (new Pose2d(5.5, -65.5, Math.toRadians(90.00)))
+                .followTrajectorySequence(drive-> drive.trajectorySequenceBuilder (new Pose2d(5.5, -65.5, Math.toRadians(90.00)))
                 .setTangent(Math.toRadians(100))
                 .splineToLinearHeading(new Pose2d(5, -30, Math.toRadians(90)), Math.toRadians(90)) //score secimen
                 .setTangent(Math.toRadians(300))//240))
@@ -27,7 +28,7 @@ public class RedFar {
                 .build());
 
 
-        meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
+        meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_OFFICIAL)
 
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
