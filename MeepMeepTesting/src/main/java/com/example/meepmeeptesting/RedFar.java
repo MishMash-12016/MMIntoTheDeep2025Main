@@ -17,9 +17,9 @@ public class RedFar {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
 
                 .followTrajectorySequence(drive-> drive.trajectorySequenceBuilder (new Pose2d(5.5, -65.5, Math.toRadians(90.00)))
-                .setTangent(Math.toRadians(100))
+                .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(5, -30, Math.toRadians(90)), Math.toRadians(90)) //score secimen
-                .setTangent(Math.toRadians(300))//240))
+                .setTangent(Math.toRadians(360))//240))
                 .splineToLinearHeading(new Pose2d(48.84, -44.84, Math.toRadians(270)), Math.toRadians(0)) //pick up 1
                 .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(57.875, -44.84, Math.toRadians(270)), Math.toRadians(0)) //pick up 2
@@ -28,7 +28,7 @@ public class RedFar {
                 .build());
 
 
-        meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_OFFICIAL)
+        meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)
 
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
