@@ -17,8 +17,8 @@ public class IntakeEndUnitRotator extends SubsystemBase {
     private final static MMRobot robotInstance = MMRobot.getInstance();
 
     public enum IntakeRotatorState {
-        INTAKE_SAMPLE_POSE(0),
-        HOLD_POSE_SPECIMEN(1),
+        INTAKE_SAMPLE_POSE(0.02),
+        HOLD_POSE_SPECIMEN(0.58),
         INTAKE_SPECIMEN_POSE(0),
         ROATATE_ANGLE(0.5);
         public double position;
