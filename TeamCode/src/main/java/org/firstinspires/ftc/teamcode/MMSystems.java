@@ -66,7 +66,6 @@ public class MMSystems {
         this.intakeArm = new IntakeArm();
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
-        this.scoringEndUnitRotator=new ScoringEndUnitRotator();
         intakeEndUnitRotator = new IntakeEndUnitRotator();
         linearIntake.setDefaultCommand(
                 linearIntake.defultCommand(0)

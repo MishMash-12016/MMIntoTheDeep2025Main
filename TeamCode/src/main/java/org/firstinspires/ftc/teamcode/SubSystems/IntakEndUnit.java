@@ -16,7 +16,7 @@ import java.util.function.BooleanSupplier;
 public class IntakEndUnit extends SubsystemBase {
 
     CuttleServo clawIntakeServo;
-    DistanceSensor IntakeDistSensor;
+
     public enum IntakeClawState {
         OPEN(0.7), CLOSE(1);
         public double position;
