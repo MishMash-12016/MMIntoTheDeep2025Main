@@ -15,8 +15,9 @@ public class ScoringArm extends SubsystemBase {
     public enum ScoringArmState {
         TRANSFER_POSE(0.66),
         MID_POSE(0.48),
-        SCORE_SPECIMEN(0.55),
-        SCORE_SAMPLE(0.15);
+        SCORE_SPECIMEN(0.3),
+        TRANSFER_SPECIMEN_POSE(0.67),
+        SCORE_SAMPLE(0.25);
         public double position;
         ScoringArmState(double position){
             this.position = position;
@@ -25,6 +26,8 @@ public class ScoringArm extends SubsystemBase {
     public ScoringArm() {
         servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SERVO_LEFT_SCORING_ARM);
         servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SERVO_RIGHT_SCORING_ARM);
+        servoLeft.setPosition(ScoringArmState.MID_POSE.position);
+        servoRight.setPosition(-ScoringArmState.MID_POSE.position);
     }
 
     //Tell arm to get to position

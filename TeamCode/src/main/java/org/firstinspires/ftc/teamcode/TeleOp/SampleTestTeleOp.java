@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
@@ -110,6 +111,8 @@ public class SampleTestTeleOp extends MMOpMode {
         super.run();
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
        mmSystems.elevator.updateToDashboard();
+
+        mmSystems.driveTrain.updateTelemetry();
         //FtcDashboard.getInstance().getTelemetry().addData("elevator: ", mmSystems.elevator.getHeight());
         telemetry.update();
 

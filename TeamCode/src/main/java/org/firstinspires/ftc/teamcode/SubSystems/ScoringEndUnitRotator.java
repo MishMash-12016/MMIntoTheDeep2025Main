@@ -18,7 +18,9 @@ public class ScoringEndUnitRotator extends SubsystemBase {
     public enum ScoringRotatorState {
         HOLD_POSE(0.26),
         RIGHT_ANGLE(0.28),
-        SCORE_SAMPLE_POSE(0);
+        SCORE_SAMPLE_POSE(0),
+        MID_POSE_SPECIMEN(0.35),
+        SPECIMEN_POSE(0.24);
 
         public double position;
         ScoringRotatorState(double position){
