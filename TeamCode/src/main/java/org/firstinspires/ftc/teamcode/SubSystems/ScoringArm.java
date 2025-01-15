@@ -13,7 +13,10 @@ public class ScoringArm extends SubsystemBase {
     private final CuttleServo servoRight;
 
     public enum ScoringArmState {
-        TRANSFER_POSE(0.12), MID_POSE(0.28), SCORE_SPECIMEN(0.55),  SCORE_SAMPLE_HIGH(0.5),SCORE_SAMPLE_LOW(0.6);
+        TRANSFER_POSE(0.66),
+        MID_POSE(0.48),
+        SCORE_SPECIMEN(0.55),
+        SCORE_SAMPLE(0.15);
         public double position;
         ScoringArmState(double position){
             this.position = position;

@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.roboctopi.cuttlefish.utils.Direction;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleEncoder;
@@ -25,26 +26,27 @@ public class Elevator extends MMPIDSubsystem {
 
 
     //constants:
-    private final double TICKS_PER_REV = 537.7;
-    private final double GEAR_RATIO = 1;
-    private final double LEVELS = 4;
-    private final double SPROCKET_PERIMETER = 12.9;
+    final double TICKS_PER_REV = 384.5;
+    final double GEAR_RATIO = 1;
+    final double LEVELS = 4;
+    final double SPROCKET_PERIMETER = 6.56592;
 
     //PID:
-    public static final double kP = 0.15;
-    public static final double kI = 0;
-    public static final double kD = 0;
-    public static final double kG = 0.3;
-
-public static final double TOLERANCE = 4;
+    public static double kP = 0.23;
+    public static double kI = 0.01;
+    public static double kD = 0.008 ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+    public static double TOLERANCE = 0.5;
+    public static double kG = 0.16;
 
     double ticksOffset = 0;
+
+
     public enum ElevatorState {
-        LOW_BASKET(80), HIGH_BASKET(140),ELEVATOR_DOWN(-0.1);
+        LOW_BASKET(30), HIGH_BASKET(75), ELEVATOR_DOWN(2);
 
         public double position;
 
-        ElevatorState(double position){
+        ElevatorState(double position) {
             this.position = position;
         }
     }
@@ -53,7 +55,7 @@ public static final double TOLERANCE = 4;
 
     public Elevator() {
         super(kP, kI, kD, TOLERANCE);
-    register();
+        register();
 
         motor1 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR1);
         motor2 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR2);
@@ -62,19 +64,21 @@ public static final double TOLERANCE = 4;
 
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
 
-//        this.motorLeft.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
-//        this.motorRight.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motor1.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motor2.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motor3.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
         resetTicks();
     }
 
     public Command moveToPose(double setPoint) {
         return new MMPIDCommand(this, setPoint)
-                .alongWith(new InstantCommand(()->targetPose = setPoint));
+                .alongWith(new InstantCommand(() -> targetPose = setPoint));
     }
+
     public Command moveToPose(ElevatorState state) {
-        return new MMPIDCommand(this, state.position)
-                .alongWith(new InstantCommand(()->targetPose = state.position));
+            return new MMPIDCommand(this, state.position)
+                    .alongWith(new InstantCommand(() -> targetPose = state.position));
     }
 
     public Command setPowerByJoystick(DoubleSupplier power) {
@@ -84,11 +88,17 @@ public static final double TOLERANCE = 4;
     }
 
     @Override
-    public void setPower(Double power){
-        motor1.setPower(power);
-        motor2.setPower(power);
-        motor3.setPower(power);
+    public void setPower(Double power) {
+        if(targetPose == ElevatorState.ELEVATOR_DOWN.position) {
+            if (power > 0.5) {
+                power = 0.48;
+            }
+        }
+            motor1.setPower(power);
+            motor2.setPower(power);
+            motor3.setPower(power);
     }
+
 
     public double getTicks() {
         return motorEncoder.getCounts() + ticksOffset;
@@ -122,18 +132,20 @@ public static final double TOLERANCE = 4;
 
     @Override
     public void stop() {
-        setPower(0.0);
+        setPower(kG);
     }
+
     @Override
     public void periodic() {
         updateToDashboard();
     }
 
-    public void updateToDashboard(){
+    public void updateToDashboard() {
 //        FtcDashboard.getInstance().getTelemetry().addData("motorLeftPower", motorLeft.getPower());
 //        FtcDashboard.getInstance().getTelemetry().addData("motorRightPower",motorRight.getPower());
-        FtcDashboard.getInstance().getTelemetry().addData("height",getHeight());
+        FtcDashboard.getInstance().getTelemetry().addData("height", getHeight());
         FtcDashboard.getInstance().getTelemetry().addData("target", getPidController().getSetPoint());
+
         FtcDashboard.getInstance().getTelemetry().update();
 
     }
