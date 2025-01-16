@@ -49,7 +49,6 @@ public class MMSystems {
     public IntakeArm intakeArm;
     public IntakeEndUnitRotator intakeEndUnitRotator;
     public ScoringEndUnitRotator scoringEndUnitRotator;
-
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
     public Elevator elevator;
@@ -58,18 +57,18 @@ public class MMSystems {
     //creating and initiating all subsystems
     public void initRobotSystems() {
 
-            elevator = new Elevator();
+        this.elevator = new Elevator();
         this.linearIntake = new LinearIntake();
-
         this.intakEndUnit = new IntakEndUnit();
         this.scoringEndUnitRotator = new ScoringEndUnitRotator();
         this.intakeArm = new IntakeArm();
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
-        intakeEndUnitRotator = new IntakeEndUnitRotator();
+        this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         linearIntake.setDefaultCommand(
                 linearIntake.defultCommand(0)
         );
+
     }
 
     public void initDriveTrain() {
