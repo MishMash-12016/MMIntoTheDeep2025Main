@@ -16,7 +16,7 @@ package org.firstinspires.ftc.teamcode.utils;
 public class Configuration {
 
     public static final String IMU = "imu";
-    public static final String DS1 = "DS1";
+    public static final String intakeDistanceSensor = "Distance Sensor";
 
     //CONTROL HUB
     //DriveTrain

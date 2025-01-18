@@ -37,7 +37,9 @@ public class ManualDrive extends MMOpMode {
                 .whileActiveOnce(IntakeSampleCommand.prepareSampleIntake(
                         () -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
 
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+        new Trigger(() -> mmSystems.gamepadEx1.getTrigger(
+                GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+                .whileActiveOnce(
                 mmSystems.intakeEndUnitRotator.rotateByButton()
         );
 

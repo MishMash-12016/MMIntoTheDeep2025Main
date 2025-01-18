@@ -77,7 +77,7 @@ public class MMSystems {
                 linearIntake.defultCommand(0)
         );
         intakeEndUnitRotator.setDefaultCommand(
-                intakeEndUnitRotator.setPositionRUN(0)
+                intakeEndUnitRotator.setPositionRUN(0.12)
         );
 
     }

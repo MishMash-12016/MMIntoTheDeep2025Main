@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -20,11 +21,12 @@ public class IntakeDistanceTelop extends MMOpMode {
     @Override
     public void onInit() {
         robotInstance.mmSystems.initRobotSystems();
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-//
-//        );
+        new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger( //intake+intake rotater
+                GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+                .whileActiveOnce(IntakeSampleCommand.prepareSampleIntake(
+                        () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                IntakeSampleCommand.CloseClawBYsensorTest()
+                IntakeSampleCommand.OpenClawBYsensorTest()
         );
     }
 
