@@ -3,13 +3,16 @@ package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMDistSensor;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
@@ -40,6 +43,9 @@ public class MMSystems {
     public Telemetry telemetry;
     public MMBattery battery;
     public MMDistSensor intakeDistSensor;
+    public TouchSensor elevetorTouchSensor;
+    public MMIMU imu;
+
 
 
     //Subsystems
@@ -52,6 +58,8 @@ public class MMSystems {
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
     public Elevator elevator;
+
+
 
 
     //creating and initiating all subsystems
@@ -68,6 +76,9 @@ public class MMSystems {
         linearIntake.setDefaultCommand(
                 linearIntake.defultCommand(0)
         );
+        intakeEndUnitRotator.setDefaultCommand(
+                intakeEndUnitRotator.setPositionRUN(0)
+        );
 
     }
 
@@ -76,7 +87,7 @@ public class MMSystems {
         driveTrain.setDefaultCommand(
                 MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
                         () -> gamepadEx1.getLeftX(),
-                        () -> -gamepadEx1.getLeftY(),
+                        () -> gamepadEx1.getLeftY(),
                         () -> Math.pow(gamepadEx1.getRightX(),3))
 
         );
@@ -95,6 +106,10 @@ public class MMSystems {
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
         this.intakeDistSensor = new MMDistSensor(hardwareMap);
+        this.imu = new MMIMU(hardwareMap);
+        this.elevetorTouchSensor =  hardwareMap.get(TouchSensor.class,"Elevator Touch Sensor");
+
+
 
         CommandScheduler.getInstance().reset(); //reset the scheduler
     }

@@ -41,6 +41,12 @@ public class IntakeEndUnitRotator extends SubsystemBase {
         },
                 this);
     }
+    public Command setPositionRUN(double newPos) {
+        return new RunCommand(() -> {
+            servo.setPosition(newPos);
+        },
+                this);
+    }
 
     public Command setPosition(IntakeRotatorState state) {
         return new InstantCommand(() -> {
@@ -49,11 +55,10 @@ public class IntakeEndUnitRotator extends SubsystemBase {
                 this);
     }
 
-    public Command rotateByButton(BooleanSupplier bool) {
+    public Command rotateByButton() {
         return new RunCommand(() -> {
-            servo.setPosition(bool.getAsBoolean() ?
-                    IntakeRotatorState.ROATATE_ANGLE.position :
-                    IntakeRotatorState.INTAKE_SAMPLE_POSE.position);
+            servo.setPosition(
+                    IntakeRotatorState.ROATATE_ANGLE.position);
         },
                 this);
     }

@@ -88,6 +88,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
     private void setMotorPower(double[] power) {
+
         motorFL.setPower(power[0]);
         motorBL.setPower(power[1]);
         motorFR.setPower(power[2]);
@@ -108,7 +109,6 @@ public class DriveTrain extends SubsystemBase {
                     drive(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());
                 }, this);
     }
-
 
     public void updateTelemetry() {
         FtcDashboard.getInstance().getTelemetry().addData("yaw", localizer.getHeading());

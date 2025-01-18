@@ -16,11 +16,11 @@ public class ScoringEndUnitRotator extends SubsystemBase {
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
     public enum ScoringRotatorState {
-        HOLD_POSE(0.26),
+        TRANSFER_POSE(0.53),
         RIGHT_ANGLE(0.28),
         SCORE_SAMPLE_POSE(0),
-        MID_POSE_SPECIMEN(0.35),
-        SPECIMEN_POSE(0.24);
+        MID_POSE_SPECIMEN(0.65),
+        SCORE_SPECIMEN_POSE(0.53);
 
         public double position;
         ScoringRotatorState(double position){

@@ -42,9 +42,9 @@ public class Configuration {
     public static final int RIGHT_LINEAR_INTAKE = 3;
 
     //Linear Intake End Unit Rotator:
-    public static final int LINEAR_END_UNIT_ROTATOR = 4;
+    public static final int LINEAR_END_UNIT_ROTATOR = 0;
 
-    public static final int CLAW_INTAKE_SERVO = 0;
+    public static final int CLAW_INTAKE_SERVO = 4;
 
     //Linear Intake Arm:
     public static final int INTAKE_ARM_SERVO_RIGHT = 5;
