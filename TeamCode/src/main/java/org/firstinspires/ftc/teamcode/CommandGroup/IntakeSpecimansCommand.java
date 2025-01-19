@@ -23,6 +23,7 @@ public class IntakeSpecimansCommand {
             MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
             MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE),
             MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.INTAKE_SPECIMEN_POSE),
+            MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE),
             MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw());
     }
     public static Command SpecimenIntake(){
@@ -36,16 +37,18 @@ public class IntakeSpecimansCommand {
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.TRANSFER_POSE),
                 new WaitCommand(300),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.TRANSFER_POSE),
-                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.HOLD_POSE),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.TRANSFER_SPECIMEN_POSE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE), //makes sure
-                MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.ELEVATOR_DOWN),
+                //        MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.ELEVATOR_DOWN),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(), //makes sure
                 new WaitCommand(600),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
-                new WaitCommand(100),
+                new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.MID_POSE_SPECIMEN),
+                new WaitCommand(400),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE)
         );
     }

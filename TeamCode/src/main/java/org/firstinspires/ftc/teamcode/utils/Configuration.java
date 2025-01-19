@@ -16,15 +16,16 @@ import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
  * im still not sure whether it just doesn't exist, or i don't know how to use it, so feel free to look around their docs and src.
  */
 public class Configuration {
-    public static final String IMU= "imu";
-    public static final String DS1 = "DS1";
+
+    public static final String IMU = "imu";
+    public static final String intakeDistanceSensor = "Distance Sensor";
 
     //CONTROL HUB
     //DriveTrain
-    public static final int DRIVE_TRAIN_BACK_LEFT = 1;
-    public static final int DRIVE_TRAIN_FRONT_LEFT = 2;
-    public static final int DRIVE_TRAIN_BACK_RIGHT = 0;
-    public static final int DRIVE_TRAIN_FRONT_RIGHT = 3;
+    public static final int DRIVE_TRAIN_BACK_LEFT = 3;
+    public static final int DRIVE_TRAIN_FRONT_LEFT = 0;
+    public static final int DRIVE_TRAIN_BACK_RIGHT = 2;
+    public static final int DRIVE_TRAIN_FRONT_RIGHT = 1;
 
     public static final String AUTO_DRIVE_TRAIN_FRONT_LEFT = "leftFront"; //2
     public static final String AUTO_DRIVE_TRAIN_BACK_LEFT = "leftBack"; //1
@@ -43,9 +44,9 @@ public class Configuration {
     public static final int RIGHT_LINEAR_INTAKE = 3;
 
     //Linear Intake End Unit Rotator:
-    public static final int LINEAR_END_UNIT_ROTATOR = 4;
+    public static final int LINEAR_END_UNIT_ROTATOR = 0;
 
-    public static final int CLAW_INTAKE_SERVO = 0;
+    public static final int CLAW_INTAKE_SERVO = 4;
 
     //Linear Intake Arm:
     public static final int INTAKE_ARM_SERVO_RIGHT = 5;
@@ -55,12 +56,12 @@ public class Configuration {
 
 
     //EXPANSION HUB
-    public static final int SCORING_CLAW_SERVO = 2;
-    public static final int SCORING_ROTATOR_SERVO = 3;
+    public static final int SCORING_CLAW_SERVO = 3;
+    public static final int SCORING_ROTATOR_SERVO = 2;
     //Scoring arm:
     public static final int SERVO_RIGHT_SCORING_ARM = 5;
 
-    public static final int SERVO_LEFT_SCORING_ARM =4;
+    public static final int SERVO_LEFT_SCORING_ARM = 4;
 
 
 

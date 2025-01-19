@@ -52,11 +52,9 @@ public class DriveTrain extends SubsystemBase {
         localizer = MMRobot.getInstance().mmSystems.hardwareMap.get(MMPinPoint.class,"localizer");
 
         //TODO: reverse motors as needed
-        motorBR.setDirection(Direction.REVERSE);
         motorFR.setDirection(Direction.REVERSE);
+        motorBR.setDirection(Direction.REVERSE);
         localizer.resetPosAndIMU();
-
-
     }
 
     public DriveTrain(double lastAngle) {
@@ -90,11 +88,11 @@ public class DriveTrain extends SubsystemBase {
     }
 
     private void setMotorPower(double[] power) {
+
         motorFL.setPower(power[0]);
         motorBL.setPower(power[1]);
         motorFR.setPower(power[2]);
         motorBR.setPower(power[3]);
-        updateTelemetry(power);
     }
 
     public void drive(double x, double y, double yaw) {
@@ -105,20 +103,15 @@ public class DriveTrain extends SubsystemBase {
     public Command fieldOrientedDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier yaw) {
         return new RunCommand(
                 () -> {
+                    localizer.update();
                     Vector2d joystickDirection = new Vector2d(x.getAsDouble(), y.getAsDouble());
-                    Vector2d fieldOrientedVector = joystickDirection.rotateBy(-localizer.getHeading());
+                    Vector2d fieldOrientedVector = joystickDirection.rotateBy(Math.toDegrees(-localizer.getHeading()));
                     drive(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());
                 }, this);
     }
 
-
-    public void updateTelemetry(double[] power) {
-        FtcDashboard.getInstance().getTelemetry().addData("frontLeft", power[0]);
-        FtcDashboard.getInstance().getTelemetry().addData("backLeft", power[1]);
-        FtcDashboard.getInstance().getTelemetry().addData("frontRight", power[2]);
-        FtcDashboard.getInstance().getTelemetry().addData("backRight", power[3]);
+    public void updateTelemetry() {
         FtcDashboard.getInstance().getTelemetry().addData("yaw", localizer.getHeading());
-
         FtcDashboard.getInstance().getTelemetry().update();
     }
 

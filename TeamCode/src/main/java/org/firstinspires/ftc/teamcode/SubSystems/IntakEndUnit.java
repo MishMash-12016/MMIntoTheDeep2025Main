@@ -16,9 +16,9 @@ import java.util.function.BooleanSupplier;
 public class IntakEndUnit extends SubsystemBase {
 
     CuttleServo clawIntakeServo;
-    DistanceSensor IntakeDistSensor;
+
     public enum IntakeClawState {
-        OPEN(0.7), CLOSE(1);
+        OPEN(0.6), CLOSE(1);
         public double position;
         IntakeClawState(double position){
             this.position = position;
@@ -31,14 +31,14 @@ public class IntakEndUnit extends SubsystemBase {
     public Command openIntakeClaw() {
         return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.OPEN.position), this);
     }
-    public Command closeBySensor(BooleanSupplier bool){
-        return new RunCommand(() -> {
-            clawIntakeServo.setPosition(bool.getAsBoolean() ?
-                    IntakeClawState.OPEN.position :
-                    IntakeClawState.CLOSE.position);
-        },
-                this);
-    }
+//    public Command closeBySensor(BooleanSupplier bool){
+//        return new RunCommand(() -> {
+//            MMRobot.getInstance().mmSystems.intakeDistSensor ?
+//                    IntakeClawState.OPEN.position :
+//                    IntakeClawState.CLOSE.position);
+//        },
+//                this);
+//    }
 
     public Command closeIntakeClaw() {
         return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.CLOSE.position), this);

@@ -3,13 +3,15 @@ package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMDistSensor;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
@@ -40,6 +42,10 @@ public class MMSystems {
     public GamepadEx gamepadEx2;
     public Telemetry telemetry;
     public MMBattery battery;
+    public MMDistSensor intakeDistSensor;
+    public TouchSensor elevetorTouchSensor;
+    public MMIMU imu;
+
 
 
     //Subsystems
@@ -49,29 +55,31 @@ public class MMSystems {
     public IntakeArm intakeArm;
     public IntakeEndUnitRotator intakeEndUnitRotator;
     public ScoringEndUnitRotator scoringEndUnitRotator;
-    public DistanceSensor intakeDistSensor;
-
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
     public Elevator elevator;
 
 
+
+
     //creating and initiating all subsystems
     public void initRobotSystems() {
 
-            elevator = new Elevator();
+        this.elevator = new Elevator();
         this.linearIntake = new LinearIntake();
-
         this.intakEndUnit = new IntakEndUnit();
         this.scoringEndUnitRotator = new ScoringEndUnitRotator();
         this.intakeArm = new IntakeArm();
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
-        this.scoringEndUnitRotator=new ScoringEndUnitRotator();
-        intakeEndUnitRotator = new IntakeEndUnitRotator();
+        this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         linearIntake.setDefaultCommand(
                 linearIntake.defultCommand(0)
         );
+        intakeEndUnitRotator.setDefaultCommand(
+                intakeEndUnitRotator.setPositionRUN(0.12)
+        );
+
     }
 
     public void initDriveTrain() {
@@ -79,7 +87,7 @@ public class MMSystems {
         driveTrain.setDefaultCommand(
                 MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
                         () -> gamepadEx1.getLeftX(),
-                        () -> -gamepadEx1.getLeftY(),
+                        () -> gamepadEx1.getLeftY(),
                         () -> Math.pow(gamepadEx1.getRightX(),3))
 
         );
@@ -97,6 +105,11 @@ public class MMSystems {
         this.gamepadEx2 = new GamepadEx(gamepad2);
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
+        this.intakeDistSensor = new MMDistSensor(hardwareMap);
+        this.imu = new MMIMU(hardwareMap);
+        this.elevetorTouchSensor =  hardwareMap.get(TouchSensor.class,"Elevator Touch Sensor");
+
+
 
         CommandScheduler.getInstance().reset(); //reset the scheduler
     }
