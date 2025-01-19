@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.utils;
 
 
+import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
+
 /**
  * this file should represent ur configurations & ports.<p>
  * there are some examples here, ur welcome to change it however u want.</p>
@@ -14,8 +16,7 @@ package org.firstinspires.ftc.teamcode.utils;
  * im still not sure whether it just doesn't exist, or i don't know how to use it, so feel free to look around their docs and src.
  */
 public class Configuration {
-
-    public static final String IMU = "imu";
+    public static final String IMU= "imu";
     public static final String DS1 = "DS1";
 
     //CONTROL HUB
