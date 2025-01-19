@@ -61,7 +61,7 @@ public class MMSystems {
     //creating and initiating all subsystems
     public void initRobotSystems() {
 
-            elevator = new Elevator();
+        this.elevator = new Elevator();
         this.linearIntake = new LinearIntake();
 
         this.intakEndUnit = new IntakEndUnit();
@@ -73,6 +73,7 @@ public class MMSystems {
         linearIntake.setDefaultCommand(
                 linearIntake.defultCommand(0)
         );
+        this.limeLight = new LimeLight();
     }
 
     public void initDriveTrain() {

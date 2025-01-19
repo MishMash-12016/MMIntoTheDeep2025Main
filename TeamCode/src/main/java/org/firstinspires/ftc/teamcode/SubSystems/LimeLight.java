@@ -14,11 +14,11 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import java.util.List;
 
 public class LimeLight extends SubsystemBase {
-    private Limelight3A limelight;
 
-    public final double maxOpeningLinearCM = 34.5;//cm
-    public final double heightFromGround = 11.9; //cm
-    public final double angleFixed = 0; //degrees
+
+    public final double maxOpeningLinearCM = 34.5 ;//cm
+    public final double heightFromGround = 42; //cm
+    public final double angleFixed = 45; //degrees
     public final double sampleHeight = 3.9; //cm
 
 

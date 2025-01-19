@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
@@ -17,14 +18,9 @@ import org.opencv.core.Mat;
 
 import java.util.List;
 
-@TeleOp(name = "Sensor: Limelight3A", group = "Sensor")
+@TeleOp(name = "LimeLightTeleOp", group = "Sensor")
 public class LimeLightTeleOp extends MMOpMode {
     private Limelight3A limelight;
-
-    public final double maxOpeningLinearCM = 34.5 ;//cm
-    public final double heightFromGround = 11.9; //cm
-    public final double angleFixed = 0; //degrees
-    public final double sampleHeight = 3.9; //cm
 
 
     public LimeLightTeleOp() {
@@ -40,31 +36,20 @@ public class LimeLightTeleOp extends MMOpMode {
 
         limelight.pipelineSwitch(0);
 
-        /*
-         * Starts polling for data.  If you neglect to call start(), getLatestResult() will return null.
-         */
         limelight.start();
 
-        telemetry.addData(">", "Robot Ready.  Press Play.");
         telemetry.update();
         waitForStart();
-    }
-
-    public double calculateDistance(double angleFromLimelight){
-        double height = heightFromGround - sampleHeight;
-        double angle = Math.abs( angleFromLimelight + angleFixed);
-        double distance = height / Math.tan(Math.toRadians(angle));
-        return distance;
     }
 
     @Override
     public void run() {
         super.run();
         MMRobot.getInstance().mmSystems.controlHub.pullBulkData();
-        LLResult result = limelight.getLatestResult();
 
-        List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
-        MMRobot.getInstance().mmSystems.limeLight.gotoSample(limelight);
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                MMRobot.getInstance().mmSystems.limeLight.gotoSample(limelight)
+        );
 
         telemetry.update();
     }
