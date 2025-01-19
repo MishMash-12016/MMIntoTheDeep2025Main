@@ -21,14 +21,13 @@ public class IntakeDistanceTelop extends MMOpMode {
     @Override
     public void onInit() {
         robotInstance.mmSystems.initRobotSystems();
-        new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger( //intake+intake rotater
-                GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-                .whileActiveOnce(IntakeSampleCommand.prepareSampleIntake(
-                        () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                IntakeSampleCommand.OpenClawBYsensorTest()
-        );
-    }
+//        new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger( //intake+intake rotater
+//                GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+//             //   .whileActiveOnce(IntakeSampleCommand.prepareSampleIntake(M));
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+//                IntakeSampleCommand.OpenClawBYsensorTest()
+//        );
+   }
 
 
     @Override

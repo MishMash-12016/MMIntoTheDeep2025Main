@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 public class ManualDrive extends MMOpMode {
     MMRobot robotInstance;
     MMSystems mmSystems;
+    boolean mode = false;
 
     public ManualDrive() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -29,57 +31,48 @@ public class ManualDrive extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         mmSystems = robotInstance.mmSystems;
 
+
         robotInstance.mmSystems.initRobotSystems();
         robotInstance.mmSystems.initDriveTrain();
-
-        new Trigger(() -> mmSystems.gamepadEx1.getTrigger( //intake+intake rotater
+        new Trigger(() -> mmSystems.gamepadEx1.getTrigger( // prepare intake
                 GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-                .whileActiveOnce(IntakeSampleCommand.prepareSampleIntake(
-                        () -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
+                .whenActive(
+                        new ConditionalCommand(IntakeSampleCommand.prepareSampleIntake(()-> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()),
+                                IntakeSpecimansCommand.PrepareSpecimanIntake(),
+                                () -> mode));
 
-        new Trigger(() -> mmSystems.gamepadEx1.getTrigger(
-                GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
-                .whileActiveOnce(
-                mmSystems.intakeEndUnitRotator.rotateByButton()
-        );
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed( //intake - A/ X (down button)
+                new ConditionalCommand(IntakeSampleCommand.SampleIntake(),
+                        IntakeSpecimansCommand.SpecimenIntake(),
+                        () -> mode)
 
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                IntakeSampleCommand.SampleIntake() //intake - A/ X (down button)
         );
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                ScoringSampleCommand.ScoreSample()
-                //triangle
-        );        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                ScoringSampleCommand.PrepareScoreLow() //O
-        );        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                ScoringSampleCommand.PrepareScoreHigh()//square
+                new ConditionalCommand(ScoringSampleCommand.ScoreHighSample(),
+                        ScoringSpecimanCommand.SpecimanScore(),
+                        () -> mode)); //score - triangle
+                ;
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                ScoringSampleCommand.ScoreLowSample() //O or right low basket
         );
 
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-                ()-> MMRobot.getInstance().mmSystems.imu.resetYaw()
-        );
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
-                IntakeSpecimansCommand.PrepareSpecimanIntake()
-        );
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                IntakeSpecimansCommand.SpecimenIntake()
-        );
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-                ScoringSpecimanCommand.SpecimanScore()
-        );
 
+}
+
+@Override
+public void run() {
+    super.run();
+    if (mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.BACK).get()) {
+        mode = true;
     }
-    @Override
-    public void run() {
-        super.run();
 
-        MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
-        mmSystems.elevator.updateToDashboard();
-        mmSystems.driveTrain.updateTelemetry();
-        telemetry.addData("targertpose",mmSystems.elevator.targetPose);
-        telemetry.addData("height",mmSystems.elevator.getHeight());
-        telemetry.update();
+    MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
+    mmSystems.elevator.updateToDashboard();
+    mmSystems.driveTrain.updateTelemetry();
+    telemetry.addData("targertpose", mmSystems.elevator.targetPose);
+    telemetry.addData("height", mmSystems.elevator.getHeight());
+    telemetry.update();
 
-    }
+}
 }
