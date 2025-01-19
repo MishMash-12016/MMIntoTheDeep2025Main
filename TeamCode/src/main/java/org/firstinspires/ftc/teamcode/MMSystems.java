@@ -44,7 +44,6 @@ public class MMSystems {
     public MMBattery battery;
     public MMDistSensor intakeDistSensor;
     public TouchSensor elevetorTouchSensor;
-    public MMIMU imu;
 
 
 
@@ -106,7 +105,6 @@ public class MMSystems {
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
         this.intakeDistSensor = new MMDistSensor(hardwareMap);
-        this.imu = new MMIMU(hardwareMap);
         this.elevetorTouchSensor =  hardwareMap.get(TouchSensor.class,"Elevator Touch Sensor");
 
 

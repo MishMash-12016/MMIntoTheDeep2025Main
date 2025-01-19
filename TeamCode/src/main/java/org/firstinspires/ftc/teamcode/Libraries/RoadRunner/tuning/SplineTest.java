@@ -23,7 +23,7 @@ public final class SplineTest extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(beginPose)
                             .splineTo(new Vector2d(30, 30), Math.PI / 2)
-                            .splineTo(new Vector2d(0, 60), Math.PI)
+                            .splineTo(new Vector2d(30, 60), Math.PI/2)
                             .build());
         } else if (TuningOpModes.DRIVE_CLASS.equals(SparkFunOTOSDrive.class)) {
             SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, beginPose);
@@ -53,7 +53,7 @@ public final class SplineTest extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(beginPose)
                             .splineTo(new Vector2d(30, 30), Math.PI / 2)
-                            .splineTo(new Vector2d(0, 60), Math.PI)
+                            .splineTo(new Vector2d(30, 60), Math.PI)
                             .build());
         } else {
             throw new RuntimeException();

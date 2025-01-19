@@ -56,9 +56,7 @@ public class ManualDrive extends MMOpMode {
                 ScoringSampleCommand.PrepareScoreHigh()//square
         );
 
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-                ()-> MMRobot.getInstance().mmSystems.imu.resetYaw()
-        );
+
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
                 IntakeSpecimansCommand.PrepareSpecimanIntake()
         );
