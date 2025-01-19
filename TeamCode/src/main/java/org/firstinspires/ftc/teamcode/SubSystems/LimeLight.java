@@ -6,7 +6,9 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
 
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.opencv.core.Mat;
 
+import com.fasterxml.jackson.databind.node.DoubleNode;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -57,6 +59,26 @@ public class LimeLight extends SubsystemBase {
     public void openLinearToSample(LLResultTypes.DetectorResult result) {
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(
                 calculateDistance(result.getTargetYDegrees() / maxOpeningLinearCM * LinearIntake.maxOpening));
+    }
+
+    public Double calculate_distance_vectors(List<Double> vector1,List<Double> vector2){
+        return Math.sqrt((vector1.get(0) - vector2.get(0)) * (vector1.get(0) - vector2.get(0)) + (vector1.get(1) - vector2.get(1)) * (vector1.get(1) - vector2.get(1)));
+    }
+
+    public String findOrientation(LLResultTypes.DetectorResult result) {
+        List<List<Double>> corners =  result.getTargetCorners();
+        Double dis1  = calculate_distance_vectors(corners.get(0), corners.get(1));
+        Double dis2  = calculate_distance_vectors(corners.get(0), corners.get(3));
+        double ratio = dis1 / dis2;
+        if (ratio < 1){
+            return "-45TO45";
+        }
+        else if (ratio > 1){
+            return "";
+        }
+        else {
+            return "";
+        }
     }
 
 
