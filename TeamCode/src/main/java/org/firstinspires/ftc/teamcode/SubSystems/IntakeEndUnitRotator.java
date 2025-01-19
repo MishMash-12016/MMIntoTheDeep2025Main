@@ -17,10 +17,10 @@ public class IntakeEndUnitRotator extends SubsystemBase {
     private final static MMRobot robotInstance = MMRobot.getInstance();
 
     public enum IntakeRotatorState {
-        INTAKE_SAMPLE_POSE(0.02),
-        HOLD_POSE_SPECIMEN(0.58),
-        INTAKE_SPECIMEN_POSE(0),
-        ROATATE_ANGLE(0.5);
+        INTAKE_SAMPLE_POSE(0.13),
+        HOLD_POSE_SPECIMEN(0.71),
+        INTAKE_SPECIMEN_POSE(0.13),
+        ROATATE_ANGLE(0.41);
         public double position;
 
         IntakeRotatorState(double position) {
@@ -41,6 +41,12 @@ public class IntakeEndUnitRotator extends SubsystemBase {
         },
                 this);
     }
+    public Command setPositionRUN(double newPos) {
+        return new RunCommand(() -> {
+            servo.setPosition(newPos);
+        },
+                this);
+    }
 
     public Command setPosition(IntakeRotatorState state) {
         return new InstantCommand(() -> {
@@ -49,13 +55,14 @@ public class IntakeEndUnitRotator extends SubsystemBase {
                 this);
     }
 
-    public Command rotateByButton(BooleanSupplier bool) {
+    public Command rotateByButton(BooleanSupplier rotateButton) {
         return new RunCommand(() -> {
-            servo.setPosition(bool.getAsBoolean() ?
-                    IntakeRotatorState.ROATATE_ANGLE.position :
-                    IntakeRotatorState.INTAKE_SAMPLE_POSE.position);
-        },
-                this);
+            if (rotateButton.getAsBoolean()){
+            servo.setPosition(IntakeRotatorState.ROATATE_ANGLE.position);
+        } else {
+                servo.setPosition(IntakeRotatorState.INTAKE_SAMPLE_POSE.position);
+            } }
+                , this);
     }
 
     public Command setPositionByJoystick(DoubleSupplier doubleSupplier) {
