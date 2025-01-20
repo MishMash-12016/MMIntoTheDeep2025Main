@@ -68,7 +68,7 @@ public class autoCloseRed extends MMOpMode {
                 ScoringSpecimanCommand.SpecimanScore(),
                 new WaitCommand(500),
                 new ActionCommand(driveToScorePreLoadSpecimen2.build())
-                        .alongWith(new WaitCommand(350).andThen(MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())),
+                        .alongWith(new WaitCommand(400).andThen(MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())),
 
                 new ActionCommand(driveToPickUpFirstSample.build())
         ).schedule();

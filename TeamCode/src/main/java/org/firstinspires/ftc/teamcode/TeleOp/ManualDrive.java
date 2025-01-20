@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 public class ManualDrive extends MMOpMode {
     MMRobot robotInstance;
     MMSystems mmSystems;
-    boolean mode = false;
+    boolean mode = true;
 
     public ManualDrive() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -64,7 +64,7 @@ public class ManualDrive extends MMOpMode {
 public void run() {
     super.run();
     if (mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.BACK).get()) {
-        mode = true;
+        mode = false;
     }
 
     MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
