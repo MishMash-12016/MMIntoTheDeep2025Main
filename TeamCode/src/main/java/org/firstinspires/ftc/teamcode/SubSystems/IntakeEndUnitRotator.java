@@ -55,12 +55,14 @@ public class IntakeEndUnitRotator extends SubsystemBase {
                 this);
     }
 
-    public Command rotateByButton() {
+    public Command rotateByButton(BooleanSupplier rotateButton) {
         return new RunCommand(() -> {
-            servo.setPosition(
-                    IntakeRotatorState.ROATATE_ANGLE.position);
-        },
-                this);
+            if (rotateButton.getAsBoolean()){
+            servo.setPosition(IntakeRotatorState.ROATATE_ANGLE.position);
+        } else {
+                servo.setPosition(IntakeRotatorState.INTAKE_SAMPLE_POSE.position);
+            } }
+                , this);
     }
 
     public Command setPositionByJoystick(DoubleSupplier doubleSupplier) {
