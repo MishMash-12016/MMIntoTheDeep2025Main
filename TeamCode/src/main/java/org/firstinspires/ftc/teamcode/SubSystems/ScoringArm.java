@@ -13,7 +13,7 @@ public class ScoringArm extends SubsystemBase {
     private final CuttleServo servoRight;
 
     public enum ScoringArmState {
-        TRANSFER_POSE(0.83),
+        TRANSFER_POSE(0.73),
         INIT_POSE(0.88),
         MID_POSE(0.43),
         SCORE_SPECIMEN(0.48),

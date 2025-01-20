@@ -3,18 +3,15 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimansCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimanCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
-public class SpecimanTestTeleOp extends MMOpMode {
+public class IntakeArmTeleOp extends MMOpMode {
     MMRobot robotInstance = MMRobot.getInstance();
-    public SpecimanTestTeleOp(){
+    public IntakeArmTeleOp(){
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
     @Override
@@ -22,10 +19,10 @@ public class SpecimanTestTeleOp extends MMOpMode {
         robotInstance.mmSystems.initRobotSystems();
         robotInstance.mmSystems.initDriveTrain();
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                IntakeSpecimansCommand.SpecimenIntake()
+                robotInstance.mmSystems.scoringArm.setPosition(0.3)
         );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                IntakeSpecimansCommand.PrepareSpecimanIntake()
+                robotInstance.mmSystems.scoringArm.setPosition(0.7)
         );
 //        if (MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)>0) {
 //            MMRobot.getInstance().mmSystems.scoringArm.setPosition(

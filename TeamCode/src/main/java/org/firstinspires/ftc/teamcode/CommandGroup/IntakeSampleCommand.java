@@ -19,7 +19,6 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class IntakeSampleCommand {
-
     public static Command prepareSampleIntake(BooleanSupplier rotateButton) {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
