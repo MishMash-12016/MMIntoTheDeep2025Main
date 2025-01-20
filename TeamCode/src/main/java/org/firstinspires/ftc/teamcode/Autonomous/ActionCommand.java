@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.Subsystem;
 
+import java.util.Collections;
 import java.util.Set;
 import com.acmerobotics.roadrunner.Action;
 
@@ -14,9 +15,9 @@ public class ActionCommand implements Command {
     private final Set<Subsystem> requirements;
     private boolean finished = false;
 
-    public ActionCommand(Action action, Set<Subsystem> requirements) {
+    public ActionCommand(Action action) {
         this.action = action;
-        this.requirements = requirements;
+        this.requirements = Collections.emptySet();
     }
 
     @Override

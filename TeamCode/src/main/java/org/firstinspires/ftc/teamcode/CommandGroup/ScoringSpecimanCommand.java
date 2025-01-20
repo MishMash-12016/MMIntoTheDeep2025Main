@@ -13,10 +13,11 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator.ScoringRo
 public class ScoringSpecimanCommand {
     public static Command SpecimanScore(){
         return new SequentialCommandGroup(
+
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
-                new WaitCommand(300),
+                new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORE_SPECIMEN),
-                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORE_SPECIMEN_POSE) //,
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORE_SPECIMEN_POSE)
 //                new WaitCommand(200),
 //                MMRobot.getInstance().mmSystems.scoringClawEndUnit.disablePWM()
 //                new WaitCommand(1000),

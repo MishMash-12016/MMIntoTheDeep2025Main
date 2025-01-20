@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.utils;
 
 
+import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
+
 /**
  * this file should represent ur configurations & ports.<p>
  * there are some examples here, ur welcome to change it however u want.</p>
@@ -25,10 +27,10 @@ public class Configuration {
     public static final int DRIVE_TRAIN_BACK_RIGHT = 2;
     public static final int DRIVE_TRAIN_FRONT_RIGHT = 1;
 
-    public static final String AUTO_DRIVE_TRAIN_FRONT_LEFT = "leftFront"; //2
-    public static final String AUTO_DRIVE_TRAIN_BACK_LEFT = "leftBack"; //1
-    public static final String AUTO_DRIVE_TRAIN_FRONT_RIGHT = "rightFront"; //3
-    public static final String AUTO_DRIVE_TRAIN_BACK_RIGHT = "rightBack"; //0
+    public static final String AUTO_DRIVE_TRAIN_FRONT_LEFT = "leftFront"; //
+    public static final String AUTO_DRIVE_TRAIN_BACK_LEFT = "leftBack"; //
+    public static final String AUTO_DRIVE_TRAIN_FRONT_RIGHT = "rightFront"; //
+    public static final String AUTO_DRIVE_TRAIN_BACK_RIGHT = "rightBack"; //
 
 
     public static final String PERPENDICULAR = AUTO_DRIVE_TRAIN_BACK_LEFT; // 1
