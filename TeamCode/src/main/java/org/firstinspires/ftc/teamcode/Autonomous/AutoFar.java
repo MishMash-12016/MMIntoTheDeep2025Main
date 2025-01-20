@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.PrintCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -29,6 +30,7 @@ public class AutoFar extends MMOpMode {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
+
     @Override
     public void onInit() {
 
@@ -41,18 +43,22 @@ public class AutoFar extends MMOpMode {
 
         TrajectoryActionBuilder driveToScorePreloadSpecimen = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(5, -32, Math.toRadians(90)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(-5, -28, Math.toRadians(90)), Math.toRadians(90));
         TrajectoryActionBuilder driveToScorePreLoadSpecimen2 = driveToScorePreloadSpecimen.endTrajectory().fresh()
                 .lineToY(-50);
         TrajectoryActionBuilder driveToPickUpFirst = driveToScorePreLoadSpecimen2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(360))//240))
-                .splineToLinearHeading(new Pose2d(45.84, -53.84, Math.toRadians(90)), Math.toRadians(360));
-        TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToPickUpFirst.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(45.84, -48.84, Math.toRadians(90)), Math.toRadians(360));
+        TrajectoryActionBuilder driveToPickUpFirst2 = driveToPickUpFirst.endTrajectory().fresh()
+                .strafeTo(new Vector2d(45.84, -58.5));
+        TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToPickUpFirst2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(5, -30, Math.toRadians(90)), Math.toRadians(90));
-        TrajectoryActionBuilder driveToPark = driveToScoreFirstSpecimen.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90));
+        TrajectoryActionBuilder driveToScoreFirstSpecimen2 = driveToScoreFirstSpecimen.endTrajectory().fresh()
+                .lineToY(-50);
+        TrajectoryActionBuilder driveToPark = driveToScoreFirstSpecimen2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(360))
-                .splineToLinearHeading(new Pose2d(45.84, -53.84, Math.toRadians(90)), Math.toRadians(360));
+                .splineToLinearHeading(new Pose2d(45.84, -54.84, Math.toRadians(90)), Math.toRadians(360));
 
 
         new SequentialCommandGroup(
@@ -62,12 +68,17 @@ public class AutoFar extends MMOpMode {
                 new ActionCommand(driveToScorePreLoadSpecimen2.build())
                         .alongWith(new WaitCommand(400)).andThen(MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()),
                 new WaitCommand(200),
+                IntakeSpecimansCommand.PrepareSpecimanIntake(),
                 new ActionCommand(driveToPickUpFirst.build()),
-               IntakeSpecimansCommand.PrepareSpecimanIntake().withTimeout(500).andThen(
-               IntakeSpecimansCommand.SpecimenIntake()),
+                new WaitCommand(1000),
+                new ActionCommand(driveToPickUpFirst2.build()),
+                new WaitCommand(500),
+                IntakeSpecimansCommand.SpecimenIntake(),
                 new WaitCommand(300),
                 new ActionCommand(driveToScoreFirstSpecimen.build()),
                 ScoringSpecimanCommand.SpecimanScore(),
+                new WaitCommand(500),
+                new ActionCommand(driveToScoreFirstSpecimen2.build()),
                 new ActionCommand(driveToPark.build())
         ).schedule();
     }
