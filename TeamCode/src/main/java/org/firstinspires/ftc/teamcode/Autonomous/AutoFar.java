@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 @Autonomous
 public class AutoFar extends MMOpMode {
     MMRobot robotInstance;
+    int waitBeforeOpeningScoringClawTime = 1000;
 
     public AutoFar() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -40,6 +41,7 @@ public class AutoFar extends MMOpMode {
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
+        MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
 
         TrajectoryActionBuilder driveToScorePreloadSpecimen = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(90))
@@ -50,7 +52,7 @@ public class AutoFar extends MMOpMode {
                 .setTangent(Math.toRadians(360))//240))
                 .splineToLinearHeading(new Pose2d(45.84, -48.84, Math.toRadians(90)), Math.toRadians(360));
         TrajectoryActionBuilder driveToPickUpFirst2 = driveToPickUpFirst.endTrajectory().fresh()
-                .strafeTo(new Vector2d(45.84, -58.5));
+                .strafeTo(new Vector2d(45.84, -59));
         TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToPickUpFirst2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90));
@@ -66,7 +68,7 @@ public class AutoFar extends MMOpMode {
                 ScoringSpecimanCommand.SpecimanScore(),
                 new WaitCommand(500),
                 new ActionCommand(driveToScorePreLoadSpecimen2.build())
-                        .alongWith(new WaitCommand(400)).andThen(MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()),
+                        .alongWith(new WaitCommand(waitBeforeOpeningScoringClawTime).andThen(MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())),
                 new WaitCommand(200),
                 IntakeSpecimansCommand.PrepareSpecimanIntake(),
                 new ActionCommand(driveToPickUpFirst.build()),
@@ -78,7 +80,8 @@ public class AutoFar extends MMOpMode {
                 new ActionCommand(driveToScoreFirstSpecimen.build()),
                 ScoringSpecimanCommand.SpecimanScore(),
                 new WaitCommand(500),
-                new ActionCommand(driveToScoreFirstSpecimen2.build()),
+                new ActionCommand(driveToScoreFirstSpecimen2.build())
+                .alongWith(new WaitCommand(waitBeforeOpeningScoringClawTime).andThen(MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())),
                 new ActionCommand(driveToPark.build())
         ).schedule();
     }
