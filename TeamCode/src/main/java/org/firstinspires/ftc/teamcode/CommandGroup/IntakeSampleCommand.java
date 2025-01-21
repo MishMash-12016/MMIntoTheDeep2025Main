@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -21,13 +22,13 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class IntakeSampleCommand {
-    public static Command prepareSampleIntake(BooleanSupplier rotateButton) {
-        return new SequentialCommandGroup(
+    public static Command prepareSampleIntake(BooleanSupplier rotateRightButton,BooleanSupplier rotateLeftButton) {
+        return new ParallelCommandGroup(
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.rotateByButton(rotateLeftButton,rotateRightButton),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.rotateByButton(rotateButton)
-        );
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+                 );
     }
     public static Command SampleIntake() {
         return new SequentialCommandGroup(
@@ -35,7 +36,8 @@ public class IntakeSampleCommand {
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(200),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.MID_INTAKE_SPECIMEN)
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.MID_INTAKE_SPECIMEN),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.INTAKE_SAMPLE_POSE)
         );
     }
     public static Command Transfer(){

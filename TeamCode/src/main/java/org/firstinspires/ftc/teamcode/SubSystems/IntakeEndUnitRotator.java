@@ -17,10 +17,11 @@ public class IntakeEndUnitRotator extends SubsystemBase {
     private final static MMRobot robotInstance = MMRobot.getInstance();
 
     public enum IntakeRotatorState {
-        INTAKE_SAMPLE_POSE(0.13),
-        HOLD_POSE_SPECIMEN(0.71),
-        INTAKE_SPECIMEN_POSE(0.13),
-        ROATATE_ANGLE(0.41);
+        INTAKE_SAMPLE_POSE(0.25),
+        HOLD_POSE_SPECIMEN(0.92),
+        INTAKE_SPECIMEN_POSE(0.25),
+        ROTATE_RIGHT_ANGLE(0.5),
+        ROTATE_LEFT_ANGLE(0.03);
         public double position;
 
         IntakeRotatorState(double position) {
@@ -33,6 +34,7 @@ public class IntakeEndUnitRotator extends SubsystemBase {
 
     public IntakeEndUnitRotator() {
         servo = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LINEAR_END_UNIT_ROTATOR);
+        servo.setPosition(IntakeRotatorState.INTAKE_SAMPLE_POSE.position);
     }
 
     public Command setPosition(double newPos) {
@@ -55,11 +57,23 @@ public class IntakeEndUnitRotator extends SubsystemBase {
                 this);
     }
 
-    public Command rotateByButton(BooleanSupplier rotateButton) {
+    public Command rotateRightByButton(BooleanSupplier rotateRightButton) {
         return new RunCommand(() -> {
-            if (rotateButton.getAsBoolean()){
-            servo.setPosition(IntakeRotatorState.ROATATE_ANGLE.position);
+            if (rotateRightButton.getAsBoolean()){
+            servo.setPosition(IntakeRotatorState.ROTATE_RIGHT_ANGLE.position);
         } else {
+                servo.setPosition(IntakeRotatorState.INTAKE_SAMPLE_POSE.position);
+            } }
+                , this);
+    }
+    public Command rotateByButton(BooleanSupplier rotateLeftButton,BooleanSupplier rotateRightButton) {
+        return new RunCommand(() -> {
+            if (rotateLeftButton.getAsBoolean()){
+                servo.setPosition(IntakeRotatorState.ROTATE_LEFT_ANGLE.position);
+            }else if (rotateRightButton.getAsBoolean()) {
+                    servo.setPosition(IntakeRotatorState.ROTATE_RIGHT_ANGLE.position);
+                }
+            else {
                 servo.setPosition(IntakeRotatorState.INTAKE_SAMPLE_POSE.position);
             } }
                 , this);

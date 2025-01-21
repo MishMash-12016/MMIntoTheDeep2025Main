@@ -80,8 +80,8 @@ public class MMSystems {
         driveTrain = new DriveTrain();
         driveTrain.setDefaultCommand(
                 MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
-                        ()-> Math.pow(gamepadEx1.getLeftX(),2),
-                        () -> Math.pow(gamepadEx1.getLeftY(),2),
+                        ()-> Math.pow(gamepadEx1.getLeftX(),3),
+                        () -> Math.pow(gamepadEx1.getLeftY(),3),
                         () -> Math.pow(gamepadEx1.getRightX(),3))
 
         );

@@ -19,6 +19,7 @@ public class ScoringSpecimanCommand {
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORE_SPECIMEN),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORE_SPECIMEN_POSE)
 //                new WaitCommand(200),
+                //MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.TRANSFER_POSE)
 //                MMRobot.getInstance().mmSystems.scoringClawEndUnit.disablePWM()
 //                new WaitCommand(1000),
 //                MMRobot.getInstance().mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN)

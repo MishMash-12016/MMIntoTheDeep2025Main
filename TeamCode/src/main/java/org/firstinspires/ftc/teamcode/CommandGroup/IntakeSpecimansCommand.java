@@ -19,7 +19,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator.ScoringRo
 public class IntakeSpecimansCommand {
     public static Command PrepareSpecimanIntake(){
         return new SequentialCommandGroup(
-            MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE), //be prepared for transfer
+            MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),//be prepared for transfer
+            MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORE_SAMPLE_POSE),
             MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
             MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE),
             MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.INTAKE_SPECIMEN_POSE),
@@ -28,6 +29,7 @@ public class IntakeSpecimansCommand {
     }
     public static Command SpecimenIntake(){
         return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE),//make sure your their
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(200),
