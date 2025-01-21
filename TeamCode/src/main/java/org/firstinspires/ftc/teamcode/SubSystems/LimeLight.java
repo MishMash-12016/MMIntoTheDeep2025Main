@@ -42,13 +42,24 @@ public class LimeLight extends SubsystemBase {
         return new RunCommand(
                 () -> {
                     LLResult result = limelight.getLatestResult();
+                    //capture the snapshots
+                    limelight.deleteSnapshots();
+                    limelight.captureSnapshot("pic");
 
                     if (result != null && result.isValid()) {
-                        List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
-                        for (LLResultTypes.DetectorResult dr : detectorResults) {
-                            MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, pidController.calculate(dr.getTargetYDegrees()));
-                            openLinearToSample(dr);}
+                        List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
+                        LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
+//                        //Rotate claw, then rotate robot to sample, and then open linear intake
+//                        rotateClawToSample(limelight,dr);
+//                        MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, pidController.calculate(dr.getTargetYDegrees()));
+//                        openLinearToSample(dr);
+
+                          double angle = getSampleAngle(limelight, dr);
+                        MMRobot.getInstance().mmSystems.telemetry.addData("angle = ", angle);
+
+
                     }
+
                     else {
                         MMRobot.getInstance().mmSystems.driveTrain.drive(0,0,0);
                     }
@@ -65,21 +76,27 @@ public class LimeLight extends SubsystemBase {
         return Math.sqrt((vector1.get(0) - vector2.get(0)) * (vector1.get(0) - vector2.get(0)) + (vector1.get(1) - vector2.get(1)) * (vector1.get(1) - vector2.get(1)));
     }
 
-    public String findOrientation(LLResultTypes.DetectorResult result) {
-        List<List<Double>> corners =  result.getTargetCorners();
-        Double dis1  = calculate_distance_vectors(corners.get(0), corners.get(1));
-        Double dis2  = calculate_distance_vectors(corners.get(0), corners.get(3));
-        double ratio = dis1 / dis2;
-        if (ratio < 1){
-            return "-45TO45";
-        }
-        else if (ratio > 1){
-            return "";
-        }
-        else {
-            return "";
-        }
+    public void rotateClawToSample(Limelight3A limelight ,LLResultTypes.DetectorResult result){
+        double angle = getSampleAngle(limelight, result);
+        double angleInServoDegrees = 270 / angle;
+        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(angleInServoDegrees);
+
     }
 
+    public double getSampleAngle(Limelight3A limelight ,LLResultTypes.DetectorResult result){
 
+        List<List<Double>> corners =  result.getTargetCorners();
+        List<Double> cornerUpLeft = corners.get(0);
+        List<Double> cornerUpRight = corners.get(1);
+        List<Double> cornerDownLeft = corners.get(3);
+        Double height  = calculate_distance_vectors(cornerUpLeft, cornerUpRight);
+        Double width  = calculate_distance_vectors(cornerUpLeft, cornerDownLeft);
+        limelight.pipelineSwitch(1);
+        //crop_x, crop_y, crop_width, crop_height = llrobot[0:4] first 4 to send
+        double[] inputsPython = {cornerUpLeft.get(0),cornerUpLeft.get(1),height,width,0,0,0};
+        limelight.updatePythonInputs(inputsPython);
+        double[] outputPython = limelight.getLatestResult().getPythonOutput();
+        double angle = outputPython[0];
+        return angle;
+    }
 }
