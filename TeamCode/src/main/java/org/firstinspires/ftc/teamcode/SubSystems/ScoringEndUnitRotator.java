@@ -31,7 +31,7 @@ public class ScoringEndUnitRotator extends SubsystemBase {
 
     public ScoringEndUnitRotator(){
         servo = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.SCORING_ROTATOR_SERVO);
-        servo.setPosition(0);
+        servo.setPosition(ScoringRotatorState.TRANSFER_POSE.position);
     }
 
     public Command setPosition(double newPos){
