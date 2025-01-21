@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.DriveTrain.Commands.ResetF
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
@@ -57,6 +58,12 @@ public class ManualDrive extends MMOpMode {
                 ScoringSampleCommand.ScoreLowSample() //O or right low basket
         );
 
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.TRANSFER_POSE)
+        );
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(0.6)
+        );
 
 }
 
