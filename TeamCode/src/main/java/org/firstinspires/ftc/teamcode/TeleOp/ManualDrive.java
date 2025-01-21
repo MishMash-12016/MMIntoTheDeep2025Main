@@ -35,9 +35,23 @@ public class ManualDrive extends MMOpMode {
 
         robotInstance.mmSystems.initRobotSystems();
         robotInstance.mmSystems.initDriveTrain();
-        new Trigger(() -> mmSystems.gamepadEx1.getTrigger( // prepare intake
-                GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-                .whenActive(
+        new Trigger(()->mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)>0.05)
+                .whileActiveContinuous(
+                        MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
+                                () -> Math.pow(mmSystems.gamepadEx1.getLeftX(),2)*0.5,
+                                () -> Math.pow(mmSystems.gamepadEx1.getLeftY(),2)*0.5,
+                                () -> Math.pow(mmSystems.gamepadEx1.getRightX(),3)*0.5)
+
+        );
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+                IntakeSampleCommand.Transfer()
+        );
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+                ()-> mmSystems.driveTrain.resetRotation()
+        );
+
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whenPressed(
                         new ConditionalCommand(IntakeSampleCommand.prepareSampleIntake(()-> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()),
                                 IntakeSpecimansCommand.PrepareSpecimanIntake(),
                                 () -> mode));
@@ -58,12 +72,6 @@ public class ManualDrive extends MMOpMode {
                 ScoringSampleCommand.ScoreLowSample() //O or right low basket
         );
 
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.TRANSFER_POSE)
-        );
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(0.6)
-        );
 
 }
 
@@ -71,7 +79,10 @@ public class ManualDrive extends MMOpMode {
 public void run() {
     super.run();
     if (mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.BACK).get()) {
-        mode = false;
+        if (mode == false){
+            mode= true;
+        }
+        else {mode = false; }
     }
 
     MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();

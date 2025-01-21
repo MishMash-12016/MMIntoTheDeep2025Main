@@ -73,9 +73,6 @@ public class MMSystems {
         linearIntake.setDefaultCommand(
                 linearIntake.defultCommand(0)
         );
-        intakeEndUnitRotator.setDefaultCommand(
-                intakeEndUnitRotator.setPositionRUN(0.12)
-        );
 
     }
 
@@ -83,8 +80,8 @@ public class MMSystems {
         driveTrain = new DriveTrain();
         driveTrain.setDefaultCommand(
                 MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
-                        () -> gamepadEx1.getLeftX(),
-                        () -> gamepadEx1.getLeftY(),
+                        ()-> Math.pow(gamepadEx1.getLeftX(),2),
+                        () -> Math.pow(gamepadEx1.getLeftY(),2),
                         () -> Math.pow(gamepadEx1.getRightX(),3))
 
         );

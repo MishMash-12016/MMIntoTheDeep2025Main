@@ -5,6 +5,8 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.geometry.Pose2d;
+import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.hardware.bosch.BHI260IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -57,11 +59,6 @@ public class DriveTrain extends SubsystemBase {
         localizer.resetPosAndIMU();
     }
 
-    public DriveTrain(double lastAngle) {
-        this();
-        localizer.setYawScalar(lastAngle);
-    }
-
     private double[] joystickToPower(double x, double y, double yaw) {
 
         //v = (x, y, yaw)^t (3x1)
@@ -85,6 +82,10 @@ public class DriveTrain extends SubsystemBase {
 
         return powerArray;
 
+    }
+
+    public void resetRotation(){
+        localizer.setPosition(new Pose2d(localizer.getPosition().getTranslation(), new Rotation2d(0)));
     }
 
     private void setMotorPower(double[] power) {
