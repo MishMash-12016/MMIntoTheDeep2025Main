@@ -20,6 +20,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator.ScoringRo
 public class ScoringSampleCommand {
     public static Command PrepareHighSample(){
         return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORE_SAMPLE_POSE),
+                new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.TRANSFER_POSE),
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE),
                 new WaitCommand(200),
@@ -36,6 +38,7 @@ public class ScoringSampleCommand {
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORE_SAMPLE),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORE_SAMPLE_POSE),
+                new WaitCommand(500),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET) //the height of the high basket
 
         );
