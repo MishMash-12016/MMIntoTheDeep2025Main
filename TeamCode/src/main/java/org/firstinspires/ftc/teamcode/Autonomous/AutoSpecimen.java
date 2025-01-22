@@ -6,28 +6,24 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.arcrobotics.ftclib.command.PrintCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimansCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimanCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 
 @Autonomous
-public class AutoFar extends MMOpMode {
+public class AutoSpecimen extends MMOpMode {
     MMRobot robotInstance;
     int waitBeforeOpeningScoringClawTime = 1000;
 
-    public AutoFar() {
+    public AutoSpecimen() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
