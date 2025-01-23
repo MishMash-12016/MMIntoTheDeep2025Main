@@ -38,25 +38,21 @@ public class AutoClose extends MMOpMode {
 
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
-        Pose2d currentPose = (new Pose2d(-5.5, -65.5, Math.toRadians(90.00)));
+        Pose2d currentPose = (new Pose2d(-19, -66.28, Math.toRadians(90.00)));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
 
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
-                .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-5, -45, Math.toRadians(90)), Math.toRadians(90)) //
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-48.84, -44.84, Math.toRadians(270)), Math.toRadians(180)) //
-                .setTangent(Math.toRadians(240))
-                .splineToLinearHeading(new Pose2d(-53.8, -53, Math.toRadians(225)), Math.toRadians(250));
+                .setTangent(Math.toRadians(100))
+                .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(250)); //
         TrajectoryActionBuilder driveToPickUpFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(-48.84, -44.84, Math.toRadians(270)), Math.toRadians(80));
+                .splineToLinearHeading(new Pose2d(-48.84, -50.84, Math.toRadians(270)), Math.toRadians(80));
         TrajectoryActionBuilder driveToScoreFirstSample = driveToPickUpFirstSample.endTrajectory().fresh()
-                .setTangent(Math.toRadians(240))
-                .splineToLinearHeading(new Pose2d(-53.8, -53, Math.toRadians(225)), Math.toRadians(250));
+                .setTangent(Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(250)); //score
         TrajectoryActionBuilder driveToPark = driveToScoreFirstSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
                 .splineToLinearHeading(new Pose2d(-20.65, -8.25, Math.toRadians(180)), Math.toRadians(0.0));

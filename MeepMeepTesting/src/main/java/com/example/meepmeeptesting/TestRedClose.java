@@ -17,19 +17,15 @@ public class TestRedClose {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
 
-                .followTrajectorySequence(drive-> drive.trajectorySequenceBuilder(new Pose2d(-5.5, -65.5, Math.toRadians(90.00)))
-                        .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-5, -45, Math.toRadians(90)), Math.toRadians(90)) //
-                        .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-48.84, -44.84, Math.toRadians(270)), Math.toRadians(180)) //
-                         .setTangent(Math.toRadians(240))
-                .splineToLinearHeading(new Pose2d(-53.8, -53, Math.toRadians(225)), Math.toRadians(250)) //score high sample
+                .followTrajectorySequence(drive-> drive.trajectorySequenceBuilder(new Pose2d(-19, -66.28, Math.toRadians(90.00)))
+                         .setTangent(Math.toRadians(100))
+                .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(250)) //score high sample
                         .setTangent(Math.toRadians(80))
-                        .splineToLinearHeading(new Pose2d(-48.84, -44.84, Math.toRadians(270)), Math.toRadians(80))
-                        .setTangent(Math.toRadians(240))
-                        .splineToLinearHeading(new Pose2d(-53.8, -53, Math.toRadians(225)), Math.toRadians(250))
+                        .splineToLinearHeading(new Pose2d(-48.84, -50.84, Math.toRadians(270)), Math.toRadians(80)) //pick up
+                        .setTangent(Math.toRadians(270))
+                        .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(250)) //score
                         .setTangent(Math.toRadians(80))
-                    .splineToLinearHeading(new Pose2d(-20.65, -8.25, Math.toRadians(180)), Math.toRadians(0.0))
+                    .splineToLinearHeading(new Pose2d(-20.65, -8.25, Math.toRadians(180)), Math.toRadians(0.0)) //park
 
 //                .setTangent(Math.toRadians(120))
 //                .splineToLinearHeading(new Pose2d(-57.875, -44.84, Math.toRadians(270)), Math.toRadians(90)) //pick up 2
