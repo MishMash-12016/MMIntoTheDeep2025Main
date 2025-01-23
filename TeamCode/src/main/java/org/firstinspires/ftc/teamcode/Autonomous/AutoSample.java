@@ -49,7 +49,13 @@ public class AutoSample extends MMOpMode {
         TrajectoryActionBuilder driveToScoreFirstSample = driveToPickUpFirstSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(250));
-        TrajectoryActionBuilder driveToPark = driveToScoreFirstSample.endTrajectory().fresh()
+        TrajectoryActionBuilder driveToPickUpSecondSample= driveToScoreFirstSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(120))
+                .splineToLinearHeading(new Pose2d(-57.875, -50.84, Math.toRadians(270)), Math.toRadians(100));
+        TrajectoryActionBuilder driveToScoreSecondSample = driveToPickUpSecondSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(300))
+                .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(300));
+        TrajectoryActionBuilder driveToPark = driveToScoreSecondSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
                 .splineToLinearHeading(new Pose2d(-20.65, -8.25, Math.toRadians(0)), Math.toRadians(0.0));
 
@@ -67,7 +73,11 @@ public class AutoSample extends MMOpMode {
                 ScoringSampleCommand.PrepareHighSample(),
                 new WaitCommand(200),
                 ScoringSampleCommand.ScoreHighSample(),
-                new WaitCommand(400),
+                new ActionCommand(driveToPickUpSecondSample.build()),
+                new WaitCommand(200),
+                IntakeSampleCommand.prepareSampleIntake(() -> false, () -> false).withTimeout(600),
+                IntakeSampleCommand.SampleIntake(),
+                new WaitCommand(200),
                 new ActionCommand(driveToPark.build()),
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK_AUTO)
