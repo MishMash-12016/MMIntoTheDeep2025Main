@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -25,12 +26,10 @@ public class ScoringEndUnitRotator extends SubsystemBase {
         ScoringRotatorState(double position){
             this.position = position;
         }}
-
-    private final CuttleServo servo;
-
+    Servo servo;
 
     public ScoringEndUnitRotator(){
-        servo = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.SCORING_ROTATOR_SERVO);
+        servo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Scoring Rotator State");
         servo.setPosition(ScoringRotatorState.TRANSFER_POSE.position);
     }
 

@@ -1,15 +1,19 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
+
 public class ScoringClawEndUnit extends SubsystemBase {
-     public CuttleServo clawScoringServo;
+    Servo clawScoringServo;
     public enum ScoringClawState {
         OPEN(0.4), CLOSE(0),BARELY_OPEN(0.07);
         public double position;
@@ -19,38 +23,32 @@ public class ScoringClawEndUnit extends SubsystemBase {
 
 
     public ScoringClawEndUnit() {
-        clawScoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_CLAW_SERVO);
+
+        Servo clawScoringServo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Claw Scoring Servo");
         clawScoringServo.setPosition(ScoringClawState.CLOSE.position);
     }
 
     public Command openScoringClaw() {
         return new InstantCommand(() -> {
-            clawScoringServo.enablePWM(true);
             clawScoringServo.setPosition(ScoringClawState.OPEN.position);}, this);
     }
 
 
     public Command setPosition(double newPos){
         return new InstantCommand(()-> {
-            clawScoringServo.enablePWM(true);
             clawScoringServo.setPosition(newPos);} ,
                 this);
     }
     public Command setPosition(ScoringClawState scoringClawState){
         return new InstantCommand(()-> {
-            clawScoringServo.enablePWM(true);
             clawScoringServo.setPosition(scoringClawState.position);} ,
                 this);
     }
 
     public Command closeScoringClaw() {
         return new InstantCommand(() -> {
-                clawScoringServo.enablePWM(true);
                 clawScoringServo.setPosition(ScoringClawState.CLOSE.position);}, this);
     }
-    public  Command disablePWM(){
-        return new InstantCommand(()->
-                clawScoringServo.enablePWM(false));
-    }
+
 
 }
