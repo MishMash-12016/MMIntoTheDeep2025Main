@@ -14,6 +14,7 @@ public class ScoringArm extends SubsystemBase {
 
     public enum ScoringArmState {
         TRANSFER_POSE(0.73),
+        PARK_AUTO(0.3),
         INIT_POSE(0.73),
         PREPARE_TRANSFER(0.63),
         MID_POSE(0.43),

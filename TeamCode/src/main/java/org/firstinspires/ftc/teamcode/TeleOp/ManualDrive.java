@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.DriveTrain.Commands.ResetF
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
+import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -72,6 +73,12 @@ public class ManualDrive extends MMOpMode {
                 ScoringSampleCommand.ScoreHighSample()
 
         );
+        /*mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+                ()-> mmSystems.elevator.setPower(1.0)
+        );
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                ()-> mmSystems.elevator.setPower(-1.0)
+        );*/
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
                 () -> mmSystems.driveTrain.resetRotation()
         );

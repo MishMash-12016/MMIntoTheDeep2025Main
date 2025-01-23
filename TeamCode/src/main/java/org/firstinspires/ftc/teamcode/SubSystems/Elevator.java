@@ -38,11 +38,11 @@ public class Elevator extends MMPIDSubsystem {
     public static double TOLERANCE = 2;
     public static double kG = 0.16;
 
-    double ticksOffset = 0;
+    public double ticksOffset = 0;
 
 
     public enum ElevatorState {
-        LOW_BASKET(30), HIGH_BASKET(40), ELEVATOR_DOWN(2);
+        LOW_BASKET(30), HIGH_BASKET(40), ELEVATOR_DOWN(1);
 
         public double position;
 
@@ -63,6 +63,8 @@ public class Elevator extends MMPIDSubsystem {
 
 
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
+        
+
 
         this.motor1.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motor2.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
