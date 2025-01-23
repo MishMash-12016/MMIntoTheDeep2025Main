@@ -25,7 +25,10 @@ public class IntakeSpecimansCommand {
             MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE),
             MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.INTAKE_SPECIMEN_POSE),
             MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE),
-            MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw());
+            MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw())
+                .alongWith(MMRobot.getInstance().mmSystems.driveTrain.driveAlignedToAngle(
+                        ()-> Math.pow(MMRobot.getInstance().mmSystems.gamepadEx1.getLeftX(),3),
+                        ()-> Math.pow(MMRobot.getInstance().mmSystems.gamepadEx1.getLeftY(),3),0));
     }
     public static Command SpecimenIntake(){
         return new SequentialCommandGroup(
@@ -44,7 +47,7 @@ public class IntakeSpecimansCommand {
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE), //makes sure
                 //        MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.ELEVATOR_DOWN),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(), //makes sure
-                new WaitCommand(600),
+                new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
