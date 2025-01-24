@@ -3,11 +3,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DigitalChannelImpl;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleDigital;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMDistSensor;
@@ -22,6 +25,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
+import org.firstinspires.ftc.teamcode.utils.Configuration;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 /**
@@ -30,6 +34,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 public class MMSystems {
 
 
+    public  CuttleDigital elevatorSwitch;
     //Attributes & Hardware
     public OpModeType opModeType;
     public AllianceColor allianceColor;
@@ -42,7 +47,7 @@ public class MMSystems {
     public Telemetry telemetry;
     public MMBattery battery;
     public MMDistSensor intakeDistSensor;
-    public TouchSensor elevetorTouchSensor;
+
 
 
 
@@ -63,7 +68,7 @@ public class MMSystems {
     //creating and initiating all subsystems
     public void initRobotSystems() {
 
-        this.elevator = new Elevator();
+        this.elevator = new Elevator(elevatorSwitch);
         this.linearIntake = new LinearIntake();
         this.intakEndUnit = new IntakEndUnit();
         this.scoringEndUnitRotator = new ScoringEndUnitRotator();
@@ -71,6 +76,7 @@ public class MMSystems {
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
+        this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_SWITCH);
         linearIntake.setDefaultCommand(
                 linearIntake.defultCommand(0)
         );
@@ -101,7 +107,6 @@ public class MMSystems {
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
         this.intakeDistSensor = new MMDistSensor(hardwareMap);
-        this.elevetorTouchSensor =  hardwareMap.get(TouchSensor.class,"Elevator Touch Sensor");
 
 
 

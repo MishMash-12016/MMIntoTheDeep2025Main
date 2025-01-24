@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
@@ -73,12 +74,12 @@ public class ManualDrive extends MMOpMode {
                 ScoringSampleCommand.ScoreHighSample()
 
         );
-        /*mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
                 ()-> mmSystems.elevator.setPower(1.0)
         );
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
                 ()-> mmSystems.elevator.setPower(-1.0)
-        );*/
+        );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
                 () -> mmSystems.driveTrain.resetRotation()
         );
@@ -91,9 +92,10 @@ public class ManualDrive extends MMOpMode {
         super.run();
 
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
-        mmSystems.elevator.updateToDashboard();
+        MMRobot.getInstance().mmSystems.elevator.updateToDashboard();
         mmSystems.driveTrain.updateTelemetry();
         telemetry.addData("targertpose", mmSystems.elevator.targetPose);
+        telemetry.addData("ticks - ", mmSystems.elevator.getTicks());
         telemetry.addData("height", mmSystems.elevator.getHeight());
         telemetry.update();
 

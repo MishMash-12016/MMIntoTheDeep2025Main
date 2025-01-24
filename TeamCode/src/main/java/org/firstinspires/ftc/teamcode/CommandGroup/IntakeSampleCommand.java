@@ -32,6 +32,10 @@ public class IntakeSampleCommand {
     }
     public static Command SampleIntake() {
         return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORE_SAMPLE_POSE),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.INTAKE_POSE), //collect pose
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),

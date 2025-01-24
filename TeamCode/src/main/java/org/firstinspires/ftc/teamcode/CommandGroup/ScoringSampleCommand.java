@@ -73,7 +73,7 @@ public class ScoringSampleCommand {
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE),
                 new WaitCommand(400),
-                MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.ELEVATOR_DOWN),
+                MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZero(),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.TRANSFER_POSE),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE)
         );

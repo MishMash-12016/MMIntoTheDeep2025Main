@@ -23,9 +23,6 @@ public class ElevatorTouchSensorTeleOp extends MMOpMode {
     @Override
     public void onInit() {
         robotInstance.mmSystems.initRobotSystems();
-
-
-
     }
 
 
@@ -33,10 +30,11 @@ public class ElevatorTouchSensorTeleOp extends MMOpMode {
     public void run() {
         super.run();
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
-        if (robotInstance.mmSystems.elevetorTouchSensor.isPressed()){
+        if (robotInstance.mmSystems.elevatorSwitch.getState()){
             MMRobot.getInstance().mmSystems.elevator.setTicks(0);
+            MMRobot.getInstance().mmSystems.elevator.setPower(0.0);
         }
-        telemetry.addData("touched", robotInstance.mmSystems.elevetorTouchSensor.isPressed());
+        telemetry.addData("touched", robotInstance.mmSystems.elevatorSwitch.getState());
         telemetry.addData("encoder",robotInstance.mmSystems.elevator.getTicks());
         telemetry.addData("encoder",robotInstance.mmSystems.elevator.getHeight());
         telemetry.update();
