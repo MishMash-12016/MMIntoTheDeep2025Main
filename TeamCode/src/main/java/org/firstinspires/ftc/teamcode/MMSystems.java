@@ -43,7 +43,6 @@ public class MMSystems {
     public MMBattery battery;
     public MMDistSensor intakeDistSensor;
     public TouchSensor elevetorTouchSensor;
-    private final ServoHubConfig config;
 
 
 
@@ -103,7 +102,6 @@ public class MMSystems {
         this.battery = new MMBattery(hardwareMap);
         this.intakeDistSensor = new MMDistSensor(hardwareMap);
         this.elevetorTouchSensor =  hardwareMap.get(TouchSensor.class,"Elevator Touch Sensor");
-        this.config = new ServoHubConfig();
 
 
 

@@ -39,9 +39,9 @@ public class Configuration {
 
     //CONTROL HUB
     //Linear Intake
-    public static final int LEFT_LINEAR_INTAKE = 2;
-
-    public static final int RIGHT_LINEAR_INTAKE = 3;
+//    public static final int LEFT_LINEAR_INTAKE = 2;
+//
+//    public static final int RIGHT_LINEAR_INTAKE = 3;
 
     //Linear Intake End Unit Rotator:
     public static final int LINEAR_END_UNIT_ROTATOR = 0;

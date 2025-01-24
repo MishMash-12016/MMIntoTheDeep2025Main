@@ -56,7 +56,7 @@ public class DriveTrain extends SubsystemBase {
         motorBL = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_BACK_LEFT);
         motorFR = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_FRONT_RIGHT);
         motorBR = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_BACK_RIGHT);
-        localizer = MMRobot.getInstance().mmSystems.hardwareMap.get(GoBildaPinpointDriverRR.class,"localizer");
+        localizer = MMRobot.getInstance().mmSystems.hardwareMap.get(GoBildaPinpointDriverRR.class,"imu");
 
         //TODO: reverse motors as needed
         motorFR.setDirection(Direction.REVERSE);

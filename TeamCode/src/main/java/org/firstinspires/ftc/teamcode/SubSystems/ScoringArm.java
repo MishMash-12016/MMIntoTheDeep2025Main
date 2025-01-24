@@ -27,8 +27,8 @@ public class ScoringArm extends SubsystemBase {
     Servo servoRight;
 
     public ScoringArm() {
-         servoLeft = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "SERVO_LEFT_SCORING_ARM ");
-        servoRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "SERVO_RIGHT_SCORING_ARM");
+         servoLeft = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "L outake arm ");
+        servoRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "R outake arm");
         servoLeft.setPosition(ScoringArmState.INIT_POSE.position);
         servoRight.setPosition(1-ScoringArmState.INIT_POSE.position);
     }

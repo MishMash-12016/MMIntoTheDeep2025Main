@@ -29,7 +29,7 @@ public class ScoringEndUnitRotator extends SubsystemBase {
     Servo servo;
 
     public ScoringEndUnitRotator(){
-        servo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Scoring Rotator State");
+        servo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Outake angle");
         servo.setPosition(ScoringRotatorState.TRANSFER_POSE.position);
     }
 

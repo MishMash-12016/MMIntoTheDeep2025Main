@@ -27,7 +27,7 @@ public class Elevator extends MMPIDSubsystem {
 
     //constants:
     final double TICKS_PER_REV = 384.5;
-    final double GEAR_RATIO = 1.25;
+    final double GEAR_RATIO = 1;
     final double LEVELS = 4;
     final double SPROCKET_PERIMETER = 6.56592;
 

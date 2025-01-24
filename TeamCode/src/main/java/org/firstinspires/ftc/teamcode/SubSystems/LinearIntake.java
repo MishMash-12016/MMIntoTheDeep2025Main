@@ -4,6 +4,8 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
@@ -14,8 +16,8 @@ public class LinearIntake extends SubsystemBase {
 
     private final MMRobot robotInstance = MMRobot.getInstance();
 
-    private final CuttleServo servoLeft;
-    private final CuttleServo servoRight;
+    private final Servo servoLeft;
+    private final Servo servoRight;
     public static final double maxOpening = 0.6;
     public enum LinearIntakeState {
         OFFSET(0.22),CLOSED_POSE(-0.1);
@@ -26,9 +28,10 @@ public class LinearIntake extends SubsystemBase {
         }
     }
 
+
     public LinearIntake(){
-        servoLeft = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LEFT_LINEAR_INTAKE);
-        servoRight = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.RIGHT_LINEAR_INTAKE);
+        servoLeft = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "L linear intake ");
+        servoRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "R linear intake ");
 
     }
 
