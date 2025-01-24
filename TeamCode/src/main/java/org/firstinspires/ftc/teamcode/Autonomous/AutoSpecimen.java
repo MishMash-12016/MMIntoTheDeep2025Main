@@ -41,15 +41,15 @@ public class AutoSpecimen extends MMOpMode {
 
         TrajectoryActionBuilder driveToScorePreloadSpecimen = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-5, -28, Math.toRadians(90)), Math.toRadians(90)); //score secimen
+                .splineToLinearHeading(new Pose2d(-5, -28, Math.toRadians(90)), Math.toRadians(90)); //score specimen
 
         TrajectoryActionBuilder driveToScorePreLoadSpecimen2 = driveToScorePreloadSpecimen.endTrajectory().fresh()
                 .lineToY(-45);
         TrajectoryActionBuilder driveToPushSampleToHuman = driveToScorePreLoadSpecimen2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(40, -44.84, Math.toRadians(90)), Math.toRadians(0))
-                .lineToY(-15)
-                .lineToX(46);
+                .strafeTo(new Vector2d(40,-15))
+                .strafeTo(new Vector2d(46,-15));
         TrajectoryActionBuilder driveToPushSampleToHuman2 = driveToPushSampleToHuman.endTrajectory().fresh()
                 .strafeTo(new Vector2d(45,-54)) //- wait 200 sec
                 .lineToY(-60);
@@ -60,6 +60,7 @@ public class AutoSpecimen extends MMOpMode {
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90))
                 .lineToY(-50);
+
 //        TrajectoryActionBuilder driveToPickUpFirst2 = driveToPickUpFirst.endTrajectory().fresh()
 //                .strafeTo(new Vector2d(45.84, -59));
 //        TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToPickUpFirst2.endTrajectory().fresh()

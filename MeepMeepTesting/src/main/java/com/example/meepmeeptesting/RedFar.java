@@ -36,6 +36,10 @@ public class RedFar {
                         .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90))
                         .lineTo(new Vector2d(-3,-50))//score first
 
+
+
+
+
                         .setTangent(Math.toRadians(180)) //pick up first
                         .lineTo(new Vector2d(45.84, -59))
                         .setTangent(Math.toRadians(180))
