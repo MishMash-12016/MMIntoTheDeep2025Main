@@ -80,8 +80,13 @@ public class AutoSpecimen extends MMOpMode {
                 new ActionCommand(driveToScorePreLoadSpecimen2.build())
                         .alongWith(new WaitCommand(waitBeforeOpeningScoringClawTime).andThen(MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())),
                 new WaitCommand(200),
+                //IntakeSpecimansCommand.PrepareSpecimanIntake(),
+                new ActionCommand(driveToPushSampleToHuman.build()).withTimeout(400),
                 IntakeSpecimansCommand.PrepareSpecimanIntake(),
+                new ActionCommand(driveToPushSampleToHuman2.build()),
                 new ActionCommand(driveToPickUpFirst.build()),
+                IntakeSpecimansCommand.SpecimenIntake()
+                ,
                 new WaitCommand(1000)
         ).schedule();
     }
