@@ -52,11 +52,14 @@ public class ScoringSampleCommand {
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 new WaitCommand(200),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORE_SAMPLE),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE),
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORE_SAMPLE_POSE),
                 new WaitCommand(500),
-                MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET) //the height of the high basket
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET), //the height of the high basket
+                new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORE_SAMPLE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORE_SAMPLE_POSE)
 
         );
     }
@@ -73,7 +76,7 @@ public class ScoringSampleCommand {
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE),
                 new WaitCommand(400),
-                MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZero(),
+                MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZero().withTimeout(600),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.TRANSFER_POSE),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE)
         );
@@ -97,7 +100,7 @@ public class ScoringSampleCommand {
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE),
                 new WaitCommand(400),
-                MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.ELEVATOR_DOWN)
+                MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZero()
         );
     }
 
