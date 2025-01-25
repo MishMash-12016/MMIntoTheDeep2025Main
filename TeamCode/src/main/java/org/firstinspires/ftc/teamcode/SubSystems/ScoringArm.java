@@ -11,13 +11,13 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class ScoringArm extends SubsystemBase {
     public enum ScoringArmState {
-        TRANSFER_POSE(0.72),
+        TRANSFER_POSE(0.0),
         PARK_AUTO(0.3),
         INIT_POSE(0.73),
         PREPARE_TRANSFER(0.63),
         MID_POSE(0.43),
         SCORE_SPECIMEN(0.35),
-        TRANSFER_SPECIMEN_POSE(0.73),
+        TRANSFER_SPECIMEN_POSE(0.71),
         SCORE_SAMPLE(0.3);
         public double position;
         ScoringArmState(double position){

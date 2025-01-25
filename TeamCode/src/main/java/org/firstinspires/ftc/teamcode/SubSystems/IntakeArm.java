@@ -14,9 +14,9 @@ public class IntakeArm extends SubsystemBase {
     public enum IntakeArmState {
         INTAKE_POSE(0.6),
         PREPARE_SAMPLE_INTAKE(0.54),
-        SPECIMEN_INTAKE(0.39),
+        SPECIMEN_INTAKE(0.37),
         MID_INTAKE_SPECIMEN(0.3),
-        TRANSFER_POSE(0.08);
+        TRANSFER_POSE(0.1);
         public double position;
         IntakeArmState(double position){
             this.position = position;
