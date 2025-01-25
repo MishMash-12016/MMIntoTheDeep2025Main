@@ -73,12 +73,13 @@ public class Elevator extends MMPIDSubsystem {
 
 
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
-        elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER);
+        elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
 
 
         this.motor1.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motor2.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motor3.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         resetTicks();
     }
@@ -100,13 +101,13 @@ public class Elevator extends MMPIDSubsystem {
     }
 
     public boolean getElevatorSwitchState() {
-        return elevatorSwitch.getState();
+        return !elevatorSwitch.getState();
     }
 
     public Command ElevatorGetToZero() {
         return new SequentialCommandGroup(
                 moveToPose(2),
-                new InstantCommand(() -> setPower(0.45)),
+                new InstantCommand(() -> setPower(-0.5)),
                 new WaitUntilCommand(() -> getElevatorSwitchState()),
                 new InstantCommand(() -> setTicks(0)),
                 new InstantCommand(() -> setPower(0.0))
