@@ -55,22 +55,23 @@ public class AutoSpecimen extends MMOpMode {
                 .lineToY(-60);
         TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToPushSampleToHuman2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(120))
-                .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(-3, -25, Math.toRadians(90)), Math.toRadians(90));
         TrajectoryActionBuilder driveToScoreFirstSpecimen2 = driveToScoreFirstSpecimen.endTrajectory().fresh()
-                .lineToY(-45);
+                .lineToY(-50);
         TrajectoryActionBuilder driveToPickUpSecondSpecimen= driveToScoreFirstSpecimen2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180)) //pick up first
-                .strafeTo(new Vector2d(45, -50));
+                .strafeTo(new Vector2d(45, -54));
         TrajectoryActionBuilder driveToPickUpSecondSpecimen2 = driveToPickUpSecondSpecimen.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(45, -54, Math.toRadians(90)), Math.toRadians(0));
+                .setTangent(90)
+                .splineToSplineHeading(new Pose2d(45, -59, Math.toRadians(90)), Math.toRadians(0));
         TrajectoryActionBuilder driveToScoreSecondSpecimen = driveToPickUpSecondSpecimen2.endTrajectory().fresh()
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90));
+                .setTangent(Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90));
         TrajectoryActionBuilder driveToScoreSecondSpecimen2 = driveToScoreSecondSpecimen.endTrajectory().fresh()
-                .lineToY(-45);
+                .lineToY(-50);
         TrajectoryActionBuilder driveToPark = driveToScoreSecondSpecimen2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(50, -60, Math.toRadians(90)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(45, -59, Math.toRadians(90)), Math.toRadians(0));
 
         new SequentialCommandGroup(
                 new ActionCommand(driveToScorePreloadSpecimen.build()),
@@ -100,10 +101,10 @@ public class AutoSpecimen extends MMOpMode {
                 IntakeSpecimansCommand.SpecimenIntake(),
                 new ActionCommand(driveToScoreSecondSpecimen.build()),
                 ScoringSpecimanCommand.SpecimanScore(),
-                new WaitCommand(300),
+                new WaitCommand(500),
                 new ActionCommand(driveToScoreSecondSpecimen2.build())
                         .alongWith(new WaitCommand(waitBeforeOpeningScoringClawTime).andThen(MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())),
-                new WaitCommand(200),
+                new WaitCommand(300),
                 new ActionCommand(driveToPark.build())
 
 
