@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
  */
 public class Configuration {
 
-    public static final String IMU = "localizer";
+    public static final String IMU = "imu";
     public static final String intakeDistanceSensor = "Distance Sensor";
     public static final int ELEVATOR_SWITCH = 0;
 
