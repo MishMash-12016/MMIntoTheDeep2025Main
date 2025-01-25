@@ -43,23 +43,12 @@ public class MMSystems {
     public GamepadEx gamepadEx2;
     public Telemetry telemetry;
     public MMBattery battery;
-    public MMDistSensor intakeDistSensor;
-    public TouchSensor elevetorTouchSensor;
-    public MMIMU imu;
 
 
 
     //Subsystems
-    public DriveTrain driveTrain;
-    public LinearIntake linearIntake;
-    public IntakEndUnit intakEndUnit;
-    public IntakeArm intakeArm;
-    public IntakeEndUnitRotator intakeEndUnitRotator;
-    public ScoringEndUnitRotator scoringEndUnitRotator;
-    public ScoringArm scoringArm;
-    public ScoringClawEndUnit scoringClawEndUnit;
-    public Elevator elevator;
     public LimeLight limeLight;
+    public IntakeEndUnitRotator intakeEndUnitRotator;
 
 
 
@@ -68,33 +57,12 @@ public class MMSystems {
     //creating and initiating all subsystems
     public void initRobotSystems() {
 
-        this.elevator = new Elevator();
-        this.linearIntake = new LinearIntake();
-        this.intakEndUnit = new IntakEndUnit();
-        this.scoringEndUnitRotator = new ScoringEndUnitRotator();
-        this.intakeArm = new IntakeArm();
-        this.scoringArm = new ScoringArm();
-        this.scoringClawEndUnit = new ScoringClawEndUnit();
-        this.intakeEndUnitRotator = new IntakeEndUnitRotator();
-        linearIntake.setDefaultCommand(
-                linearIntake.defultCommand(0)
-        );
         this.limeLight = new LimeLight();
-        intakeEndUnitRotator.setDefaultCommand(
-                intakeEndUnitRotator.setPositionRUN(0.12)
-        );
-
+        this.intakeEndUnitRotator = new IntakeEndUnitRotator();
     }
 
     public void initDriveTrain() {
-        driveTrain = new DriveTrain();
-        driveTrain.setDefaultCommand(
-                MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
-                        () -> gamepadEx1.getLeftX(),
-                        () -> gamepadEx1.getLeftY(),
-                        () -> Math.pow(gamepadEx1.getRightX(),3))
 
-        );
     }
 
 
@@ -109,9 +77,6 @@ public class MMSystems {
         this.gamepadEx2 = new GamepadEx(gamepad2);
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
-        this.intakeDistSensor = new MMDistSensor(hardwareMap);
-        this.imu = new MMIMU(hardwareMap);
-        this.elevetorTouchSensor =  hardwareMap.get(TouchSensor.class,"Elevator Touch Sensor");
 
 
 

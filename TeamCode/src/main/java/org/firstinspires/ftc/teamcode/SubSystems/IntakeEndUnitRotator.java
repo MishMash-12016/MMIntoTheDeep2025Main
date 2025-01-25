@@ -32,7 +32,7 @@ public class IntakeEndUnitRotator extends SubsystemBase {
 
 
     public IntakeEndUnitRotator() {
-        servo = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LINEAR_END_UNIT_ROTATOR);
+        servo = new CuttleServo(robotInstance.mmSystems.controlHub, 3);
     }
 
     public Command setPosition(double newPos) {
@@ -41,6 +41,10 @@ public class IntakeEndUnitRotator extends SubsystemBase {
         },
                 this);
     }
+    public void setPositionVoid(double newPos) {
+            servo.setPosition(newPos);
+    }
+
     public Command setPositionRUN(double newPos) {
         return new RunCommand(() -> {
             servo.setPosition(newPos);
