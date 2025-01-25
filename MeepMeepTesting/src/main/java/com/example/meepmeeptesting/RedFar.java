@@ -26,28 +26,30 @@ public class RedFar {
                         .splineToLinearHeading(new Pose2d(40, -44.84, Math.toRadians(90)), Math.toRadians(0))
                         .lineTo(new Vector2d(40,-15))
                         .lineTo(new Vector2d(46,-15)) //- prepare intake
-                        .lineTo(new Vector2d(45,-54)) //- wait 200 sec
+
+                        .lineTo(new Vector2d(45,-52)) //- wait 200 sec
                         .lineTo(new Vector2d(45,-60)) //bring sample into human
 
-                        .setTangent(Math.toRadians(180)) //pick up first
-                        .lineTo(new Vector2d(45.84, -59)) //pick up first
 
-                        .setTangent(Math.toRadians(180))
+//
+                        .setTangent(Math.toRadians(120))
                         .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90))
                         .lineTo(new Vector2d(-3,-50))//score first
-
-                        .setTangent(Math.toRadians(180)) //pick up first
-                        .lineTo(new Vector2d(45.84, -59))
-
-                        .setTangent(Math.toRadians(180))
-                        .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90))
-
-                        .lineTo(new Vector2d(-3,-50))
 //
-                        .setTangent(Math.toRadians(0))
-                        .splineToLinearHeading(new Pose2d(42, -56, Math.toRadians(90)), Math.toRadians(0)) //park
-
-
+//                        .setTangent(Math.toRadians(180)) //pick up first
+//                        .lineTo(new Vector2d(45.84, -59))
+//
+//                        .setTangent(Math.toRadians(180))
+//                        .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90))
+//                        .setTangent(Math.toRadians(0))
+//                        .splineToLinearHeading(new Pose2d(50, -59, Math.toRadians(90)), Math.toRadians(0))
+////
+//                        .lineTo(new Vector2d(-3,-50))
+////
+//                        .setTangent(Math.toRadians(0))
+//                        .splineToLinearHeading(new Pose2d(42, -56, Math.toRadians(90)), Math.toRadians(0)) //park
+//
+//
 
 //                        .setTangent(Math.toRadians(0))
 //                        .splineToLinearHeading(new Pose2d(45, -44.84, Math.toRadians(270)), Math.toRadians(0)) //pick up sample
