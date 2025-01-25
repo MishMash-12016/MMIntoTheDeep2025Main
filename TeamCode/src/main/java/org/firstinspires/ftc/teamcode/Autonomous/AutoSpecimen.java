@@ -58,8 +58,13 @@ public class AutoSpecimen extends MMOpMode {
                .splineToLinearHeading(new Pose2d(45.84, -59,Math.toRadians(90)),Math.toRadians(180));
         TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToPickUpFirst.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90));
+        TrajectoryActionBuilder driveToScoreFirstSpecimen2 = driveToScoreFirstSpecimen.endTrajectory().fresh()
                 .lineToY(-50);
+        TrajectoryActionBuilder driveToPickUpSpecimen= driveToScoreFirstSpecimen2.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180)) //pick up first
+                .strafeTo(new Vector2d(45.84, -59));
+        //TrajectoryActionBuilder driveToScore
 
 //        TrajectoryActionBuilder driveToPickUpFirst2 = driveToPickUpFirst.endTrajectory().fresh()
 //                .strafeTo(new Vector2d(45.84, -59));
@@ -85,9 +90,10 @@ public class AutoSpecimen extends MMOpMode {
                 IntakeSpecimansCommand.PrepareSpecimanIntake(),
                 new ActionCommand(driveToPushSampleToHuman2.build()),
                 new ActionCommand(driveToPickUpFirst.build()),
-                IntakeSpecimansCommand.SpecimenIntake()
-                ,
-                new WaitCommand(1000)
+                new WaitCommand(500),
+                IntakeSpecimansCommand.SpecimenIntake(),
+                new WaitCommand(300),
+                new ActionCommand()
         ).schedule();
     }
 
