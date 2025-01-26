@@ -19,16 +19,36 @@ public class RedFar {
 
                 .followTrajectorySequence(drive-> drive.trajectorySequenceBuilder (new Pose2d(5.5, -65.5, Math.toRadians(90.00)))
                         .setTangent(Math.toRadians(90))
-                        .splineToLinearHeading(new Pose2d(5, -32, Math.toRadians(90)), Math.toRadians(90)) //score secimen
-                        .setTangent(Math.toRadians(360))//240))
-                                .splineToLinearHeading(new Pose2d(45.84, -54.84, Math.toRadians(90)), Math.toRadians(360))
-                        .strafeTo(new Vector2d(45.84, -55.5))
-                        .setTangent(Math.toRadians(180))
-                        .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90))
-                .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(57.875, -44.84, Math.toRadians(270)), Math.toRadians(0)) //pick up 2
-                .setTangent(Math.toRadians(190))
-                .splineToLinearHeading(new Pose2d(50.8, -45.8, Math.toRadians(315)), Math.toRadians(190)) //pick up 3
+                        .splineToLinearHeading(new Pose2d(-5, -28, Math.toRadians(90)), Math.toRadians(90))
+                        .lineTo(new Vector2d(-5,-45))
+
+                        .setTangent(Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(40, -44.84, Math.toRadians(90)), Math.toRadians(0))
+                        .strafeTo(new Vector2d(40,-15))
+                        .strafeTo(new Vector2d(46,-15))
+
+                        .strafeTo(new Vector2d(45,-54)) //- wait 200 sec
+                        .lineTo(new Vector2d(45,-60))
+
+                        .setTangent(Math.toRadians(130))
+                        .splineToLinearHeading(new Pose2d(-3, -25, Math.toRadians(90)), Math.toRadians(90))
+                        .lineTo(new Vector2d(-3,-50))
+
+                        .setTangent(Math.toRadians(0)) //pick up first
+                        .splineToLinearHeading(new Pose2d(45, -54, Math.toRadians(90)), Math.toRadians(0))
+
+                        .setTangent(Math.toRadians(270))
+                        .splineToLinearHeading(new Pose2d(45,-60,Math.toRadians(90)),Math.toRadians(270))
+
+                        .setTangent(Math.toRadians(130))
+                        .splineToLinearHeading(new Pose2d(-1, -25, Math.toRadians(90)), Math.toRadians(90))
+                        .lineTo(new Vector2d(-1,-50))
+
+                        .setTangent(Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(45, -59, Math.toRadians(90)), Math.toRadians(0))
+
+
+
                 .build());
 
 
