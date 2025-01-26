@@ -25,10 +25,10 @@ public class RedFar {
                         .strafeTo(new Vector2d(45.84, -55.5))
                         .setTangent(Math.toRadians(180))
                         .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90))
-//                .setTangent(Math.toRadians(0))
-//                .splineToLinearHeading(new Pose2d(57.875, -44.84, Math.toRadians(270)), Math.toRadians(0)) //pick up 2
-//                .setTangent(Math.toRadians(190))
-//                .splineToLinearHeading(new Pose2d(50.8, -45.8, Math.toRadians(315)), Math.toRadians(190)) //pick up 3
+                .setTangent(Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(57.875, -44.84, Math.toRadians(270)), Math.toRadians(0)) //pick up 2
+                .setTangent(Math.toRadians(190))
+                .splineToLinearHeading(new Pose2d(50.8, -45.8, Math.toRadians(315)), Math.toRadians(190)) //pick up 3
                 .build());
 
 

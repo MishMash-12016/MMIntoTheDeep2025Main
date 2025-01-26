@@ -13,7 +13,7 @@ public class IntakeArm extends SubsystemBase {
     CuttleServo servoRight;
     public enum IntakeArmState {
         INTAKE_POSE(0.6),
-        PREPARE_SAMPLE_INTAKE(0.54),
+        PREPARE_SAMPLE_INTAKE(0.52),
         SPECIMEN_INTAKE(0.37),
         MID_INTAKE_SPECIMEN(0.3),
         TRANSFER_POSE(0.1);
