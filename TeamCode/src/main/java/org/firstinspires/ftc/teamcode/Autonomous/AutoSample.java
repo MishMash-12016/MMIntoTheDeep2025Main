@@ -41,11 +41,11 @@ public class AutoSample extends MMOpMode {
         MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE);
 
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
-                .setTangent(Math.toRadians(100))
+                .setTangent(Math.toRadians(140))
                 .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(250)); //
         TrajectoryActionBuilder driveToPickUpFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(-49, -50.84, Math.toRadians(275)), Math.toRadians(80));
+                .splineToLinearHeading(new Pose2d(-48.84, -50.84, Math.toRadians(270)), Math.toRadians(80));
         TrajectoryActionBuilder driveToScoreFirstSample = driveToPickUpFirstSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(250));
@@ -57,7 +57,7 @@ public class AutoSample extends MMOpMode {
                 .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(300));
         TrajectoryActionBuilder driveToPark = driveToScoreSecondSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(-20.65, -8.25, Math.toRadians(0)), Math.toRadians(0.0));
+                .splineToLinearHeading(new Pose2d(-20.65, -8.25, Math.toRadians(180)), Math.toRadians(0.0));
 
 
         new SequentialCommandGroup(
@@ -78,6 +78,10 @@ public class AutoSample extends MMOpMode {
                 IntakeSampleCommand.prepareSampleIntake(() -> false, () -> false).withTimeout(600),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
+                new ActionCommand(driveToScoreSecondSample.build()),
+                ScoringSampleCommand.PrepareHighSample(),
+                new WaitCommand(200),
+                ScoringSampleCommand.ScoreHighSample(),
                 new ActionCommand(driveToPark.build()),
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK_AUTO)

@@ -13,10 +13,10 @@ public class IntakeArm extends SubsystemBase {
     CuttleServo servoRight;
     public enum IntakeArmState {
         INTAKE_POSE(0.6),
-        PREPARE_SAMPLE_INTAKE(0.52),
-        SPECIMEN_INTAKE(0.37),
+        PREPARE_SAMPLE_INTAKE(0.5),
+        SPECIMEN_INTAKE(0.34),
         MID_INTAKE_SPECIMEN(0.3),
-        TRANSFER_POSE(0.1);
+        TRANSFER_POSE(0.04);
         public double position;
         IntakeArmState(double position){
             this.position = position;

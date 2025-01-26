@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimanCommand;
@@ -9,7 +10,7 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
-@TeleOp
+@Disabled
 public class IntakeArmTeleOp extends MMOpMode {
     MMRobot robotInstance = MMRobot.getInstance();
     public IntakeArmTeleOp(){

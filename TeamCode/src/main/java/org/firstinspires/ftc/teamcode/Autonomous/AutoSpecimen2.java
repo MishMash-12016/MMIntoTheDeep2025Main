@@ -19,11 +19,11 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 
 @Autonomous
-public class AutoSpecimen extends MMOpMode {
+public class AutoSpecimen2 extends MMOpMode {
     MMRobot robotInstance;
     int waitBeforeOpeningScoringClawTime = 1100;
 
-    public AutoSpecimen() {
+    public AutoSpecimen2() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
