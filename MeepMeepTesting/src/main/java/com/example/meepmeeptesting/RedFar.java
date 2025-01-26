@@ -30,20 +30,22 @@ public class RedFar {
                         .strafeTo(new Vector2d(45,-54)) //- wait 200 sec
                         .lineTo(new Vector2d(45,-60))
 
-                        .setTangent(Math.toRadians(120))
+                        .setTangent(Math.toRadians(130))
                         .splineToLinearHeading(new Pose2d(-3, -25, Math.toRadians(90)), Math.toRadians(90))
                         .lineTo(new Vector2d(-3,-50))
 
                         .setTangent(Math.toRadians(0)) //pick up first
                         .splineToLinearHeading(new Pose2d(45, -54, Math.toRadians(90)), Math.toRadians(0))
-                        .lineTo(new Vector2d(45,-59))
 
-//                        .setTangent(Math.toRadians(90))
-//                        .splineToSplineHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90))
-//                        .lineTo(new Vector2d(-3,-50))
-//
-//                        .setTangent(Math.toRadians(0))
-//                        .splineToLinearHeading(new Pose2d(45, -59, Math.toRadians(90)), Math.toRadians(0))
+                        .setTangent(Math.toRadians(270))
+                        .splineToLinearHeading(new Pose2d(45,-60,Math.toRadians(90)),Math.toRadians(270))
+
+                        .setTangent(Math.toRadians(130))
+                        .splineToLinearHeading(new Pose2d(-1, -25, Math.toRadians(90)), Math.toRadians(90))
+                        .lineTo(new Vector2d(-1,-50))
+
+                        .setTangent(Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(45, -59, Math.toRadians(90)), Math.toRadians(0))
 
 
 
