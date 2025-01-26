@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.PrintCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -15,8 +16,10 @@ import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimansCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimanCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -25,7 +28,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 @Autonomous
 public class AutoSpecimen1 extends MMOpMode {
     MMRobot robotInstance;
-    int waitBeforeOpeningScoringClawTime = 1000;
+    int waitBeforeOpeningScoringClawTime = 1100;
 
     public AutoSpecimen1() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -50,17 +53,18 @@ public class AutoSpecimen1 extends MMOpMode {
                 .lineToY(-50);
         TrajectoryActionBuilder driveToPickUpFirst = driveToScorePreLoadSpecimen2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(360))//240))
-                .splineToLinearHeading(new Pose2d(45.84, -48.84, Math.toRadians(90)), Math.toRadians(360));
+                .splineToLinearHeading(new Pose2d(45.84, -55     , Math.toRadians(90)), Math.toRadians(360));
         TrajectoryActionBuilder driveToPickUpFirst2 = driveToPickUpFirst.endTrajectory().fresh()
-                .strafeTo(new Vector2d(45.84, -59));
+                .strafeTo(new Vector2d(45.84, -63), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*0.1));
         TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToPickUpFirst2.endTrajectory().fresh()
+
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-3, -28, Math.toRadians(90)), Math.toRadians(90));
         TrajectoryActionBuilder driveToScoreFirstSpecimen2 = driveToScoreFirstSpecimen.endTrajectory().fresh()
                 .lineToY(-50);
         TrajectoryActionBuilder driveToPark = driveToScoreFirstSpecimen2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(360))
-                .splineToLinearHeading(new Pose2d(45.84, -54.84, Math.toRadians(90)), Math.toRadians(360));
+                .splineToLinearHeading(new Pose2d(45.84, -60.84, Math.toRadians(90)), Math.toRadians(360));
 
 
         new SequentialCommandGroup(
@@ -82,7 +86,8 @@ public class AutoSpecimen1 extends MMOpMode {
                 new WaitCommand(500),
                 new ActionCommand(driveToScoreFirstSpecimen2.build())
                         .alongWith(new WaitCommand(waitBeforeOpeningScoringClawTime).andThen(MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())),
-                new ActionCommand(driveToPark.build())
+                new ActionCommand(driveToPark.build()),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER)
         ).schedule();
     }
 

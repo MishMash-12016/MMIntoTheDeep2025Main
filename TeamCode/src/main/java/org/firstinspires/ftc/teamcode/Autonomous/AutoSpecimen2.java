@@ -63,7 +63,7 @@ public class AutoSpecimen2 extends MMOpMode {
                 .splineToLinearHeading(new Pose2d(45, -54, Math.toRadians(90)), Math.toRadians(0));
         TrajectoryActionBuilder driveToPickUpSecondSpecimen2 = driveToPickUpSecondSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(45,-60,Math.toRadians(90)),Math.toRadians(270));
+                .splineToLinearHeading(new Pose2d(45,-58,Math.toRadians(90)),Math.toRadians(270));
         TrajectoryActionBuilder driveToScoreSecondSpecimen = driveToPickUpSecondSpecimen2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(130))
                 .splineToLinearHeading(new Pose2d(-1, -25, Math.toRadians(90)), Math.toRadians(90));
@@ -81,12 +81,12 @@ public class AutoSpecimen2 extends MMOpMode {
                 new WaitCommand(200),
                 new ActionCommand(driveToPushSampleToHuman.build()),
                 IntakeSpecimansCommand.PrepareSpecimanIntake(),
-                new WaitCommand(300),
+                new WaitCommand(400),
                 new ActionCommand(driveToPushSampleToHuman2.build()),
                 new WaitCommand(300),
-                IntakeSpecimansCommand.SpecimenIntake(),
-                new WaitCommand(300),
-                new ActionCommand(driveToScoreFirstSpecimen.build()),
+                IntakeSpecimansCommand.SpecimenIntake().alongWith(
+                        new WaitCommand(100).andThen(
+                new ActionCommand(driveToScoreFirstSpecimen.build()))),
                 ScoringSpecimanCommand.SpecimanScore(),
                 new WaitCommand(500),
                 new ActionCommand(driveToScoreFirstSpecimen2.build()),
@@ -96,12 +96,13 @@ public class AutoSpecimen2 extends MMOpMode {
                 new WaitCommand(200),
                 new ActionCommand(driveToPickUpSecondSpecimen2.build()),
                 new WaitCommand(200),
-                IntakeSpecimansCommand.SpecimenIntake(),
-                new ActionCommand(driveToScoreSecondSpecimen.build()),
+                IntakeSpecimansCommand.SpecimenIntake().alongWith(
+                        new WaitCommand(200).andThen(
+                        new ActionCommand(driveToScoreSecondSpecimen.build()))),
                 ScoringSpecimanCommand.SpecimanScore(),
                 new WaitCommand(500),
                 new ActionCommand(driveToScoreSecondSpecimen2.build()),
-                new WaitCommand(300),
+                new WaitCommand(200),
                 new ActionCommand(driveToPark.build())
 
 

@@ -49,7 +49,7 @@ public class AutoClose extends MMOpMode {
                 .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(250)); //
         TrajectoryActionBuilder driveToPickUpFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(-48.84, -50.84, Math.toRadians(270)), Math.toRadians(80));
+                .splineToLinearHeading(new Pose2d(-48.84, -51.25, Math.toRadians(270)), Math.toRadians(80));
         TrajectoryActionBuilder driveToScoreFirstSample = driveToPickUpFirstSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(250)); //score
