@@ -55,7 +55,7 @@ public class AutoSample1 extends MMOpMode {
 
         new SequentialCommandGroup(
                 new ActionCommand(driveToScorePreloadSample.build()),
-                ScoringSampleCommand.PrepareHighSample(),
+                ScoringSampleCommand.HighSampleAuto(),
                 new WaitCommand(200),
                 ScoringSampleCommand.ScoreHighSample(),
                 new WaitCommand(500),
