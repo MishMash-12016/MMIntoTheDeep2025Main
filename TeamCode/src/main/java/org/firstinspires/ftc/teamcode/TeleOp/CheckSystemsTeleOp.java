@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
@@ -40,12 +41,12 @@ public class CheckSystemsTeleOp extends MMOpMode {
                 new WaitCommand(500),
                 robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                 new WaitCommand(300),
-                robotInstance.mmSystems.linearIntake.setPosition(0.1)
+                robotInstance.mmSystems.linearIntake.setPosition(0.2)
                 )
         );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
                 new SequentialCommandGroup(
-                        new InstantCommand(()->robotInstance.mmSystems.elevator.setPower(3.0)).withTimeout(300),
+                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.LOW_BASKET),
                         new WaitCommand(500),
                         robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE),
                         new WaitCommand(300),
@@ -58,8 +59,8 @@ public class CheckSystemsTeleOp extends MMOpMode {
                         robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE),
                         new WaitCommand(300),
                         robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.MID_POSE_SPECIMEN),
-                        new InstantCommand(()->robotInstance.mmSystems.elevator.setPower(-3.0)).withTimeout(300)
-                        )
+                        MMRobot.getInstance().mmSystems.elevator.moveToPose(10))
+
         );
     }
 

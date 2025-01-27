@@ -74,14 +74,26 @@ public class ManualDrive extends MMOpMode {
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 ScoringSampleCommand.ScoreHighSample()
         );
-
-
-        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                 ScoringSampleCommand.PrepareHighSample());
-
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
                 () -> mmSystems.driveTrain.resetRotation()
         );
+
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-0.6)); //left trigger
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.6)); //right trigger
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+                .whenInactive(()-> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenActive(() -> MMRobot.getInstance().mmSystems.elevator.resetTicks());
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+            .whenActive(MMRobot.getInstance().mmSystems.elevator.moveToPose(0.05));
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                 ScoringSampleCommand.PrepareHighSample());
+
+
 
 
     }

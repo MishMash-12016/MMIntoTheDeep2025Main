@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 
-@Autonomous
+
 public class AutoSample extends MMOpMode {
     MMRobot robotInstance;
     int waitBeforeOpeningScoringClawTime = 1000;
@@ -45,25 +45,26 @@ public class AutoSample extends MMOpMode {
                 .splineToLinearHeading(new Pose2d(-52.8, -59, Math.toRadians(225)), Math.toRadians(250)); //
         TrajectoryActionBuilder driveToPickUpFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(-51, -50, Math.toRadians(270)), Math.toRadians(80));
+                .splineToLinearHeading(new Pose2d(-50, -51, Math.toRadians(270)), Math.toRadians(80));
         TrajectoryActionBuilder driveToScoreFirstSample = driveToPickUpFirstSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(-52.8, -59, Math.toRadians(215)), Math.toRadians(250));
         TrajectoryActionBuilder driveToPickUpSecondSample= driveToScoreFirstSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(120))
-                .splineToLinearHeading(new Pose2d(-60, -50, Math.toRadians(270)), Math.toRadians(100));
+                .splineToLinearHeading(new Pose2d(-60.5, -51, Math.toRadians(270)), Math.toRadians(100));
         TrajectoryActionBuilder driveToScoreSecondSample = driveToPickUpSecondSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(300))
                 .splineToLinearHeading(new Pose2d(-52.8, -59, Math.toRadians(215)), Math.toRadians(300));
         TrajectoryActionBuilder driveToPickUpThirdSample= driveToScoreSecondSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-52.8, -45.8, Math.toRadians(315)), Math.toRadians(95)) ;
+                .splineToLinearHeading(new Pose2d(-54, -45, Math.toRadians(315)), Math.toRadians(95)) ;
         TrajectoryActionBuilder driveToScoreThirdSample = driveToPickUpThirdSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(100))
                 .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(215)), Math.toRadians(200));
-        TrajectoryActionBuilder turnForEnd = driveToScoreThirdSample.endTrajectory().fresh()
-                .setTangent(0)
-                .turn(90);
+        TrajectoryActionBuilder driveToTurn = driveToScoreThirdSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-51.8, -50, Math.toRadians(90)), Math.toRadians(90))
+                .lineToY(-60);
 //        TrajectoryActionBuilder driveToPark = driveToScoreThirdSample.endTrajectory().fresh()
 //                .setTangent(Math.toRadians(90))
 //                .splineToLinearHeading(new Pose2d(-20.65, -8.25, Math.toRadians(0)), Math.toRadians(180));
@@ -82,24 +83,16 @@ public class AutoSample extends MMOpMode {
                 ScoringSampleCommand.PrepareHighSample()),
                 new WaitCommand(200),
                 ScoringSampleCommand.ScoreHighSample(),
-                new ActionCommand(driveToPickUpSecondSample.build()),
+               new ActionCommand(driveToPickUpSecondSample.build()),
                 new WaitCommand(200),
                 IntakeSampleCommand.prepareSampleIntake(() -> false, () -> false).withTimeout(1000),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
-                new ActionCommand(driveToScoreSecondSample.build()).alongWith(
-                ScoringSampleCommand.PrepareHighSample()),
-                new WaitCommand(200),
-                ScoringSampleCommand.ScoreHighSample(),
-                new ActionCommand(driveToPickUpThirdSample.build()),
-                IntakeSampleCommand.prepareSampleIntake(() -> false, () -> false).withTimeout(600),
-                IntakeSampleCommand.SampleIntake(),
-                new WaitCommand(200),
-                new ActionCommand(driveToScoreThirdSample.build()),
+                new ActionCommand(driveToScoreSecondSample.build()),
                 ScoringSampleCommand.PrepareHighSample(),
                 new WaitCommand(200),
                 ScoringSampleCommand.ScoreHighSample(),
-                new ActionCommand(turnForEnd.build())
+                new ActionCommand(driveToTurn.build())
 
 
 

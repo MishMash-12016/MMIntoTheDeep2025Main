@@ -14,7 +14,7 @@ public class ScoringArm extends SubsystemBase {
         TRANSFER_POSE(0.74),
         TRANSFER_SAMPLE_POSE(0.72),
         PARK_AUTO(0.3),
-        INIT_POSE(0.63),
+        INIT_POSE(0.7),
 
         PREPARE_TRANSFER(0.63),
         MID_POSE(0.43),
