@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 import java.util.Collections;
 
 
-@Autonomous
+
 public class autoCloseRed extends MMOpMode {
     MMRobot robotInstance;
 

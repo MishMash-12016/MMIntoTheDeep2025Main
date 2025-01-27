@@ -18,36 +18,39 @@ public class RedFar {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
 
                 .followTrajectorySequence(drive-> drive.trajectorySequenceBuilder (new Pose2d(5.5, -65.5, Math.toRadians(90.00)))
-                        .setTangent(Math.toRadians(80))
-                        .splineToLinearHeading(new Pose2d(-20.65, -8.25, Math.toRadians(180)), Math.toRadians(0.0))
                         .setTangent(Math.toRadians(90))
                         .splineToLinearHeading(new Pose2d(-5, -28, Math.toRadians(90)), Math.toRadians(90))
-                        .lineTo(new Vector2d(-5,-45))
+                        .lineTo(new Vector2d(-5,-50))
+//                        .setTangent(Math.toRadians(90))
+//                        .splineToLinearHeading(new Pose2d(-5, -28, Math.toRadians(90)), Math.toRadians(90))
+//                        .lineTo(new Vector2d(-5,-45))
 
                         .setTangent(Math.toRadians(0))
-                        .splineToLinearHeading(new Pose2d(40, -44.84, Math.toRadians(90)), Math.toRadians(0))
-                        .strafeTo(new Vector2d(40,-15))
+                        .splineToLinearHeading(new Pose2d(38, -44.84, Math.toRadians(90)), Math.toRadians(0))
+                        .strafeTo(new Vector2d(38,-15))
                         .strafeTo(new Vector2d(46,-15))
+                        .strafeTo(new Vector2d(45,-54))
+                        .lineTo(new Vector2d(45,-67))
 
-                        .strafeTo(new Vector2d(45,-54)) //- wait 200 sec
-                        .lineTo(new Vector2d(45,-60))
-
-                        .setTangent(Math.toRadians(130))
-                        .splineToLinearHeading(new Pose2d(-3, -25, Math.toRadians(90)), Math.toRadians(90))
-                        .lineTo(new Vector2d(-3,-50))
-
-                        .setTangent(Math.toRadians(0)) //pick up first
-                        .splineToLinearHeading(new Pose2d(45, -54, Math.toRadians(90)), Math.toRadians(0))
-
-                        .setTangent(Math.toRadians(270))
-                        .splineToLinearHeading(new Pose2d(45,-60,Math.toRadians(90)),Math.toRadians(270))
-
-                        .setTangent(Math.toRadians(130))
-                        .splineToLinearHeading(new Pose2d(-1, -25, Math.toRadians(90)), Math.toRadians(90))
-                        .lineTo(new Vector2d(-1,-50))
-
-                        .setTangent(Math.toRadians(0))
-                        .splineToLinearHeading(new Pose2d(45, -59, Math.toRadians(90)), Math.toRadians(0))
+//                        .strafeTo(new Vector2d(45,-54)) //- wait 200 sec
+//                        .lineTo(new Vector2d(45,-60))
+//
+//                        .setTangent(Math.toRadians(130))
+//                        .splineToLinearHeading(new Pose2d(-3, -25, Math.toRadians(90)), Math.toRadians(90))
+//                        .lineTo(new Vector2d(-3,-50))
+//
+//                        .setTangent(Math.toRadians(0)) //pick up first
+//                        .splineToLinearHeading(new Pose2d(45, -54, Math.toRadians(90)), Math.toRadians(0))
+//
+//                        .setTangent(Math.toRadians(270))
+//                        .splineToLinearHeading(new Pose2d(45,-60,Math.toRadians(90)),Math.toRadians(270))
+//
+//                        .setTangent(Math.toRadians(130))
+//                        .splineToLinearHeading(new Pose2d(-1, -25, Math.toRadians(90)), Math.toRadians(90))
+//                        .lineTo(new Vector2d(-1,-50))
+//
+//                        .setTangent(Math.toRadians(0))
+//                        .splineToLinearHeading(new Pose2d(45, -59, Math.toRadians(90)), Math.toRadians(0))
 
 
 

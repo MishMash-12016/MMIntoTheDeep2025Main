@@ -32,7 +32,7 @@ public class TestRedClose {
                     .splineToLinearHeading(new Pose2d(-50.8, -45.8, Math.toRadians(315)), Math.toRadians(95)) //pick up 3
                     .setTangent(Math.toRadians(100))
                         .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(200))
-                        .setTangent(Math.toRadians(80))
+                        .setTangent(Math.toRadians(90))
                     .splineToLinearHeading(new Pose2d(-20.65, -8.25, Math.toRadians(180)), Math.toRadians(0.0)) //park
 
 

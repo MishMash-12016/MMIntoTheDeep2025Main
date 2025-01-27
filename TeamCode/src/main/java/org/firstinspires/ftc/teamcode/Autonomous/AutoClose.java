@@ -46,13 +46,13 @@ public class AutoClose extends MMOpMode {
 
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(100))
-                .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(250)); //
+                .splineToLinearHeading(new Pose2d(-52.8, -59, Math.toRadians(225)), Math.toRadians(250)); //
         TrajectoryActionBuilder driveToPickUpFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(-48.84, -51.25, Math.toRadians(270)), Math.toRadians(80));
+                .splineToLinearHeading(new Pose2d(-49, -51.25, Math.toRadians(270)), Math.toRadians(80));
         TrajectoryActionBuilder driveToScoreFirstSample = driveToPickUpFirstSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(-51.8, -58, Math.toRadians(225)), Math.toRadians(250)); //score
+                .splineToLinearHeading(new Pose2d(-52.8, -59, Math.toRadians(225)), Math.toRadians(250)); //score
         TrajectoryActionBuilder driveToPark = driveToScoreFirstSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
                 .splineToLinearHeading(new Pose2d(-20.65, -8.25, Math.toRadians(180)), Math.toRadians(0.0));
@@ -66,7 +66,7 @@ public class AutoClose extends MMOpMode {
                 new WaitCommand(500),
                 new ActionCommand(driveToPickUpFirstSample.build()),
                 new WaitCommand(200),
-                IntakeSampleCommand.prepareSampleIntake(()-> false,()-> false),
+                IntakeSampleCommand.prepareSampleIntake(()-> false,()-> false).withTimeout(600),
                 new WaitCommand(200),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
