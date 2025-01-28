@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 public class ScoringClawEndUnit extends SubsystemBase {
     Servo clawScoringServo;
     public enum ScoringClawState {
-        OPEN(0.4), CLOSE(0),BARELY_OPEN(0.07);
+        OPEN(0.55), CLOSE(0.2),BARELY_OPEN(0.07);
         public double position;
         ScoringClawState(double position){
             this.position = position;

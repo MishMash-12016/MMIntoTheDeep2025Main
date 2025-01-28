@@ -48,7 +48,6 @@ public class IntakeSpecimansCommand {
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.MID_POSE_SPECIMEN),
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE)
 

@@ -44,9 +44,9 @@ public class ManualDrive extends MMOpMode {
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05) //slow mode
                 .whileActiveContinuous(
                         MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
-                                () -> Math.pow(mmSystems.gamepadEx1.getLeftX(), 3) * 0.5,
-                                () -> Math.pow(mmSystems.gamepadEx1.getLeftY(), 3) * 0.5,
-                                () -> Math.pow(mmSystems.gamepadEx1.getRightX(), 3) * 0.25)
+                                () -> Math.pow(mmSystems.gamepadEx1.getLeftX(), 5) * 0.3,
+                                () -> Math.pow(mmSystems.gamepadEx1.getLeftY(), 5) * 0.3,
+                                () -> Math.pow(mmSystems.gamepadEx1.getRightX(), 5) * 0.25)
 
                 );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER) // sample

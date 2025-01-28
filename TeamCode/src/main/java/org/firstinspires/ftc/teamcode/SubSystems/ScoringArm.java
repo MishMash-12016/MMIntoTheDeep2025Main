@@ -19,7 +19,7 @@ public class ScoringArm extends SubsystemBase {
         PREPARE_TRANSFER(0.63),
         MID_POSE(0.43),
         SCORE_SPECIMEN(0.35),
-        TRANSFER_SPECIMEN_POSE(0.71),
+        TRANSFER_SPECIMEN_POSE(0.72),
         SCORE_SAMPLE(0.32);
         public double position;
         ScoringArmState(double position){

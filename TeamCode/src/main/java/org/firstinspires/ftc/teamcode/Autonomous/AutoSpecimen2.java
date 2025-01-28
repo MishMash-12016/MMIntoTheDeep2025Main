@@ -50,11 +50,11 @@ public class AutoSpecimen2 extends MMOpMode {
         TrajectoryActionBuilder driveToPushSampleToHuman = driveToScorePreLoadSpecimen2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(38, -44.84, Math.toRadians(90)), Math.toRadians(0))
-                .strafeTo(new Vector2d(38,-15))
-                .strafeTo(new Vector2d(46,-15));
+                .strafeTo(new Vector2d(38,-14))
+                .strafeTo(new Vector2d(46,-14));
         TrajectoryActionBuilder driveToPushSampleToHuman2 = driveToPushSampleToHuman.endTrajectory().fresh()
-                .strafeTo(new Vector2d(45,-54)) //- wait 200 sec
-                .lineToY(-67);
+                .strafeTo(new Vector2d(46,-54)) //- wait 200 sec
+                .lineToY(-68);
         TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToPushSampleToHuman2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(130))
                 .splineToLinearHeading(new Pose2d(-3, -25, Math.toRadians(90)), Math.toRadians(90));
