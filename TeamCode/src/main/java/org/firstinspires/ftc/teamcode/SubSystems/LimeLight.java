@@ -50,19 +50,16 @@ public class LimeLight extends SubsystemBase {
                 () -> {
                     LLResult result = limelight.getLatestResult();
                     //capture the snapshots
-//                    limelight.deleteSnapshots();
+                    limelight.deleteSnapshots();
                     limelight.captureSnapshot("sharabi");
 
                     if (result != null && result.isValid()) {
                         List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
                         LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
-
 //                        //Rotate claw, then rotate robot to sample, and then open linear intake
                           rotateClawToSample(limelight,dr);
 //                        MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, pidController.calculate(dr.getTargetYDegrees()));
 //                        openLinearToSample(dr);
-
-
                     }
 
                 }, this); // do set position void or else wont work
@@ -91,19 +88,23 @@ public class LimeLight extends SubsystemBase {
         List<Double> cornerUpLeft = corners.get(0);
         List<Double> cornerUpRight = corners.get(1);
         List<Double> cornerDownLeft = corners.get(3);
-        Double height  = calculate_distance_vectors(cornerUpLeft, cornerUpRight);
-        Double width  = calculate_distance_vectors(cornerUpLeft, cornerDownLeft);
+        Double height  = calculate_distance_vectors(cornerUpLeft, cornerDownLeft);
+        Double width  = calculate_distance_vectors(cornerUpLeft, cornerUpRight);
         limelight.pipelineSwitch(1);
-        limelight.getLatestResult().getPythonOutput();
         //crop_x, crop_y, crop_width, crop_height = llrobot[0:4] first 4 to send
-        double[] inputsPython = {cornerUpLeft.get(0),cornerUpLeft.get(1),width,height,0,0,0};
+        double[] inputsPython = {cornerUpLeft.get(0),cornerUpLeft.get(1), width, height};
         limelight.updatePythonInputs(inputsPython);
         double[] outputPython = limelight.getLatestResult().getPythonOutput();
+
         double angle = outputPython[0];
         double cropped = outputPython[1];
+        for (int i =0; i<outputPython.length;i++){
+            MMRobot.getInstance().mmSystems.telemetry.addData("output - ",outputPython[i]);
+        }
         MMRobot.getInstance().mmSystems.telemetry.addData("width - ",width);
         MMRobot.getInstance().mmSystems.telemetry.addData("height -  ",height);
-
+        MMRobot.getInstance().mmSystems.telemetry.addData("X left up-  ",cornerUpLeft.get(0));
+        MMRobot.getInstance().mmSystems.telemetry.addData("Y left up -  ",cornerUpLeft.get(1));
         MMRobot.getInstance().mmSystems.telemetry.addData("did it cropped? ",cropped);
         limelight.pipelineSwitch(0);
         return angle;
