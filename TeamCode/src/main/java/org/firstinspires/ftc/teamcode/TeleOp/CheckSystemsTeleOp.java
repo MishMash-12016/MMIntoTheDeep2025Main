@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.acmerobotics.dashboard.message.redux.ReceiveGamepadState;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -20,7 +23,6 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 @TeleOp
 public class CheckSystemsTeleOp extends MMOpMode {
     MMRobot robotInstance = MMRobot.getInstance();
-
     public CheckSystemsTeleOp() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
@@ -63,11 +65,63 @@ public class CheckSystemsTeleOp extends MMOpMode {
 
         );
 
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SPECIMEN),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(0.44)
+                )
+        );
+
+
+        /*MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.TRANSFER_POSE),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.TRANSFER_POSE),
+                        MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
+                )
+        );*/
+
+        /*
+        new Trigger(() -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05) //slow mode
+                .whileActiveContinuous(
+                        () -> MMRobot.getInstance().mmSystems.elevator.setPower(robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER))
+                );
+        new Trigger(() -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05) //slow mode
+                .whileActiveContinuous(
+                        () -> MMRobot.getInstance().mmSystems.elevator.setPower(-robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER))
+                );*/
+
+
+
+        //MMRobot.getInstance().mmSystems.elevator.setPower(robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER))
+
+        /*MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                new SequentialCommandGroup(
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(scoringPos),
+                        new InstantCommand(() -> scoringPos -= 0.01)
+                )
+        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+                new SequentialCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(intakePos),
+                        new InstantCommand(() -> intakePos += 0.01)
+                )
+        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+                new SequentialCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(intakePos),
+                        new InstantCommand(() -> intakePos -= 0.01)
+                )
+        );*/
     }
 
     @Override
     public void run() {
         super.run();
+        telemetry.addData("height:", robotInstance.mmSystems.elevator.getHeight());
+        telemetry.addData("right:", robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
+        telemetry.addData("left:", -robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
         telemetry.update();
     }
 }
