@@ -57,7 +57,7 @@ public class LimeLight extends SubsystemBase {
                         List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
                         LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
 //                        //Rotate claw, then rotate robot to sample, and then open linear intake
-                          rotateClawToSample(limelight,dr);
+                        rotateClawToSample(limelight,dr);
 //                        MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, pidController.calculate(dr.getTargetYDegrees()));
 //                        openLinearToSample(dr);
                     }
@@ -105,7 +105,8 @@ public class LimeLight extends SubsystemBase {
         MMRobot.getInstance().mmSystems.telemetry.addData("height -  ",height);
         MMRobot.getInstance().mmSystems.telemetry.addData("X left up-  ",cornerUpLeft.get(0));
         MMRobot.getInstance().mmSystems.telemetry.addData("Y left up -  ",cornerUpLeft.get(1));
-        MMRobot.getInstance().mmSystems.telemetry.addData("did it cropped? ",cropped);
+        MMRobot.getInstance().mmSystems.telemetry.addData("did it cropped - ",cropped);
+        MMRobot.getInstance().mmSystems.telemetry.addData("angle - ",angle);
         limelight.pipelineSwitch(0);
         return angle;
     }
