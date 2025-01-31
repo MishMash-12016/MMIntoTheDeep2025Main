@@ -24,7 +24,7 @@ public class ScoringClawEndUnit extends SubsystemBase {
 
     public ScoringClawEndUnit() {
         clawScoringServo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Outake claw");
-        clawScoringServo.setPosition(0);
+        clawScoringServo.setPosition(0.2);
     }
 
     public Command openScoringClaw() {
