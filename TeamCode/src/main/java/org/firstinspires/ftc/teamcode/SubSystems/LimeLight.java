@@ -77,6 +77,9 @@ public class LimeLight extends SubsystemBase {
 
     public void rotateClawToSample(Limelight3A limelight ,LLResultTypes.DetectorResult result){
         double angle = getSampleAngle(limelight, result);
+        if (angle >= 5 && angle <= 175){
+            angle = 180 - angle;
+        }
         double angleInServoDegrees = angle / 270;
         MMRobot.getInstance().mmSystems.telemetry.addData("angle = ", angle);
         MMRobot.getInstance().mmSystems.telemetry.addData("angle for servo= ",angleInServoDegrees);
