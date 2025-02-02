@@ -21,7 +21,7 @@ public class MMDistSensor {
 
     }
 
-    public double getDistance(DistanceUnit unit) {
+    public double getDistance() {
         return DS1.getDistance(DistanceUnit.CM);
     }
 
