@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -37,6 +38,11 @@ public class IntakeSampleCommand {
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
+                        new ConditionalCommand(
+                                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+                                new InstantCommand(),
+                                ()-> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 0.5
+                        ),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
                         MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE),
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
