@@ -36,6 +36,7 @@ public class ScoringSampleCommand {
         );
 
     }
+
     public static Command PrepareHighSample(){
         return new SequentialCommandGroup(
                 //MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_DOWN),

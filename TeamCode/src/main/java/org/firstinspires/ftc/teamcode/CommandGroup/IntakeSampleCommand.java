@@ -59,6 +59,34 @@ public class IntakeSampleCommand {
                 )
         );
     }
+    public static Command SampleInakeAndPrepare(){
+        return new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
+                        new ConditionalCommand(
+                                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+                                new InstantCommand(),
+                                ()-> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 0.5
+                        ),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE),
+                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                ),
+                new WaitCommand(200),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.INTAKE_POSE), //collect pose
+                new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+                new WaitCommand(200),
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.TRANSFER_POSE),
+                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.INTAKE_SAMPLE_POSE),
+                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE)
+                )
+                //not finished
+        );
+    }
     public static Command Transfer(){
         return  new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.TRANSFER_POSE),
