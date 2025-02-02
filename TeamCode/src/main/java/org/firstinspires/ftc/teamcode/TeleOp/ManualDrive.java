@@ -111,10 +111,6 @@ public class ManualDrive extends MMOpMode {
         telemetry.addData("height", mmSystems.elevator.getHeight());
         telemetry.update();
 
-        new ConditionalCommand(
-                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
-                new InstantCommand(),
-                ()-> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 0.5
-        );
+
     }
 }
