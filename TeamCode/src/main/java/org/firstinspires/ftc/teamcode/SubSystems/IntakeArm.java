@@ -15,8 +15,8 @@ public class IntakeArm extends SubsystemBase {
         INTAKE_POSE(0.55),
         PREPARE_SAMPLE_INTAKE(0.5),
         SPECIMEN_INTAKE(0.34),
-        MID_INTAKE_SPECIMEN(0.3),
-        TRANSFER_POSE(0.04);
+        MID_INTAKE(0.3),
+        TRANSFER_POSE(0.03);
         public double position;
         IntakeArmState(double position){
             this.position = position;

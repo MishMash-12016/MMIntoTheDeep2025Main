@@ -83,19 +83,22 @@ public class CheckSystemsTeleOp extends MMOpMode {
         );
 
 
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+//                new ParallelCommandGroup(
+//                        robotInstance.mmSystems.linearIntake.setPosition(new DoubleSupplier() {
+//                            @Override
+//                            public double getAsDouble() {
+//                                return 0.6;
+//                            }
+//                        }),
+//                        robotInstance.mmSystems.intakeEndUnitRotator.setPosition(0),
+//                        robotInstance.mmSystems.intakEndUnit.setPose(0.7),
+//                        robotInstance.mmSystems.intakeArm.setPosition(0.58))
+//        );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                new ParallelCommandGroup(
-                        robotInstance.mmSystems.linearIntake.setPosition(new DoubleSupplier() {
-                            @Override
-                            public double getAsDouble() {
-                                return 0.6;
-                            }
-                        }),
-                        robotInstance.mmSystems.intakeEndUnitRotator.setPosition(0),
-                        robotInstance.mmSystems.intakEndUnit.setPose(0.7),
-                        robotInstance.mmSystems.intakeArm.setPosition(0.58))
-        );
+                        robotInstance.mmSystems.intakeArm.setPosition(0.6)
 
+        );
 
 
         /*MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
