@@ -44,10 +44,10 @@ public class TestAuto extends MMOpMode {
 
         final Vector2d scoreSpecimenPose = new Vector2d(5.5, -27); // when driving to scoring location
         final Vector2d scoreSpecimenPos2 = new Vector2d(5.5, -40); // when driving backwards to score
-        final Pose2d pushSamplePos = new Pose2d(32.8,-38, Math.toRadians(230));
+        final Pose2d pushSamplePos = new Pose2d(29.8,-38, Math.toRadians(230));
         final double pushingSampleXConst= 10;
-        final double halfOpenClaw =0.68;
-        final double rotator =0.65;
+        final double halfOpenClaw =0.7;
+        final double rotator =0;
 
         TrajectoryActionBuilder driveToScorePreloadSpecimen = drive.actionBuilder(currentPose)
                 .splineToConstantHeading(scoreSpecimenPose,Math.toRadians(90));
@@ -61,11 +61,11 @@ public class TestAuto extends MMOpMode {
                  .splineToLinearHeading(new Pose2d(32.8,-53, Math.toRadians(120)),Math.toRadians(240),new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*0.5));
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(38.8,-38,Math.toRadians(230)),Math.toRadians(70));
+                .splineToLinearHeading(new Pose2d(38.3,-38,Math.toRadians(230)),Math.toRadians(70));
 
     TrajectoryActionBuilder turnRobot2 =driveToPush2.endTrajectory().fresh()
             .setTangent(Math.toRadians(300))
-            .splineToLinearHeading(new Pose2d(38.8,-53, Math.toRadians(120)),Math.toRadians(240),new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*0.5));
+            .splineToLinearHeading(new Pose2d(39.5,-53, Math.toRadians(120)),Math.toRadians(240),new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*0.5));
         new SequentialCommandGroup(
                 new ActionCommand(driveToScorePreloadSpecimen.build()).alongWith(
                         ScoringSpecimanCommand.SpecimanScore()),
@@ -76,7 +76,7 @@ public class TestAuto extends MMOpMode {
                             robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                             robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
                             robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw))),
-                robotInstance.mmSystems.intakeArm.setPosition(0.62),
+                robotInstance.mmSystems.intakeArm.setPosition(0.58),
                 new WaitCommand(500),
                 new ActionCommand(turnRobot.build()),
                 new ActionCommand(driveToPush2.build()).alongWith(
@@ -85,7 +85,7 @@ public class TestAuto extends MMOpMode {
                                 robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
                                 robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw))),
-                robotInstance.mmSystems.intakeArm.setPosition(0.62),
+                robotInstance.mmSystems.intakeArm.setPosition(0.58),
                 new WaitCommand(800),
                 new ActionCommand(turnRobot2.build())
 
