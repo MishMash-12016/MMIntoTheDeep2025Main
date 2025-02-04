@@ -155,7 +155,7 @@ public class TwoRobotsTesting {
 
                         //.splineToConstantHeading(new Vector2d(5.5, -40), Math.toRadians(270))
 
-                        .setTangent(Math.toRadians(250))
+                        .setTangent(Math.toRadians(260))
                         .splineToSplineHeading(pushSamplePos, Math.toRadians(0))
 
                         .setTangent(Math.toRadians(300))
@@ -175,21 +175,24 @@ public class TwoRobotsTesting {
 
 
                         .setTangent(Math.toRadians(270))
-
                         .splineToLinearHeading(new Pose2d(47, -66, Math.toRadians(90)), Math.toRadians(270))
+
                         .setTangent(Math.toRadians(135))
-                        .splineToLinearHeading(new Pose2d(-4,-27, Math.toRadians(90)), Math.toRadians(115))
-//
-//                        .setTangent(Math.toRadians(135))
-//                        .splineToLinearHeading(new Pose2d(42, -66, Math.toRadians(90)), Math.toRadians(135))
-//
-//                        .setTangent(Math.toRadians(115))
-//                        .splineToLinearHeading(new Pose2d(-6, -27, Math.toRadians(90)), Math.toRadians(135))
+                        .lineToLinearHeading(new Pose2d(-4,-27, Math.toRadians(90)))
+
+                        .setTangent(Math.toRadians(315))
+                        .lineToLinearHeading(new Pose2d(47,-66, Math.toRadians(90)))
+
 
 //                        .setTangent(Math.toRadians(135))
-//                        .splineToLinearHeading(new Pose2d(-6, -27, Math.toRadians(90)), Math.toRadians(135))
-//
-//
+//                        .splineToLinearHeading(new Pose2d(42, -66, Math.toRadians(90)), Math.toRadians(315))
+
+                        .setTangent(Math.toRadians(135))
+                        .lineToLinearHeading(new Pose2d(-6, -27, Math.toRadians(90)))
+
+
+
+
                         .build());
 
 
