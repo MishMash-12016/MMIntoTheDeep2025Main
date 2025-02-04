@@ -20,6 +20,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
+import java.util.function.DoubleSupplier;
+
 @TeleOp
 public class CheckSystemsTeleOp extends MMOpMode {
     MMRobot robotInstance = MMRobot.getInstance();
@@ -71,6 +73,31 @@ public class CheckSystemsTeleOp extends MMOpMode {
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE)
                 )
+        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+                new SequentialCommandGroup(
+                        robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
+                        robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                        robotInstance.mmSystems.intakeEndUnitRotator.setPosition(0.65),
+                        robotInstance.mmSystems.intakEndUnit.setPose(0.68))
+        );
+
+
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+//                new ParallelCommandGroup(
+//                        robotInstance.mmSystems.linearIntake.setPosition(new DoubleSupplier() {
+//                            @Override
+//                            public double getAsDouble() {
+//                                return 0.6;
+//                            }
+//                        }),
+//                        robotInstance.mmSystems.intakeEndUnitRotator.setPosition(0),
+//                        robotInstance.mmSystems.intakEndUnit.setPose(0.7),
+//                        robotInstance.mmSystems.intakeArm.setPosition(0.58))
+//        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+                        robotInstance.mmSystems.intakeArm.setPosition(0.6)
+
         );
 
 

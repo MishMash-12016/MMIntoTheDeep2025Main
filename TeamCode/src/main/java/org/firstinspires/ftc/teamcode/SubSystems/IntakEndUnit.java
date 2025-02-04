@@ -31,6 +31,9 @@ public class IntakEndUnit extends SubsystemBase {
     public Command openIntakeClaw() {
         return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.OPEN.position), this);
     }
+    public Command setPose(double pose) {
+        return new InstantCommand(() -> clawIntakeServo.setPosition(pose), this);
+    }
 //    public Command closeBySensor(BooleanSupplier bool){
 //        return new RunCommand(() -> {
 //            MMRobot.getInstance().mmSystems.intakeDistSensor ?
