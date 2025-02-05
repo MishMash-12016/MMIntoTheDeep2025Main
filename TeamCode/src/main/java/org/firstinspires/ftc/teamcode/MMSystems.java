@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMDistSensor;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.LimeLight;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
@@ -47,6 +48,7 @@ public class MMSystems {
     public Telemetry telemetry;
     public MMBattery battery;
     public MMDistSensor intakeDistSensor;
+    public LimeLight limeLight;
 
 
 
@@ -65,6 +67,7 @@ public class MMSystems {
 
 
 
+
     //creating and initiating all subsystems
     public void initRobotSystems() {
 
@@ -77,6 +80,7 @@ public class MMSystems {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
+        this.limeLight = new LimeLight();
         linearIntake.setDefaultCommand(
                 linearIntake.defultCommand(0)
         );
