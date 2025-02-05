@@ -25,7 +25,7 @@ public class LimeLightTeleOp extends MMOpMode {
 
 
     public LimeLightTeleOp() {
-        super(OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION);
+        super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
     @Override
@@ -47,16 +47,17 @@ public class LimeLightTeleOp extends MMOpMode {
     public void run() {
         super.run();
         MMRobot.getInstance().mmSystems.controlHub.pullBulkData();
+        MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 MMRobot.getInstance().mmSystems.limeLight.gotoSample(limelight)
         );
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(1)
-        );
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0)
-        );
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+//                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(1)
+//        );
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+//                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0)
+//        );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
                 MMRobot.getInstance().mmSystems.limeLight.deleteSnapshots(limelight)
         );
