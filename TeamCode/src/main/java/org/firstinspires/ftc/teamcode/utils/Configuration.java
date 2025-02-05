@@ -19,7 +19,7 @@ public class Configuration {
 
     public static final String IMU = "imu";
     public static final String intakeDistanceSensor = "Distance Sensor";
-    public static final int elevatorTouchSensor = 0;
+    public static final int                           elevatorTouchSensor = 0;
 
     //CONTROL HUB
     //DriveTrain
@@ -71,7 +71,7 @@ public class Configuration {
     public static final int ELEVATOR2 = 1;
     public static final int ELEVATOR3 = 2;
 
-    public static final int ELEVATOR_ENCODER = 0;
+    public static final int ELEVATOR_ENCODER = 2;
 
 
 
