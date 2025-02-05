@@ -49,7 +49,14 @@ public class LimeLightTeleOp extends MMOpMode {
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                MMRobot.getInstance().mmSystems.limeLight.gotoSample(limelight)
+                new InstantCommand(() -> {
+                    long t1 = System.currentTimeMillis();
+                    MMRobot.getInstance().mmSystems.limeLight.gotoSample(limelight);
+                    long t2 = System.currentTimeMillis();
+
+                    MMRobot.getInstance().mmSystems.telemetry.addData("total time for real - ",t2-t1);
+                })
+
         );
 //        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
 //                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(1)
