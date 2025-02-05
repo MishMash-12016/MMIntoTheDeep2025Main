@@ -46,7 +46,6 @@ public class LimeLightTeleOp extends MMOpMode {
     @Override
     public void run() {
         super.run();
-        MMRobot.getInstance().mmSystems.controlHub.pullBulkData();
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(

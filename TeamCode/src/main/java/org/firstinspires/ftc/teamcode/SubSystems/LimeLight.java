@@ -2,14 +2,11 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
 
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.opencv.core.Mat;
 
-import com.fasterxml.jackson.databind.node.DoubleNode;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -42,19 +39,21 @@ public class LimeLight extends SubsystemBase {
     }
 
     public Command gotoSample(Limelight3A limelight) {
-        PIDController pidController = new PIDController(0, 0, 0);
-        pidController.setSetPoint(0);
-        pidController.setTolerance(0.5);
+        long t1 = System.currentTimeMillis(); // Start time
+//        PIDController pidController = new PIDController(0, 0, 0);
+//        pidController.setSetPoint(0);
+//        pidController.setTolerance(0.5);
 
         return new InstantCommand(
                 () -> {
                     long startTime = System.currentTimeMillis(); // Start time
                     LLResult result = limelight.getLatestResult();
-                    //capture the snapshots
-                    limelight.deleteSnapshots();
-                    limelight.captureSnapshot("sharabi");
 
                     if (result != null && result.isValid()) {
+                        //capture the snapshots
+                        limelight.deleteSnapshots();
+                        limelight.captureSnapshot("sharabi");
+
                         List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
                         LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
                         long endTime = System.currentTimeMillis(); // End time
@@ -69,6 +68,9 @@ public class LimeLight extends SubsystemBase {
                         elapsedTime = endTime - startTime; // Calculate elapsed time
                         MMRobot.getInstance().mmSystems.telemetry.addData("time python ): - ",elapsedTime);
                     }
+                    long t2 = System.currentTimeMillis(); // Start time
+                    MMRobot.getInstance().mmSystems.telemetry.addData("time all - ",t2 - t1);
+                    MMRobot.getInstance().mmSystems.telemetry.addData("--------------------------- ",0);
 
                 }, this); // do set position void or else wont work
 //                .interruptOn(()-> pidController.atSetPoint() && limelight.getLatestResult().isValid());
@@ -84,7 +86,7 @@ public class LimeLight extends SubsystemBase {
     }
 
     public void rotateClawToSample(Limelight3A limelight ,LLResultTypes.DetectorResult result){
-        double angle = getSampleAngle(limelight, result);
+        double angle = getAngle(limelight, result);
         angle = angle + 90;
         double angleInServoDegrees = angle / 270;
         MMRobot.getInstance().mmSystems.telemetry.addData("angle = ", angle);
@@ -92,7 +94,7 @@ public class LimeLight extends SubsystemBase {
         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angleInServoDegrees);
     }
 
-    public double getSampleAngle(Limelight3A limelight ,LLResultTypes.DetectorResult result){
+    public double getAngle(Limelight3A limelight , LLResultTypes.DetectorResult result){
         List<List<Double>> corners =  result.getTargetCorners();
         List<Double> cornerUpLeft = corners.get(0);
         List<Double> cornerUpRight = corners.get(1);
