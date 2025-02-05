@@ -39,8 +39,13 @@ public class LimeLightTeleOp extends MMOpMode {
 
         limelight.start();
 
-        telemetry.update();
-        waitForStart();
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                MMRobot.getInstance().mmSystems.limeLight.gotoSample(limelight)
+        );
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                MMRobot.getInstance().mmSystems.limeLight.deleteSnapshots(limelight)
+        );
     }
 
     @Override
@@ -48,25 +53,6 @@ public class LimeLightTeleOp extends MMOpMode {
         super.run();
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new InstantCommand(() -> {
-                    long t1 = System.currentTimeMillis();
-                    MMRobot.getInstance().mmSystems.limeLight.gotoSample(limelight);
-                    long t2 = System.currentTimeMillis();
-
-                    MMRobot.getInstance().mmSystems.telemetry.addData("total time for real - ",t2-t1);
-                })
-
-        );
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-//                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(1)
-//        );
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-//                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0)
-//        );
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                MMRobot.getInstance().mmSystems.limeLight.deleteSnapshots(limelight)
-        );
         telemetry.update();
     }
 }

@@ -39,7 +39,7 @@ public class LimeLight extends SubsystemBase {
     }
 
     public Command gotoSample(Limelight3A limelight) {
-        long t1 = System.currentTimeMillis(); // Start time
+//        long t1 = System.currentTimeMillis(); // Start time
 //        PIDController pidController = new PIDController(0, 0, 0);
 //        pidController.setSetPoint(0);
 //        pidController.setTolerance(0.5);
@@ -48,10 +48,10 @@ public class LimeLight extends SubsystemBase {
                 () -> {
                     long startTime = System.currentTimeMillis(); // Start time
                     LLResult result = limelight.getLatestResult();
+                    limelight.deleteSnapshots();
 
                     if (result != null && result.isValid()) {
                         //capture the snapshots
-                        limelight.deleteSnapshots();
                         limelight.captureSnapshot("sharabi");
 
                         List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
@@ -68,11 +68,13 @@ public class LimeLight extends SubsystemBase {
                         elapsedTime = endTime - startTime; // Calculate elapsed time
                         MMRobot.getInstance().mmSystems.telemetry.addData("time python ): - ",elapsedTime);
                     }
-                    long t2 = System.currentTimeMillis(); // Start time
-                    MMRobot.getInstance().mmSystems.telemetry.addData("time all - ",t2 - t1);
-                    MMRobot.getInstance().mmSystems.telemetry.addData("--------------------------- ",0);
+                    else {
+                        MMRobot.getInstance().mmSystems.telemetry.addData("not valid ): - ",0);
+                    }
+//                    long t2 = System.currentTimeMillis(); // Start time
+//                    MMRobot.getInstance().mmSystems.telemetry.addData("time all - ",t2 - t1);
 
-                }, this); // do set position void or else wont work
+                }, this).withTimeout(500); // do set position void or else wont work
 //                .interruptOn(()-> pidController.atSetPoint() && limelight.getLatestResult().isValid());
     }
 
@@ -89,7 +91,6 @@ public class LimeLight extends SubsystemBase {
         double angle = getAngle(limelight, result);
         angle = angle + 90;
         double angleInServoDegrees = angle / 270;
-        MMRobot.getInstance().mmSystems.telemetry.addData("angle = ", angle);
         MMRobot.getInstance().mmSystems.telemetry.addData("angle for servo= ",angleInServoDegrees);
         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angleInServoDegrees);
     }
