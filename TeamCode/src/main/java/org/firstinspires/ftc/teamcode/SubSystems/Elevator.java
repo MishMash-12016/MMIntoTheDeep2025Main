@@ -33,7 +33,7 @@ public class Elevator extends MMPIDSubsystem {
 
     //constants:
     final double TICKS_PER_REV = 384.5;
-    final double GEAR_RATIO = 1;
+    final double GEAR_RATIO = 48.0/60.0;
     final double LEVELS = 4;
     final double SPROCKET_PERIMETER = 6.56592;
 
@@ -49,7 +49,9 @@ public class Elevator extends MMPIDSubsystem {
 
 
     public enum ElevatorState {
-        LOW_BASKET(30), HIGH_BASKET(65), ELEVATOR_DOWN(1); //58
+
+        //65
+        LOW_BASKET(30), HIGH_BASKET(20), ELEVATOR_DOWN(1); //58
 
         public double position;
 
@@ -72,7 +74,6 @@ public class Elevator extends MMPIDSubsystem {
         motor3 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR3);
 
 
-        motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
         elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
 
 
@@ -80,8 +81,16 @@ public class Elevator extends MMPIDSubsystem {
         this.motor2.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motor3.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        motor1.setDirection(Direction.REVERSE);
+        motor2.setDirection(Direction.REVERSE);
+        motor3.setDirection(Direction.REVERSE);
+
+        motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
+        motorEncoder.setDirection(Direction.REVERSE);
 
         resetTicks();
+
+        setDefaultCommand(moveToPose(targetPose).perpetually());
     }
 
     public Command moveToPose(double setPoint) {
@@ -126,11 +135,9 @@ public class Elevator extends MMPIDSubsystem {
         motor3.setPower(power);
     }
 
-    ;
-
 
     public double getTicks() {
-        return motorEncoder.getCounts() + ticksOffset;
+        return motorEncoder.getCounts() * -1 + ticksOffset;
     }
 
     public double getTicksOffset() {
@@ -138,7 +145,7 @@ public class Elevator extends MMPIDSubsystem {
     }
 
     public void setTicks(double newTicks) {
-        ticksOffset = newTicks - motorEncoder.getCounts();
+        ticksOffset = newTicks - motorEncoder.getCounts() * -1;
     }
 
     public void resetTicks() {

@@ -69,78 +69,11 @@ public class CheckSystemsTeleOp extends MMOpMode {
 
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
-                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE)
-                )
-        );
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
                 new SequentialCommandGroup(
-                        robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
-                        robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                        robotInstance.mmSystems.intakeEndUnitRotator.setPosition(0.65),
-                        robotInstance.mmSystems.intakEndUnit.setPose(0.68))
-        );
-
-
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-//                new ParallelCommandGroup(
-//                        robotInstance.mmSystems.linearIntake.setPosition(new DoubleSupplier() {
-//                            @Override
-//                            public double getAsDouble() {
-//                                return 0.6;
-//                            }
-//                        }),
-//                        robotInstance.mmSystems.intakeEndUnitRotator.setPosition(0),
-//                        robotInstance.mmSystems.intakEndUnit.setPose(0.7),
-//                        robotInstance.mmSystems.intakeArm.setPosition(0.58))
-//        );
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                        robotInstance.mmSystems.intakeArm.setPosition(0.6)
-
-        );
-
-
-        /*MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.TRANSFER_POSE),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.TRANSFER_POSE),
-                        MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
-                )
-        );*/
-
-        /*
-        new Trigger(() -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05) //slow mode
-                .whileActiveContinuous(
-                        () -> MMRobot.getInstance().mmSystems.elevator.setPower(robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER))
-                );
-        new Trigger(() -> robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05) //slow mode
-                .whileActiveContinuous(
-                        () -> MMRobot.getInstance().mmSystems.elevator.setPower(-robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER))
-                );*/
-
-
-
-        //MMRobot.getInstance().mmSystems.elevator.setPower(robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER))
-
-        /*MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                new SequentialCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(scoringPos),
-                        new InstantCommand(() -> scoringPos -= 0.01)
+                        robotInstance.mmSystems.intakEndUnit.closeIntakeClaw()
                 )
         );
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                new SequentialCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(intakePos),
-                        new InstantCommand(() -> intakePos += 0.01)
-                )
-        );
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
-                new SequentialCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(intakePos),
-                        new InstantCommand(() -> intakePos -= 0.01)
-                )
-        );*/
+
     }
 
     @Override
