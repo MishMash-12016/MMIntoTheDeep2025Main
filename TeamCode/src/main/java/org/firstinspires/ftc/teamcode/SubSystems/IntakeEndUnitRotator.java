@@ -50,6 +50,10 @@ public class IntakeEndUnitRotator extends SubsystemBase {
                 this);
     }
 
+    public void setPositionVoid(double newPos) {
+        servo.setPosition(newPos);
+    }
+
     public Command setPosition(IntakeRotatorState state) {
         return new InstantCommand(() -> {
             servo.setPosition(state.position);
