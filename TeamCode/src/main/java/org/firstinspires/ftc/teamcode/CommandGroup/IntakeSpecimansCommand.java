@@ -22,7 +22,7 @@ public class IntakeSpecimansCommand {
             MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.INTAKE_SPECIMEN_POSE),
             MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE),
             MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-            new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 0.5),
+            new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 4),
             SpecimenIntake()
         );
     }
