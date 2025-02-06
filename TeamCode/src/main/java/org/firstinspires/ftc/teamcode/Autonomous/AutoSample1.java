@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
@@ -20,6 +21,8 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 @Autonomous
 public class AutoSample1 extends MMOpMode {
     MMRobot robotInstance;
+    private Limelight3A limelight;
+
     int waitBeforeOpeningScoringClawTime = 1000;
 
     public AutoSample1() {
@@ -37,6 +40,12 @@ public class AutoSample1 extends MMOpMode {
 
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
         MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE);
+
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+
+        limelight.pipelineSwitch(0);
+
+        limelight.start();
 
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(140))
@@ -62,6 +71,7 @@ public class AutoSample1 extends MMOpMode {
                 new ActionCommand(driveToPickUpFirstSample.build()),
                 new WaitCommand(200),
                 IntakeSampleCommand.prepareSampleIntake(()-> false,()-> false).withTimeout(600),
+                MMRobot.getInstance().mmSystems.limeLight.gotoSample(limelight),
                 new WaitCommand(200),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),

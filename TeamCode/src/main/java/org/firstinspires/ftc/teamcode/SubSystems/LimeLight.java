@@ -24,6 +24,9 @@ public class LimeLight extends SubsystemBase {
     public final double sampleHeight = 3.9; //cm
 
 
+    public double oldAngle = 0;
+
+
     public LimeLight() {
 
     }
@@ -34,34 +37,38 @@ public class LimeLight extends SubsystemBase {
         return height / Math.tan(Math.toRadians(angle));
     }
 
-
-
-    public Command gotoSample(Limelight3A limelight) {
+    public Command changeOriention(double targetPose){
         PIDController pidController = new PIDController(0.017, 0, 0.0005);
         pidController.setSetPoint(0);
         pidController.setTolerance(0.3);
 
         return new RunCommand(
                 () -> {
+                        MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, pidController.calculate(targetPose));
+                }, this) // do set position void or else wont work
+                .interruptOn(()-> pidController.atSetPoint());
+    }
 
+    public Command gotoSample(Limelight3A limelight) {
+        return new InstantCommand(
+                () -> {
                     ElapsedTime realElapsedTime = new ElapsedTime();
 
                     double angle = 0;
 //                    while (angle == 0 || angle == MMRobot.getInstance().mmSystems.intakeEndUnitRotator.getTargetPosition()) {
-                        LLResult result = limelight.getLatestResult();
+                    LLResult result = limelight.getLatestResult();
 
-                        if (result != null && result.isValid()) {
+                    if (result != null && result.isValid()) {
 
-                            List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
-                            LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
-//                        //Rotate claw, then rotate robot to sample, and then open linear intake
-//                            angle = rotateClawToSample(limelight, dr);
-                            MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, pidController.calculate(-dr.getTargetXDegrees()));
-                            MMRobot.getInstance().mmSystems.telemetry.addData("dx - ", -dr.getTargetXDegrees());
-//                        openLinearToSample(dr);
-                        } else {
-                            MMRobot.getInstance().mmSystems.telemetry.addData("not valid ): - ", 0);
-                        }
+                        List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
+                        LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
+//                          //Rotate claw, then rotate robot to sample, and then open linear intake
+                            angle = rotateClawToSample(limelight, dr);
+//                        changeOriention(-dr.getTargetXDegrees());
+//                          openLinearToSample(dr);
+                    } else {
+                        MMRobot.getInstance().mmSystems.telemetry.addData("not valid ): - ", 0);
+                    }
 //                    }
 
 //                    MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angle);
@@ -71,9 +78,9 @@ public class LimeLight extends SubsystemBase {
 //                    long t2 = System.currentTimeMillis(); // Start time
 //                    MMRobot.getInstance().mmSystems.telemetry.addData("time all - ",t2 - t1);
 
-                }, this) // do set position void or else wont work
-                .interruptOn(()-> pidController.atSetPoint() && limelight.getLatestResult().isValid());
+                }, this); // do set position void or else wont work}
     }
+
 
 //    public void openLinearToSample(LLResultTypes.DetectorResult result) {
 //        MMRobot.getInstance().mmSystems.linearIntake.setPosition(
@@ -106,10 +113,15 @@ public class LimeLight extends SubsystemBase {
 
         double[] inputsPython = {cornerUpLeft.get(0) -50,cornerUpLeft.get(1) -50, width, height};
         limelight.updatePythonInputs(inputsPython);
-        double[] outputPython = limelight.getLatestResult().getPythonOutput();
+        double angle = oldAngle;
+        double cropped = 0;
 
-        double angle = outputPython[0];
-        double cropped = outputPython[1];
+        limelight.getLatestResult();
+        while (angle==oldAngle) {
+            double[] outputPython = limelight.getLatestResult().getPythonOutput();
+            angle = outputPython[0];
+            cropped = outputPython[1];
+        }
 //        for (int i =0; i<outputPython.length;i++){
 //            MMRobot.getInstance().mmSystems.telemetry.addData("output - ",outputPython[i]);
 //        }
