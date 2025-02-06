@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class LimeLight extends SubsystemBase {
     }
 
 
+
     public Command gotoSample(Limelight3A limelight) {
 //        long t1 = System.currentTimeMillis(); // Start time
 //        PIDController pidController = new PIDController(0, 0, 0);
@@ -42,27 +44,37 @@ public class LimeLight extends SubsystemBase {
         return new InstantCommand(
                 () -> {
                     long startTime = System.currentTimeMillis(); // Start time
-                    LLResult result = limelight.getLatestResult();
 
-                    if (result != null && result.isValid()) {
+                    ElapsedTime realElapsedTime = new ElapsedTime();
 
-                        List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
-                        LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
-                        long endTime = System.currentTimeMillis(); // End time
-                        long elapsedTime = endTime - startTime; // Calculate elapsed time
-                        MMRobot.getInstance().mmSystems.telemetry.addData("time detector - ",elapsedTime);
-                        startTime = System.currentTimeMillis();
+                    double angle = 0;
+                    while (angle == 0 || angle == MMRobot.getInstance().mmSystems.intakeEndUnitRotator.getTargetPosition()) {
+                        LLResult result = limelight.getLatestResult();
+
+                        if (result != null && result.isValid()) {
+
+                            List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
+                            LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
+                            long endTime = System.currentTimeMillis(); // End time
+                            long elapsedTime = endTime - startTime; // Calculate elapsed time
+                            MMRobot.getInstance().mmSystems.telemetry.addData("time detector - ", elapsedTime);
+                            startTime = System.currentTimeMillis();
 //                        //Rotate claw, then rotate robot to sample, and then open linear intake
-                        rotateClawToSample(limelight,dr);
+                            angle = rotateClawToSample(limelight, dr);
 //                        MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, pidController.calculate(dr.getTargetYDegrees()));
 //                        openLinearToSample(dr);
-                        endTime = System.currentTimeMillis(); // End time
-                        elapsedTime = endTime - startTime; // Calculate elapsed time
-                        MMRobot.getInstance().mmSystems.telemetry.addData("time python ): - ",elapsedTime);
+                            endTime = System.currentTimeMillis(); // End time
+                            elapsedTime = endTime - startTime; // Calculate elapsed time
+                            MMRobot.getInstance().mmSystems.telemetry.addData("time python ): - ", elapsedTime);
+                        } else {
+                            MMRobot.getInstance().mmSystems.telemetry.addData("not valid ): - ", 0);
+                        }
                     }
-                    else {
-                        MMRobot.getInstance().mmSystems.telemetry.addData("not valid ): - ",0);
-                    }
+
+                    MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angle);
+
+                    MMRobot.getInstance().mmSystems.telemetry.addData("elapse time", realElapsedTime.milliseconds());
+
 //                    long t2 = System.currentTimeMillis(); // Start time
 //                    MMRobot.getInstance().mmSystems.telemetry.addData("time all - ",t2 - t1);
 
@@ -70,21 +82,22 @@ public class LimeLight extends SubsystemBase {
 //                .interruptOn(()-> pidController.atSetPoint() && limelight.getLatestResult().isValid());
     }
 
-    public void openLinearToSample(LLResultTypes.DetectorResult result) {
-        MMRobot.getInstance().mmSystems.linearIntake.setPosition(
-                calculateDistance(result.getTargetYDegrees() / (maxOpeningLinearCM * LinearIntake.maxOpening)));
-    }
+//    public void openLinearToSample(LLResultTypes.DetectorResult result) {
+//        MMRobot.getInstance().mmSystems.linearIntake.setPosition(
+//                calculateDistance(result.getTargetYDegrees() / (maxOpeningLinearCM * LinearIntake.maxOpening)));
+//    }
 
     public Double calculate_distance_vectors(List<Double> vector1,List<Double> vector2){
         return Math.sqrt((vector1.get(0) - vector2.get(0)) * (vector1.get(0) - vector2.get(0)) + (vector1.get(1) - vector2.get(1)) * (vector1.get(1) - vector2.get(1)));
     }
 
-    public void rotateClawToSample(Limelight3A limelight ,LLResultTypes.DetectorResult result){
+    public double rotateClawToSample(Limelight3A limelight ,LLResultTypes.DetectorResult result){
         double angle = getAngle(limelight, result);
         angle = angle + 90;
         double angleInServoDegrees = angle / 270;
         MMRobot.getInstance().mmSystems.telemetry.addData("angle for servo= ",angleInServoDegrees);
-        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angleInServoDegrees);
+
+        return angleInServoDegrees;
     }
 
     public double getAngle(Limelight3A limelight , LLResultTypes.DetectorResult result){
@@ -92,11 +105,13 @@ public class LimeLight extends SubsystemBase {
         List<Double> cornerUpLeft = corners.get(0);
         List<Double> cornerUpRight = corners.get(1);
         List<Double> cornerDownLeft = corners.get(3);
-        Double height  = calculate_distance_vectors(cornerUpLeft, cornerDownLeft);
-        Double width  = calculate_distance_vectors(cornerUpLeft, cornerUpRight);
+        Double height  = calculate_distance_vectors(cornerUpLeft, cornerDownLeft) * 1.3;
+        Double width  = calculate_distance_vectors(cornerUpLeft, cornerUpRight) * 1.3;
         limelight.pipelineSwitch(1);
         //crop_x, crop_y, crop_width, crop_height = llrobot[0:4] first 4 to send
-        double[] inputsPython = {cornerUpLeft.get(0),cornerUpLeft.get(1), width, height};
+
+
+        double[] inputsPython = {cornerUpLeft.get(0) -50,cornerUpLeft.get(1) -50, width, height};
         limelight.updatePythonInputs(inputsPython);
         double[] outputPython = limelight.getLatestResult().getPythonOutput();
 

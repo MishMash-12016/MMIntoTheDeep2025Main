@@ -33,7 +33,7 @@ public class LimeLightTeleOp extends MMOpMode {
         MMRobot.getInstance().mmSystems.initRobotSystems();
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
-        telemetry.setMsTransmissionInterval(11);
+        telemetry.setMsTransmissionInterval(1);
 
         limelight.pipelineSwitch(0);
 
