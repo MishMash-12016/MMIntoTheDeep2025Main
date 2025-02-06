@@ -31,6 +31,7 @@ public class LimeLightTeleOp extends MMOpMode {
     @Override
     public void onInit() {
         MMRobot.getInstance().mmSystems.initRobotSystems();
+        MMRobot.getInstance().mmSystems.initDriveTrain();
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
         telemetry.setMsTransmissionInterval(1);

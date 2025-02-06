@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
 
@@ -36,50 +37,42 @@ public class LimeLight extends SubsystemBase {
 
 
     public Command gotoSample(Limelight3A limelight) {
-//        long t1 = System.currentTimeMillis(); // Start time
-//        PIDController pidController = new PIDController(0, 0, 0);
-//        pidController.setSetPoint(0);
-//        pidController.setTolerance(0.5);
+        PIDController pidController = new PIDController(0.017, 0, 0.0005);
+        pidController.setSetPoint(0);
+        pidController.setTolerance(0.3);
 
-        return new InstantCommand(
+        return new RunCommand(
                 () -> {
-                    long startTime = System.currentTimeMillis(); // Start time
 
                     ElapsedTime realElapsedTime = new ElapsedTime();
 
                     double angle = 0;
-                    while (angle == 0 || angle == MMRobot.getInstance().mmSystems.intakeEndUnitRotator.getTargetPosition()) {
+//                    while (angle == 0 || angle == MMRobot.getInstance().mmSystems.intakeEndUnitRotator.getTargetPosition()) {
                         LLResult result = limelight.getLatestResult();
 
                         if (result != null && result.isValid()) {
 
                             List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
                             LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
-                            long endTime = System.currentTimeMillis(); // End time
-                            long elapsedTime = endTime - startTime; // Calculate elapsed time
-                            MMRobot.getInstance().mmSystems.telemetry.addData("time detector - ", elapsedTime);
-                            startTime = System.currentTimeMillis();
 //                        //Rotate claw, then rotate robot to sample, and then open linear intake
-                            angle = rotateClawToSample(limelight, dr);
-//                        MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, pidController.calculate(dr.getTargetYDegrees()));
+//                            angle = rotateClawToSample(limelight, dr);
+                            MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, pidController.calculate(-dr.getTargetXDegrees()));
+                            MMRobot.getInstance().mmSystems.telemetry.addData("dx - ", -dr.getTargetXDegrees());
 //                        openLinearToSample(dr);
-                            endTime = System.currentTimeMillis(); // End time
-                            elapsedTime = endTime - startTime; // Calculate elapsed time
-                            MMRobot.getInstance().mmSystems.telemetry.addData("time python ): - ", elapsedTime);
                         } else {
                             MMRobot.getInstance().mmSystems.telemetry.addData("not valid ): - ", 0);
                         }
-                    }
+//                    }
 
-                    MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angle);
+//                    MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angle);
 
                     MMRobot.getInstance().mmSystems.telemetry.addData("elapse time", realElapsedTime.milliseconds());
 
 //                    long t2 = System.currentTimeMillis(); // Start time
 //                    MMRobot.getInstance().mmSystems.telemetry.addData("time all - ",t2 - t1);
 
-                }, this); // do set position void or else wont work
-//                .interruptOn(()-> pidController.atSetPoint() && limelight.getLatestResult().isValid());
+                }, this) // do set position void or else wont work
+                .interruptOn(()-> pidController.atSetPoint() && limelight.getLatestResult().isValid());
     }
 
 //    public void openLinearToSample(LLResultTypes.DetectorResult result) {
