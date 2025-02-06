@@ -8,10 +8,12 @@ import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.TurnConstraints;
 import com.acmerobotics.roadrunner.Twist2d;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimansCommand;
@@ -30,6 +32,10 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 @Autonomous
 public class TestAuto extends MMOpMode {
     MMRobot robotInstance;
+
+    final double halfOpenClaw = 0.7;
+    final double rotator = 0;
+    final double intakeArmPose = 0.59;
 
     public TestAuto() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -50,9 +56,6 @@ public class TestAuto extends MMOpMode {
 
 
         //poses for pushing
-        final double halfOpenClaw = 0.7;
-        final double rotator = 0;
-        final double intakeArmPose = 0.59;
 
 
         //Score pre-load
@@ -133,12 +136,7 @@ public class TestAuto extends MMOpMode {
                 new ParallelCommandGroup(
                         new ActionCommand(driveToPush1.build()),
                         new WaitCommand(800).andThen(
-                                new ParallelCommandGroup(
-                                        robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
-                                        robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                                        robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
-                                        robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)
-                                )
+                                setupForPushing()
                         )
                 ),
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
@@ -149,35 +147,28 @@ public class TestAuto extends MMOpMode {
 
                 new ActionCommand(turnRobot.build()),
                 new ActionCommand(driveToPush2.build()).alongWith(
-                        new ParallelCommandGroup(
-                                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
-                                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
-                                robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw))),
+                        setupForPushing()
+                ),
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
 
                 new WaitCommand(200),
                 new ActionCommand(turnRobot2.build()),
                 new ActionCommand(driveToPush3.build()).alongWith(
-                        new ParallelCommandGroup(
-                                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
-                                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
-                                robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw))),
+                        setupForPushing()
+                ),
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                 new WaitCommand(200),
                 new ActionCommand(turnRobot3.build()),
                 robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
 
+
                 //First
-                new ActionCommand(driveToIntakeFirstSpecimen.build()).alongWith(
-                        new SequentialCommandGroup(
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),//be prepared for transfer
-                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
-                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SPECIMEN_POSE),
-                                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_POSE),
-                                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw())),
+                new ParallelCommandGroup(
+                        new ActionCommand(driveToIntakeFirstSpecimen.build()).alongWith(
+                                IntakeSpecimansCommand.PrepareSystemsSpecimenIntake()
+                        )
+                        //,new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 4).withTimeout(5000)
+                ),
 
                 new WaitCommand(200),
                 new ParallelCommandGroup(
@@ -187,17 +178,10 @@ public class TestAuto extends MMOpMode {
 
                 //Second
                 new ParallelCommandGroup(
-                        new ActionCommand(driveToIntakeSecondSpecimen.build()),
-                        new WaitCommand(1200).andThen(
-                                new SequentialCommandGroup(
-                                    MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),//be prepared for transfer
-                                    MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                    MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
-                                    MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SPECIMEN_POSE),
-                                    MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_POSE),
-                                    MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-                                )
+                        new ActionCommand(driveToIntakeSecondSpecimen.build()).alongWith(
+                                IntakeSpecimansCommand.PrepareSystemsSpecimenIntake()
                         )
+                        //,new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 4).withTimeout(5000)
                 ),
 
                 new WaitCommand(200),
@@ -208,17 +192,10 @@ public class TestAuto extends MMOpMode {
 
                 //Third
                 new ParallelCommandGroup(
-                        new ActionCommand(driveToIntakeThirdSpecimen.build()),
-                        new WaitCommand(1200).andThen(
-                                new SequentialCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),//be prepared for transfer
-                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
-                                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SPECIMEN_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_POSE),
-                                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-                                )
+                        new ActionCommand(driveToIntakeThirdSpecimen.build()).alongWith(
+                                IntakeSpecimansCommand.PrepareSystemsSpecimenIntake()
                         )
+                        //,new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 4).withTimeout(5000)
                 ),
 
                 new WaitCommand(200),
@@ -230,17 +207,10 @@ public class TestAuto extends MMOpMode {
 
                 //Forth
                 new ParallelCommandGroup(
-                        new ActionCommand(driveToIntakeForthSpecimen.build()),
-                        new WaitCommand(1200).andThen(
-                                new SequentialCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),//be prepared for transfer
-                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
-                                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SPECIMEN_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_POSE),
-                                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-                                )
+                        new ActionCommand(driveToIntakeForthSpecimen.build()).alongWith(
+                                IntakeSpecimansCommand.PrepareSystemsSpecimenIntake()
                         )
+                        //,new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 4).withTimeout(5000)
                 ),
 
                 new WaitCommand(200),
@@ -267,6 +237,16 @@ public class TestAuto extends MMOpMode {
         telemetry.update();
         FtcDashboard.getInstance().getTelemetry().update();
     }
+
+    public Command setupForPushing(){
+        return new ParallelCommandGroup(
+                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
+                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
+                robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)
+        );
+    }
+
 
 }
 
