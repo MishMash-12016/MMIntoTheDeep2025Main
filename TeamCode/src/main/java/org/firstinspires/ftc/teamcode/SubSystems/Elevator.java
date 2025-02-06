@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleEncoder;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleMotor;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDCommand;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDCommandForever;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDSubsystem;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
@@ -38,12 +39,12 @@ public class Elevator extends MMPIDSubsystem {
     final double SPROCKET_PERIMETER = 6.56592;
 
     //PID:
-    public static double kP = 0.18;
-    public static double kI = 0.00;
-    public static double kD = 0.01;
-    ;
+    public static double kP = 0.09;
+    public static double kI = 0.0001;
+    public static double kD = 0.0001;
+
     public static double TOLERANCE = 2;
-    public static double kG = 0.16;
+    public static double kG = 0.1;
 
     public double ticksOffset = 0;
 
@@ -51,7 +52,7 @@ public class Elevator extends MMPIDSubsystem {
     public enum ElevatorState {
 
         //65
-        LOW_BASKET(30), HIGH_BASKET(20), ELEVATOR_DOWN(1); //58
+        LOW_BASKET(30), HIGH_BASKET(40), ELEVATOR_DOWN(1); //58
 
         public double position;
 
@@ -90,7 +91,7 @@ public class Elevator extends MMPIDSubsystem {
 
         resetTicks();
 
-        setDefaultCommand(moveToPose(targetPose).perpetually());
+        setDefaultCommand(new MMPIDCommandForever(this ,()-> targetPose));
     }
 
     public Command moveToPose(double setPoint) {
@@ -129,6 +130,10 @@ public class Elevator extends MMPIDSubsystem {
             if (power > 0.5) {
                 power = 0.48;
             }
+        }
+
+        if(getHeight() > 60){
+            power = 0.0;
         }
         motor1.setPower(power);
         motor2.setPower(power);
@@ -184,6 +189,8 @@ public class Elevator extends MMPIDSubsystem {
 //        FtcDashboard.getInstance().getTelemetry().addData("motorRightPower",motorRight.getPower());
         FtcDashboard.getInstance().getTelemetry().addData("height", getHeight());
         FtcDashboard.getInstance().getTelemetry().addData("target", getPidController().getSetPoint());
+        FtcDashboard.getInstance().getTelemetry().addData("elevator power", motor1.getPower());
+
         FtcDashboard.getInstance().getTelemetry().update();
 
     }
