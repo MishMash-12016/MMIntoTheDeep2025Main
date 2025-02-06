@@ -38,10 +38,6 @@ public class TwoRobotsTesting {
                 .setConstraints(100, 100, Math.toRadians(720), Math.toRadians(720), 15)
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(5.5, 65.5, Math.toRadians(270)))
 
-                        .splineToConstantHeading(new Vector2d(5.5, 0), Math.toRadians(90))
-
-
-                        //.lineTo(new Vector2d(0, -50))
 
                         .build());
 
