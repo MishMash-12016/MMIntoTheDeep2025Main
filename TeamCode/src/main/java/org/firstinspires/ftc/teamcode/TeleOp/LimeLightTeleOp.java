@@ -42,10 +42,6 @@ public class LimeLightTeleOp extends MMOpMode {
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 MMRobot.getInstance().mmSystems.limeLight.gotoSample(limelight)
         );
-
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                MMRobot.getInstance().mmSystems.limeLight.deleteSnapshots(limelight)
-        );
     }
 
     @Override

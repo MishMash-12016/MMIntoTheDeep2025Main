@@ -32,11 +32,6 @@ public class LimeLight extends SubsystemBase {
         return height / Math.tan(Math.toRadians(angle));
     }
 
-    public Command deleteSnapshots(Limelight3A limelight){
-        return new InstantCommand(()->
-                limelight.deleteSnapshots()
-        );
-    }
 
     public Command gotoSample(Limelight3A limelight) {
 //        long t1 = System.currentTimeMillis(); // Start time
@@ -48,11 +43,8 @@ public class LimeLight extends SubsystemBase {
                 () -> {
                     long startTime = System.currentTimeMillis(); // Start time
                     LLResult result = limelight.getLatestResult();
-                    limelight.deleteSnapshots();
 
                     if (result != null && result.isValid()) {
-                        //capture the snapshots
-                        limelight.captureSnapshot("sharabi");
 
                         List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
                         LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
@@ -74,7 +66,7 @@ public class LimeLight extends SubsystemBase {
 //                    long t2 = System.currentTimeMillis(); // Start time
 //                    MMRobot.getInstance().mmSystems.telemetry.addData("time all - ",t2 - t1);
 
-                }, this).withTimeout(500); // do set position void or else wont work
+                }, this); // do set position void or else wont work
 //                .interruptOn(()-> pidController.atSetPoint() && limelight.getLatestResult().isValid());
     }
 
