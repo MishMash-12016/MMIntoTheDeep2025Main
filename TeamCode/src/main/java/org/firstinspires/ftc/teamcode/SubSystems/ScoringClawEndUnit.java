@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 public class ScoringClawEndUnit extends SubsystemBase {
     Servo clawScoringServo;
     public enum ScoringClawState {
-        OPEN(0.55), CLOSE(0.13),BARELY_OPEN(0.15);
+        OPEN(0.55), CLOSE(0.11),BARELY_OPEN(0.14);
         public double position;
         ScoringClawState(double position){
             this.position = position;
@@ -24,7 +24,7 @@ public class ScoringClawEndUnit extends SubsystemBase {
 
     public ScoringClawEndUnit() {
         clawScoringServo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Outake claw");
-        clawScoringServo.setPosition(0.2);
+        clawScoringServo.setPosition(ScoringClawState.CLOSE.position);
     }
 
     public Command openScoringClaw() {
