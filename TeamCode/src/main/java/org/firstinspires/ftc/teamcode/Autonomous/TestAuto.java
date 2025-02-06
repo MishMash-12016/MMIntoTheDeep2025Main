@@ -69,7 +69,7 @@ public class TestAuto extends MMOpMode {
                 .setTangent(Math.toRadians(260))
                 .splineToSplineHeading(new Pose2d(29.8, -38, Math.toRadians(235)), Math.toRadians(0));
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
-                .setTangent(Math.toRadians(300))
+                .setTangent(Math.toRadians(290))
                 .splineToLinearHeading(new Pose2d(32.8, -53, Math.toRadians(120)), Math.toRadians(240), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 0.8));
 
         //Push second specimen
