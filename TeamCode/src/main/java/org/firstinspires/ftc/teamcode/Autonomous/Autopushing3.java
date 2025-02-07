@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
-@Autonomous
+
 public class Autopushing3 extends MMOpMode {
     MMRobot robotInstance;
     public Autopushing3() {

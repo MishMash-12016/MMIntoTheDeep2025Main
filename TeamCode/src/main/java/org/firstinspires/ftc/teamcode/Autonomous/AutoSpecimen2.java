@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 
-@Autonomous
+
 public class AutoSpecimen2 extends MMOpMode {
     MMRobot robotInstance;
     int waitBeforeOpeningScoringClawTime = 1100;

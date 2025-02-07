@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 
-@Autonomous
+
 public class AutoSample1 extends MMOpMode {
     MMRobot robotInstance;
     int waitBeforeOpeningScoringClawTime = 1000;

@@ -18,9 +18,33 @@ public class EyalsSampleAutonomous {
                 .setConstraints(100, 100, Math.toRadians(720), Math.toRadians(720), 15)
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(-39, -65.5, Math.toRadians(180)))
 
-                        .splineToSplineHeading(new Pose2d(-56, -56, Math.toRadians(225)), Math.toRadians(135))
-                        .lineToLinearHeading(new Pose2d(-48, -50, Math.toRadians(270)))
-                        .splineToLinearHeading(new Pose2d(-49, -51.25, Math.toRadians(270)), Math.toRadians(90))
+
+                        //score pre-load
+                        .lineToLinearHeading(new Pose2d(-50, -65.5,Math.toRadians(180)))
+
+                        //collect first
+                        .lineToSplineHeading(new Pose2d(-48, -45, Math.toRadians(270)))
+
+
+                        //score first
+                        .lineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(225)))
+
+
+                        //collect second
+                        .lineToLinearHeading(new Pose2d(-58, -45, Math.toRadians(270)))
+
+
+                        //score second
+                        .lineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(225)))
+
+
+                        //collect third
+                        .lineToLinearHeading(new Pose2d(-50.8, -45, Math.toRadians(315)))
+
+
+                        //score third
+                        .lineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(225)))
+
 
                         .build());
 
