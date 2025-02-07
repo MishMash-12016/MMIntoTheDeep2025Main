@@ -109,7 +109,7 @@ public class ManualDrive extends MMOpMode {
         telemetry.addData("targertpose", mmSystems.elevator.targetPose);
         telemetry.addData("ticks - ", mmSystems.elevator.getTicks());
         telemetry.addData("height", mmSystems.elevator.getHeight());
-        telemetry.addData("dis - ", MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance());
+//        telemetry.addData("dis - ", MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance());
         telemetry.update();
 
 

@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
-package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
