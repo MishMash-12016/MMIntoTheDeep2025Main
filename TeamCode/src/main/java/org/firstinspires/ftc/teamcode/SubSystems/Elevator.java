@@ -52,7 +52,7 @@ public class Elevator extends MMPIDSubsystem {
     public enum ElevatorState {
 
         //65
-        LOW_BASKET(30), HIGH_BASKET(40), ELEVATOR_DOWN(1); //58
+        LOW_BASKET(30), HIGH_BASKET(70), ELEVATOR_DOWN(1); //58
 
         public double position;
 
@@ -91,7 +91,7 @@ public class Elevator extends MMPIDSubsystem {
 
         resetTicks();
 
-        setDefaultCommand(new MMPIDCommandForever(this ,()-> targetPose));
+//        setDefaultCommand(new MMPIDCommandForever(this ,()-> targetPose));
     }
 
     public Command moveToPose(double setPoint) {
@@ -118,7 +118,7 @@ public class Elevator extends MMPIDSubsystem {
         return new SequentialCommandGroup(
                 moveToPose(2),
                 new InstantCommand(() -> setPower(-0.5)),
-                new WaitUntilCommand(() -> getElevatorSwitchState()),
+                new WaitUntilCommand(() ->getElevatorSwitchState()),
                 new InstantCommand(() -> setTicks(0)),
                 new InstantCommand(() -> setPower(0.0))
         );
