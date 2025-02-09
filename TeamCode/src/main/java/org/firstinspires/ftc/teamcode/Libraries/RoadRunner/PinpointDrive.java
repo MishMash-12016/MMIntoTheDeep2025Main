@@ -113,6 +113,8 @@ public class PinpointDrive extends MecanumDrive {
             throw new RuntimeException(e);
         }
 
+        pose = new Pose2d(pose.position.x, pose.position.y * 1.5, pose.heading.toDouble());
+
         pinpoint.setPosition(pose);
 
     }
