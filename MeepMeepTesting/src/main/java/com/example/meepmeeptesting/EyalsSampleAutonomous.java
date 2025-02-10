@@ -11,44 +11,24 @@ public class EyalsSampleAutonomous {
 
 
     public static void main(String[] args) {
-        MeepMeep meepMeep = new MeepMeep(800);
+        MeepMeep meepMeep = new MeepMeep(700);
 
-        RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep).setDimensions(12,14.5)
+        RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep).setDimensions(11.417,16.535)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(100, 100, Math.toRadians(720), Math.toRadians(720), 15)
-                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(-39, -65.5, Math.toRadians(180)))
+                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(-39, -62.73, Math.toRadians(180)))
 
+                        .lineToLinearHeading(new Pose2d(-50, -62.73, Math.toRadians(180)))
 
-                        //score pre-load
-                        .lineToLinearHeading(new Pose2d(-50, -65.5,Math.toRadians(180)))
+                        .lineToSplineHeading(new Pose2d(-58.49, -47.7, Math.toRadians(246)))
 
-                        //collect first
-                        .lineToSplineHeading(new Pose2d(-48, -45, Math.toRadians(270)))
+                        .lineToLinearHeading(new Pose2d(-63.4, -49.3, Math.toRadians(258.9)))
 
-
-                        //score first
-                        .lineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(225)))
-
-
-                        //collect second
-                        .lineToLinearHeading(new Pose2d(-58, -45, Math.toRadians(270)))
-
-
-                        //score second
-                        .lineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(225)))
-
-
-                        //collect third
                         .lineToLinearHeading(new Pose2d(-50.8, -45, Math.toRadians(315)))
 
-
-                        //score third
                         .lineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(225)))
 
-
                         .build());
-
-
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
@@ -56,3 +36,5 @@ public class EyalsSampleAutonomous {
                 .start();
     }
 }
+
+
