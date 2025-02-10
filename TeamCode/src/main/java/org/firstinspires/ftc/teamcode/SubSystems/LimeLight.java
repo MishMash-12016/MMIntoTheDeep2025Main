@@ -38,14 +38,20 @@ public class LimeLight extends SubsystemBase {
         return height / Math.tan(Math.toRadians(angle));
     }
 
-    public void changeOriention(double targetPose){
+    public void changeOriention(Limelight3A limelight){
         PIDController pidController = new PIDController(0.017, 0, 0.0005);
         pidController.setSetPoint(0);
-        pidController.setTolerance(0);
+        pidController.setTolerance(5);
 
         while (!pidController.atSetPoint())
                 {
-                    MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, pidController.calculate(targetPose));
+                    LLResult result = limelight.getLatestResult();
+                    if (result != null && result.isValid()) {
+
+                        List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
+                        LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
+                        MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, pidController.calculate(-dr.getTargetXDegrees()));
+                    }
                 }
     }
 
@@ -63,7 +69,7 @@ public class LimeLight extends SubsystemBase {
                         LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
 //                          //Rotate claw, then rotate robot to sample, and then open linear intake
                         angle = rotateClawToSample(limelight, dr);
-                        changeOriention(-dr.getTargetXDegrees());
+                        changeOriention(limelight);
                         openLinearToSample(dr);
                     }
 //                    }
