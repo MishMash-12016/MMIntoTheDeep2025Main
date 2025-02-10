@@ -56,6 +56,11 @@ public class LinearIntake extends SubsystemBase {
                 this);
     }
 
+    public void setPositionVoid(double newPos){
+        servoLeft.setPosition(newPos);
+        servoRight.setPosition(newPos);
+    }
+
 
     public Command defultCommand(double newPos){
 

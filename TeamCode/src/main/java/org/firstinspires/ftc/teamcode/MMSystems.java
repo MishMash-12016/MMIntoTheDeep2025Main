@@ -81,9 +81,9 @@ public class MMSystems {
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
         this.limeLight = new LimeLight();
-        linearIntake.setDefaultCommand(
-                linearIntake.defultCommand(0)
-        );
+//        linearIntake.setDefaultCommand(
+//                linearIntake.defultCommand(0)
+//        );
 
     }
 
