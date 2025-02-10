@@ -31,7 +31,7 @@ public class IntakeSpecimansCommand {
     public static Command PrepareSpecimenIntake(){
         return new SequentialCommandGroup(
             PrepareSystemsSpecimenIntake(),
-            new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 4),
+            new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 3.5),
             SpecimenIntake()
         );
     }

@@ -45,7 +45,7 @@ public class ScoringSampleCommand {
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE),
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE)
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_SAMPLE_POSE)
                 ),
                 new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.TRANSFER_SAMPLE_POSE),

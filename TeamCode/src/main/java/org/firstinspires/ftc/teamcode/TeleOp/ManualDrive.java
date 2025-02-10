@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 public class ManualDrive extends MMOpMode {
     MMRobot robotInstance;
     MMSystems mmSystems;
-    boolean Specimenintake = true;
+    boolean Specimenintake = false;
 
     public ManualDrive() {
         super(OpModeType.NonCompetition.EXPERIMENTING);

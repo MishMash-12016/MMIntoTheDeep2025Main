@@ -39,9 +39,9 @@ public class Elevator extends MMPIDSubsystem {
     final double SPROCKET_PERIMETER = 6.56592;
 
     //PID:
-    public static double kP = 0.09;
-    public static double kI = 0.0001;
-    public static double kD = 0.0001;
+    public static double kP = 0.11;
+    public static double kI = 0.0;
+    public static double kD = 0.002;
 
     public static double TOLERANCE = 2;
     public static double kG = 0.1;
@@ -52,7 +52,7 @@ public class Elevator extends MMPIDSubsystem {
     public enum ElevatorState {
 
         //65
-        LOW_BASKET(30), HIGH_BASKET(70), ELEVATOR_DOWN(1); //58
+        LOW_BASKET(30), HIGH_BASKET(95), ELEVATOR_DOWN(1); //58
 
         public double position;
 
@@ -118,7 +118,7 @@ public class Elevator extends MMPIDSubsystem {
         return new SequentialCommandGroup(
                 moveToPose(2),
                 new InstantCommand(() -> setPower(-0.5)),
-                new WaitUntilCommand(() ->getElevatorSwitchState()),
+                new WaitUntilCommand(() -> getElevatorSwitchState()),
                 new InstantCommand(() -> setTicks(0)),
                 new InstantCommand(() -> setPower(0.0))
         );
@@ -127,12 +127,12 @@ public class Elevator extends MMPIDSubsystem {
     @Override
     public void setPower(Double power) {
         if (targetPose == ElevatorState.ELEVATOR_DOWN.position) {
-            if (power > 0.5) {
-                power = 0.48;
+            if (power > 0.4) {
+                power = 0.38;
             }
         }
 
-        if(getHeight() > 60){
+        if(getHeight() > 105 && targetPose != ElevatorState.ELEVATOR_DOWN.position){
             power = 0.0;
         }
         motor1.setPower(power);
