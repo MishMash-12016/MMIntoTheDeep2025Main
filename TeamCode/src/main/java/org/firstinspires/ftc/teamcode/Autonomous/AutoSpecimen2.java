@@ -5,16 +5,13 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
-import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimansCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimanCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimenCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -77,7 +74,7 @@ public class AutoSpecimen2 extends MMOpMode {
 
         new SequentialCommandGroup(
                 new ActionCommand(driveToScorePreloadSpecimen.build()),
-                ScoringSpecimanCommand.SpecimanScore(),
+                ScoringSpecimenCommand.SpecimenScore(),
                 new WaitCommand(500),
                 new ActionCommand(driveToScorePreLoadSpecimen2.build()),
                 new WaitCommand(200),
@@ -89,7 +86,7 @@ public class AutoSpecimen2 extends MMOpMode {
                 IntakeSpecimansCommand.SpecimenIntake().alongWith(
                         new WaitCommand(100).andThen(
                 new ActionCommand(driveToScoreFirstSpecimen.build()))),
-                ScoringSpecimanCommand.SpecimanScore(),
+                ScoringSpecimenCommand.SpecimenScore(),
                 new WaitCommand(500),
                 new ActionCommand(driveToScoreFirstSpecimen2.build()),
                 IntakeSpecimansCommand.PrepareSpecimenIntake(),
@@ -101,7 +98,7 @@ public class AutoSpecimen2 extends MMOpMode {
                 IntakeSpecimansCommand.SpecimenIntake().alongWith(
                         new WaitCommand(200).andThen(
                         new ActionCommand(driveToScoreSecondSpecimen.build()))),
-                ScoringSpecimanCommand.SpecimanScore(),
+                ScoringSpecimenCommand.SpecimenScore(),
                 new WaitCommand(500),
                 new ActionCommand(driveToScoreSecondSpecimen2.build()),
                 new WaitCommand(200),

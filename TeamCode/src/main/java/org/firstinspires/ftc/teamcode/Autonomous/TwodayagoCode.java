@@ -5,18 +5,14 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
-import com.acmerobotics.roadrunner.TurnConstraints;
-import com.acmerobotics.roadrunner.Twist2d;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.Autonomous.ActionCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimansCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimanCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimenCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
@@ -121,7 +117,7 @@ public class TwodayagoCode extends MMOpMode {
                 robotInstance.mmSystems.scoringClawEndUnit.closeScoringClaw(),
 
                 new ActionCommand(driveToScorePreloadSpecimen.build()).alongWith(
-                        ScoringSpecimanCommand.SpecimanScore()),
+                        ScoringSpecimenCommand.SpecimenScore()),
 
                 new ParallelCommandGroup(
                         new ActionCommand(driveToPush1.build()),

@@ -7,19 +7,12 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimanCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimenCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
-
-import java.util.Collections;
-
 
 
 public class autoCloseRed extends MMOpMode {
@@ -65,7 +58,7 @@ public class autoCloseRed extends MMOpMode {
 
         new SequentialCommandGroup(
                 new ActionCommand(driveToScorePreloadSpecimen.build()),
-                ScoringSpecimanCommand.SpecimanScore(),
+                ScoringSpecimenCommand.SpecimenScore(),
                 new WaitCommand(500),
                 new ActionCommand(driveToScorePreLoadSpecimen2.build())
                         .alongWith(new WaitCommand(400).andThen(MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())),

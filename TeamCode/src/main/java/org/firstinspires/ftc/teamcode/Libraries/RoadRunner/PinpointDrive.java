@@ -133,7 +133,7 @@ public class PinpointDrive extends MecanumDrive {
         }
         pinpoint.update();
         pose = pinpoint.getPositionRR();
-        pose = new Pose2d(pose.position.x, pose.position.y * 0.67, pose.heading.toDouble());
+        pose = new Pose2d(pose.position.x * 0.67, pose.position.y * 0.67, pose.heading.toDouble());
         lastPinpointPose = pose;
 
         // RR standard
