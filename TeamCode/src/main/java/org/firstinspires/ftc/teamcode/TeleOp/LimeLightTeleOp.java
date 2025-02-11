@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -42,6 +43,12 @@ public class LimeLightTeleOp extends MMOpMode {
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 MMRobot.getInstance().mmSystems.limeLight.gotoSample(limelight)
+        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                new ParallelCommandGroup(
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(0),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(0)
+                )
         );
     }
 

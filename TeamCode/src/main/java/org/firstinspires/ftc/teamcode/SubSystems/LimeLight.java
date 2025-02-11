@@ -74,7 +74,7 @@ public class LimeLight extends SubsystemBase {
                         List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
                         LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
 //                          //Rotate claw, then rotate robot to sample, and then open linear intake
-                        double angle = rotateClawToSample(limelight, dr);
+//                        double angle = rotateClawToSample(limelight, dr);
                         changeOriention(limelight);
                         openLinearToSample(dr);
                     }
