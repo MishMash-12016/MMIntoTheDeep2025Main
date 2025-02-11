@@ -18,7 +18,7 @@ import java.util.List;
 public class LimeLight extends SubsystemBase {
 
 
-    public final double maxOpeningLinearCM = 34.5 ;//cm
+    public final double maxOpeningLinearCM = 33.5 ;//cm
     public final double heightFromGround = 42; //cm
     public final double angleFixed = 45; //degrees
     public final double sampleHeight = 3.9; //cm
@@ -55,11 +55,17 @@ public class LimeLight extends SubsystemBase {
                 }
     }
 
+    public Command turnToSample(Limelight3A limelight){
+        return new InstantCommand(
+                () -> {
+                    changeOriention(limelight);
+                }, this);
+    }
+
     public Command gotoSample(Limelight3A limelight) {
 
         return new InstantCommand(
                 () -> {
-                    double angle = 0;
 //                    while (angle == 0 || angle == MMRobot.getInstance().mmSystems.intakeEndUnitRotator.getTargetPosition()) {
                     LLResult result = limelight.getLatestResult();
 
@@ -68,33 +74,29 @@ public class LimeLight extends SubsystemBase {
                         List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
                         LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
 //                          //Rotate claw, then rotate robot to sample, and then open linear intake
-                        angle = rotateClawToSample(limelight, dr);
+                        double angle = rotateClawToSample(limelight, dr);
                         changeOriention(limelight);
                         openLinearToSample(dr);
                     }
 //                    }
-
-//                    MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angle);
-
-//                    long t2 = System.currentTimeMillis(); // Start time
-//                    MMRobot.getInstance().mmSystems.telemetry.addData("time all - ",t2 - t1);
 
                 }, this); // do set position void or else wont work}
     }
 
 
     public void openLinearToSample(LLResultTypes.DetectorResult result) {
-        double distance = result.getTargetYDegrees();
-        if (distance > maxOpeningLinearCM * LinearIntake.maxOpening){
-            distance = maxOpeningLinearCM * LinearIntake.maxOpening;
+        double distanceFromLimelight = result.getTargetYDegrees();
+        if (distanceFromLimelight > maxOpeningLinearCM * LinearIntake.maxOpening){
+            distanceFromLimelight = maxOpeningLinearCM * LinearIntake.maxOpening;
         }
-        distance = calculateDistance(distance) - armLength;
-        double distanceInServoDegrees = distance / 270;
-        MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(
-                distanceInServoDegrees
-        );
-        MMRobot.getInstance().mmSystems.telemetry.addData("distance servo -  ",distanceInServoDegrees);
-        MMRobot.getInstance().mmSystems.telemetry.addData("distance -  ",distance);
+        double distance = calculateDistance(distanceFromLimelight) - armLength;
+        double distanceInServoDegrees = distance / 130;
+
+        MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(distanceInServoDegrees);
+        MMRobot.getInstance().mmSystems.intakeArm.setPositionVoid(0.55);
+
+        MMRobot.getInstance().mmSystems.telemetry.addData("distance servo -  ", distanceInServoDegrees);
+        MMRobot.getInstance().mmSystems.telemetry.addData("distance -  ", distance);
     }
 
     public Double calculate_distance_vectors(List<Double> vector1,List<Double> vector2){

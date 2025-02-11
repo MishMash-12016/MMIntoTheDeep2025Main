@@ -42,6 +42,10 @@ public class IntakeArm extends SubsystemBase {
             servoRight.setPosition(1-state.position);} ,
                 this);
     }
+    public void setPositionVoid(double newPos){
+        servoLeft.setPosition(newPos);
+        servoRight.setPosition(1-newPos);
+    }
 
 //    //tell servo intake to get to down position
 //    public Command setPosition(DoubleSupplier newPos) {

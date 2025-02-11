@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
@@ -31,17 +32,16 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                  );
     }
-    //remove this function |
-    //                     |
-    //                     \/
-    public static Command prepareSampleIntake2(BooleanSupplier rotateRightButton,BooleanSupplier rotateLeftButton) {
+
+    public static Command prepareSampleIntake_LimeLight(BooleanSupplier rotateRightButton, BooleanSupplier rotateLeftButton, Limelight3A limelight) {
         return new ParallelCommandGroup(
+                MMRobot.getInstance().mmSystems.limeLight.turnToSample(limelight),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.65),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.rotateByButton(rotateLeftButton,rotateRightButton),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                MMRobot.getInstance().mmSystems.intakEndUnit.setPose(0.68),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
         );
     }
