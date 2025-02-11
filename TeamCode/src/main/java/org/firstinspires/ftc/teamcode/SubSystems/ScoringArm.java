@@ -60,6 +60,12 @@ public class ScoringArm extends SubsystemBase {
             servoRight.setPosition(newPos);} ,
                 this);
     }
+
+    public void CutPower(){
+        servoLeft.getController().pwmDisable();
+        servoRight.getController().pwmDisable();
+    }
+
     public double getPosition(){
         return servoRight.getPosition();
     }
