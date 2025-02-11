@@ -1,23 +1,17 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.roadrunner.MinVelConstraint;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
-import com.acmerobotics.roadrunner.TranslationalVelConstraint;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimanCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimenCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
-@Autonomous
+
 public class Autopushing3 extends MMOpMode {
     MMRobot robotInstance;
     public Autopushing3() {
@@ -74,7 +68,7 @@ public class Autopushing3 extends MMOpMode {
 
         new SequentialCommandGroup(
                 new ActionCommand(driveToScorePreloadSpecimen.build()).alongWith(
-                ScoringSpecimanCommand.SpecimanScore()),
+                ScoringSpecimenCommand.SpecimenScore()),
                 new ActionCommand(driveToScorePreloadSpecimen2.build()),
                 new ActionCommand(driveToPushSampleToHuman.build()),
                 new ActionCommand(driveToPushSample2ToHuman.build()),

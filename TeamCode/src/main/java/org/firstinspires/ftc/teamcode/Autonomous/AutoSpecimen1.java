@@ -7,21 +7,16 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.arcrobotics.ftclib.command.PrintCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimansCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimanCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimenCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 
@@ -69,12 +64,12 @@ public class AutoSpecimen1 extends MMOpMode {
 
         new SequentialCommandGroup(
                 new ActionCommand(driveToScorePreloadSpecimen.build()),
-                ScoringSpecimanCommand.SpecimanScore(),
+                ScoringSpecimenCommand.SpecimenScore(),
                 new WaitCommand(500),
                 new ActionCommand(driveToScorePreLoadSpecimen2.build())
                         .alongWith(new WaitCommand(waitBeforeOpeningScoringClawTime).andThen(MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())),
                 new WaitCommand(200),
-                IntakeSpecimansCommand.PrepareSpecimanIntake(),
+                IntakeSpecimansCommand.PrepareSpecimenIntake(),
                 new ActionCommand(driveToPickUpFirst.build()),
                 new WaitCommand(1000),
                 new ActionCommand(driveToPickUpFirst2.build()),
@@ -82,7 +77,7 @@ public class AutoSpecimen1 extends MMOpMode {
                 IntakeSpecimansCommand.SpecimenIntake(),
                 new WaitCommand(300),
                 new ActionCommand(driveToScoreFirstSpecimen.build()),
-                ScoringSpecimanCommand.SpecimanScore(),
+                ScoringSpecimenCommand.SpecimenScore(),
                 new WaitCommand(500),
                 new ActionCommand(driveToScoreFirstSpecimen2.build())
                         .alongWith(new WaitCommand(waitBeforeOpeningScoringClawTime).andThen(MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())),

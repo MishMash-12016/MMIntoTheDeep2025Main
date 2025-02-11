@@ -12,6 +12,8 @@ public class MMDistSensor {
 
     DistanceSensor DS1;
 
+
+
     public MMDistSensor(HardwareMap hardwareMap) {
         DS1 = hardwareMap.get(DistanceSensor.class, Configuration.intakeDistanceSensor);
     }
