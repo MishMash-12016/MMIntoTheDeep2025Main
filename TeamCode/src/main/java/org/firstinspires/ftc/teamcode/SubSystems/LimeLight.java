@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
 
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -55,10 +57,21 @@ public class LimeLight extends SubsystemBase {
                 }
     }
 
-    public Command turnToSample(Limelight3A limelight){
+    public void changeOrientionAuto(Limelight3A limelight , PinpointDrive drive , Pose2d currentPose){
+            LLResult result = limelight.getLatestResult();
+            if (result != null && result.isValid()) {
+
+                List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
+                LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
+                drive.actionBuilder(currentPose).setTangent(-dr.getTargetXDegrees());
+            }
+
+    }
+
+    public Command turnToSample(Limelight3A limelight,  PinpointDrive drive , Pose2d currentPose){
         return new InstantCommand(
                 () -> {
-                    changeOriention(limelight);
+                    changeOrientionAuto(limelight, drive, currentPose);
                 }, this);
     }
 

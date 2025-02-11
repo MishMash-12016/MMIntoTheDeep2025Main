@@ -90,42 +90,42 @@ public class Erantonumus extends MMOpMode {
 
                 //pre-load
                 new ActionCommand(driveToScorePreloadSample.build()).alongWith(
-                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET), //the height of the high basket
+//                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET), //the height of the high basket
                         new WaitCommand(100),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SAMPLE)
                 ),
-                ScoringSampleCommand.ScoreHighSample(),
+//                ScoringSampleCommand.ScoreHighSample(),
 
                 //first
-                new ActionCommand(driveToFirst.build()).alongWith(
-                        IntakeSampleCommand.prepareSampleIntake_LimeLight(()-> false,()-> false, limelight)
-                ),
+                new ActionCommand(driveToFirst.build()).andThen(
+                        robotInstance.mmSystems.limeLight.turnToSample(limelight,drive, new Pose2d(-24, -10, Math.toRadians(0))).andThen(
+                                IntakeSampleCommand.prepareSampleIntake())                ),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
-                ScoringSampleCommand.PrepareHighSample(),
+//                ScoringSampleCommand.PrepareHighSample(),
                 new WaitCommand(200),
-                ScoringSampleCommand.ScoreHighSample(),
+//                ScoringSampleCommand.ScoreHighSample(),
 
                 //second
-                new ActionCommand(driveToSecond.build()).alongWith(
-                        IntakeSampleCommand.prepareSampleIntake_LimeLight(()-> false,()-> false, limelight)
-                ),
+                new ActionCommand(driveToSecond.build()).andThen(
+                        robotInstance.mmSystems.limeLight.turnToSample(limelight, drive, new Pose2d(-24, -10, Math.toRadians(0))).andThen(
+                                IntakeSampleCommand.prepareSampleIntake())                ),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
-                ScoringSampleCommand.PrepareHighSample(),
+//                ScoringSampleCommand.PrepareHighSample(),
                 new WaitCommand(200),
-                ScoringSampleCommand.ScoreHighSample(),
+//                ScoringSampleCommand.ScoreHighSample(),
 
                 //third
-                new ActionCommand(driveToIntakeThird.build()).alongWith(
-                        IntakeSampleCommand.prepareSampleIntake_LimeLight(()-> false,()-> false, limelight)
+                new ActionCommand(driveToIntakeThird.build()).andThen(
+                        IntakeSampleCommand.prepareSampleIntake()
                 ),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
                 new ActionCommand(driveToScoreThird.build()).alongWith(
-                        ScoringSampleCommand.PrepareHighSample()
+//                        ScoringSampleCommand.PrepareHighSample()
                 ),
-                ScoringSampleCommand.ScoreHighSample(),
+//                ScoringSampleCommand.ScoreHighSample(),
 
                 //park
                 new ActionCommand(driveToPark.build()).alongWith(
