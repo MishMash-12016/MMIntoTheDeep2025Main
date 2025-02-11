@@ -59,37 +59,37 @@ public class Working1andFour {
                             .splineToLinearHeading(new Pose2d(47, -47, Math.toRadians(90)), Math.toRadians(270))
 //--
 
-
-
                             //first
                             .setTangent(Math.toRadians(270))
-                            .lineToLinearHeading(new Pose2d(47, -60.5, Math.toRadians(90)))
+                            .lineToLinearHeading(new Pose2d(47, -58.2, Math.toRadians(90)))
 
-                            .lineToLinearHeading(new Pose2d(-9, -26.5,Math.toRadians(90)))
-//
-//                            //second
+                            .lineToLinearHeading(new Pose2d(2, -28,Math.toRadians(90)))
+
+                            //second
                             .setTangent(Math.toRadians(280))
-                            .splineToLinearHeading(new Pose2d(48,-58,Math.toRadians(90)),Math.toRadians(320))
+                            .splineToLinearHeading(new Pose2d(12,-38,Math.toRadians(90)), Math.atan((-38.0+58.2)/(12.0-45.0)))
+                            .lineToLinearHeading(new Pose2d(45,-58.2,Math.toRadians(90)))
 
-//
-//                            .lineToLinearHeading(new Pose2d(-6, -28.5, Math.toRadians(90)))
-//
-//                            //third
-//                            .lineToLinearHeading(new Pose2d(38, -60.5, Math.toRadians(90)))
-//
-//                            .lineToLinearHeading(new Pose2d(-5, -28.5, Math.toRadians(90)))
-//
-//                            //forth
-//                            .lineToLinearHeading(new Pose2d(38, -60.5, Math.toRadians(90)))
-//
-//                            .lineToLinearHeading(new Pose2d(-5, -28.5, Math.toRadians(90)))
-//
-//                            //park
-//                            .setTangent(Math.toRadians(300))
-//                            .lineToLinearHeading(new Pose2d(43, -55, Math.toRadians(90)))
-//
-//
+                            .lineToLinearHeading(new Pose2d(0, -28, Math.toRadians(90)))
 
+                            //third
+                            .setTangent(Math.toRadians(280))
+                            .splineToLinearHeading(new Pose2d(10,-38,Math.toRadians(90)), Math.atan((-38.0+58.2)/(10.0-45.0)))
+                            .lineToLinearHeading(new Pose2d(45,-58.2,Math.toRadians(90)))
+
+                            .lineToLinearHeading(new Pose2d(-2, -28, Math.toRadians(90)))
+
+                            //forth
+                            .setTangent(Math.toRadians(280))
+                            .splineToLinearHeading(new Pose2d(8,-38,Math.toRadians(90)), Math.atan((-38.0+58.2)/(8.0-45.0)))
+                            .lineToLinearHeading(new Pose2d(45,-58.2,Math.toRadians(90)))
+
+                            .lineToLinearHeading(new Pose2d(-4, -28, Math.toRadians(90)))
+
+                            //park
+                            .setTangent(Math.toRadians(280))
+                            .splineToLinearHeading(new Pose2d(6,-38,Math.toRadians(90)), Math.atan((-38.0+58)/(6.0-38.0)))
+                            .lineToLinearHeading(new Pose2d(38, -58, Math.toRadians(90)))
                             .build());
 
 
