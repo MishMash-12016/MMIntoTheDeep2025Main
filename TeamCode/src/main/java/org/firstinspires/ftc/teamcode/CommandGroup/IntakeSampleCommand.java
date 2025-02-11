@@ -32,8 +32,20 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                  );
     }
-
-    public static Command prepareSampleIntake_LimeLight(BooleanSupplier rotateRightButton, BooleanSupplier rotateLeftButton, Limelight3A limelight) {
+    public static Command prepareSampleIntake() {
+        return new ParallelCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+        );
+    }
+    //remove this function |
+    //                     |
+    //                     \/
+    public static Command prepareSampleIntake2(BooleanSupplier rotateRightButton,BooleanSupplier rotateLeftButton) {
         return new ParallelCommandGroup(
                 MMRobot.getInstance().mmSystems.limeLight.turnToSample(limelight),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),

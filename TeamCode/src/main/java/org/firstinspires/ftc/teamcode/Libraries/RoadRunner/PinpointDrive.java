@@ -55,7 +55,7 @@ public class PinpointDrive extends MecanumDrive {
         To get this value from inPerTick, first convert the value to millimeters (multiply by 25.4)
         and then take its inverse (one over the value)
          */
-        public double encoderResolution = GoBildaPinpointDriverRR.goBILDA_SWINGARM_POD;
+        public double encoderResolution = GoBildaPinpointDriverRR.goBILDA_4_BAR_POD;
 
         /*
         Set the direction that each of the two odometry pods count. The X (forward) pod should
@@ -113,7 +113,7 @@ public class PinpointDrive extends MecanumDrive {
             throw new RuntimeException(e);
         }
 
-        pose = new Pose2d(pose.position.x, pose.position.y * 1.5, pose.heading.toDouble());
+        pose = new Pose2d(pose.position.x, pose.position.y , pose.heading.toDouble());
 
         pinpoint.setPosition(pose);
 
@@ -133,7 +133,7 @@ public class PinpointDrive extends MecanumDrive {
         }
         pinpoint.update();
         pose = pinpoint.getPositionRR();
-        pose = new Pose2d(pose.position.x * 0.67, pose.position.y * 0.67, pose.heading.toDouble());
+        pose = new Pose2d(pose.position.x , pose.position.y , pose.heading.toDouble());
         lastPinpointPose = pose;
 
         // RR standard

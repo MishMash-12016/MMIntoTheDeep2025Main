@@ -86,24 +86,24 @@ public class TestAuto extends MMOpMode {
         //Push first specimen
         TrajectoryActionBuilder driveToPush1 = driveToScorePreloadSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(260))
-                .splineToSplineHeading(new Pose2d(28, -38, Math.toRadians(235)), Math.toRadians(0));
+                .splineToSplineHeading(new Pose2d(32, -38, Math.toRadians(235)), Math.toRadians(0));
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(290))
-                .splineToLinearHeading(new Pose2d(32.8, -47, Math.toRadians(170)), Math.toRadians(240));
+                .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(170)), Math.toRadians(240));
         //Push second specimen
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(37.2, -38, Math.toRadians(235)), Math.toRadians(70));
+                .splineToLinearHeading(new Pose2d(40.2, -38, Math.toRadians(235)), Math.toRadians(70));
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(300))
-                .splineToLinearHeading(new Pose2d(42.8, -47, Math.toRadians(170)), Math.toRadians(240));
+                .splineToLinearHeading(new Pose2d(45.8, -47, Math.toRadians(170)), Math.toRadians(240));
         //Push third specimen
         TrajectoryActionBuilder driveToPush3 = turnRobot2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(47, -38, Math.toRadians(235)), Math.toRadians(70));
+                .splineToLinearHeading(new Pose2d(50, -38, Math.toRadians(235)), Math.toRadians(70));
         TrajectoryActionBuilder turnRobot3 = driveToPush3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(280))
-                .splineToLinearHeading(new Pose2d(47, -47, Math.toRadians(90)), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 0.8));
+                .splineToLinearHeading(new Pose2d(50, -47, Math.toRadians(90)), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 0.8));
 
 /*
      -----------------------
