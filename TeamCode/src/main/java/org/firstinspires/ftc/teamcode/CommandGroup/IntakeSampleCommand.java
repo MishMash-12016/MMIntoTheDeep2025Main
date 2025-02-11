@@ -31,6 +31,16 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                  );
     }
+    public static Command prepareSampleIntake() {
+        return new ParallelCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+        );
+    }
     //remove this function |
     //                     |
     //                     \/
