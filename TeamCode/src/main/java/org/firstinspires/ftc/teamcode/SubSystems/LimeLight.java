@@ -43,7 +43,7 @@ public class LimeLight extends SubsystemBase {
     public void changeOriention(Limelight3A limelight){
         PIDController pidController = new PIDController(0.017, 0, 0.0005);
         pidController.setSetPoint(0);
-        pidController.setTolerance(5);
+        pidController.setTolerance(1);
 
         while (!pidController.atSetPoint())
                 {
@@ -89,6 +89,13 @@ public class LimeLight extends SubsystemBase {
 //                          //Rotate claw, then rotate robot to sample, and then open linear intake
 //                        double angle = rotateClawToSample(limelight, dr);
                         changeOriention(limelight);
+
+                    }
+                    result = limelight.getLatestResult();
+                    if (result != null && result.isValid()) {
+
+                        List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
+                        LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
                         openLinearToSample(dr);
                     }
 //                    }
@@ -99,10 +106,11 @@ public class LimeLight extends SubsystemBase {
 
     public void openLinearToSample(LLResultTypes.DetectorResult result) {
         double distanceFromLimelight = result.getTargetYDegrees();
-        if (distanceFromLimelight > maxOpeningLinearCM * LinearIntake.maxOpening){
-            distanceFromLimelight = maxOpeningLinearCM * LinearIntake.maxOpening;
-        }
         double distance = calculateDistance(distanceFromLimelight) - armLength;
+
+        if (distance > maxOpeningLinearCM * LinearIntake.maxOpening){
+            distance = maxOpeningLinearCM * LinearIntake.maxOpening;
+        }
         double distanceInServoDegrees = distance / 130;
 
         MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(distanceInServoDegrees);
