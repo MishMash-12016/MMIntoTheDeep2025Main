@@ -23,7 +23,7 @@ public class ScoringEndUnitRotator extends SubsystemBase {
         MID_POSE_SPECIMEN(0.7),
         SCORE_SPECIMEN_POSE(0.46);
 
-        public double position;
+        public final double position;
         ScoringRotatorState(double position){
             this.position = position;
         }}

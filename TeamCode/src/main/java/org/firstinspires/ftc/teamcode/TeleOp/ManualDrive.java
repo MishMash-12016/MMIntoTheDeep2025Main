@@ -7,7 +7,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimansCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimenCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
@@ -50,13 +50,13 @@ public class ManualDrive extends MMOpMode {
 
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed( //specimen
-                IntakeSpecimansCommand.PrepareSpecimenIntake().alongWith(
+                IntakeSpecimenCommand.PrepareSpecimenIntake().alongWith(
                         new InstantCommand(()-> Specimenintake= true)
                 )
         );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
                 new ConditionalCommand(
-                        IntakeSpecimansCommand.SpecimenIntake(),IntakeSampleCommand.SampleIntake(),()-> Specimenintake
+                        IntakeSpecimenCommand.SpecimenIntake(),IntakeSampleCommand.SampleIntake(),()-> Specimenintake
                 )
         );
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05) //slow mode

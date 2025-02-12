@@ -5,14 +5,11 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class ScoringArm extends SubsystemBase {
     public enum ScoringArmState {
         TRANSFER_POSE(0.715),
-        TRANSFER_SAMPLE_POSE(0.715),
         PARK_AUTO(0.3),
         INIT_POSE(0.72),
         PREPARE_TRANSFER(0.63),

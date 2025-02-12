@@ -87,7 +87,7 @@ public class Elevator extends MMPIDSubsystem {
         motor3.setDirection(Direction.REVERSE);
 
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
-        motorEncoder.setDirection(Direction.REVERSE);
+//        motorEncoder.setDirection(Direction.REVERSE);
 
         resetTicks();
 

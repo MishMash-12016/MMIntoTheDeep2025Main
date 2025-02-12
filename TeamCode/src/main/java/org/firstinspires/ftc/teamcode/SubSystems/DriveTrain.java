@@ -27,6 +27,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleMotor;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.SensorGoBildaPinpointExample;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 import java.util.function.DoubleSupplier;
@@ -47,7 +48,9 @@ public class DriveTrain extends SubsystemBase {
     private final CuttleMotor motorFL;
     private final CuttleMotor motorBL;
     private final CuttleMotor motorBR;
-    public GoBildaPinpointDriverRR localizer;
+    GoBildaPinpointDriverRR localizer = MMRobot.getInstance().mmSystems.localizer;
+
+
 
     public DriveTrain() {
         super(); //register this subsystem, in order to schedule default command later on.
@@ -56,12 +59,11 @@ public class DriveTrain extends SubsystemBase {
         motorBL = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_BACK_LEFT);
         motorFR = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_FRONT_RIGHT);
         motorBR = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_BACK_RIGHT);
-        localizer = MMRobot.getInstance().mmSystems.hardwareMap.get(GoBildaPinpointDriverRR.class,"imu");
 
         //TODO: reverse motors as needed
         motorFR.setDirection(Direction.REVERSE);
         motorBR.setDirection(Direction.REVERSE);
-        localizer.resetPosAndIMU();
+
     }
 
     private double[] joystickToPower(double x, double y, double yaw) {
