@@ -1,24 +1,14 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.LimeLight;
-import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
-import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
-import com.qualcomm.hardware.limelightvision.LLStatus;
+
 import com.qualcomm.hardware.limelightvision.Limelight3A;
-
-import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
-import org.opencv.core.Mat;
-
-import java.util.List;
 
 @TeleOp(name = "LimeLightTeleOp", group = "Sensor")
 public class LimeLightTeleOp extends MMOpMode {
