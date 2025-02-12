@@ -49,7 +49,7 @@ public class TrialAutoSample extends MMOpMode {
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
 
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
-                .strafeToLinearHeading(new Vector2d(-50, -65.5), Math.toRadians(180));
+                .strafeToLinearHeading(new Vector2d(-48, -65.5), Math.toRadians(180));
 
         TrajectoryActionBuilder driveToFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(-58.49, -47.7), Math.toRadians(246));
@@ -72,15 +72,22 @@ public class TrialAutoSample extends MMOpMode {
                 //pre-load
                 new ActionCommand(driveToScorePreloadSample.build()).alongWith(
                         new SequentialCommandGroup(
-                                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET).withTimeout(1000), //the height of the high basket
-                                new WaitCommand(100),
                                 new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SAMPLE)))),
-                ScoringSampleCommand.ScoreHighSample(),
+                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE)
+                                ),
+                                new WaitCommand(200),
+                                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET), //the height of the high basket
+                                new WaitCommand(100),
+                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SAMPLE)
+                        )
+                ),
+
 
                 //first
+
                 new ActionCommand(driveToFirstSample.build()).alongWith(
+                        ScoringSampleCommand.ScoreHighSample(),
                         IntakeSampleCommand.prepareSampleIntake()),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
@@ -104,13 +111,12 @@ public class TrialAutoSample extends MMOpMode {
                 new WaitCommand(200),
                 new ActionCommand(driveToScoreThird.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample()),
-                ScoringSampleCommand.ScoreHighSample() //,
+                ScoringSampleCommand.ScoreHighSample(), //,
 
                 //park
-//                new ActionCommand(driveToPark.build()).alongWith(
-//                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK_AUTO))
-//                        //,
-                //new InstantCommand(() -> robotInstance.mmSystems.scoringArm.CutPower())
+                new ActionCommand(driveToPark.build()).alongWith(
+                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK_AUTO)),
+                new InstantCommand(() -> robotInstance.mmSystems.scoringArm.CutPower())
         ).schedule();
     }
 

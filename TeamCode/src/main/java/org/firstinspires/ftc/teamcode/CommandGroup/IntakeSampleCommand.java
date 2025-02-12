@@ -33,12 +33,9 @@ public class IntakeSampleCommand {
     }
     public static Command prepareSampleIntake() {
         return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
-                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
         );
     }
     //remove this function |
@@ -60,11 +57,6 @@ public class IntakeSampleCommand {
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
-                        new ConditionalCommand(
-                                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
-                                new InstantCommand(),
-                                ()-> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 0.5
-                        ),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
                         MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE),
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
