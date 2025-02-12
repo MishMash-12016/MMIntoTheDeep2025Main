@@ -62,7 +62,7 @@ public class ScoringSampleCommand {
                 new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET), //the height of the high basket
                 new WaitCommand(100),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORE_SAMPLE)
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_SCORE_SAMPLE)
         );
     }
     public static Command PrepareLowSample(){

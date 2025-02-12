@@ -48,13 +48,13 @@ public class DriveTrain extends SubsystemBase {
     private final CuttleMotor motorFL;
     private final CuttleMotor motorBL;
     private final CuttleMotor motorBR;
-    GoBildaPinpointDriverRR localizer = MMRobot.getInstance().mmSystems.localizer;
+    GoBildaPinpointDriverRR localizer;
 
 
 
     public DriveTrain() {
         super(); //register this subsystem, in order to schedule default command later on.
-
+        localizer = MMSystems.localizer;
         motorFL = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_FRONT_LEFT);
         motorBL = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_BACK_LEFT);
         motorFR = new CuttleMotor(mmRobot.mmSystems.controlHub, Configuration.DRIVE_TRAIN_FRONT_RIGHT);
@@ -64,6 +64,8 @@ public class DriveTrain extends SubsystemBase {
         motorFR.setDirection(Direction.REVERSE);
         motorBR.setDirection(Direction.REVERSE);
 
+        //roadRunner 90 is what we agree as 0 so reset it to 0
+        localizer.setPosition(new Pose2d(0,0,localizer.getHeading()-Math.toRadians(90)));
     }
 
     private double[] joystickToPower(double x, double y, double yaw) {

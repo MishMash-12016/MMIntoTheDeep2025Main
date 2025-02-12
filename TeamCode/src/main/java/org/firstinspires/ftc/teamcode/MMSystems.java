@@ -1,22 +1,20 @@
 
 package org.firstinspires.ftc.teamcode;
 
+
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.DigitalChannelImpl;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleDigital;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMDistSensor;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMIMU;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.LimeLight;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
@@ -52,7 +50,9 @@ public class MMSystems {
     public MMBattery battery;
     public MMDistSensor intakeDistSensor;
     public LimeLight limeLight;
-    public GoBildaPinpointDriverRR localizer;
+
+    public static GoBildaPinpointDriverRR localizer;
+    static boolean hasImuBeenReset = false;
 
 
 
@@ -93,7 +93,6 @@ public class MMSystems {
 
     public void initDriveTrain() {
         driveTrain = new DriveTrain();
-        localizer.resetPosAndIMU();
         driveTrain.setDefaultCommand(
                 MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
                         ()-> Math.pow(gamepadEx1.getLeftX(),3),
@@ -116,7 +115,15 @@ public class MMSystems {
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
         this.intakeDistSensor = new MMDistSensor(hardwareMap);
-        this.localizer = hardwareMap.get(GoBildaPinpointDriverRR.class,"imu");
+        if(!hasImuBeenReset){
+            hasImuBeenReset = true;
+            localizer = hardwareMap.get(GoBildaPinpointDriverRR.class,"imu");
+            localizer.resetPosAndIMU();
+            localizer.setOffsets(-99, 9);
+            localizer.setEncoderResolution(GoBildaPinpointDriverRR.goBILDA_4_BAR_POD);
+            localizer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+            localizer.setPosition(new Pose2d(0,0,Math.toRadians(90)));
+        }
 
 
 
