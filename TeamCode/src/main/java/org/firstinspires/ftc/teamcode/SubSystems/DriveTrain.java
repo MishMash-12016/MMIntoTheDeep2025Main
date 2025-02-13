@@ -64,8 +64,6 @@ public class DriveTrain extends SubsystemBase {
         motorFR.setDirection(Direction.REVERSE);
         motorBR.setDirection(Direction.REVERSE);
 
-        //roadRunner 90 is what we agree as 0 so reset it to 0
-        localizer.setPosition(new Pose2d(0,0,localizer.getHeading()-Math.toRadians(90)));
     }
 
     private double[] joystickToPower(double x, double y, double yaw) {

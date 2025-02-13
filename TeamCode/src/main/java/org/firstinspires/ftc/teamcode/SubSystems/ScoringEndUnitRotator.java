@@ -21,7 +21,8 @@ public class ScoringEndUnitRotator extends SubsystemBase {
         TRANSFER_SAMPLE_POSE(0.585),
         SCORE_SAMPLE_POSE(0.15),
         MID_POSE_SPECIMEN(0.7),
-        SCORE_SPECIMEN_POSE(0.46);
+        SCORE_SPECIMEN_POSE(0.5);
+
 
         public final double position;
         ScoringRotatorState(double position){

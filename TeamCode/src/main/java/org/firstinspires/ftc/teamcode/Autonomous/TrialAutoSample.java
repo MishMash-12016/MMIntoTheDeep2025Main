@@ -70,7 +70,8 @@ public class TrialAutoSample extends MMOpMode {
         new SequentialCommandGroup(
                 new InstantCommand(),
                 //pre-load
-                new ActionCommand(driveToScorePreloadSample.build()).alongWith(
+                new ParallelCommandGroup(
+                        new ActionCommand(driveToScorePreloadSample.build()),
                         new SequentialCommandGroup(
                                 new ParallelCommandGroup(
                                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
@@ -111,11 +112,12 @@ public class TrialAutoSample extends MMOpMode {
                 new WaitCommand(200),
                 new ActionCommand(driveToScoreThird.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample()),
-                ScoringSampleCommand.ScoreHighSample(), //,
 
                 //park
                 new ActionCommand(driveToPark.build()).alongWith(
-                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK_AUTO)),
+                        ScoringSampleCommand.ScoreHighSample()
+                        //robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK_AUTO)
+                        ),
                 new InstantCommand(() -> robotInstance.mmSystems.scoringArm.CutPower())
         ).schedule();
     }

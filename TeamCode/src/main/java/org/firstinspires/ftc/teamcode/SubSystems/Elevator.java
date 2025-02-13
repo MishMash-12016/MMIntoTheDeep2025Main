@@ -39,7 +39,7 @@ public class Elevator extends MMPIDSubsystem {
     final double SPROCKET_PERIMETER = 6.56592;
 
     //PID:
-    public static double kP = 0.11;
+    public static double kP = 0.12;
     public static double kI = 0.0;
     public static double kD = 0.002;
 
