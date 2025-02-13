@@ -33,14 +33,14 @@ public class alignToSampleAuto extends CommandBase {
     public void initialize() {
         noResultCounter = 0;
         result = null;
-        pidController = new PIDController(0.017, 0, 0.0005);
+        pidController = new PIDController(0.019, 0,0.0005);
         pidController.setSetPoint(0);
-        pidController.setTolerance(1);
+        pidController.setTolerance(2);
+        result = limelight.getLatestResult();
     }
 
     @Override
     public void execute() {
-        result = limelight.getLatestResult();
 
         if (result != null && result.isValid()) {
             noResultCounter = 0;
@@ -50,6 +50,7 @@ public class alignToSampleAuto extends CommandBase {
             drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),pidController.calculate(-dr.getTargetXDegrees())));
         }
         else {
+            result = limelight.getLatestResult();
             noResultCounter++;
         }
     }
