@@ -14,14 +14,17 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 
 import java.util.List;
 
-public class alignToSample extends CommandBase {
+public class alignToSampleAuto extends CommandBase {
     Limelight3A limelight;
 
     LLResult result;
     int noResultCounter;
     PIDController pidController;
-    public alignToSample(Limelight3A limelight) {
+    PinpointDrive drive;
+
+    public alignToSampleAuto(Limelight3A limelight , PinpointDrive drive) {
         this.limelight = limelight;
+        this.drive = drive;
         addRequirements(MMRobot.getInstance().mmSystems.driveTrain);
     }
 
@@ -44,7 +47,7 @@ public class alignToSample extends CommandBase {
             List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
             LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
 
-            MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, pidController.calculate(-dr.getTargetXDegrees()));
+            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),pidController.calculate(-dr.getTargetXDegrees())));
         }
         else {
             noResultCounter++;

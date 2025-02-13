@@ -71,7 +71,6 @@ public class AutoSample1 extends MMOpMode {
                 new ActionCommand(driveToPickUpFirstSample.build()),
                 new WaitCommand(200),
                 IntakeSampleCommand.prepareSampleIntake(()-> false,()-> false).withTimeout(600),
-                MMRobot.getInstance().mmSystems.limeLight.gotoSample(limelight),
                 new WaitCommand(200),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),

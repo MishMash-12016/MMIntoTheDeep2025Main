@@ -44,7 +44,6 @@ public class MMSystems {
     public Telemetry telemetry;
     public MMBattery battery;
     public MMDistSensor intakeDistSensor;
-    public LimeLight limeLight;
 
 
 
@@ -76,7 +75,6 @@ public class MMSystems {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
-        this.limeLight = new LimeLight();
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)
 //        );

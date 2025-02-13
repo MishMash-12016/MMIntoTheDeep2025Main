@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
@@ -15,6 +16,7 @@ import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
@@ -39,6 +41,8 @@ public class AutoSample1Plus3 extends MMOpMode {
     final double halfOpenClaw = 0.7;
     final double rotator = 0;
     final double intakeArmPose = 0.59;
+
+    private Limelight3A limelight;
 
     public AutoSample1Plus3() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -78,7 +82,6 @@ public class AutoSample1Plus3 extends MMOpMode {
 
         new SequentialCommandGroup(
                 new InstantCommand(),
-
                 //pre-load
                 new ActionCommand(driveToScorePreloadSample.build()).alongWith(
                         MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET), //the height of the high basket
@@ -89,7 +92,7 @@ public class AutoSample1Plus3 extends MMOpMode {
 
                 //first
                 new ActionCommand(driveToFirst.build()).alongWith(
-                        IntakeSampleCommand.prepareSampleIntake()
+                        IntakeSampleCommand.prepareSampleIntake_Lime(limelight,drive)
                 ),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
@@ -99,7 +102,7 @@ public class AutoSample1Plus3 extends MMOpMode {
 
                 //second
                 new ActionCommand(driveToSecond.build()).alongWith(
-                        IntakeSampleCommand.prepareSampleIntake()
+                        IntakeSampleCommand.prepareSampleIntake_Lime(limelight,drive)
                 ),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
@@ -109,7 +112,7 @@ public class AutoSample1Plus3 extends MMOpMode {
 
                 //third
                 new ActionCommand(driveToIntakeThird.build()).alongWith(
-                        IntakeSampleCommand.prepareSampleIntake()
+                        IntakeSampleCommand.prepareSampleIntake_Lime(limelight,drive)
                 ),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),

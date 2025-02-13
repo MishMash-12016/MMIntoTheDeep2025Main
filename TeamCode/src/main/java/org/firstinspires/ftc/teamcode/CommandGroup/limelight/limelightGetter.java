@@ -6,6 +6,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.alignToSample;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.openLinearToSample;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.rotateToSample;
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 
 
 public class limelightGetter {
@@ -23,6 +24,9 @@ public class limelightGetter {
 
     public static Command getAlignToSample(Limelight3A limelight) {
         return new alignToSample(limelight);
+    }
+    public static Command getAlignToSampleAuto(Limelight3A limelight, PinpointDrive drive) {
+        return new alignToSampleAuto(limelight,drive);
     }
     public static Command getRotateToSample(Limelight3A limelight) {
         return new rotateToSample(limelight);
