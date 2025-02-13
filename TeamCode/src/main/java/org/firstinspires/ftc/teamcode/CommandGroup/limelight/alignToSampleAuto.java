@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
 
-import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDController;
@@ -9,8 +9,10 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
+import org.firstinspires.ftc.teamcode.Autonomous.TrialAutoSample;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.opencv.core.Mat;
 
 import java.util.List;
 
@@ -19,13 +21,17 @@ public class alignToSampleAuto extends CommandBase {
 
     LLResult result;
     int noResultCounter;
-    PIDController pidController;
     PinpointDrive drive;
+    PIDController pidController;
+    TrajectoryActionBuilder previousAction;
+    boolean finished;
 
-    public alignToSampleAuto(Limelight3A limelight , PinpointDrive drive) {
+    public alignToSampleAuto(Limelight3A limelight, PinpointDrive drive, TrajectoryActionBuilder previousAction) {
         this.limelight = limelight;
         this.drive = drive;
         addRequirements(MMRobot.getInstance().mmSystems.driveTrain);
+        this.previousAction = previousAction;
+        finished = false;
     }
 
 
@@ -36,27 +42,29 @@ public class alignToSampleAuto extends CommandBase {
         pidController = new PIDController(0.019, 0,0.0005);
         pidController.setSetPoint(0);
         pidController.setTolerance(2);
-        result = limelight.getLatestResult();
     }
 
     @Override
     public void execute() {
+        result = limelight.getLatestResult();
 
         if (result != null && result.isValid()) {
             noResultCounter = 0;
             List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
             LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
-
-            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),pidController.calculate(-dr.getTargetXDegrees())));
+            TrialAutoSample.LIMELIGHT_TURN = previousAction.turn(-Math.toRadians(dr.getTargetXDegrees()));
+            TrialAutoSample.LIMELIGHT_INFO = -dr.getTargetXDegrees();
+            MMRobot.getInstance().mmSystems.telemetry.addData("dr",-dr.getTargetXDegrees());
+            finished = true;
         }
         else {
-            result = limelight.getLatestResult();
             noResultCounter++;
+
         }
     }
 
     @Override
     public boolean isFinished() {
-        return noResultCounter > 5 || pidController.atSetPoint();
+        return finished;
     }
 }

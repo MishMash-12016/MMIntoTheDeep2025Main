@@ -84,7 +84,7 @@ public class ManualDrive extends MMOpMode {
                 .whenActive(() -> MMRobot.getInstance().mmSystems.elevator.resetTicks());
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-            .whenActive(MMRobot.getInstance().mmSystems.elevator.moveToPose(0.05));
+            .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0));
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                  ScoringSampleCommand.PrepareHighSample());
 

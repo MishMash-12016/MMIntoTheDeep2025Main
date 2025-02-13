@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.arcrobotics.ftclib.command.Command;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
@@ -25,8 +26,8 @@ public class limelightGetter {
     public static Command getAlignToSample(Limelight3A limelight) {
         return new alignToSample(limelight);
     }
-    public static Command getAlignToSampleAuto(Limelight3A limelight, PinpointDrive drive) {
-        return new alignToSampleAuto(limelight,drive);
+    public static Command getAlignToSampleAuto(Limelight3A limelight, PinpointDrive drive, TrajectoryActionBuilder actionBuilder) {
+        return new alignToSampleAuto(limelight,drive, actionBuilder);
     }
     public static Command getRotateToSample(Limelight3A limelight) {
         return new rotateToSample(limelight);
