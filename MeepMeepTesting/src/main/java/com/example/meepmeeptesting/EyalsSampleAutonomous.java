@@ -28,6 +28,9 @@ public class EyalsSampleAutonomous {
 
                         .lineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(225)))
 
+//                        .setTangent(Math.toRadians(65))
+//                        .splineToLinearHeading(new Pose2d(-24, -10, Math.toRadians(0)), Math.toRadians(0))
+
                         .build());
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)
                 .setDarkMode(true)

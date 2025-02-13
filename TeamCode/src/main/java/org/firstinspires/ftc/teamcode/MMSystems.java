@@ -1,6 +1,10 @@
 
 package org.firstinspires.ftc.teamcode;
 
+
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
+import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -45,6 +49,9 @@ public class MMSystems {
     public MMBattery battery;
     public MMDistSensor intakeDistSensor;
 
+    public static GoBildaPinpointDriverRR localizer;
+    static boolean hasImuBeenReset = false;
+
 
 
 
@@ -82,6 +89,8 @@ public class MMSystems {
     }
 
     public void initDriveTrain() {
+        //roadRunner 90 is what we agree as 0 so reset it to 0
+        localizer.setPosition(new Pose2d(0,0,localizer.getHeading()-Math.toRadians(90)));
         driveTrain = new DriveTrain();
         driveTrain.setDefaultCommand(
                 MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
@@ -105,6 +114,15 @@ public class MMSystems {
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
         this.intakeDistSensor = new MMDistSensor(hardwareMap);
+        if(!hasImuBeenReset){
+            hasImuBeenReset = true;
+            localizer = hardwareMap.get(GoBildaPinpointDriverRR.class,"imu");
+            localizer.resetPosAndIMU();
+            localizer.setOffsets(-99, 9);
+            localizer.setEncoderResolution(GoBildaPinpointDriverRR.goBILDA_4_BAR_POD);
+            localizer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+            localizer.setPosition(new Pose2d(0,0,Math.toRadians(90)));
+        }
 
 
 

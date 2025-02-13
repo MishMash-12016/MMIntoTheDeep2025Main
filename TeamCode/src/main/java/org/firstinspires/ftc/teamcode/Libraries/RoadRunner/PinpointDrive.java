@@ -17,6 +17,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.messages.PoseMessage;
+import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.MMSystems;
 
 /**
  * Experimental extension of MecanumDrive that uses the Gobilda Pinpoint sensor for localization.
@@ -28,43 +30,6 @@ import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.messages.PoseMessage;
 @Config
 public class PinpointDrive extends MecanumDrive {
     public static class Params {
-        /*
-        Set this to the name that your Pinpoint is configured as in your hardware config.
-         */
-        public String pinpointDeviceName = "imu";
-        /*
-        Set the odometry pod positions relative to the point that the odometry computer tracks around.
-        The X pod offset refers to how far sideways from the tracking point the
-        X (forward) odometry pod is. Left of the center is a positive number,
-        right of the center is a negative number. The Y pod offset refers to how far forwards from
-        the tracking point the Y (strafe) odometry pod is: forward of the center is a positive number,
-        backwards is a negative number.
-         */
-        //These are tuned for 3110-0002-0001 Product Insight #1
-        // RR localizer note: These units are inches, presets are converted from mm (which is why they are inexact)
-        public double xOffset = -99;
-        public double yOffset = 9;
-
-        /*
-        Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
-        the goBILDA_SWINGARM_POD or the goBILDA_4_BAR_POD.
-        If you're using another kind of odometry pod, input the number of ticks per millimeter for that pod.
-
-        RR LOCALIZER NOTE: this is ticks per MILLIMETER, NOT inches per tick.
-        This value should be more than one; the value for the Gobilda 4 Bar Pod is approximately 20.
-        To get this value from inPerTick, first convert the value to millimeters (multiply by 25.4)
-        and then take its inverse (one over the value)
-         */
-        public double encoderResolution = GoBildaPinpointDriverRR.goBILDA_4_BAR_POD;
-
-        /*
-        Set the direction that each of the two odometry pods count. The X (forward) pod should
-        increase when you move the robot forward. And the Y (strafe) pod should increase when
-        you move the robot to the left
-         */
-        public GoBildaPinpointDriver.EncoderDirection xDirection = GoBildaPinpointDriver.EncoderDirection.FORWARD;
-        public GoBildaPinpointDriver.EncoderDirection yDirection = GoBildaPinpointDriver.EncoderDirection.REVERSED;
-
         /*
         Use the pinpoint IMU for tuning
         If true, overrides any IMU setting in MecanumDrive and uses exclusively Pinpoint for tuning
@@ -82,31 +47,13 @@ public class PinpointDrive extends MecanumDrive {
     public PinpointDrive(HardwareMap hardwareMap, Pose2d pose) {
         super(hardwareMap, pose);
         FlightRecorder.write("PINPOINT_PARAMS", PARAMS);
-        pinpoint = hardwareMap.get(GoBildaPinpointDriverRR.class, PARAMS.pinpointDeviceName);
+        pinpoint = MMSystems.localizer;
+
 
         if (PARAMS.usePinpointIMUForTuning) {
-            lazyImu = new LazyImu(hardwareMap, PARAMS.pinpointDeviceName, new RevHubOrientationOnRobot(zyxOrientation(0, 0, 0)));
+            lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(zyxOrientation(0, 0, 0)));
         }
 
-        // RR localizer note: don't love this conversion (change driver?)
-        pinpoint.setOffsets(PARAMS.xOffset, PARAMS.yOffset);
-
-
-        pinpoint.setEncoderResolution(PARAMS.encoderResolution);
-
-        pinpoint.setEncoderDirections(PARAMS.xDirection, PARAMS.yDirection);
-
-        /*
-        Before running the robot, recalibrate the IMU. This needs to happen when the robot is stationary
-        The IMU will automatically calibrate when first powered on, but recalibrating before running
-        the robot is a good idea to ensure that the calibration is "good".
-        resetPosAndIMU will reset the position to 0,0,0 and also recalibrate the IMU.
-        This is recommended before you run your autonomous, as a bad initial calibration can cause
-        an incorrect starting value for x, y, and heading.
-         */
-        //pinpoint.recalibrateIMU();
-        pinpoint.resetPosAndIMU();
-        // wait for pinpoint to finish calibrating
         try {
             Thread.sleep(300);
         } catch (InterruptedException e) {

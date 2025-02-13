@@ -5,21 +5,19 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class ScoringArm extends SubsystemBase {
     public enum ScoringArmState {
         TRANSFER_POSE(0.715),
-        TRANSFER_SAMPLE_POSE(0.715),
         PARK_AUTO(0.3),
         INIT_POSE(0.72),
         PREPARE_TRANSFER(0.63),
         MID_POSE(0.43),
-        SCORE_SPECIMEN(0.35),
+        SCORE_SPECIMEN(0.34),
         TRANSFER_SPECIMEN_POSE(0.72),
-        SCORE_SAMPLE(0.28);
+        SCORE_SAMPLE(0.26),
+        PREPARE_SCORE_SAMPLE(0.29);
         public double position;
         ScoringArmState(double position){
             this.position = position;
@@ -68,5 +66,10 @@ public class ScoringArm extends SubsystemBase {
 
     public double getPosition(){
         return servoRight.getPosition();
+    }
+
+    public void CutPower() {
+        servoLeft.getController().pwmDisable();
+        servoRight.getController().pwmDisable();
     }
 }

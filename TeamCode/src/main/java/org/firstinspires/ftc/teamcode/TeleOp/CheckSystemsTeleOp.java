@@ -33,46 +33,46 @@ public class CheckSystemsTeleOp extends MMOpMode {
     public void onInit() {
         robotInstance.mmSystems.initRobotSystems();
         robotInstance.mmSystems.initDriveTrain();
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new SequentialCommandGroup(
-                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.ROTATE_LEFT_ANGLE),
-                new WaitCommand(300),
-                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.ROTATE_RIGHT_ANGLE),
-                new WaitCommand(500),
-                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.TRANSFER_POSE),
-                new WaitCommand(300),
-                robotInstance.mmSystems.intakeArm.setPosition(0.2),
-                new WaitCommand(500),
-                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                new WaitCommand(300),
-                robotInstance.mmSystems.linearIntake.setPosition(0.2)
-                )
-        );
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                new SequentialCommandGroup(
-                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.LOW_BASKET),
-                        new WaitCommand(500),
-                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE),
-                        new WaitCommand(300),
-                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
-                        new WaitCommand(500),
-                        robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.CLOSE),
-                        new WaitCommand(300),
-                        robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.OPEN),
-                        new WaitCommand(500),
-                        robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE),
-                        new WaitCommand(300),
-                        robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.MID_POSE_SPECIMEN),
-                        MMRobot.getInstance().mmSystems.elevator.moveToPose(10))
-
-        );
-
-
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new SequentialCommandGroup(
-                        robotInstance.mmSystems.intakEndUnit.closeIntakeClaw()
-                )
-        );
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+//                new SequentialCommandGroup(
+//                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.ROTATE_LEFT_ANGLE),
+//                new WaitCommand(300),
+//                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.ROTATE_RIGHT_ANGLE),
+//                new WaitCommand(500),
+//                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.TRANSFER_POSE),
+//                new WaitCommand(300),
+//                robotInstance.mmSystems.intakeArm.setPosition(0.2),
+//                new WaitCommand(500),
+//                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+//                new WaitCommand(300),
+//                robotInstance.mmSystems.linearIntake.setPosition(0.2)
+//                )
+//        );
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+//                new SequentialCommandGroup(
+//                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.LOW_BASKET),
+//                        new WaitCommand(500),
+//                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE),
+//                        new WaitCommand(300),
+//                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
+//                        new WaitCommand(500),
+//                        robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.CLOSE),
+//                        new WaitCommand(300),
+//                        robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.OPEN),
+//                        new WaitCommand(500),
+//                        robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE),
+//                        new WaitCommand(300),
+//                        robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.MID_POSE_SPECIMEN),
+//                        MMRobot.getInstance().mmSystems.elevator.moveToPose(10))
+//
+//        );
+//
+//
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+//                new SequentialCommandGroup(
+//                        robotInstance.mmSystems.intakEndUnit.closeIntakeClaw()
+//                )
+//        );
 
     }
 
@@ -82,6 +82,7 @@ public class CheckSystemsTeleOp extends MMOpMode {
         telemetry.addData("height:", robotInstance.mmSystems.elevator.getHeight());
         telemetry.addData("right:", robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
         telemetry.addData("left:", -robotInstance.mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
+        telemetry.addData("dis:", robotInstance.mmSystems.intakeDistSensor.getDistance());
         telemetry.update();
     }
 }

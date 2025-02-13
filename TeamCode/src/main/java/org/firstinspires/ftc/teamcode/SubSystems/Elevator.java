@@ -39,7 +39,7 @@ public class Elevator extends MMPIDSubsystem {
     final double SPROCKET_PERIMETER = 6.56592;
 
     //PID:
-    public static double kP = 0.11;
+    public static double kP = 0.12;
     public static double kI = 0.0;
     public static double kD = 0.002;
 
@@ -52,7 +52,7 @@ public class Elevator extends MMPIDSubsystem {
     public enum ElevatorState {
 
         //65
-        LOW_BASKET(30), HIGH_BASKET(95), ELEVATOR_DOWN(1); //58
+        LOW_BASKET(30), HIGH_BASKET(100), ELEVATOR_DOWN(1); //58
 
         public double position;
 
@@ -87,7 +87,7 @@ public class Elevator extends MMPIDSubsystem {
         motor3.setDirection(Direction.REVERSE);
 
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
-        motorEncoder.setDirection(Direction.REVERSE);
+//        motorEncoder.setDirection(Direction.REVERSE);
 
         resetTicks();
 
@@ -116,11 +116,11 @@ public class Elevator extends MMPIDSubsystem {
 
     public Command ElevatorGetToZero() {
         return new SequentialCommandGroup(
-                moveToPose(2),
-                new InstantCommand(() -> setPower(-0.5)),
-                new WaitUntilCommand(() -> getElevatorSwitchState()),
-                new InstantCommand(() -> setTicks(0)),
-                new InstantCommand(() -> setPower(0.0))
+                moveToPose(ElevatorState.ELEVATOR_DOWN)
+//                new InstantCommand(() -> setPower(-0.5)),
+//                new WaitUntilCommand(this::getElevatorSwitchState),
+//                new InstantCommand(() -> setTicks(0)),
+//                new InstantCommand(() -> setPower(0.0))
         );
     }
 
