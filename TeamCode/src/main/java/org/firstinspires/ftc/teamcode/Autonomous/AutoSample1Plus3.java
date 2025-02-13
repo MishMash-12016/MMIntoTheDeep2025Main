@@ -55,6 +55,12 @@ public class AutoSample1Plus3 extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
 
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+
+        limelight.pipelineSwitch(0);
+
+        limelight.start();
+
         Pose2d currentPose = new Pose2d(-39, -65.5, Math.toRadians(180));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
 

@@ -30,9 +30,9 @@ public class alignToSample extends CommandBase {
     public void initialize() {
         noResultCounter = 0;
         result = null;
-        pidController = new PIDController(0.017, 0, 0.0005);
+        pidController = new PIDController(0.019, 0,0.0005);
         pidController.setSetPoint(0);
-        pidController.setTolerance(1);
+        pidController.setTolerance(2);
     }
 
     @Override
@@ -53,6 +53,6 @@ public class alignToSample extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return noResultCounter > 5 || pidController.atSetPoint();
+        return pidController.atSetPoint();
     }
 }
