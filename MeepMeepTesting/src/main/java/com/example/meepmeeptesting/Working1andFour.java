@@ -40,7 +40,7 @@ public class Working1andFour {
 
                             .splineToConstantHeading(new Vector2d(5.5, -30), Math.toRadians(90))
 //--
-                            .setTangent(Math.toRadians(260))
+                            .setTangent(Math.toRadians(270))
                             .lineToLinearHeading(new Pose2d(5.5, -33, Math.toRadians(90)))
                             .splineToSplineHeading(new Pose2d(28, -38, Math.toRadians(235)), Math.toRadians(0))
 

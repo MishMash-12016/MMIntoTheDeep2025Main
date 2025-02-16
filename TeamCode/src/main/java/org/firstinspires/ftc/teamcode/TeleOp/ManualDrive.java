@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
@@ -51,7 +52,7 @@ public class ManualDrive extends MMOpMode {
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed( //specimen
                 IntakeSpecimenCommand.PrepareSpecimenIntake().alongWith(
-                        new InstantCommand(()-> Specimenintake= true)
+                        new InstantCommand(()-> Specimenintake = true)
                 )
         );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(

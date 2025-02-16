@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
+import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
@@ -116,20 +118,18 @@ public class Elevator extends MMPIDSubsystem {
 
     public Command ElevatorGetToZero() {
         return new SequentialCommandGroup(
-                moveToPose(ElevatorState.ELEVATOR_DOWN)
-//                new InstantCommand(() -> setPower(-0.5)),
-//                new WaitUntilCommand(this::getElevatorSwitchState),
-//                new InstantCommand(() -> setTicks(0)),
-//                new InstantCommand(() -> setPower(0.0))
+                moveToPose(ElevatorState.ELEVATOR_DOWN),
+                new InstantCommand(() -> setPower(-0.5)),
+                new WaitUntilCommand(this::getElevatorSwitchState),
+                new InstantCommand(() -> setTicks(0)),
+                new InstantCommand(() -> setPower(0.0))
         );
     }
 
     @Override
     public void setPower(Double power) {
-        if (targetPose == ElevatorState.ELEVATOR_DOWN.position) {
-            if (power > 0.4) {
-                power = 0.38;
-            }
+        if (targetPose == ElevatorState.ELEVATOR_DOWN.position && power > 0.4) {
+            power = 0.4;
         }
 
         if(getHeight() > 105 && targetPose != ElevatorState.ELEVATOR_DOWN.position){
