@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimenCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
@@ -62,7 +62,7 @@ public class ManualDrive extends MMOpMode {
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05) //slow mode
                 .whenActive(
                         new ConditionalCommand(
-                                ScoringSpecimenCommand.SpecimenScore(),ScoringSampleCommand.PrepareHighSample(),()-> Specimenintake
+                                AutoSpecimensCommand.SpecimenScorePreLoad(),ScoringSampleCommand.PrepareHighSample(),()-> Specimenintake
                         )
                 );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(

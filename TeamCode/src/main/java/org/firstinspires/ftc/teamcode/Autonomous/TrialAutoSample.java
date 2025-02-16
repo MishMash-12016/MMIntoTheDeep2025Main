@@ -51,47 +51,46 @@ public class TrialAutoSample extends MMOpMode {
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
                 .strafeToLinearHeading(new Vector2d(-48, -65.5), Math.toRadians(180));
 
-        TrajectoryActionBuilder driveToFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-58.49, -47.7), Math.toRadians(246));
+        TrajectoryActionBuilder driveToIntakeFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
+                .strafeToSplineHeading(new Vector2d(-58, -47), Math.toRadians(247));
+        TrajectoryActionBuilder driveToScoreFirstSample =  driveToIntakeFirstSample.endTrajectory().fresh()
+                .strafeToLinearHeading(new Vector2d(-59, -49.4), Math.toRadians(247));
 
-        TrajectoryActionBuilder driveToSecondSample = driveToFirstSample.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-63.4, -49.3), Math.toRadians(258.9));
+        TrajectoryActionBuilder driveToSecondSample = driveToScoreFirstSample.endTrajectory().fresh()
+                .strafeToLinearHeading(new Vector2d(-62.8, -48.4), Math.toRadians(259.7));
 
         TrajectoryActionBuilder driveToIntakeThird = driveToSecondSample.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-50.8, -45), Math.toRadians(315));
-
+                .strafeToLinearHeading(new Vector2d(-58, -46.5), Math.toRadians(295.8));
         TrajectoryActionBuilder driveToScoreThird = driveToIntakeThird.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-56, -56), Math.toRadians(225));
+                .strafeToLinearHeading(new Vector2d(-59.7, -51), Math.toRadians(247));
 
         TrajectoryActionBuilder driveToPark = driveToScoreThird.endTrajectory().fresh()
-                .setTangent(Math.toRadians(65))
+                .setTangent(Math.toRadians(67))
                 .splineToLinearHeading(new Pose2d(-24, -10, Math.toRadians(0)), Math.toRadians(0));
 
         new SequentialCommandGroup(
                 new InstantCommand(),
                 //pre-load
+                new ActionCommand(driveToScorePreloadSample.build()),
                 new ParallelCommandGroup(
-                        new ActionCommand(driveToScorePreloadSample.build()),
-                        new SequentialCommandGroup(
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE)
-                                ),
-                                new WaitCommand(200),
-                                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET), //the height of the high basket
-                                new WaitCommand(100),
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SAMPLE)
-                        )
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE)
                 ),
+                new WaitCommand(200),
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET), //the height of the high basket
+                new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SAMPLE),
+                new WaitCommand(200),
+                ScoringSampleCommand.ScoreHighSample(),
 
 
                 //first
-
-                new ActionCommand(driveToFirstSample.build()).alongWith(
-                        ScoringSampleCommand.ScoreHighSample(),
+                new ActionCommand(driveToIntakeFirstSample.build()).alongWith(
                         IntakeSampleCommand.prepareSampleIntake()),
+                new WaitCommand(100),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
+                new ActionCommand(driveToScoreFirstSample.build()),
                 ScoringSampleCommand.PrepareHighSample(),
                 new WaitCommand(200),
                 ScoringSampleCommand.ScoreHighSample(),
@@ -99,6 +98,7 @@ public class TrialAutoSample extends MMOpMode {
                 //second
                 new ActionCommand(driveToSecondSample.build()).alongWith(
                         IntakeSampleCommand.prepareSampleIntake()),
+                new WaitCommand(100),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
                 ScoringSampleCommand.PrepareHighSample(),
@@ -108,16 +108,19 @@ public class TrialAutoSample extends MMOpMode {
                 //third
                 new ActionCommand(driveToIntakeThird.build()).alongWith(
                         IntakeSampleCommand.prepareSampleIntake()),
+                new WaitCommand(100),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
                 new ActionCommand(driveToScoreThird.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample()),
+                new WaitCommand(200),
+                ScoringSampleCommand.ScoreHighSample(),
+                new WaitCommand(200),
 
                 //park
-                new ActionCommand(driveToPark.build()).alongWith(
-                        ScoringSampleCommand.ScoreHighSample()
-                        //robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK_AUTO)
-                        ),
+                new ActionCommand(driveToPark.build()),
+                robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK_AUTO),
+                new WaitCommand(50),
                 new InstantCommand(() -> robotInstance.mmSystems.scoringArm.CutPower())
         ).schedule();
     }
