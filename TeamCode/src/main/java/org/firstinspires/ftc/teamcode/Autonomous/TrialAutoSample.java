@@ -70,22 +70,22 @@ public class TrialAutoSample extends MMOpMode {
         // limelight update
 
         TrajectoryActionBuilder driveToFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-58.49, -45.7), Math.toRadians(246));
+                .strafeToSplineHeading(new Vector2d(-58, -44.7), Math.toRadians(246));
 
         TrajectoryActionBuilder midLimeLightFirst = driveToFirstSample.endTrajectory().fresh();
 
         TrajectoryActionBuilder driveToSecondSample = midLimeLightFirst.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-63.4, -49.3), Math.toRadians(258.9));
+                .strafeToLinearHeading(new Vector2d(-63, -48.3), Math.toRadians(258.9));
 
         TrajectoryActionBuilder midLimeLightSecond = driveToSecondSample.endTrajectory().fresh();
 
         TrajectoryActionBuilder driveToIntakeThird = midLimeLightSecond.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-50.8, -45), Math.toRadians(315));
+                .strafeToLinearHeading(new Vector2d(-50.3, -44), Math.toRadians(315));
 
         TrajectoryActionBuilder midLimeLightThird = driveToIntakeThird.endTrajectory().fresh();
 
         TrajectoryActionBuilder driveToScoreThird = midLimeLightThird.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-56, -56), Math.toRadians(225));
+                .strafeToLinearHeading(new Vector2d(-55.5, -55), Math.toRadians(225));
 
         TrajectoryActionBuilder driveToPark = driveToScoreThird.endTrajectory().fresh()
                 .setTangent(Math.toRadians(65))
