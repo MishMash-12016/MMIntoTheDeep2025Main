@@ -70,7 +70,7 @@ public class TrialAutoSample extends MMOpMode {
         // limelight update
 
         TrajectoryActionBuilder driveToFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-58.49, -47.7), Math.toRadians(246));
+                .strafeToSplineHeading(new Vector2d(-58.49, -45.7), Math.toRadians(246));
 
         TrajectoryActionBuilder midLimeLightFirst = driveToFirstSample.endTrajectory().fresh();
 
@@ -115,8 +115,8 @@ public class TrialAutoSample extends MMOpMode {
                         ScoringSampleCommand.ScoreHighSample(),
                         IntakeSampleCommand.prepareSampleIntake()),
                 limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightFirst),
-                new WaitCommand(3000),
-                new ActionCommand(driveToFirstSample.build()),
+//                new WaitCommand(3000),
+//                new ActionCommand(driveToFirstSample.build()),
                 new InstantCommand(() -> {
                     telemetry.addData("limelight info", LIMELIGHT_INFO);
                     LIMELIGHT_INFO = -1;
@@ -133,7 +133,7 @@ public class TrialAutoSample extends MMOpMode {
                 new ActionCommand(driveToSecondSample.build()).alongWith(
                         IntakeSampleCommand.prepareSampleIntake_Lime()),
                 limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightSecond).withTimeout(1500),
-                new ActionCommand(driveToSecondSample.build()),
+//                new ActionCommand(driveToSecondSample.build()),
                 new InstantCommand(() -> {
                     telemetry.addData("limelight info", LIMELIGHT_INFO);
                     LIMELIGHT_INFO = -1;
@@ -150,7 +150,7 @@ public class TrialAutoSample extends MMOpMode {
                 new ActionCommand(driveToIntakeThird.build()).alongWith(
                         IntakeSampleCommand.prepareSampleIntake_Lime()),
                 limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightThird).withTimeout(1500),
-                new ActionCommand(driveToIntakeThird.build()),
+//                new ActionCommand(driveToIntakeThird.build()),
                 new InstantCommand(() -> {
                     telemetry.addData("limelight info", LIMELIGHT_INFO);
                     LIMELIGHT_INFO = -1;

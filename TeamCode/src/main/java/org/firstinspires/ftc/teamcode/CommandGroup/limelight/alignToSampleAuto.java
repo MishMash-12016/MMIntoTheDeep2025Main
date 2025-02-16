@@ -59,7 +59,6 @@ public class alignToSampleAuto extends CommandBase {
         }
         else {
             noResultCounter++;
-
         }
     }
 
