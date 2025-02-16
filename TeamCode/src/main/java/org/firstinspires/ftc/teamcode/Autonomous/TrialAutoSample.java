@@ -112,17 +112,21 @@ public class TrialAutoSample extends MMOpMode {
                 //first
 
                 new ActionCommand(driveToFirstSample.build()).alongWith(
-                        ScoringSampleCommand.ScoreHighSample(),
-                        IntakeSampleCommand.prepareSampleIntake()),
+                        ScoringSampleCommand.ScoreHighSample()),
                 limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightFirst),
+
 //                new WaitCommand(3000),
 //                new ActionCommand(driveToFirstSample.build()),
-                new InstantCommand(() -> {
-                    telemetry.addData("limelight info", LIMELIGHT_INFO);
-                    LIMELIGHT_INFO = -1;
-                }),
+//                new InstantCommand(() -> {
+//                    telemetry.addData("limelight info", LIMELIGHT_INFO);
+//                    LIMELIGHT_INFO = -1;
+//                }),
                 new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening).alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)),
+                new ParallelCommandGroup(
+                    MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                    MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening).withTimeout(300),
+                new WaitCommand(400),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
                 ScoringSampleCommand.PrepareHighSample(),
@@ -130,16 +134,19 @@ public class TrialAutoSample extends MMOpMode {
                 ScoringSampleCommand.ScoreHighSample(),
 
                 //second
-                new ActionCommand(driveToSecondSample.build()).alongWith(
-                        IntakeSampleCommand.prepareSampleIntake_Lime()),
+                new ActionCommand(driveToSecondSample.build()),
                 limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightSecond).withTimeout(1500),
 //                new ActionCommand(driveToSecondSample.build()),
-                new InstantCommand(() -> {
-                    telemetry.addData("limelight info", LIMELIGHT_INFO);
-                    LIMELIGHT_INFO = -1;
-                }),
+//                new InstantCommand(() -> {
+//                    telemetry.addData("limelight info", LIMELIGHT_INFO);
+//                    LIMELIGHT_INFO = -1;
+//                }),
                 new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening).alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)),
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening).withTimeout(300),
+                new WaitCommand(400),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
                 ScoringSampleCommand.PrepareHighSample(),
@@ -147,20 +154,24 @@ public class TrialAutoSample extends MMOpMode {
                 ScoringSampleCommand.ScoreHighSample(),
 
                 //third
-                new ActionCommand(driveToIntakeThird.build()).alongWith(
-                        IntakeSampleCommand.prepareSampleIntake_Lime()),
+                new ActionCommand(driveToIntakeThird.build()),
                 limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightThird).withTimeout(1500),
 //                new ActionCommand(driveToIntakeThird.build()),
-                new InstantCommand(() -> {
-                    telemetry.addData("limelight info", LIMELIGHT_INFO);
-                    LIMELIGHT_INFO = -1;
-                }),
+//                new InstantCommand(() -> {
+//                    telemetry.addData("limelight info", LIMELIGHT_INFO);
+//                    LIMELIGHT_INFO = -1;
+//                }),
                 new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening).withTimeout(300),
+                new WaitCommand(400),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
-                new ActionCommand(driveToScoreThird.build()).alongWith(
-                        ScoringSampleCommand.PrepareHighSample()),
+                ScoringSampleCommand.PrepareHighSample(),
+                new WaitCommand(200),
+                ScoringSampleCommand.ScoreHighSample(),
 
                 //park
                 new ActionCommand(driveToPark.build()).alongWith(

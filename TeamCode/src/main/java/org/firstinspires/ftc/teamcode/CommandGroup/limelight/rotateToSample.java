@@ -36,17 +36,9 @@ public class rotateToSample extends CommandBase {
         return Math.sqrt((vector1.get(0) - vector2.get(0)) * (vector1.get(0) - vector2.get(0)) + (vector1.get(1) - vector2.get(1)) * (vector1.get(1) - vector2.get(1)));
     }
 
-    public double getAngle(Limelight3A limelight, LLResultTypes.DetectorResult result) {
-        List<List<Double>> corners = result.getTargetCorners();
-        List<Double> cornerUpLeft = corners.get(0);
-        List<Double> cornerUpRight = corners.get(1);
-        List<Double> cornerDownLeft = corners.get(3);
-        Double height = calculate_distance_vectors(cornerUpLeft, cornerDownLeft) * 1.5;
-        Double width = calculate_distance_vectors(cornerUpLeft, cornerUpRight) * 1.5;
+    public double getAngle(Limelight3A limelight) {
 
         //crop_x, crop_y, crop_width, crop_height = llrobot[0:4] first 4 to send
-        double[] inputsPython = {cornerUpLeft.get(0) - 50, cornerUpLeft.get(1) - 50, width, height};
-        limelight.updatePythonInputs(inputsPython);
         double angle = oldAngle;
 
         while (angle == oldAngle) {
@@ -71,7 +63,7 @@ public class rotateToSample extends CommandBase {
             LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
 
             limelight.pipelineSwitch(1);
-            double angle = getAngle(limelight, dr);
+            double angle = getAngle(limelight);
             limelight.pipelineSwitch(0);
 
             angle = angle + 90;

@@ -36,7 +36,6 @@ public class IntakeSampleCommand {
     }
     public static Command prepareSampleIntake() {
         return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
         );
