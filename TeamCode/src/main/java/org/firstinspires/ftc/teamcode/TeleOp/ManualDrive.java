@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -9,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSpecimenCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
@@ -50,10 +52,10 @@ public class ManualDrive extends MMOpMode {
 
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed( //specimen
-                IntakeSpecimenCommand.PrepareSpecimenIntake().alongWith(
-                        new InstantCommand(()-> Specimenintake= true)
+                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake().alongWith(
+                        new InstantCommand(()-> Specimenintake = true)
                 )
-        );
+        , true);
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
                 new ConditionalCommand(
                         IntakeSpecimenCommand.SpecimenIntake(),IntakeSampleCommand.SampleIntake(),()-> Specimenintake
@@ -62,7 +64,7 @@ public class ManualDrive extends MMOpMode {
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05) //slow mode
                 .whenActive(
                         new ConditionalCommand(
-                                ScoringSpecimenCommand.SpecimenScore(),ScoringSampleCommand.PrepareHighSample(),()-> Specimenintake
+                                AutoSpecimensCommand.SpecimenScorePreLoad(),ScoringSampleCommand.PrepareHighSample(),()-> Specimenintake
                         )
                 );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(

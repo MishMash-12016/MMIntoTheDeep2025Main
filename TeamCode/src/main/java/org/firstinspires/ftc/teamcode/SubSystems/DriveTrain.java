@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -134,5 +135,13 @@ public class DriveTrain extends SubsystemBase {
         FtcDashboard.getInstance().getTelemetry().update();
     }
 
+    public Command stop() {
+        return new InstantCommand(() -> {
+            motorBL.setPower(0);
+            motorBR.setPower(0);
+            motorFL.setPower(0);
+            motorFR.setPower(0);
+        });
+    }
 }
 

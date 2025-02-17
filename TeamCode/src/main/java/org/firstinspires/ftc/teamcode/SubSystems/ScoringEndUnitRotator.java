@@ -31,8 +31,8 @@ public class ScoringEndUnitRotator extends SubsystemBase {
     CuttleServo servo;
 
     public ScoringEndUnitRotator(){
-        //servo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Outake angle");
         servo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_ROTATOR_SERVO);
+        //servo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Outake angle");
         servo.setPosition(ScoringRotatorState.TRANSFER_POSE.position);
     }
 
