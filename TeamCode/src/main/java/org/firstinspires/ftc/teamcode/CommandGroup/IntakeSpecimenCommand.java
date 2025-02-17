@@ -36,7 +36,7 @@ public class IntakeSpecimenCommand {
         return new SequentialCommandGroup(
                 PrepareSystemsSpecimenIntake(),
                 new WaitCommand(200),
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 3.8),//3.8
+                //new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 3.8),//3.8
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE)),//make sure your their
