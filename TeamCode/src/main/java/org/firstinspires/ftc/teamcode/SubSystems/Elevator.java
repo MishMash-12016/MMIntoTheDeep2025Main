@@ -118,11 +118,11 @@ public class Elevator extends MMPIDSubsystem {
 
     public Command ElevatorGetToZero() {
         return new SequentialCommandGroup(
-                moveToPose(ElevatorState.ELEVATOR_DOWN),
-                new InstantCommand(() -> setPower(-0.5)),
-                new WaitUntilCommand(this::getElevatorSwitchState),
-                new InstantCommand(() -> setTicks(0)),
-                new InstantCommand(() -> setPower(0.0))
+                moveToPose(ElevatorState.ELEVATOR_DOWN)
+//                new InstantCommand(() -> setPower(-0.5)),
+//                new WaitUntilCommand(this::getElevatorSwitchState),
+//                new InstantCommand(() -> setTicks(0)),
+//                new InstantCommand(() -> setPower(0.0))
         );
     }
 
