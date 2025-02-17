@@ -10,14 +10,13 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 public class ScoringArm extends SubsystemBase {
     public enum ScoringArmState {
         TRANSFER_POSE(0.715),
+        SAMPLE_TRANSFER_POSE(0.74),
         PARK_AUTO(0.34),
         INIT_POSE(0.72),
         PREPARE_TRANSFER(0.63),
         MID_POSE(0.43),
         SCORE_SPECIMEN(0.34),
-        TRANSFER_SPECIMEN_POSE(0.72),
-        SCORE_SAMPLE(0.26),
-        PREPARE_SCORE_SAMPLE(0.29);
+        SCORE_SAMPLE(0.26);
         public double position;
         ScoringArmState(double position){
             this.position = position;
