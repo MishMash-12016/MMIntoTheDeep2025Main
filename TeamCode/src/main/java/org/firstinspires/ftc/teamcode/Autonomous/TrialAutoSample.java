@@ -69,59 +69,65 @@ public class TrialAutoSample extends MMOpMode {
 
         // limelight update
 
-        TrajectoryActionBuilder driveToFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-58, -44.7), Math.toRadians(246));
+        TrajectoryActionBuilder driveToIntakeFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
+                .strafeToSplineHeading(new Vector2d(-58.4, -46.3), Math.toRadians(-112.3));
+        TrajectoryActionBuilder driveToScoreFirstSample = driveToIntakeFirstSample.endTrajectory().fresh()
+                .strafeToLinearHeading(new Vector2d(-59.1, -52), Math.toRadians(-112.3));
 
-        TrajectoryActionBuilder midLimeLightFirst = driveToFirstSample.endTrajectory().fresh();
+        TrajectoryActionBuilder midLimeLightFirst = driveToScoreFirstSample.endTrajectory().fresh();
 
         TrajectoryActionBuilder driveToSecondSample = midLimeLightFirst.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-63, -48.3), Math.toRadians(258.9));
+                .strafeToLinearHeading(new Vector2d(-62.4, -48), Math.toRadians(-102.56));
 
         TrajectoryActionBuilder midLimeLightSecond = driveToSecondSample.endTrajectory().fresh();
 
         TrajectoryActionBuilder driveToIntakeThird = midLimeLightSecond.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-50.3, -44), Math.toRadians(315));
+                .strafeToLinearHeading(new Vector2d(-62, -45.78), Math.toRadians(-75.16));
 
         TrajectoryActionBuilder midLimeLightThird = driveToIntakeThird.endTrajectory().fresh();
 
         TrajectoryActionBuilder driveToScoreThird = midLimeLightThird.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-55.5, -55), Math.toRadians(225));
+                .strafeToLinearHeading(new Vector2d(-64.9, -49), Math.toRadians(-100.67));
 
         TrajectoryActionBuilder driveToPark = driveToScoreThird.endTrajectory().fresh()
-                .setTangent(Math.toRadians(65))
+                .setTangent(Math.toRadians(67))
                 .splineToLinearHeading(new Pose2d(-24, -10, Math.toRadians(0)), Math.toRadians(0));
 
         new SequentialCommandGroup(
                 new InstantCommand(),
                 //pre-load
+                new ActionCommand(driveToScorePreloadSample.build()),
                 new ParallelCommandGroup(
-                        new ActionCommand(driveToScorePreloadSample.build()),
-                        new SequentialCommandGroup(
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE)
-                                ),
-                                new WaitCommand(200),
-                                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET), //the height of the high basket
-                                new WaitCommand(100),
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SAMPLE)
-                        )
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE)
                 ),
+                new WaitCommand(200),
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET), //the height of the high basket
+                new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SAMPLE),
+                new WaitCommand(200),
+                ScoringSampleCommand.ScoreHighSample(),
 
 
                 //first
+                new ActionCommand(driveToIntakeFirstSample.build()).alongWith(
+                        new WaitCommand(700).andThen(
+                                IntakeSampleCommand.prepareSampleIntake(),
+                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.4)
+                        )
+                ),
+                new WaitCommand(100),
+                IntakeSampleCommand.SampleIntake(),
+                new WaitCommand(200),
+                new ActionCommand(driveToScoreFirstSample.build()),
+                ScoringSampleCommand.PrepareHighSample(),
+                new WaitCommand(200),
+                ScoringSampleCommand.ScoreHighSample(),
 
-                new ActionCommand(driveToFirstSample.build()).alongWith(
-                        ScoringSampleCommand.ScoreHighSample()),
                 limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightFirst),
-
-//                new WaitCommand(3000),
-//                new ActionCommand(driveToFirstSample.build()),
-//                new InstantCommand(() -> {
-//                    telemetry.addData("limelight info", LIMELIGHT_INFO);
-//                    LIMELIGHT_INFO = -1;
-//                }),
                 new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
+
+//-------
                 new ParallelCommandGroup(
                     MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                     MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()),
