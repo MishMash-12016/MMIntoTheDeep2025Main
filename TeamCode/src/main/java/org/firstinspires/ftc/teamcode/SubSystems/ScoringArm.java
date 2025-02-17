@@ -16,7 +16,8 @@ public class ScoringArm extends SubsystemBase {
         PREPARE_TRANSFER(0.63),
         MID_POSE(0.43),
         SCORE_SPECIMEN(0.34),
-        SCORE_SAMPLE(0.26);
+        SCORE_SAMPLE(0.26),
+        PREPARE_SCORE_SAMPLE(0.29);
         public double position;
         ScoringArmState(double position){
             this.position = position;

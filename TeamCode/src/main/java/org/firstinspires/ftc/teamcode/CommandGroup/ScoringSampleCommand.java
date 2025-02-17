@@ -52,18 +52,18 @@ public class ScoringSampleCommand {
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
                 ,
                 new WaitCommand(200),
-                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
-//                new WaitCommand(100),
-//                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-//                new WaitCommand(100),
-//                new ParallelCommandGroup(
-//                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE),
-//                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORE_SAMPLE_POSE)
-//                ),
-//                new WaitCommand(100),
-//                MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET), //the height of the high basket
-//                new WaitCommand(100),
-//                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_SCORE_SAMPLE)
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                new WaitCommand(100),
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORE_SAMPLE_POSE)
+                ),
+                new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET), //the height of the high basket
+                new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_SCORE_SAMPLE)
         );
     }
     public static Command PrepareLowSample(){
