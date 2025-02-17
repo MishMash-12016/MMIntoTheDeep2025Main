@@ -52,17 +52,17 @@ public class TrialAutoSample extends MMOpMode {
                 .strafeToLinearHeading(new Vector2d(-48, -65.5), Math.toRadians(180));
 
         TrajectoryActionBuilder driveToIntakeFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-58, -47), Math.toRadians(247));
+                .strafeToSplineHeading(new Vector2d(-58.4, -46.3), Math.toRadians(-112.3));
         TrajectoryActionBuilder driveToScoreFirstSample =  driveToIntakeFirstSample.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-59, -49.4), Math.toRadians(247));
+                .strafeToLinearHeading(new Vector2d(-59.1, -52), Math.toRadians(-112.3));
 
         TrajectoryActionBuilder driveToSecondSample = driveToScoreFirstSample.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-62.8, -48.4), Math.toRadians(259.7));
+                .strafeToLinearHeading(new Vector2d(-62.4, -48), Math.toRadians(-102.56));
 
         TrajectoryActionBuilder driveToIntakeThird = driveToSecondSample.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-58, -46.5), Math.toRadians(295.8));
+                .strafeToLinearHeading(new Vector2d(-62, -45.78), Math.toRadians(-75.16));
         TrajectoryActionBuilder driveToScoreThird = driveToIntakeThird.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-59.7, -51), Math.toRadians(247));
+                .strafeToLinearHeading(new Vector2d(-64.9, -49), Math.toRadians(-100.67));
 
         TrajectoryActionBuilder driveToPark = driveToScoreThird.endTrajectory().fresh()
                 .setTangent(Math.toRadians(67))
@@ -86,7 +86,11 @@ public class TrialAutoSample extends MMOpMode {
 
                 //first
                 new ActionCommand(driveToIntakeFirstSample.build()).alongWith(
-                        IntakeSampleCommand.prepareSampleIntake()),
+                        new WaitCommand(700).andThen(
+                                IntakeSampleCommand.prepareSampleIntake(),
+                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.4)
+                        )
+                ),
                 new WaitCommand(100),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
@@ -97,7 +101,9 @@ public class TrialAutoSample extends MMOpMode {
 
                 //second
                 new ActionCommand(driveToSecondSample.build()).alongWith(
-                        IntakeSampleCommand.prepareSampleIntake()),
+                        IntakeSampleCommand.prepareSampleIntake(),
+                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.35)
+                ),
                 new WaitCommand(100),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
@@ -107,7 +113,9 @@ public class TrialAutoSample extends MMOpMode {
 
                 //third
                 new ActionCommand(driveToIntakeThird.build()).alongWith(
-                        IntakeSampleCommand.prepareSampleIntake()),
+                        IntakeSampleCommand.prepareSampleIntake(),
+                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.25)
+                ),
                 new WaitCommand(100),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
@@ -120,7 +128,7 @@ public class TrialAutoSample extends MMOpMode {
                 //park
                 new ActionCommand(driveToPark.build()),
                 robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK_AUTO),
-                new WaitCommand(50),
+                new WaitCommand(400),
                 new InstantCommand(() -> robotInstance.mmSystems.scoringArm.CutPower())
         ).schedule();
     }
@@ -129,19 +137,10 @@ public class TrialAutoSample extends MMOpMode {
     public void run() {
         super.run();
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
-        telemetry.addData("linear", MMRobot.getInstance().mmSystems.linearIntake.getPosition());
         telemetry.update();
         FtcDashboard.getInstance().getTelemetry().update();
     }
 
-    public Command setupForPushing() {
-        return new ParallelCommandGroup(
-                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
-                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
-                robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)
-        );
-    }
 
 
 }
