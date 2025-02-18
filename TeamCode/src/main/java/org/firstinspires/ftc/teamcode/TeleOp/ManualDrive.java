@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.ScoreSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
@@ -64,7 +65,7 @@ public class ManualDrive extends MMOpMode {
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05) //slow mode
                 .whenActive(
                         new ConditionalCommand(
-                                AutoSpecimensCommand.SpecimenScorePreLoad(),ScoringSampleCommand.PrepareHighSample(),()-> Specimenintake
+                                ScoreSpecimenCommand.SpecimenScore(),ScoringSampleCommand.PrepareHighSample(),()-> Specimenintake
                         )
                 );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
@@ -103,10 +104,12 @@ public class ManualDrive extends MMOpMode {
         MMRobot.getInstance().mmSystems.elevator.updateToDashboard();
         mmSystems.driveTrain.updateTelemetry();
        mmSystems.driveTrain.updateTelemetry();
-        telemetry.addData("targertpose", mmSystems.elevator.targetPose);
-        telemetry.addData("ticks - ", mmSystems.elevator.getTicks());
+       telemetry.addData("switch state", mmSystems.elevator.getElevatorSwitchState());
+        telemetry.addData("target pose", mmSystems.elevator.targetPose);
+        telemetry.addData("ticks", mmSystems.elevator.getTicks());
         telemetry.addData("height", mmSystems.elevator.getHeight());
 //        telemetry.addData("dis - ", MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance());
+        telemetry.addData("power", MMRobot.getInstance().mmSystems.elevator.getPower());
         telemetry.update();
 
 

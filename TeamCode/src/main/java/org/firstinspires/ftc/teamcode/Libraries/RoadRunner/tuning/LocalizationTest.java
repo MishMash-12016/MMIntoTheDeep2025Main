@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.*;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.Drawing;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 
-@TeleOp
 public class LocalizationTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

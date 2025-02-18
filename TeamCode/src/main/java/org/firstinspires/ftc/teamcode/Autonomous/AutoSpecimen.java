@@ -164,6 +164,7 @@ public class AutoSpecimen extends MMOpMode {
                                 robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
                                 setupForPushing())),
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
+                new WaitCommand(200),
 
 
 

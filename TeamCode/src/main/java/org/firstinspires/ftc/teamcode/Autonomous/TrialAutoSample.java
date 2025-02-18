@@ -107,17 +107,16 @@ public class TrialAutoSample extends MMOpMode {
                                 new WaitCommand(200),
                                 MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET), //the height of the high basket
                                 new WaitCommand(100),
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SAMPLE)
+                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SAMPLE).andThen(
+                                        new WaitCommand(800),
+                                        ScoringSampleCommand.ScoreHighSample())
                         )
                 ),
 
 
                 //first
                 new ActionCommand(driveToFirstSample.build()).alongWith(
-                        new WaitCommand(700).andThen(
-                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.4).andThen(
-                                        ScoringSampleCommand.ScoreHighSample())
-                        )
+                        new WaitCommand(700)
                 ),
                 limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightFirst),
                 new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
@@ -130,7 +129,7 @@ public class TrialAutoSample extends MMOpMode {
                 new WaitCommand(200),
                 new ActionCommand(driveToScoreFirst.build()),
                 ScoringSampleCommand.PrepareHighSample(),
-                new WaitCommand(200),
+                new WaitCommand(800),
                 ScoringSampleCommand.ScoreHighSample(),
 
                 //second
@@ -146,8 +145,8 @@ public class TrialAutoSample extends MMOpMode {
                 new WaitCommand(400),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
-                ScoringSampleCommand.PrepareHighSample(),
-                new WaitCommand(200),
+                new ActionCommand(driveToSecondSample.build()).alongWith(ScoringSampleCommand.PrepareHighSample()),
+                new WaitCommand(800),
                 ScoringSampleCommand.ScoreHighSample(),
 
                 //third
@@ -164,12 +163,13 @@ public class TrialAutoSample extends MMOpMode {
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()),
+                new WaitCommand(500),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening).withTimeout(300),
                 new WaitCommand(400),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
                 new ActionCommand(driveToScoreThird.build()).alongWith(ScoringSampleCommand.PrepareHighSample()),
-                new WaitCommand(200),
+                new WaitCommand(800),
                 ScoringSampleCommand.ScoreHighSample(),
 
                 //park

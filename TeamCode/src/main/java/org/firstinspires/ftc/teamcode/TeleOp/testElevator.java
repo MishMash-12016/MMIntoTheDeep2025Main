@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
-@TeleOp
+//@TeleOp
 public class testElevator extends MMOpMode {
     MMRobot robotInstance;
     MMSystems mmSystems;

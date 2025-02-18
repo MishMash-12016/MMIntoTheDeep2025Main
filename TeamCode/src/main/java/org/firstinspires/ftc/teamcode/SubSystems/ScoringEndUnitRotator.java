@@ -19,7 +19,7 @@ public class ScoringEndUnitRotator extends SubsystemBase {
     public enum ScoringRotatorState {
         TRANSFER_POSE(0.585),
         TRANSFER_SAMPLE_POSE(0.585),
-        SCORE_SAMPLE_POSE(0.15),
+        SCORE_SAMPLE_POSE(0.3),
         MID_POSE_SPECIMEN(0.7),
         SCORE_SPECIMEN_POSE(0.5);
 

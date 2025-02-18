@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
-@TeleOp(name = "LimeLightTeleOp", group = "Sensor")
+//@TeleOp(name = "LimeLightTeleOp", group = "Sensor")
 public class LimeLightTeleOp extends MMOpMode {
     private Limelight3A limelight;
 

@@ -23,6 +23,7 @@ public class AutoSpecimensCommand {
                         new WaitCommand(200).andThen(MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORE_SPECIMEN_POSE)))
         );
     }
+
     public static Command SpecimenIntakeAuto() {
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(

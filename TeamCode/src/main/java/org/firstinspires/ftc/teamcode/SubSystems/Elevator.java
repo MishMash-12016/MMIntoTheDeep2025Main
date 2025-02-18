@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -126,6 +127,17 @@ public class Elevator extends MMPIDSubsystem {
         );
     }
 
+    public Command ElevatorGetToZeroSensor() {
+        return new SequentialCommandGroup(
+                moveToPose(ElevatorState.ELEVATOR_DOWN),
+                new InstantCommand(() -> setPower(-0.5)),
+                new WaitUntilCommand(this::getElevatorSwitchState),
+                new WaitCommand(200),
+                new InstantCommand(() -> setTicks(1)),
+                new InstantCommand(() -> setPower(0.0))
+        );
+    }
+
     @Override
     public void setPower(Double power) {
         if (targetPose == ElevatorState.ELEVATOR_DOWN.position && power > 0.4) {
@@ -138,7 +150,9 @@ public class Elevator extends MMPIDSubsystem {
         motor1.setPower(power);
         motor2.setPower(power);
         motor3.setPower(power);
+
     }
+
 
 
     public double getTicks() {
@@ -193,5 +207,8 @@ public class Elevator extends MMPIDSubsystem {
 
         FtcDashboard.getInstance().getTelemetry().update();
 
+    }
+    public String getPower() {
+        return  String.format("1:%s\n2:%s\n3:%s",motor1.getPower(), motor2.getPower(), motor3.getPower());
     }
 }
