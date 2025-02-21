@@ -75,7 +75,7 @@ public class AutoSpecimen extends MMOpMode {
         //Score pre-load
         TrajectoryActionBuilder driveToScorePreloadSpecimen = drive.actionBuilder(currentPose)
                 .setTangent(90)
-                .strafeToLinearHeading(new Vector2d(5.5, -31), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                .strafeToLinearHeading(new Vector2d(5.5, -33), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel*1.2));
 
 /*
      -----------------------
@@ -85,7 +85,7 @@ public class AutoSpecimen extends MMOpMode {
         //Push first specimen
         TrajectoryActionBuilder driveToPush1 = driveToScorePreloadSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .strafeToLinearHeading(new Vector2d(5.5, -33), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(5.5, -36), Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(31, -38, Math.toRadians(235)), Math.toRadians(0));
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(290))
@@ -159,7 +159,7 @@ public class AutoSpecimen extends MMOpMode {
 
                 new ParallelCommandGroup(
                         new ActionCommand(driveToPush1.build()),
-                        new WaitCommand(600).andThen(
+                        new WaitCommand(250).andThen(
                                 robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),
                                 robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_POSE),
                                 robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
