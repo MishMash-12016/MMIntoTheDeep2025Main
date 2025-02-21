@@ -50,7 +50,7 @@ public class IntakeSampleCommand {
     public static Command SampleIntake() {
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                        //MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
                         MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE),
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()

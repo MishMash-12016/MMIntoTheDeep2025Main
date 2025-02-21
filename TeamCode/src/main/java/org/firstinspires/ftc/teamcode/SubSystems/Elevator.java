@@ -130,8 +130,8 @@ public class Elevator extends MMPIDSubsystem {
     public Command ElevatorGetToZeroSensor() {
         return new SequentialCommandGroup(
                 moveToPose(ElevatorState.ELEVATOR_DOWN),
-                new InstantCommand(() -> setPower(-0.5)),
-                new WaitUntilCommand(this::getElevatorSwitchState),
+                new InstantCommand(() -> setPower(-0.3)),
+                new WaitUntilCommand(this::getElevatorSwitchState).withTimeout(1000),
                 new WaitCommand(200),
                 new InstantCommand(() -> setTicks(1)),
                 new InstantCommand(() -> setPower(0.0))
