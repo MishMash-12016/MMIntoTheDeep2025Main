@@ -52,7 +52,7 @@ public class alignToSampleAuto extends CommandBase {
             noResultCounter = 0;
             List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
             LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
-            TrialAutoSample.LIMELIGHT_TURN = previousAction.turn(-Math.toRadians(dr.getTargetXDegrees()));
+            TrialAutoSample.LIMELIGHT_TURN = previousAction.turn(Math.toRadians(-dr.getTargetXDegrees()));
             TrialAutoSample.LIMELIGHT_INFO = -dr.getTargetXDegrees();
             MMRobot.getInstance().mmSystems.telemetry.addData("dr",-dr.getTargetXDegrees());
             finished = true;

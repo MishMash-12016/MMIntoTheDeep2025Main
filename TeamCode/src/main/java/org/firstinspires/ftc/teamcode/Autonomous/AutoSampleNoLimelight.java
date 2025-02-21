@@ -64,7 +64,7 @@ public class AutoSampleNoLimelight extends MMOpMode {
         TrajectoryActionBuilder driveToIntakeThird = driveToSecondSample.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-62.5, -46.28), Math.toRadians(-75.16));
         TrajectoryActionBuilder driveToScoreThird = driveToIntakeThird.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-64.9, -49), Math.toRadians(-130.67));
+                .strafeToLinearHeading(new Vector2d(-64.9, -49), Math.toRadians(-100.67));
 
         TrajectoryActionBuilder driveToPark = driveToScoreThird.endTrajectory().fresh()
                 .setTangent(Math.toRadians(67))
@@ -97,6 +97,9 @@ public class AutoSampleNoLimelight extends MMOpMode {
                 new WaitCommand(100),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
+
+
+
                 new ActionCommand(driveToScoreFirstSample.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample()
                 ),
