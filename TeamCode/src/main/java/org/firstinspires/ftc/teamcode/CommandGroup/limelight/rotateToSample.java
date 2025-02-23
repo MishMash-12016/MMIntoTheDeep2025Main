@@ -42,8 +42,11 @@ public class rotateToSample extends CommandBase {
         double angle = oldAngle;
 
         while (angle == oldAngle) {
+            long startTime = System.currentTimeMillis();
             double[] outputPython = limelight.getLatestResult().getPythonOutput();
             angle = outputPython[0];
+            MMRobot.getInstance().mmSystems.telemetry.addData("looking for angle, loop time", System.currentTimeMillis());
+            MMRobot.getInstance().mmSystems.telemetry.update();
         }
         //        MMRobot.getInstance().mmSystems.telemetry.addData("width - ",width);
         //        MMRobot.getInstance().mmSystems.telemetry.addData("height -  ",height);
