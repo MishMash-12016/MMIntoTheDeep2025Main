@@ -18,11 +18,13 @@ public class rotateToSample extends CommandBase {
 
 
     public double oldAngle;
+    public boolean finished;
 
     public rotateToSample(Limelight3A limelight) {
         this.limelight = limelight;
         addRequirements(
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator);
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator
+        );
     }
 
     @Override
@@ -30,6 +32,8 @@ public class rotateToSample extends CommandBase {
         noResultCounter = 0;
         result = null;
         oldAngle = 0;
+        limelight.pipelineSwitch(1);
+        finished = false;
     }
 
     public Double calculate_distance_vectors(List<Double> vector1, List<Double> vector2) {
@@ -45,7 +49,7 @@ public class rotateToSample extends CommandBase {
             long startTime = System.currentTimeMillis();
             double[] outputPython = limelight.getLatestResult().getPythonOutput();
             angle = outputPython[0];
-            MMRobot.getInstance().mmSystems.telemetry.addData("looking for angle, loop time", System.currentTimeMillis());
+            MMRobot.getInstance().mmSystems.telemetry.addData("looking for angle, loop time", startTime-System.currentTimeMillis());
             MMRobot.getInstance().mmSystems.telemetry.update();
         }
         //        MMRobot.getInstance().mmSystems.telemetry.addData("width - ",width);
@@ -61,25 +65,19 @@ public class rotateToSample extends CommandBase {
     @Override
     public void execute() {
         result = limelight.getLatestResult();
-        if (result != null && result.isValid()) {
-            List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
-            LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
-
-            limelight.pipelineSwitch(1);
+        MMRobot.getInstance().mmSystems.telemetry.addData("start execute",0);
+            MMRobot.getInstance().mmSystems.telemetry.addData("entered if",0);
             double angle = getAngle(limelight);
-            limelight.pipelineSwitch(0);
 
             angle = angle + 90;
             double angleInServoDegrees = angle / 270;
 
             MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angleInServoDegrees);
-        } else {
-            noResultCounter++;
-        }
+            finished = true;
     }
 
     @Override
     public boolean isFinished() {
-        return noResultCounter > 5 || result != null;
+        return finished;
     }
 }

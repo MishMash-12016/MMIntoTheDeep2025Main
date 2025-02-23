@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -12,13 +13,13 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
-//@TeleOp(name = "LimeLightTeleOp", group = "Sensor")
+@TeleOp(name = "LimeLightTeleOp", group = "Sensor")
 public class LimeLightTeleOp extends MMOpMode {
     private Limelight3A limelight;
 
 
     public LimeLightTeleOp() {
-        super(OpModeType.NonCompetition.EXPERIMENTING);
+        super(OpModeType.NonCompetition.EXPERIMENTING_NO_EXPANSION);
     }
 
     @Override
@@ -29,28 +30,20 @@ public class LimeLightTeleOp extends MMOpMode {
         limelight.setPollRateHz(100);
         telemetry.setMsTransmissionInterval(1);
 
-        limelight.pipelineSwitch(0);
-
         limelight.start();
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new SequentialCommandGroup(
-                        limelightGetter.getAlignToSample(limelight),
-                        limelightGetter.getOpenLinearToSample(limelight)
-                )
+                    limelightGetter.getRotateToSample(limelight)
         );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(0),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(0)
-                )
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0)
         );
     }
 
     @Override
     public void run() {
         super.run();
-        MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
+        MMRobot.getInstance().mmSystems.controlHub.pullBulkData();
 
         telemetry.update();
     }
