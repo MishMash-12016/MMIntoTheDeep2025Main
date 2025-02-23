@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
@@ -37,10 +36,6 @@ public class TrialAutoSample extends MMOpMode {
     public static TrajectoryActionBuilder LIMELIGHT_TURN = null;
 
     MMRobot robotInstance;
-
-    final double halfOpenClaw = 0.7;
-    final double rotator = 0;
-    final double intakeArmPose = 0.59;
     Limelight3A limelight;
 
 
@@ -111,25 +106,24 @@ public class TrialAutoSample extends MMOpMode {
                         new SequentialCommandGroup(
                                 new ParallelCommandGroup(
                                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE)
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE),
+                                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET)
                                 ),
-                                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET), //the height of the high basket
                                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SAMPLE)
                         )
                 ),
 
-                new WaitCommand(300),
-
-
-                //first
-                new ActionCommand(driveToIntakeFirstSample.build()).alongWith(
-                        ScoreHighSample()
+                new ParallelCommandGroup(
+                        new ActionCommand(driveToIntakeFirstSample.build()),
+                        new WaitCommand(300).andThen(
+                                ScoreHighSample()
+                        )
                 ),
 
                 limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightFirst),
-                new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
 
                 new ParallelCommandGroup(
+                        new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
                         prepareSampleIntake(),
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.4)
                 ),
@@ -149,18 +143,19 @@ public class TrialAutoSample extends MMOpMode {
                 //second
 
                 limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightSecond).withTimeout(1500),
-                new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
 
                 new ParallelCommandGroup(
+                        new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
                         prepareSampleIntake(),
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.35)
                 ),
-
                 new WaitCommand(100),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
+
                 new ActionCommand(driveToSecondSample.build()).alongWith(
-                        ScoringSampleCommand.PrepareHighSample()),
+                        ScoringSampleCommand.PrepareHighSample()
+                ),
                 new WaitCommand(200),
                 ScoreHighSample().alongWith(
                         new WaitCommand(200).andThen(new ActionCommand(driveToIntakeThird.build())),
@@ -174,14 +169,9 @@ public class TrialAutoSample extends MMOpMode {
                 new ActionCommand(driveToScoreThird.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample()),
                 new WaitCommand(200),
-                ScoreHighSample(),
-                new WaitCommand(200),
+                ScoreHighSample().alongWith(new ActionCommand(driveToIntakeForth.build())),
 
-                //forth
-
-                new ActionCommand(driveToIntakeForth.build()),
-
-                limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightForth).withTimeout(1500),
+                limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightForth).withTimeout(5000),
                 new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
 
                 prepareSampleIntake(),
@@ -193,13 +183,9 @@ public class TrialAutoSample extends MMOpMode {
                         ScoringSampleCommand.PrepareHighSample()
                 ),
                 new WaitCommand(200),
-                ScoreHighSample(),
-                new WaitCommand(200),
-
-                //park
-                new ActionCommand(driveToPark.build()),
+                ScoreHighSample().alongWith(new ActionCommand(driveToPark.build())),
                 robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK_AUTO),
-                new WaitCommand(400),
+                new WaitCommand(300),
                 new InstantCommand(() -> robotInstance.mmSystems.scoringArm.CutPower())
         ).schedule();
     }
@@ -208,7 +194,6 @@ public class TrialAutoSample extends MMOpMode {
     public void run() {
         super.run();
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
-//        telemetry.addData("linear", MMRobot.getInstance().mmSystems.linearIntake.getPosition());
         telemetry.update();
         FtcDashboard.getInstance().getTelemetry().update();
     }
