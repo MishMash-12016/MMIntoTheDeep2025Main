@@ -31,6 +31,7 @@ public class Elevator extends MMPIDSubsystem {
     private final CuttleMotor motor1;
     private final CuttleMotor motor2;
     private final CuttleMotor motor3;
+    private final CuttleMotor motor4;
     public final CuttleEncoder motorEncoder;
     public final CuttleDigital elevatorSwitch;
 
@@ -55,7 +56,7 @@ public class Elevator extends MMPIDSubsystem {
     public enum ElevatorState {
 
         //65
-        LOW_BASKET(30), HIGH_BASKET(100), ELEVATOR_DOWN(1); //58
+        LOW_BASKET(70), HIGH_BASKET(100), ELEVATOR_DOWN(1); //58
 
         public double position;
 
@@ -76,7 +77,7 @@ public class Elevator extends MMPIDSubsystem {
         motor1 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR1);
         motor2 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR2);
         motor3 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR3);
-
+        motor4 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR4);
 
         elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
 
@@ -84,10 +85,12 @@ public class Elevator extends MMPIDSubsystem {
         this.motor1.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motor2.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motor3.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motor4.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motor1.setDirection(Direction.REVERSE);
         motor2.setDirection(Direction.REVERSE);
         motor3.setDirection(Direction.REVERSE);
+        motor4.setDirection(Direction.REVERSE);
 
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
 //        motorEncoder.setDirection(Direction.REVERSE);
@@ -150,6 +153,7 @@ public class Elevator extends MMPIDSubsystem {
         motor1.setPower(power);
         motor2.setPower(power);
         motor3.setPower(power);
+        motor4.setPower(power);
 
     }
 
@@ -209,6 +213,6 @@ public class Elevator extends MMPIDSubsystem {
 
     }
     public String getPower() {
-        return  String.format("1:%s\n2:%s\n3:%s",motor1.getPower(), motor2.getPower(), motor3.getPower());
+        return  String.format("1:%s\n2:%s\n3:%s",motor1.getPower(), motor2.getPower(), motor3.getPower(), motor4.getPower());
     }
 }

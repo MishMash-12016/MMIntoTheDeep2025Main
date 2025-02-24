@@ -7,9 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
+import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
-//@TeleOp
+@TeleOp
 public class testElevator extends MMOpMode {
     MMRobot robotInstance;
     MMSystems mmSystems;
@@ -25,7 +26,7 @@ public class testElevator extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         mmSystems = robotInstance.mmSystems;
 
-        mmSystems.elevator.setDefaultCommand(new RunCommand(()->{},mmSystems.elevator));
+        //mmSystems.elevator.setDefaultCommand(new RunCommand(()->{},mmSystems.elevator));
 
 
         robotInstance.mmSystems.initRobotSystems();
@@ -34,6 +35,16 @@ public class testElevator extends MMOpMode {
         robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whileHeld(
                 ()->mmSystems.elevator.setPower(1.0)
         ).whenReleased(()->mmSystems.elevator.setPower(0.0));
+
+        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                mmSystems.elevator.moveToPose(Elevator.ElevatorState.LOW_BASKET)
+        );
+        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                mmSystems.elevator.moveToPose(Elevator.ElevatorState.LOW_BASKET)
+        );
+        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                mmSystems.elevator.ElevatorGetToZeroSensor()
+        );
 
     }
 

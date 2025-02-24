@@ -47,7 +47,7 @@ public class Configuration {
     //Linear Intake End Unit Rotator:
     public static final int LINEAR_END_UNIT_ROTATOR = 0;
 
-    public static final int CLAW_INTAKE_SERVO = 4;
+//    public static final int CLAW_INTAKE_SERVO = 4;
 
     //Linear Intake Arm:
     public static final int INTAKE_ARM_SERVO_RIGHT = 5;
@@ -70,6 +70,7 @@ public class Configuration {
     public static final int ELEVATOR1 = 0;
     public static final int ELEVATOR2 = 1;
     public static final int ELEVATOR3 = 2;
+    public static final int ELEVATOR4 = 3;
 
     public static final int ELEVATOR_ENCODER = 2;
 

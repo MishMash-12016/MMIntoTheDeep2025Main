@@ -70,14 +70,14 @@ public class IntakeEndUnitRotator extends SubsystemBase {
             } }
                 , this);
     }
-    public Command rotateByButton(BooleanSupplier rotateLeftButton,BooleanSupplier rotateRightButton, BooleanSupplier rotateMiddleButton) {
+    public Command rotateByButton(BooleanSupplier rotateLeftButton,BooleanSupplier rotateRightButton) {
         return new RunCommand(() -> {
             if (rotateLeftButton.getAsBoolean()){
                 servo.setPosition(IntakeRotatorState.ROTATE_LEFT_ANGLE.position);
             }else if (rotateRightButton.getAsBoolean()) {
                 servo.setPosition(IntakeRotatorState.ROTATE_RIGHT_ANGLE.position);
             }
-            else if (rotateMiddleButton.getAsBoolean()){
+            else {
                 servo.setPosition(IntakeRotatorState.INTAKE_SAMPLE_POSE.position);
             } }
                 , this);
