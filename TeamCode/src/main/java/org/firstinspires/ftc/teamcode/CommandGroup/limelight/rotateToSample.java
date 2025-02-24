@@ -45,7 +45,8 @@ public class rotateToSample extends CommandBase {
         //crop_x, crop_y, crop_width, crop_height = llrobot[0:4] first 4 to send
         double angle = oldAngle;
 
-        while (angle == oldAngle) {
+        while (angle == oldAngle || noResultCounter == 5) {
+            noResultCounter +=1;
             long startTime = System.currentTimeMillis();
             double[] outputPython = limelight.getLatestResult().getPythonOutput();
             angle = outputPython[0];
@@ -66,18 +67,18 @@ public class rotateToSample extends CommandBase {
     public void execute() {
         result = limelight.getLatestResult();
         MMRobot.getInstance().mmSystems.telemetry.addData("start execute",0);
-            MMRobot.getInstance().mmSystems.telemetry.addData("entered if",0);
-            double angle = getAngle(limelight);
+        double angle = getAngle(limelight);
 
-            angle = angle + 90;
-            double angleInServoDegrees = angle / 270;
+        angle = angle + 90;
+        double angleInServoDegrees = angle / 270;
 
-            MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angleInServoDegrees);
-            finished = true;
+        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angleInServoDegrees);
+        finished = true;
+        MMRobot.getInstance().mmSystems.telemetry.update();
     }
 
     @Override
     public boolean isFinished() {
-        return finished;
+        return finished || noResultCounter == 5;
     }
 }

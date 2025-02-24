@@ -40,6 +40,7 @@ public class openLinearToSample extends CommandBase {
     @Override
     public void execute() {
         result = limelight.getLatestResult();
+        MMRobot.getInstance().mmSystems.telemetry.addData("linear to sample",0);
         if (result != null && result.isValid()) {
             List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
             LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
@@ -47,8 +48,8 @@ public class openLinearToSample extends CommandBase {
             double distanceFromLimelight = dr.getTargetYDegrees();
             double distance = calculateDistance(distanceFromLimelight) - armLength;
 
-            if (distance > maxOpeningLinearCM * LinearIntake.maxOpening) {
-                distance = maxOpeningLinearCM * LinearIntake.maxOpening;
+            if (distance > maxOpeningLinearCM) {
+                distance = maxOpeningLinearCM;
             }
             double distanceInServoDegrees = distance / 130;
 
@@ -60,11 +61,12 @@ public class openLinearToSample extends CommandBase {
         } else {
             noResultCounter++;
         }
+        MMRobot.getInstance().mmSystems.telemetry.update();
     }
 
     @Override
     public boolean isFinished() {
-        return noResultCounter > 5 || result != null;
+        return result != null || noResultCounter == 5;
     }
 
 

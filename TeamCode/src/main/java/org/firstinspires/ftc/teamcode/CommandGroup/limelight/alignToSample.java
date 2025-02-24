@@ -23,7 +23,8 @@ public class alignToSample extends CommandBase {
     public alignToSample(Limelight3A limelight) {
         this.limelight = limelight;
         limelight.pipelineSwitch(0);
-        addRequirements(MMRobot.getInstance().mmSystems.driveTrain);
+        addRequirements(
+                MMRobot.getInstance().mmSystems.driveTrain);
     }
 
 
@@ -39,6 +40,7 @@ public class alignToSample extends CommandBase {
     @Override
     public void execute() {
         result = limelight.getLatestResult();
+        MMRobot.getInstance().mmSystems.telemetry.addData("align to sample",0);
 
         if (result != null && result.isValid()) {
             noResultCounter = 0;
@@ -50,6 +52,7 @@ public class alignToSample extends CommandBase {
         else {
             noResultCounter++;
         }
+        MMRobot.getInstance().mmSystems.telemetry.update();
     }
 
     @Override
