@@ -33,18 +33,15 @@ public class testElevator extends MMOpMode {
         robotInstance.mmSystems.initDriveTrain();
 
         robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whileHeld(
-                ()->mmSystems.elevator.setPower(1.0)
+                ()->mmSystems.elevator.setPower(-1.0)
         ).whenReleased(()->mmSystems.elevator.setPower(0.0));
 
-        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                mmSystems.elevator.moveToPose(Elevator.ElevatorState.LOW_BASKET)
-        );
-        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                mmSystems.elevator.moveToPose(Elevator.ElevatorState.LOW_BASKET)
-        );
-        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                mmSystems.elevator.ElevatorGetToZeroSensor()
-        );
+//        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+//                mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET)
+//        );
+//        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+//                mmSystems.elevator.ElevatorGetToZeroSensor()
+//        );
 
     }
 
@@ -58,6 +55,7 @@ public class testElevator extends MMOpMode {
         telemetry.addData("targertpose", mmSystems.elevator.targetPose);
         telemetry.addData("ticks - ", mmSystems.elevator.getTicks());
         telemetry.addData("height", mmSystems.elevator.getHeight());
+        telemetry.addData("power", mmSystems.elevator.getPower());
         telemetry.update();
 
 
