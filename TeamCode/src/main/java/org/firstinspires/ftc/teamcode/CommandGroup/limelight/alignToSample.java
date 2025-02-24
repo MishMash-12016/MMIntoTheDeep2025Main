@@ -22,6 +22,7 @@ public class alignToSample extends CommandBase {
     PIDController pidController;
     public alignToSample(Limelight3A limelight) {
         this.limelight = limelight;
+        limelight.pipelineSwitch(0);
         addRequirements(MMRobot.getInstance().mmSystems.driveTrain);
     }
 
@@ -53,6 +54,6 @@ public class alignToSample extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return pidController.atSetPoint();
+        return pidController.atSetPoint() || noResultCounter == 5;
     }
 }
