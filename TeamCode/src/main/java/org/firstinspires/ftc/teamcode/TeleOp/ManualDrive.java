@@ -41,9 +41,9 @@ public class ManualDrive extends MMOpMode {
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05) //slow mode
                 .whileActiveContinuous(
                         MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
-                                () -> Math.pow(mmSystems.gamepadEx1.getLeftX(), 3) * 0.3,
-                                () -> Math.pow(mmSystems.gamepadEx1.getLeftY(), 3) * 0.3,
-                                () -> Math.pow(mmSystems.gamepadEx1.getRightX(), 3)/Math.abs(mmSystems.gamepadEx1.getRightX()) * 0.2
+                                () -> Math.pow(mmSystems.gamepadEx1.getLeftX(), 5) * 0.3,
+                                () -> Math.pow(mmSystems.gamepadEx1.getLeftY(), 5) * 0.3,
+                                () -> Math.pow(mmSystems.gamepadEx1.getRightX(), 1) * 0.25
                         )
                 );
 
@@ -51,15 +51,14 @@ public class ManualDrive extends MMOpMode {
                 .whenPressed(
                         IntakeSampleCommand.prepareSampleIntake(
                                 () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
-                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get(),
-                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).get()
+                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()
                         ).alongWith(
                                 new InstantCommand(()-> Specimenintake= false))
                 );
 
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed( //specimen
-                IntakeSpecimenCommand.PrepareSpecimenIntake().alongWith(
+                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake().alongWith(
                         new InstantCommand(()-> Specimenintake = true)
                 )
         );
