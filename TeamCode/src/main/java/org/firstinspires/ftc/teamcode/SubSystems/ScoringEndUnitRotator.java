@@ -5,7 +5,6 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -21,8 +20,7 @@ public class ScoringEndUnitRotator extends SubsystemBase {
         TRANSFER_SAMPLE_POSE(0.585),
         SCORE_SAMPLE_POSE(0.3),
         MID_POSE_SPECIMEN(0.7),
-        SCORE_SPECIMEN_POSE(0.5),
-        SCORE_SPECIMEN_POSE_REAL(0.5);
+        SCORE_SPECIMEN_POSE(0.5);
 
 
         public final double position;

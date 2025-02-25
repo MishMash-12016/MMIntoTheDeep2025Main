@@ -40,35 +40,11 @@ public class testElevator extends MMOpMode {
         robotInstance.mmSystems.initDriveTrain();
 
 
-        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-                new SequentialCommandGroup(
-                        new InstantCommand(() -> p1 = () -> (p1.getAsDouble()+0.01)),
-                        new InstantCommand(() -> robotInstance.mmSystems.scoringArm.setPosition(p1.getAsDouble()))
-                )
-        );
-        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                new SequentialCommandGroup(
-                        new InstantCommand(() -> p1 = () -> (p1.getAsDouble()-0.01)),
-                        new InstantCommand(() -> robotInstance.mmSystems.scoringArm.setPosition(p1.getAsDouble()))
-                )
-        );
 
-        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                new SequentialCommandGroup(
-                        new InstantCommand(() -> p2 = () -> (p2.getAsDouble()+0.01)),
-                        new InstantCommand(() -> robotInstance.mmSystems.scoringEndUnitRotator.setPosition(p2.getAsDouble()))
-                )
-        );
-        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
-                new SequentialCommandGroup(
-                        new InstantCommand(() -> p2 = () -> (p2.getAsDouble()-0.01)),
-                        new InstantCommand(() -> robotInstance.mmSystems.scoringEndUnitRotator.setPosition(p2.getAsDouble()))
-                )
-        );
 
-//        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whileHeld(
-//                ()->mmSystems.elevator.setPower(-1.0)
-//        ).whenReleased(()->mmSystems.elevator.setPower(0.0));
+        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whileHeld(
+                ()->mmSystems.elevator.setPower(-1.0)
+        ).whenReleased(()->mmSystems.elevator.setPower(0.0));
 
 //        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
 //                mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET)
