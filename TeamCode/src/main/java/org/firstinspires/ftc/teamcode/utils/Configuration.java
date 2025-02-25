@@ -23,10 +23,12 @@ public class Configuration {
 
     //CONTROL HUB
     //DriveTrain
-    public static final int DRIVE_TRAIN_BACK_LEFT = 3;
     public static final int DRIVE_TRAIN_FRONT_LEFT = 0;
-    public static final int DRIVE_TRAIN_BACK_RIGHT = 2;
     public static final int DRIVE_TRAIN_FRONT_RIGHT = 1;
+    public static final int DRIVE_TRAIN_BACK_RIGHT = 2;
+    public static final int DRIVE_TRAIN_BACK_LEFT = 3;
+
+
 
 //    public static final String AUTO_DRIVE_TRAIN_FRONT_LEFT = "leftFront"; //
 //    public static final String AUTO_DRIVE_TRAIN_BACK_LEFT = "leftBack"; //

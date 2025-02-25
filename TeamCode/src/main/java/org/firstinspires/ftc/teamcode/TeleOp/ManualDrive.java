@@ -3,7 +3,10 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -97,8 +100,16 @@ public class ManualDrive extends MMOpMode {
                 ScoringSampleCommand.PrepareHighSample());
 
 
-
-
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new SequentialCommandGroup(
+                        new ParallelCommandGroup(
+                                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(0.7),
+                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(0.15)
+                        ),
+                        new WaitCommand(200),
+                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                )
+        );
     }
 
     @Override
