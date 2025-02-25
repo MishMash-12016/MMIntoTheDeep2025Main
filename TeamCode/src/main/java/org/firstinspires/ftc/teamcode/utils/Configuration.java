@@ -55,7 +55,7 @@ public class Configuration {
     public static final int INTAKE_ARM_SERVO_RIGHT = 5;
     public static final int INTAKE_ARM_SERVO_LEFT = 1;
 
-
+    public static final int WISHER = 3;
 
 
     //EXPANSION HUB
