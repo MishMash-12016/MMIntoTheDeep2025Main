@@ -34,7 +34,6 @@ public class LimeLightTeleOp extends MMOpMode {
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 new SequentialCommandGroup(
-                        limelightGetter.getAlignToSample(limelight).withTimeout(500),
                         limelightGetter.getOpenLinearToSample(limelight),
                         limelightGetter.getRotateToSample(limelight)
                 )

@@ -32,7 +32,6 @@ public class rotateToSample extends CommandBase {
         noResultCounter = 0;
         result = null;
         oldAngle = 0;
-        limelight.pipelineSwitch(1);
         finished = false;
     }
 
@@ -45,7 +44,7 @@ public class rotateToSample extends CommandBase {
         //crop_x, crop_y, crop_width, crop_height = llrobot[0:4] first 4 to send
         double angle = oldAngle;
 
-        while (angle == oldAngle || noResultCounter == 5) {
+        while (angle == oldAngle || noResultCounter != 5) {
             noResultCounter +=1;
             long startTime = System.currentTimeMillis();
             double[] outputPython = limelight.getLatestResult().getPythonOutput();
@@ -65,6 +64,7 @@ public class rotateToSample extends CommandBase {
 
     @Override
     public void execute() {
+        limelight.pipelineSwitch(1);
         result = limelight.getLatestResult();
         MMRobot.getInstance().mmSystems.telemetry.addData("start execute",0);
         double angle = getAngle(limelight);

@@ -39,6 +39,7 @@ public class openLinearToSample extends CommandBase {
 
     @Override
     public void execute() {
+        limelight.pipelineSwitch(0);
         result = limelight.getLatestResult();
         MMRobot.getInstance().mmSystems.telemetry.addData("linear to sample",0);
         if (result != null && result.isValid()) {
