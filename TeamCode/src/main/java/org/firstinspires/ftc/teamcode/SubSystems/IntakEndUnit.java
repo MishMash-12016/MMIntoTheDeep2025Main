@@ -19,7 +19,7 @@ public class IntakEndUnit extends SubsystemBase {
     Servo clawIntakeServo;
 
     public enum IntakeClawState {
-        OPEN(0.6), CLOSE(1);
+        OPEN(0.95), CLOSE(0.7);
         public double position;
         IntakeClawState(double position){
             this.position = position;

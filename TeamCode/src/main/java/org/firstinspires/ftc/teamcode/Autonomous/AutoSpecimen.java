@@ -205,12 +205,11 @@ public class AutoSpecimen extends MMOpMode {
                 //First
                 new ActionCommand(driveToIntakeFirstSpecimen.build()),
 
-                new WaitCommand(200),
+                new WaitCommand(100),
                 new ParallelCommandGroup(
                         AutoSpecimensCommand.SpecimenIntakeAuto(),
-                        new WaitCommand(300).andThen(
-                                new ActionCommand(driveToScoreFirstSpecimen.build())
-                        )),
+                        new ActionCommand(driveToScoreFirstSpecimen.build())
+                ),
 //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
                 score(),
 
@@ -220,12 +219,11 @@ public class AutoSpecimen extends MMOpMode {
                         new WaitCommand(300).andThen(
                                 IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
 
-                new WaitCommand(200),
+                new WaitCommand(100),
                 new ParallelCommandGroup(
                         AutoSpecimensCommand.SpecimenIntakeAuto(),
-                        new WaitCommand(300).andThen(
-                                new ActionCommand(driveToScoreSecondSpecimen.build())
-                        )),
+                        new WaitCommand(100).andThen(new ActionCommand(driveToScoreSecondSpecimen.build()))
+                        ),
 
                 //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
                 score(),
@@ -234,12 +232,11 @@ public class AutoSpecimen extends MMOpMode {
                 new ActionCommand(driveToIntakeThirdSpecimen.build()).alongWith(
                         new WaitCommand(300).andThen(
                                 IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
-                new WaitCommand(200),
+                new WaitCommand(100),
                 new ParallelCommandGroup(
                         AutoSpecimensCommand.SpecimenIntakeAuto(),
-                        new WaitCommand(300).andThen(
-                                new ActionCommand(driveToScoreThirdSpecimen.build())
-                        )),
+                        new ActionCommand(driveToScoreThirdSpecimen.build())
+                        ),
 
                 //Forth
                 //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
@@ -248,12 +245,11 @@ public class AutoSpecimen extends MMOpMode {
                 new ActionCommand(driveToIntakeForthSpecimen.build()).alongWith(
                         new WaitCommand(300).andThen(
                                 IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
-                new WaitCommand(200),
+                new WaitCommand(100),
                 new ParallelCommandGroup(
                         AutoSpecimensCommand.SpecimenIntakeAuto(),
-                        new WaitCommand(300).andThen(
                                 new ActionCommand(driveToScoreForthSpecimen.build())
-                        )),
+                        ),
 
                 //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
                 score(),
