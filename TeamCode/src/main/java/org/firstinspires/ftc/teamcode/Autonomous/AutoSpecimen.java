@@ -222,7 +222,7 @@ public class AutoSpecimen extends MMOpMode {
                 new WaitCommand(100),
                 new ParallelCommandGroup(
                         AutoSpecimensCommand.SpecimenIntakeAuto(),
-                        new WaitCommand(100).andThen(new ActionCommand(driveToScoreSecondSpecimen.build()))
+                        new ActionCommand(driveToScoreSecondSpecimen.build())
                         ),
 
                 //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
