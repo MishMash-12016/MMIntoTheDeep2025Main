@@ -19,7 +19,7 @@ public class IntakEndUnit extends SubsystemBase {
     Servo clawIntakeServo;
 
     public enum IntakeClawState {
-        OPEN(0.6), CLOSE(1);
+        OPEN(0.95), CLOSE(0.7);
         public double position;
         IntakeClawState(double position){
             this.position = position;
@@ -27,7 +27,7 @@ public class IntakEndUnit extends SubsystemBase {
 
     // claw close or open
     public IntakEndUnit() {
-        clawIntakeServo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "intake claw");
+        clawIntakeServo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "intake claw");//4
        // clawIntakeServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.CLAW_INTAKE_SERVO);
     }
     public Command openIntakeClaw() {

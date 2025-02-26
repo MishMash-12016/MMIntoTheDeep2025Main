@@ -23,10 +23,12 @@ public class Configuration {
 
     //CONTROL HUB
     //DriveTrain
-    public static final int DRIVE_TRAIN_BACK_LEFT = 3;
     public static final int DRIVE_TRAIN_FRONT_LEFT = 0;
-    public static final int DRIVE_TRAIN_BACK_RIGHT = 2;
     public static final int DRIVE_TRAIN_FRONT_RIGHT = 1;
+    public static final int DRIVE_TRAIN_BACK_RIGHT = 2;
+    public static final int DRIVE_TRAIN_BACK_LEFT = 3;
+
+
 
 //    public static final String AUTO_DRIVE_TRAIN_FRONT_LEFT = "leftFront"; //
 //    public static final String AUTO_DRIVE_TRAIN_BACK_LEFT = "leftBack"; //
@@ -53,13 +55,14 @@ public class Configuration {
     public static final int INTAKE_ARM_SERVO_RIGHT = 5;
     public static final int INTAKE_ARM_SERVO_LEFT = 1;
 
-
+    public static final int WISHER = 3;
 
 
     //EXPANSION HUB
      public static final int SCORING_CLAW_SERVO = 3;
     //Scoring arm:
     public static final int SCORING_ROTATOR_SERVO = 2;
+    public static final int SCORING_YAXIS_ROTATOR =  4;
     //public static final int SERVO_RIGHT_SCORING_ARM = 5;
 
     //public static final int SERVO_LEFT_SCORING_ARM = 4;

@@ -38,32 +38,31 @@ public class Working1andFour {
                     .setConstraints(100, 100, Math.toRadians(720), Math.toRadians(720), 15)
                     .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(5.5, -62.73, Math.toRadians(90.00)))
 
-                                    .setTangent(90)
-                                    .lineToConstantHeading(new Vector2d(5.5, -28))
+                            .setTangent(Math.toRadians(270))
+                            .lineToLinearHeading(new Pose2d(50, -59.2,Math.toRadians(90)))
+                            .lineToLinearHeading(new Pose2d(-2, -25, Math.toRadians(90)))
 
-/*
-     -----------------------
-        pushing
-     -----------------------
-*/
-            //Push first specimen
-                    .setTangent(Math.toRadians(270))
-                    .lineToLinearHeading(new Pose2d(5.5, -33, Math.toRadians(90)))
-                    .splineToSplineHeading(new Pose2d(32, -38, Math.toRadians(235)), Math.toRadians(0))
-                    .setTangent(Math.toRadians(290))
-                    .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(160)), Math.toRadians(240))
-            //Push second specimen
-                    .setTangent(Math.toRadians(80))
-                    .splineToLinearHeading(new Pose2d(40, -38, Math.toRadians(235)), Math.toRadians(70))
-                    .setTangent(Math.toRadians(300))
-                    .splineToLinearHeading(new Pose2d(45.8, -47, Math.toRadians(160)), Math.toRadians(240))
-            //Push third specimen
-                    .setTangent(Math.toRadians(80))
-                    .splineToLinearHeading(new Pose2d(50, -38, Math.toRadians(235)), Math.toRadians(70))
-                    .setTangent(Math.toRadians(270))
-                    .splineToLinearHeading(new Pose2d(50, -47, Math.toRadians(160)), Math.toRadians(240))
+                            //Second specimen
+                            .setTangent(Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(12, -40, Math.toRadians(90)), Math.atan((-40 + 59.2) / (12.0 - 45.0)))
+                            .lineToLinearHeading(new Pose2d(45, -59.2, Math.toRadians(90)))
+                            .lineToLinearHeading(new Pose2d(-2, -25, Math.toRadians(90)))
 
-                            .splineToLinearHeading(new Pose2d(50,-47.1,Math.toRadians(90)), Math.toRadians(270))
+                            //Third specimen
+                            .setTangent(Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(12, -40, Math.toRadians(90)), Math.atan((-40 + 59.2) / (12.0 - 45.0)))
+                            .lineToLinearHeading(new Pose2d(45, -59.2, Math.toRadians(90)))
+                            .lineToLinearHeading(new Pose2d(-5, -25, Math.toRadians(90)))
+
+                            //Forth specimen
+                            .setTangent(Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(12, -40, Math.toRadians(90)), Math.atan((-40 + 59.2) / (12.0 - 45.0)))
+                            .lineToLinearHeading(new Pose2d(45, -59.2, Math.toRadians(90)))
+                            .lineToLinearHeading(new Pose2d(-5, -25, Math.toRadians(90)))
+
+                            .setTangent(Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(12, -42, Math.toRadians(90)), Math.atan((-42.0 + 57) / (12.0 - 45)))
+                            .lineToLinearHeading(new Pose2d(45, -57, Math.toRadians(90)))
 
 //
 ////--

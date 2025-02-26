@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake.LinearIntakeState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm.ScoringArmState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator.ScoringRotatorState;
+import org.firstinspires.ftc.teamcode.SubSystems.Wisher;
 
 import java.util.function.BooleanSupplier;
 
@@ -114,6 +115,7 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE)
+
         );
     }
 
