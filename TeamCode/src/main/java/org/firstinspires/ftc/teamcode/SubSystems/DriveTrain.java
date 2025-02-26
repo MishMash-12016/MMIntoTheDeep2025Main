@@ -51,6 +51,13 @@ public class DriveTrain extends SubsystemBase {
     private final CuttleMotor motorBR;
     GoBildaPinpointDriverRR localizer;
 
+    enum Mode {
+        DRIVER_CONTROL,
+        AUTOMATIC_CONTROL
+    }
+    Mode currentMode;
+
+
 
 
     public DriveTrain() {
@@ -65,6 +72,7 @@ public class DriveTrain extends SubsystemBase {
         motorFR.setDirection(Direction.REVERSE);
         motorBR.setDirection(Direction.REVERSE);
 
+        currentMode = Mode.DRIVER_CONTROL;
     }
 
     private double[] joystickToPower(double x, double y, double yaw) {
@@ -97,7 +105,6 @@ public class DriveTrain extends SubsystemBase {
     }
 
     private void setMotorPower(double[] power) {
-
         motorFL.setPower(power[0]);
         motorBL.setPower(power[1]);
         motorFR.setPower(power[2]);

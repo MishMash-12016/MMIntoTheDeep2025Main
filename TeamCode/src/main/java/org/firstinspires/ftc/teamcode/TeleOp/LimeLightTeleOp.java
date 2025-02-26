@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -8,7 +9,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -16,6 +19,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 @TeleOp(name = "LimeLightTeleOp", group = "Sensor")
 public class LimeLightTeleOp extends MMOpMode {
     private Limelight3A limelight;
+    PinpointDrive drive;
 
 
     public LimeLightTeleOp() {
@@ -29,6 +33,9 @@ public class LimeLightTeleOp extends MMOpMode {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.setPollRateHz(100);
         telemetry.setMsTransmissionInterval(1);
+        Pose2d currentPose = new Pose2d(0, 0, Math.toRadians(0));
+
+        drive = new PinpointDrive(hardwareMap, currentPose);
 
         limelight.start();
 
@@ -36,6 +43,11 @@ public class LimeLightTeleOp extends MMOpMode {
                 new SequentialCommandGroup(
                         limelightGetter.getOpenLinearToSample(limelight),
                         limelightGetter.getRotateToSample(limelight)
+                )
+        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new SequentialCommandGroup(
+                        limelightGetter.strafeToSample(limelight, drive)
                 )
         );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
@@ -50,6 +62,8 @@ public class LimeLightTeleOp extends MMOpMode {
     @Override
     public void run() {
         super.run();
+        drive.updatePoseEstimate();
+
         MMRobot.getInstance().mmSystems.controlHub.pullBulkData();
 
         telemetry.update();
