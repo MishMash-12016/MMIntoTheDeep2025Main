@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.TeleOp.testElevator;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class ScoringEndUnitRotatorYAxis extends SubsystemBase {
@@ -28,7 +29,7 @@ public class ScoringEndUnitRotatorYAxis extends SubsystemBase {
     CuttleServo servo;
     public ScoringEndUnitRotatorYAxis(){
         servo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_YAXIS_ROTATOR);
-        servo.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_POSE.position);
+        servo.setPosition(ScoringRotatorYAxisState.TRANSFER_POSE.position);
     }
 
     public Command setPosition(double newPos){

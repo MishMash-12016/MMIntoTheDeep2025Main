@@ -16,9 +16,10 @@ public class ScoringEndUnitRotator extends SubsystemBase {
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
     public enum ScoringRotatorState {
-        TRANSFER_POSE(0.585),
-        TRANSFER_SAMPLE_POSE(0.585),
+        TRANSFER_POSE(0.1),
+        TRANSFER_SAMPLE_POSE(0.1),
         SCORE_SAMPLE_POSE(0.3),
+        INIT_POSE(0.2),
         MID_POSE_SPECIMEN(0.7),
         SCORE_SPECIMEN_POSE(0.5);
 
@@ -32,7 +33,7 @@ public class ScoringEndUnitRotator extends SubsystemBase {
     public ScoringEndUnitRotator(){
         servo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_ROTATOR_SERVO);
         //servo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Outake angle");
-        servo.setPosition(ScoringRotatorState.TRANSFER_POSE.position);
+        servo.setPosition(ScoringRotatorState.INIT_POSE.position);
     }
 
     public Command setPosition(double newPos){

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.TeleOp.testElevator;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 import java.util.function.BooleanSupplier;
@@ -19,7 +20,7 @@ public class IntakEndUnit extends SubsystemBase {
     Servo clawIntakeServo;
 
     public enum IntakeClawState {
-        OPEN(0.95), CLOSE(0.7);
+        OPEN(0.95), CLOSE(0.4);
         public double position;
         IntakeClawState(double position){
             this.position = position;
@@ -29,6 +30,8 @@ public class IntakEndUnit extends SubsystemBase {
     public IntakEndUnit() {
         clawIntakeServo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "intake claw");//4
        // clawIntakeServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.CLAW_INTAKE_SERVO);
+
+
     }
     public Command openIntakeClaw() {
         return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.OPEN.position), this);
@@ -48,4 +51,6 @@ public class IntakEndUnit extends SubsystemBase {
     public Command closeIntakeClaw() {
         return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.CLOSE.position), this);
     }
+
+
 }
