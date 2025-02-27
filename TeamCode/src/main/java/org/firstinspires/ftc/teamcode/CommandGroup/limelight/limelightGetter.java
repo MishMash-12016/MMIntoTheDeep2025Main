@@ -28,11 +28,19 @@ public class limelightGetter {
         return new alignToSample(limelight);
     }
 
+    public static Command getAlignToSampleAuto(Limelight3A limelight, PinpointDrive drive ,TrajectoryActionBuilder previousAction) {
+        return new alignToSampleAuto(limelight,drive,previousAction);
+    }
+
+    public static Command strafeToSampleAuto(Limelight3A limelight, PinpointDrive drive ,TrajectoryActionBuilder previousAction) {
+        return new strafeToSampleAuto(limelight,drive,previousAction);
+    }
+
     public static Command getRotateToSample(Limelight3A limelight) {
         return new rotateToSample(limelight);
     }
 
     public static Command strafeToSample(Limelight3A limelight, PinpointDrive drive) {
-        return new strafeToSample(limelight, drive);
+        return new strafeToSample(limelight);
     }
 }

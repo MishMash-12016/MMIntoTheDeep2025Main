@@ -63,7 +63,7 @@ public class LimeLightTeleOp extends MMOpMode {
     public void run() {
         super.run();
         drive.updatePoseEstimate();
-
+        MMRobot.getInstance().mmSystems.executeDrive();
         MMRobot.getInstance().mmSystems.controlHub.pullBulkData();
 
         telemetry.update();

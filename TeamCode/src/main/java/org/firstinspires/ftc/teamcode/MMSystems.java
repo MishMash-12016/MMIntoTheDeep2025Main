@@ -5,10 +5,16 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
+import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.CommandGroupBase;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleDigital;
@@ -53,8 +59,7 @@ public class MMSystems {
 
     public static GoBildaPinpointDriverRR localizer;
     static boolean hasImuBeenReset = false;
-
-
+    public Pose2d localizerCurrentPose;
 
 
     //Subsystems
@@ -70,7 +75,13 @@ public class MMSystems {
     public ScoringEndUnitRotatorYAxis scoringEndUnitRotatorYAxis;
     public Wisher wisher;
 
+    public enum Mode {
+        DRIVER_CONTROL,
+        AUTOMATIC_CONTROL
+    }
+    public Mode currentMode = Mode.DRIVER_CONTROL;
 
+    public SequentialCommandGroup currentAutoActions;
 
 
 
@@ -96,17 +107,28 @@ public class MMSystems {
 
     public void initDriveTrain() {
         //roadRunner 90 is what we agree as 0 so reset it to 0
-        localizer.setPosition(new Pose2d(0,0,localizer.getHeading()-Math.toRadians(90)));
+        localizer.setPosition(new Pose2d(0, 0, localizer.getHeading() - Math.toRadians(90)));
         driveTrain = new DriveTrain();
-        driveTrain.setDefaultCommand(
-                MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
-                        ()-> Math.pow(gamepadEx1.getLeftX(),3),
-                        () -> Math.pow(gamepadEx1.getLeftY(),3),
-                        () -> Math.pow(gamepadEx1.getRightX(),3))
-
-        );
     }
 
+    public CommandGroupBase executeDrive(){
+        if (currentMode == Mode.DRIVER_CONTROL) {
+            return new SequentialCommandGroup(new InstantCommand(()->
+                    MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
+                            () -> Math.pow(gamepadEx1.getLeftX(), 3),
+                            () -> Math.pow(gamepadEx1.getLeftY(), 3),
+                            () -> Math.pow(gamepadEx1.getRightX(), 3))
+
+            ));
+        }
+        else if (currentMode == Mode.AUTOMATIC_CONTROL) {
+            if (gamepadEx2.gamepad.a)
+            {
+                return currentAutoActions;
+            }
+        }
+        return new SequentialCommandGroup();
+    };
 
     public MMSystems(OpModeType type, HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
         this.opModeType = type;

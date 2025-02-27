@@ -57,6 +57,7 @@ public class TrialAutoSample extends MMOpMode {
         limelight.start();
 
         Pose2d currentPose = new Pose2d(-39, -65.5, Math.toRadians(180));
+        MMRobot.getInstance().mmSystems.localizerCurrentPose = currentPose;
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load

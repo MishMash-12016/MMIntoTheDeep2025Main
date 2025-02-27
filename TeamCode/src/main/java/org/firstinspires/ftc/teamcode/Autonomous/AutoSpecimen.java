@@ -8,14 +8,17 @@ import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
@@ -26,6 +29,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
+import org.firstinspires.ftc.teamcode.utils.LazyActionCommand;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @Autonomous
@@ -48,7 +52,10 @@ public class AutoSpecimen extends MMOpMode {
 
     //parking position
     private static final Pose2d parkPos = new Pose2d(45, -60, Math.toRadians(90));
+    public static double LIMELIGHT_INFO = -1;
+    public static TrajectoryActionBuilder LIMELIGHT_TURN = null;
 
+    Limelight3A limelight;
 
     public AutoSpecimen() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -62,12 +69,18 @@ public class AutoSpecimen extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
 
-        Pose2d currentPose = (new Pose2d(5.5, -62.73, Math.toRadians(90.00)));
+        Pose2d currentPose = (new Pose2d(5.5, -62.73, Math.toRadians(270)));
+        MMRobot.getInstance().mmSystems.localizerCurrentPose =currentPose;
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
 
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+
+        limelight.pipelineSwitch(0);
+
+        limelight.start();
 
         //poses for pushing
 
@@ -75,17 +88,18 @@ public class AutoSpecimen extends MMOpMode {
         //Score pre-load
         TrajectoryActionBuilder driveToScorePreloadSpecimen = drive.actionBuilder(currentPose)
                 .setTangent(90)
-                .strafeToLinearHeading(new Vector2d(5.5, -33), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                .strafeToLinearHeading(new Vector2d(5.5, -33), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel*1.2));
 
+            TrajectoryActionBuilder limelightStrafe = driveToScorePreloadSpecimen.endTrajectory().fresh();
 /*
      -----------------------
         pushing
      -----------------------
 */
         //Push first specimen
-        TrajectoryActionBuilder driveToPush1 = driveToScorePreloadSpecimen.endTrajectory().fresh()
+        TrajectoryActionBuilder driveToPush1 = limelightStrafe.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .strafeToLinearHeading(new Vector2d(5.5, -36), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(5.5, -36), Math.toRadians(270))
                 .splineToSplineHeading(new Pose2d(31, -38, Math.toRadians(235)), Math.toRadians(0));
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(290))
@@ -158,7 +172,16 @@ public class AutoSpecimen extends MMOpMode {
 
                 //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
                 score(),
-
+                new WaitCommand(200),
+                limelightGetter.strafeToSampleAuto(limelight, drive, limelightStrafe),
+                new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
+                new WaitCommand(200),
+                new SequentialCommandGroup(
+//                        limelightGetter.getRotateToSample(limelight),
+                        limelightGetter.getOpenLinearToSample(limelight),
+                        robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.INTAKE_POSE)
+                ),
+                new WaitCommand(100000),
                 new ParallelCommandGroup(
                         new ActionCommand(driveToPush1.build()),
                         new WaitCommand(250).andThen(
