@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -16,22 +17,23 @@ public class ScoringEndUnitRotator extends SubsystemBase {
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
     public enum ScoringRotatorState {
-        TRANSFER_POSE(0.1),
-        TRANSFER_SAMPLE_POSE(0.1),
+        TRANSFER_POSE(0.08),
+        TRANSFER_SAMPLE_POSE(0),
         SCORE_SAMPLE_POSE(0.3),
         INIT_POSE(0.2),
-        MID_POSE_SPECIMEN(0.7),
-        SCORE_SPECIMEN_POSE(0.5);
+        MID_POSE_SPECIMEN(0.2),
+        SCORE_SPECIMEN_POSE(0.58);
 
 
         public final double position;
         ScoringRotatorState(double position){
             this.position = position;
         }}
-    CuttleServo servo;
+    Servo servo;
 
     public ScoringEndUnitRotator(){
-        servo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_ROTATOR_SERVO);
+        servo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "scoring rot");//0
+        //servo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_ROTATOR_SERVO);
         //servo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Outake angle");
         servo.setPosition(ScoringRotatorState.INIT_POSE.position);
     }

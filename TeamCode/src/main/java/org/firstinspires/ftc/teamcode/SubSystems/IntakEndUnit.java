@@ -22,20 +22,27 @@ public class IntakEndUnit extends SubsystemBase {
     public enum IntakeClawState {
         OPEN(0.95), CLOSE(0.4);
         public double position;
-        IntakeClawState(double position){
+
+        IntakeClawState(double position) {
             this.position = position;
-        }}
+        }
+    }
 
     // claw close or open
     public IntakEndUnit() {
         clawIntakeServo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "intake claw");//4
-       // clawIntakeServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.CLAW_INTAKE_SERVO);
+        // clawIntakeServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.CLAW_INTAKE_SERVO);
 
 
     }
+
     public Command openIntakeClaw() {
         return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.OPEN.position), this);
     }
+    public Command closeIntakeClaw() {
+        return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.CLOSE.position), this);
+    }
+
     public Command setPose(double pose) {
         return new InstantCommand(() -> clawIntakeServo.setPosition(pose), this);
     }
@@ -48,9 +55,6 @@ public class IntakEndUnit extends SubsystemBase {
 //                this);
 //    }
 
-    public Command closeIntakeClaw() {
-        return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.CLOSE.position), this);
-    }
 
 
 }
