@@ -9,13 +9,14 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 
 public class ScoringArm extends SubsystemBase {
     public enum ScoringArmState {
-        TRANSFER_POSE(0.715),
-        SAMPLE_TRANSFER_POSE(0.715),
+        REST_POSE(0.7),
+        TRANSFER_POSE(0.59),
+        SAMPLE_TRANSFER_POSE(0.455),
         PARK_AUTO(0.34),
-        INIT_POSE(0.72),
+        INIT_POSE(0.6),
         PREPARE_TRANSFER(0.63),
         MID_POSE(0.43),
-        SCORE_SPECIMEN(0.34),
+        SCORE_SPECIMEN(0.4),
         SCORE_SAMPLE(0.26),
         PREPARE_SCORE_SAMPLE(0.32);
         public double position;
@@ -36,7 +37,7 @@ public class ScoringArm extends SubsystemBase {
     public Command setleftPosition(double newPos) {
         return new InstantCommand(()-> {
             servoLeft.setPosition(newPos);},
-            //servoRight.setPosition(newPos);} ,
+
                 this);
     }
     public Command setPosition(double newPos) {

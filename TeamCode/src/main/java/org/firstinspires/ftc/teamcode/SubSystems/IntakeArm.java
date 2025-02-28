@@ -12,12 +12,13 @@ public class IntakeArm extends SubsystemBase {
     CuttleServo servoLeft;
     CuttleServo servoRight;
     public enum IntakeArmState {
-        INTAKE_POSE(0.55),
+        INTAKE_POSE(0.57),
         PREPARE_SAMPLE_INTAKE(0.5),
-        SPECIMEN_INTAKE(0.34),
+        SPECIMEN_INTAKE(0.365),
         MID_INTAKE_SPECIMEN(0.3),
-        TRANSFER_POSE(0.05),
-        SAMPLE_TRANSFER_POSE(0.05);
+        TRANSFER_POSE(0.185),
+        SAMPLE_TRANSFER_POSE(0.05),
+        INIT_POSE(0.05);
 
         public double position;
         IntakeArmState(double position){
@@ -27,8 +28,8 @@ public class IntakeArm extends SubsystemBase {
     public IntakeArm() {
         servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_LEFT);
         servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_RIGHT);
-        servoLeft.setPosition(IntakeArmState.TRANSFER_POSE.position);
-        servoRight.setPosition(1-IntakeArmState.TRANSFER_POSE.position);
+        servoLeft.setPosition(IntakeArmState.INIT_POSE.position);
+        servoRight.setPosition(1-IntakeArmState.INIT_POSE.position);
     }
 
     //tell servo intake to get to down position
