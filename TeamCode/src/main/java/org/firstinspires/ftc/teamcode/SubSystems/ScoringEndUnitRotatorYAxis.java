@@ -14,6 +14,7 @@ public class ScoringEndUnitRotatorYAxis extends SubsystemBase {
     public enum ScoringRotatorYAxisState {
 
         TRANSFER_POSE(.18),
+        SAMPLE_TRANSFER_POSE(.73),
         SCORE_POSE(.73);
 
         public final double position;

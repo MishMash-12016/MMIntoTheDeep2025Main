@@ -17,7 +17,7 @@ public class IntakeArm extends SubsystemBase {
         SPECIMEN_INTAKE(0.365),
         MID_INTAKE_SPECIMEN(0.3),
         TRANSFER_POSE(0.185),
-        SAMPLE_TRANSFER_POSE(0.05),
+        SAMPLE_TRANSFER_POSE(0.16),
         INIT_POSE(0.05);
 
         public double position;
