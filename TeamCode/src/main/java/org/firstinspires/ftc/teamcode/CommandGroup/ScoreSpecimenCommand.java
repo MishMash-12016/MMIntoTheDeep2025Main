@@ -28,8 +28,11 @@ public class ScoreSpecimenCommand {
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SPECIMEN_POSE)
-
-
+        );
+    }
+    public static Command ScoreSpecimen() {
+        return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
         );
     }
 }

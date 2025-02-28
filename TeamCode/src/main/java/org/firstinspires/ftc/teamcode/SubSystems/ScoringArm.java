@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 
 public class ScoringArm extends SubsystemBase {
     public enum ScoringArmState {
+        REST_POSE(0.7),
         TRANSFER_POSE(0.59),
         SAMPLE_TRANSFER_POSE(0.455),
         PARK_AUTO(0.34),

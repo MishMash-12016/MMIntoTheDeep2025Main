@@ -23,10 +23,12 @@ public class ManualDrive extends MMOpMode {
     MMRobot robotInstance;
     MMSystems mmSystems;
     private boolean SpecimenIntake;
+    private boolean SpecimenScoring;
 
     public ManualDrive() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
         SpecimenIntake = false;
+        SpecimenScoring = false;
     }
 
     @Override
@@ -60,12 +62,18 @@ public class ManualDrive extends MMOpMode {
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed( //specimen
                 IntakeSpecimenCommand.PrepareSystemsSpecimenIntake().alongWith(
-                        new InstantCommand(() -> SpecimenIntake = true)
+                        new InstantCommand(() -> SpecimenIntake = true),
+                        new InstantCommand(() -> SpecimenScoring = false)
                 )
         );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                //TODO: separate the conditional commands to the normal way and not like this, it's soooo bad, it looks like shit and it is so fix it
                 new ConditionalCommand(
-                        IntakeSpecimenCommand.SpecimenIntake(), IntakeSampleCommand.SampleIntake(), () -> SpecimenIntake
+                        new ConditionalCommand(ScoreSpecimenCommand.ScoreSpecimen(), new SequentialCommandGroup(
+                                IntakeSpecimenCommand.SpecimenIntake(),
+                                new InstantCommand(() -> SpecimenScoring = true)
+                        ), () -> SpecimenScoring),
+                        IntakeSampleCommand.SampleIntake(), () -> SpecimenIntake
                 )
         );
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
