@@ -178,10 +178,16 @@ public class AutoSpecimen extends MMOpMode {
                 new WaitCommand(200),
                 new SequentialCommandGroup(
                         limelightGetter.getRotateToSample(limelight),
-                        limelightGetter.getOpenLinearToSample(limelight),
-                        robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.INTAKE_POSE)
+                        limelightGetter.getOpenLinearToSample(limelight)
                 ),
                 new WaitCommand(100000),
+
+
+
+
+
+
+
                 new ParallelCommandGroup(
                         new ActionCommand(driveToPush1.build()),
                         new WaitCommand(250).andThen(

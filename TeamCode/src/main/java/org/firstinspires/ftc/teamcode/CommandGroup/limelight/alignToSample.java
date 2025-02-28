@@ -35,6 +35,7 @@ public class alignToSample extends CommandBase {
         pidController = new PIDController(0.019, 0,0.0005);
         pidController.setSetPoint(0);
         pidController.setTolerance(2);
+        limelight.pipelineSwitch(0);
     }
 
     @Override

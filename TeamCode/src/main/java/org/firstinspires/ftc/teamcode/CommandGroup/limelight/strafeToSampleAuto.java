@@ -44,22 +44,18 @@ public class strafeToSampleAuto extends CommandBase {
     public void initialize() {
         noResultCounter = 0;
         result = null;
+        limelight.pipelineSwitch(1);
     }
 
     @Override
     public void execute() {
-        result = limelight.getLatestResult();
 
-        if (result != null && result.isValid()) {
-            List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
-            LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
-            double limelight_x = dr.getTargetXDegrees();
-            AutoSpecimen.LIMELIGHT_TURN = previousAction.strafeToLinearHeading(new Vector2d(drive.pose.position.x + limelight_x /2.54 + robotWidth ,drive.pose.position.y), Math.toRadians(270));
-            AutoSpecimen.LIMELIGHT_INFO = -dr.getTargetXDegrees();
-            MMRobot.getInstance().mmSystems.telemetry.addData("dr",-dr.getTargetXDegrees());
+            double[] outputPython = limelight.getLatestResult().getPythonOutput();
+            double limelight_x =  outputPython[1];
+            AutoSpecimen.LIMELIGHT_TURN = previousAction.strafeToLinearHeading(new Vector2d(drive.pose.position.x + limelight_x / 2.54 + robotWidth ,drive.pose.position.y), Math.toRadians(270));
+            AutoSpecimen.LIMELIGHT_INFO = limelight_x;
+            MMRobot.getInstance().mmSystems.telemetry.addData("dr",limelight_x);
             finished = true;
-        }
-
     }
 
     @Override

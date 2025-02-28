@@ -33,6 +33,7 @@ public class rotateToSample extends CommandBase {
         result = null;
         oldAngle = 0;
         finished = false;
+        limelight.pipelineSwitch(1);
     }
 
     public Double calculate_distance_vectors(List<Double> vector1, List<Double> vector2) {
@@ -42,15 +43,11 @@ public class rotateToSample extends CommandBase {
     public double getAngle(Limelight3A limelight) {
 
         //crop_x, crop_y, crop_width, crop_height = llrobot[0:4] first 4 to send
-        double angle = oldAngle;
 
-        while (angle == oldAngle && noResultCounter <= 5) {
-            noResultCounter +=1;
-            double[] outputPython = limelight.getLatestResult().getPythonOutput();
-            angle = outputPython[0];
-            MMRobot.getInstance().mmSystems.telemetry.addData("looking for angle, loop time", noResultCounter);
-            MMRobot.getInstance().mmSystems.telemetry.update();
-        }
+        double[] outputPython = limelight.getLatestResult().getPythonOutput();
+        double angle = outputPython[0];
+        MMRobot.getInstance().mmSystems.telemetry.addData("looking for angle, loop time", noResultCounter);
+        MMRobot.getInstance().mmSystems.telemetry.update();
         MMRobot.getInstance().mmSystems.telemetry.addData("angle - ", angle);
         MMRobot.getInstance().mmSystems.telemetry.update();
         return angle;
@@ -60,9 +57,11 @@ public class rotateToSample extends CommandBase {
     public void execute() {
         MMRobot.getInstance().mmSystems.telemetry.addData("start execute",0);
         double angle = getAngle(limelight);
+        angle = angle + 90;
         double angleInServoDegrees = angle / 270;
 //        MMRobot.getInstance().mmSystems.telemetry.addData("found the stupid sample", 0);
-        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angleInServoDegrees);
+        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(angleInServoDegrees).initialize();
+        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(angleInServoDegrees).execute();
         finished = true;
         MMRobot.getInstance().mmSystems.telemetry.update();
     }

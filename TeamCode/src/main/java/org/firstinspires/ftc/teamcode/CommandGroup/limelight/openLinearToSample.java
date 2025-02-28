@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
-
 import static org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter.angleFixed;
 import static org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter.armLength;
 import static org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter.heightFromGround;
@@ -18,8 +17,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import java.util.List;
 
 public class openLinearToSample extends CommandBase {
-    Limelight3A limelight;
 
+    Limelight3A limelight;
     LLResult result;
     int noResultCounter;
 
@@ -27,37 +26,39 @@ public class openLinearToSample extends CommandBase {
         this.limelight = limelight;
         addRequirements(
                 MMRobot.getInstance().mmSystems.linearIntake,
-                MMRobot.getInstance().mmSystems.intakeArm ,
-                MMRobot.getInstance().mmSystems.driveTrain);
+                MMRobot.getInstance().mmSystems.intakeArm
+        );
     }
-
 
     @Override
     public void initialize() {
         noResultCounter = 0;
         result = null;
+        limelight.pipelineSwitch(1);
     }
 
     @Override
     public void execute() {
-        result = limelight.getLatestResult();
-        MMRobot.getInstance().mmSystems.telemetry.addData("linear to sample start",0);
+        MMRobot.getInstance().mmSystems.telemetry.addData("linear to sample", 0);
         double[] outputPython = limelight.getLatestResult().getPythonOutput();
 
         double distanceFromLimelight = outputPython[2];;
-        double distance = distanceFromLimelight - armLength;
+        double distance = calculateDistance(distanceFromLimelight) - armLength;
 
-        if (distance > maxOpeningLinearCM) {
-            distance = maxOpeningLinearCM;
-        }
         double distanceInServoDegrees = distance / 130;
 
-        MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(distanceInServoDegrees);
-        MMRobot.getInstance().mmSystems.intakeArm.setPositionVoid(0.55);
+        if (distanceInServoDegrees > 0.6) {
+            distance = 0.6;
+            MMRobot.getInstance().mmSystems.telemetry.addData("maxed out so sad -  ", distance);
+        }
+
+        MMRobot.getInstance().mmSystems.linearIntake.setPosition(distanceInServoDegrees).initialize();
+        MMRobot.getInstance().mmSystems.linearIntake.setPosition(distanceInServoDegrees).execute();
+        MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.54).initialize();
+        MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.54).execute();
 
         MMRobot.getInstance().mmSystems.telemetry.addData("distance servo -  ", distanceInServoDegrees);
         MMRobot.getInstance().mmSystems.telemetry.addData("distance -  ", distance);
-        MMRobot.getInstance().mmSystems.telemetry.addData("distance from limelight -  ", distanceFromLimelight);
 
         MMRobot.getInstance().mmSystems.telemetry.update();
     }
@@ -67,11 +68,9 @@ public class openLinearToSample extends CommandBase {
         return result != null || noResultCounter == 5;
     }
 
-
     public static double calculateDistance(double angleFromLimelight) {
         double height = heightFromGround - sampleHeight;
         double angle = Math.abs(angleFromLimelight + angleFixed);
         return height / Math.tan(Math.toRadians(angle));
     }
-
 }
