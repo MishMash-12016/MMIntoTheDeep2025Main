@@ -58,13 +58,10 @@ public class rotateToSample extends CommandBase {
 
     @Override
     public void execute() {
-        limelight.pipelineSwitch(1);
         MMRobot.getInstance().mmSystems.telemetry.addData("start execute",0);
         double angle = getAngle(limelight);
-
-        angle = angle + 90;
         double angleInServoDegrees = angle / 270;
-        MMRobot.getInstance().mmSystems.telemetry.addData("found the stupid sample", 0);
+//        MMRobot.getInstance().mmSystems.telemetry.addData("found the stupid sample", 0);
         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angleInServoDegrees);
         finished = true;
         MMRobot.getInstance().mmSystems.telemetry.update();

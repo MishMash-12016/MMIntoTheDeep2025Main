@@ -42,7 +42,7 @@ public class alignToSample extends CommandBase {
         result = limelight.getLatestResult();
         MMRobot.getInstance().mmSystems.telemetry.addData("align to sample",0);
 
-        if (result != null && result.isValid()) {
+        if (result != null) {
             noResultCounter = 0;
             List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
             LLResultTypes.DetectorResult dr = allDetectorResults.get(0);

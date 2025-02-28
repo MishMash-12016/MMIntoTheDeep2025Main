@@ -27,7 +27,8 @@ public class openLinearToSample extends CommandBase {
         this.limelight = limelight;
         addRequirements(
                 MMRobot.getInstance().mmSystems.linearIntake,
-                MMRobot.getInstance().mmSystems.intakeArm);
+                MMRobot.getInstance().mmSystems.intakeArm ,
+                MMRobot.getInstance().mmSystems.driveTrain);
     }
 
 
@@ -39,29 +40,25 @@ public class openLinearToSample extends CommandBase {
 
     @Override
     public void execute() {
-        limelight.pipelineSwitch(0);
         result = limelight.getLatestResult();
-        MMRobot.getInstance().mmSystems.telemetry.addData("linear to sample",0);
-        if (result != null && result.isValid()) {
-            List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
-            LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
+        MMRobot.getInstance().mmSystems.telemetry.addData("linear to sample start",0);
+        double[] outputPython = limelight.getLatestResult().getPythonOutput();
 
-            double distanceFromLimelight = dr.getTargetYDegrees();
-            double distance = calculateDistance(distanceFromLimelight) - armLength;
+        double distanceFromLimelight = outputPython[2];;
+        double distance = distanceFromLimelight - armLength;
 
-            if (distance > maxOpeningLinearCM) {
-                distance = maxOpeningLinearCM;
-            }
-            double distanceInServoDegrees = distance / 130;
-
-            MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(distanceInServoDegrees);
-            MMRobot.getInstance().mmSystems.intakeArm.setPositionVoid(0.55);
-
-            MMRobot.getInstance().mmSystems.telemetry.addData("distance servo -  ", distanceInServoDegrees);
-            MMRobot.getInstance().mmSystems.telemetry.addData("distance -  ", distance);
-        } else {
-            noResultCounter++;
+        if (distance > maxOpeningLinearCM) {
+            distance = maxOpeningLinearCM;
         }
+        double distanceInServoDegrees = distance / 130;
+
+        MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(distanceInServoDegrees);
+        MMRobot.getInstance().mmSystems.intakeArm.setPositionVoid(0.55);
+
+        MMRobot.getInstance().mmSystems.telemetry.addData("distance servo -  ", distanceInServoDegrees);
+        MMRobot.getInstance().mmSystems.telemetry.addData("distance -  ", distance);
+        MMRobot.getInstance().mmSystems.telemetry.addData("distance from limelight -  ", distanceFromLimelight);
+
         MMRobot.getInstance().mmSystems.telemetry.update();
     }
 

@@ -30,6 +30,8 @@ public class LimeLightTeleOp extends MMOpMode {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.setPollRateHz(100);
         telemetry.setMsTransmissionInterval(1);
+        limelight.pipelineSwitch(1);
+
         Pose2d currentPose = new Pose2d(0, 0, Math.toRadians(0));
 
         drive = new PinpointDrive(hardwareMap, currentPose);
@@ -43,9 +45,7 @@ public class LimeLightTeleOp extends MMOpMode {
                 )
         );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new SequentialCommandGroup(
-                        limelightGetter.strafeToSample(limelight, drive)
-                )
+                limelightGetter.strafeToSample(limelight, drive)
         );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
                 new SequentialCommandGroup(

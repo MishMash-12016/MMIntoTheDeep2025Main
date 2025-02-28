@@ -34,11 +34,11 @@ public class strafeToSample extends CommandBase {
         pidController = new PIDController(0.019, 0,0.0005);
         pidController.setSetPoint(0);
         pidController.setTolerance(2);
+        limelight.pipelineSwitch(0);
     }
 
     @Override
     public void execute() {
-        limelight.pipelineSwitch(0);
         result = limelight.getLatestResult();
         MMRobot.getInstance().mmSystems.telemetry.addData("strafe to sample",0);
 
