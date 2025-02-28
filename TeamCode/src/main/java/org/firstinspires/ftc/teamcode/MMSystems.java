@@ -5,16 +5,13 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
-import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandGroupBase;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleDigital;
@@ -111,7 +108,7 @@ public class MMSystems {
         driveTrain = new DriveTrain();
     }
 
-    public CommandGroupBase executeDrive(){
+    public CommandGroupBase joystickDrive(){
         if (currentMode == Mode.DRIVER_CONTROL) {
             return new SequentialCommandGroup(new InstantCommand(()->
                     MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
@@ -127,7 +124,7 @@ public class MMSystems {
                 return currentAutoActions;
             }
         }
-        return new SequentialCommandGroup();
+        return new SequentialCommandGroup(new InstantCommand(()->MMRobot.getInstance().mmSystems.telemetry.addData("wtf",0)));
     };
 
     public MMSystems(OpModeType type, HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {

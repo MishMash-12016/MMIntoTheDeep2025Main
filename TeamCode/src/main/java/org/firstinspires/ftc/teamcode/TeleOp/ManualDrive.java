@@ -5,11 +5,9 @@ import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
@@ -247,7 +245,7 @@ public class ManualDrive extends MMOpMode {
             MMRobot.getInstance().mmSystems.driveTrain.stop();
             MMRobot.getInstance().mmSystems.currentMode = MMSystems.Mode.DRIVER_CONTROL;
         }
-        robotInstance.mmSystems.executeDrive().execute();
+        robotInstance.mmSystems.joystickDrive().execute();
 
     }
 }

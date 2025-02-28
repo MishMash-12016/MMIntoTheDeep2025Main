@@ -44,34 +44,27 @@ public class rotateToSample extends CommandBase {
         //crop_x, crop_y, crop_width, crop_height = llrobot[0:4] first 4 to send
         double angle = oldAngle;
 
-        while (angle == oldAngle || noResultCounter != 5) {
+        while (angle == oldAngle && noResultCounter <= 5) {
             noResultCounter +=1;
-            long startTime = System.currentTimeMillis();
             double[] outputPython = limelight.getLatestResult().getPythonOutput();
             angle = outputPython[0];
-            MMRobot.getInstance().mmSystems.telemetry.addData("looking for angle, loop time", startTime-System.currentTimeMillis());
+            MMRobot.getInstance().mmSystems.telemetry.addData("looking for angle, loop time", noResultCounter);
             MMRobot.getInstance().mmSystems.telemetry.update();
         }
-        //        MMRobot.getInstance().mmSystems.telemetry.addData("width - ",width);
-        //        MMRobot.getInstance().mmSystems.telemetry.addData("height -  ",height);
-        //        MMRobot.getInstance().mmSystems.telemetry.addData("X left up-  ",cornerUpLeft.get(0));
-        //        MMRobot.getInstance().mmSystems.telemetry.addData("Y left up -  ",cornerUpLeft.get(1));
-        //        MMRobot.getInstance().mmSystems.telemetry.addData("did it cropped - ",cropped);
-
         MMRobot.getInstance().mmSystems.telemetry.addData("angle - ", angle);
+        MMRobot.getInstance().mmSystems.telemetry.update();
         return angle;
     }
 
     @Override
     public void execute() {
         limelight.pipelineSwitch(1);
-        result = limelight.getLatestResult();
         MMRobot.getInstance().mmSystems.telemetry.addData("start execute",0);
         double angle = getAngle(limelight);
 
         angle = angle + 90;
         double angleInServoDegrees = angle / 270;
-
+        MMRobot.getInstance().mmSystems.telemetry.addData("found the stupid sample", 0);
         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angleInServoDegrees);
         finished = true;
         MMRobot.getInstance().mmSystems.telemetry.update();
