@@ -49,15 +49,5 @@ public class ScoringEndUnitRotator extends SubsystemBase {
             servo.setPosition(state.position);} ,
                 this);
     }
-
-    public Command setPositionByJoystick(DoubleSupplier doubleSupplier){
-        return new RunCommand(()-> {
-            servo.setPosition(doubleSupplier.getAsDouble());} ,
-                this);
-    }
-
-    public Double getTargetPosition(){
-        return servo.getPosition();
-    }
 }
 

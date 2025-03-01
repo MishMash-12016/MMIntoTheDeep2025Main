@@ -184,9 +184,7 @@ public class TrialAutoSample extends MMOpMode {
                 ),
                 new WaitCommand(200),
                 ScoreHighSample().alongWith(new ActionCommand(driveToPark.build())),
-                robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK_AUTO),
-                new WaitCommand(300),
-                new InstantCommand(() -> robotInstance.mmSystems.scoringArm.CutPower())
+                robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK_AUTO)
         ).schedule();
     }
 

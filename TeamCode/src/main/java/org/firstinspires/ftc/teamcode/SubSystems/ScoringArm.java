@@ -54,16 +54,6 @@ public class ScoringArm extends SubsystemBase {
             servoRight.setPosition(1-state.position);} ,
                 this);
     }
-    public Command setrightPosition(double newPos) {
-        return new InstantCommand(()-> {
-            servoRight.setPosition(newPos);} ,
-                this);
-    }
-
-    public void CutPower(){
-        servoLeft.getController().pwmDisable();
-        servoRight.getController().pwmDisable();
-    }
 
     public double getPosition(){
         return servoRight.getPosition();

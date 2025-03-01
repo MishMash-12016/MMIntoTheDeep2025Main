@@ -93,11 +93,7 @@ public class Elevator extends MMPIDSubsystem {
         motor4.setDirection(Direction.REVERSE);
 
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
-//        motorEncoder.setDirection(Direction.REVERSE);
-
         resetTicks();
-
-//        setDefaultCommand(new MMPIDCommandForever(this ,()-> targetPose));
     }
 
     public Command moveToPose(double setPoint) {
@@ -123,10 +119,6 @@ public class Elevator extends MMPIDSubsystem {
     public Command ElevatorGetToZero() {
         return new SequentialCommandGroup(
                 moveToPose(ElevatorState.ELEVATOR_DOWN)
-//                new InstantCommand(() -> setPower(-0.5)),
-//                new WaitUntilCommand(this::getElevatorSwitchState),
-//                new InstantCommand(() -> setTicks(0)),
-//                new InstantCommand(() -> setPower(0.0))
         );
     }
 

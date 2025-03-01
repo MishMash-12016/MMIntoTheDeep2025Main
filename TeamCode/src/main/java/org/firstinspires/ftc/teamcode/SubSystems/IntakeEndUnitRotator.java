@@ -43,13 +43,6 @@ public class IntakeEndUnitRotator extends SubsystemBase {
         },
                 this);
     }
-    public Command setPositionRUN(double newPos) {
-        return new RunCommand(() -> {
-            servo.setPosition(newPos);
-        },
-                this);
-    }
-
     public void setPositionVoid(double newPos) {
         servo.setPosition(newPos);
     }
@@ -72,16 +65,5 @@ public class IntakeEndUnitRotator extends SubsystemBase {
                 servo.setPosition(IntakeRotatorState.INTAKE_SAMPLE_POSE.position);
             } }
                 , this);
-    }
-
-    public Command setPositionByJoystick(DoubleSupplier doubleSupplier) {
-        return new RunCommand(() -> {
-            servo.setPosition(doubleSupplier.getAsDouble());
-        },
-                this);
-    }
-
-    public Double getTargetPosition() {
-        return servo.getPosition();
     }
 }

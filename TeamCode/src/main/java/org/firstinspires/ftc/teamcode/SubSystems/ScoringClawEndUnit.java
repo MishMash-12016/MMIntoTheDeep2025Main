@@ -32,7 +32,10 @@ public class ScoringClawEndUnit extends SubsystemBase {
         return new InstantCommand(() -> {
             clawScoringServo.setPosition(ScoringClawState.OPEN.position);}, this);
     }
-
+    public Command closeScoringClaw() {
+        return new InstantCommand(() -> {
+            clawScoringServo.setPosition(ScoringClawState.CLOSE.position);}, this);
+    }
 
     public Command setPosition(double newPos){
         return new InstantCommand(()-> {
@@ -44,11 +47,4 @@ public class ScoringClawEndUnit extends SubsystemBase {
             clawScoringServo.setPosition(scoringClawState.position);} ,
                 this);
     }
-
-    public Command closeScoringClaw() {
-        return new InstantCommand(() -> {
-                clawScoringServo.setPosition(ScoringClawState.CLOSE.position);}, this);
-    }
-
-
 }
