@@ -9,19 +9,17 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
+import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.FTCTimer;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.Vision;
 
 import java.util.List;
 
 public class strafeToSample extends CommandBase {
-    Limelight3A limelight;
-
-    LLResult result;
-    int noResultCounter;
     PIDController pidController;
-    public strafeToSample(Limelight3A limelight) {
-        this.limelight = limelight;
+    FTCTimer timer;
+    public strafeToSample() {
         addRequirements(
                 MMRobot.getInstance().mmSystems.driveTrain);
     }
@@ -29,34 +27,31 @@ public class strafeToSample extends CommandBase {
 
     @Override
     public void initialize() {
-        noResultCounter = 0;
-        result = null;
-        pidController = new PIDController(0.019, 0,0.0005);
+        pidController = new PIDController(0.0124, 0,0.0013);
         pidController.setSetPoint(0);
-        pidController.setTolerance(2);
-        limelight.pipelineSwitch(0);
+        pidController.setTolerance(7);
+        timer = new FTCTimer();
+        timer.start();
     }
 
     @Override
     public void execute() {
-        result = limelight.getLatestResult();
-        MMRobot.getInstance().mmSystems.telemetry.addData("strafe to sample",0);
-
-        if (result != null && result.isValid()) {
-            noResultCounter = 0;
-            List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
-            LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
-
-            MMRobot.getInstance().mmSystems.driveTrain.drive(-dr.getTargetXDegrees(), 0, 0);
+        MMRobot.getInstance().mmSystems.driveTrain.drive(pidController.calculate(MMRobot.getInstance().mmSystems.vision.getStrafeOffset()), 0, 0);
+        if (!pidController.atSetPoint()){
+            timer.start();
         }
-        else {
-            noResultCounter++;
-        }
-        MMRobot.getInstance().mmSystems.telemetry.update();
+        MMRobot.getInstance().mmSystems.telemetry.addData("tim,er", timer.getTime());
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        MMRobot.getInstance().mmSystems.driveTrain.drive(0,0,0);
     }
 
     @Override
     public boolean isFinished() {
-        return pidController.atSetPoint() || noResultCounter == 5;
+        timer.end();
+        return timer.getTime() >= 300;
+
     }
 }

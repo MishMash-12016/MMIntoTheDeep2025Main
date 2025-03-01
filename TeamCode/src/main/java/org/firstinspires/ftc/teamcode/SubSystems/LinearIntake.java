@@ -40,7 +40,7 @@ public class LinearIntake extends SubsystemBase {
     public Command setPosition(double newPos){
         return new InstantCommand(()-> {
             servoLeft.setPosition(newPos);
-            servoRight.setPosition(newPos);} ,
+            servoRight.setPosition(1-newPos);} ,
                 this);
     }
     public Command setPosition(DoubleSupplier newPos){
@@ -58,7 +58,7 @@ public class LinearIntake extends SubsystemBase {
 
     public void setPositionVoid(double newPos){
         servoLeft.setPosition(newPos);
-        servoRight.setPosition(newPos);
+        servoRight.setPosition(1-newPos);
     }
 
 

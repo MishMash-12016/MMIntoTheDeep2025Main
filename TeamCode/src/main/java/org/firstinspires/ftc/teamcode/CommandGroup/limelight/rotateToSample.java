@@ -7,21 +7,17 @@ import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 
 import java.util.List;
 
 public class rotateToSample extends CommandBase {
-    Limelight3A limelight;
-
-    LLResult result;
-    int noResultCounter;
-
-
     public double oldAngle;
-    public boolean finished;
+    boolean finished = false;
+    double noResultCounter;
 
-    public rotateToSample(Limelight3A limelight) {
-        this.limelight = limelight;
+    public rotateToSample() {
         addRequirements(
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator
         );
@@ -29,41 +25,39 @@ public class rotateToSample extends CommandBase {
 
     @Override
     public void initialize() {
-        noResultCounter = 0;
-        result = null;
         oldAngle = 0;
+        noResultCounter = 0;
         finished = false;
-        limelight.pipelineSwitch(1);
     }
 
-    public Double calculate_distance_vectors(List<Double> vector1, List<Double> vector2) {
-        return Math.sqrt((vector1.get(0) - vector2.get(0)) * (vector1.get(0) - vector2.get(0)) + (vector1.get(1) - vector2.get(1)) * (vector1.get(1) - vector2.get(1)));
-    }
-
-    public double getAngle(Limelight3A limelight) {
-
-        //crop_x, crop_y, crop_width, crop_height = llrobot[0:4] first 4 to send
-
-        double[] outputPython = limelight.getLatestResult().getPythonOutput();
-        double angle = outputPython[0];
-        MMRobot.getInstance().mmSystems.telemetry.addData("looking for angle, loop time", noResultCounter);
-        MMRobot.getInstance().mmSystems.telemetry.update();
-        MMRobot.getInstance().mmSystems.telemetry.addData("angle - ", angle);
-        MMRobot.getInstance().mmSystems.telemetry.update();
-        return angle;
-    }
 
     @Override
     public void execute() {
-        MMRobot.getInstance().mmSystems.telemetry.addData("start execute",0);
-        double angle = getAngle(limelight);
-        angle = angle + 90;
-        double angleInServoDegrees = angle / 270;
+        Double angle = MMRobot.getInstance().mmSystems.vision.getTurnServoDegree();
+        if (angle != null) {
+            angle = MMRobot.getInstance().mmSystems.vision.getTurnServoDegree();
+            if (angle>=0 && angle<= 90){
+                angle /= 270;
+                angle = IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE.position - angle;
+            }
+            else{
+                angle = 180 - angle;
+                angle /= 270;
+                angle = IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE.position + angle;
+            }
+
+
+
+
+
+//            angle += 90;
+//            double angleInServoDegrees = angle / 270;
 //        MMRobot.getInstance().mmSystems.telemetry.addData("found the stupid sample", 0);
-        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(angleInServoDegrees).initialize();
-        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(angleInServoDegrees).execute();
-        finished = true;
-        MMRobot.getInstance().mmSystems.telemetry.update();
+            MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angle);
+            MMRobot.getInstance().mmSystems.telemetry.update();
+            finished = true;
+        } else
+            noResultCounter++;
     }
 
     @Override

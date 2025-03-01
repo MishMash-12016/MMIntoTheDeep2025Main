@@ -22,5 +22,9 @@ dependencies {
     implementation 'com.roboctopi:Cuttlefish:1.0.0'
     implementation 'com.acmerobotics.dashboard:dashboard:0.4.16'
 
+
+    compileOnly "org.projectlombok:lombok:1.18.34"
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
 }
 

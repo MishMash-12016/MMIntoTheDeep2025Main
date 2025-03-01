@@ -28,6 +28,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotatorYAxis;
+import org.firstinspires.ftc.teamcode.SubSystems.Vision;
 import org.firstinspires.ftc.teamcode.SubSystems.Wisher;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
@@ -72,6 +73,8 @@ public class MMSystems {
     public ScoringEndUnitRotatorYAxis scoringEndUnitRotatorYAxis;
     public Wisher wisher;
 
+    public Vision vision;
+
     public enum Mode {
         DRIVER_CONTROL,
         AUTOMATIC_CONTROL
@@ -96,6 +99,7 @@ public class MMSystems {
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
         this.scoringEndUnitRotatorYAxis = new ScoringEndUnitRotatorYAxis();
         this.wisher = new Wisher();
+        vision = new Vision(hardwareMap, telemetry);
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)
 //        );

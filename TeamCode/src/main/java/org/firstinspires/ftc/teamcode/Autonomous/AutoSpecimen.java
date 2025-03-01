@@ -177,8 +177,8 @@ public class AutoSpecimen extends MMOpMode {
                 new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
                 new WaitCommand(200),
                 new SequentialCommandGroup(
-                        limelightGetter.getRotateToSample(limelight),
-                        limelightGetter.getOpenLinearToSample(limelight)
+                        limelightGetter.getRotateToSample(),
+                        limelightGetter.getOpenLinearToSample()
                 ),
                 new WaitCommand(100000),
 
