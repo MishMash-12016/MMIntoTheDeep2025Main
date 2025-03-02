@@ -44,24 +44,43 @@ public class IntakeSampleCommand {
         );
     }
 
-    public static Command SampleIntake() {
+//    public static Command SampleIntake() {
+//        return new SequentialCommandGroup(
+//                new WaitCommand(200),
+//                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.INTAKE_POSE), //collect pose
+//                new WaitCommand(200),
+//                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+//                new WaitCommand(180),
+//                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.MID_INTAKE_SPECIMEN),
+//                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+//                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE),
+//                MMRobot.getInstance().mmSystems.scoringEndUnitRotatorYAxis.setPosition(ScoringEndUnitRotatorYAxis.ScoringRotatorYAxisState.SAMPLE_TRANSFER_POSE),
+//                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.REST_POSE),//be prepared for transfer
+////                        new WaitCommand(30).andThen(
+////                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.8)
+////                        )),
+//                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(0.8),
+//                new WaitCommand(2000),
+//                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.MID_POSE_SPECIMEN)
+//        );
+//    }
+
+    public static Command SampleIntake(){
         return new SequentialCommandGroup(
-                new WaitCommand(200),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.INTAKE_POSE), //collect pose
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.INTAKE_POSE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.REST_POSE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotatorYAxis.setPosition(ScoringEndUnitRotatorYAxis.ScoringRotatorYAxisState.SAMPLE_TRANSFER_POSE),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.REST_POSE),
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
-                new WaitCommand(180),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.MID_INTAKE_SPECIMEN),
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.REST_POSE),
-                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitRotatorYAxis.setPosition(ScoringEndUnitRotatorYAxis.ScoringRotatorYAxisState.SAMPLE_TRANSFER_POSE),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.REST_POSE),//be prepared for transfer
-                        new WaitCommand(30).andThen(
-                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.8)
-                        )
-                )
+                new WaitCommand(200),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SAMPLE_TRANSFER_POSE),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                new WaitCommand(300),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_SAMPLE_POSE)
+
+
         );
     }
 }

@@ -17,13 +17,13 @@ public class ScoringEndUnitRotator extends SubsystemBase {
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
     public enum ScoringRotatorState {
-        REST_POSE(0.08),
-        TRANSFER_POSE(0.08),
+        REST_POSE(0.45),
+        TRANSFER_POSE(0.13),
         TRANSFER_SAMPLE_POSE(0.18),
-        SCORE_SAMPLE_POSE(0.3),
-        INIT_POSE(0.2),
-        MID_POSE_SPECIMEN(0.2),
-        SCORE_SPECIMEN_POSE(0.58);
+        SCORE_SAMPLE_POSE(0.33),
+        INIT_POSE(0.23),
+        MID_POSE_SPECIMEN(0.23),
+        SCORE_SPECIMEN_POSE(0.74);
 
 
         public final double position;

@@ -13,9 +13,9 @@ public class ScoringEndUnitRotatorYAxis extends SubsystemBase {
 
     public enum ScoringRotatorYAxisState {
 
-        TRANSFER_POSE(.18),
-        SAMPLE_TRANSFER_POSE(.73),
-        SCORE_POSE(.73);
+        TRANSFER_POSE(.73),
+        SAMPLE_TRANSFER_POSE(.155),
+        SCORE_POSE(.155);
 
         public final double position;
         ScoringRotatorYAxisState(double position){
@@ -26,7 +26,7 @@ public class ScoringEndUnitRotatorYAxis extends SubsystemBase {
     CuttleServo servo;
     public ScoringEndUnitRotatorYAxis(){
         servo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_YAXIS_ROTATOR);
-        servo.setPosition(ScoringRotatorYAxisState.TRANSFER_POSE.position);
+        servo.setPosition(ScoringRotatorYAxisState.SCORE_POSE.position);
     }
 
     public Command setPosition(double newPos){
