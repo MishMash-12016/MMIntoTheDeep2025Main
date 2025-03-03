@@ -16,7 +16,7 @@ public class ScoringArm extends SubsystemBase {
         INIT_POSE(0.6),
         PREPARE_TRANSFER(0.63),
         MID_POSE(0.43),
-        SCORE_SPECIMEN(0.5),
+        SCORE_SPECIMEN(0.48),
         SCORE_SAMPLE(0.26),
         PREPARE_SCORE_SAMPLE(0.32);
         public double position;

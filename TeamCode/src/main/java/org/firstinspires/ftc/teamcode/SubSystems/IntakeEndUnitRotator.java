@@ -19,7 +19,7 @@ public class IntakeEndUnitRotator extends SubsystemBase {
     public enum IntakeRotatorState {
         INTAKE_SAMPLE_POSE(0.31),
         HOLD_POSE_SPECIMEN(0.98),
-        INTAKE_SPECIMEN_POSE(0.32),
+        INTAKE_SPECIMEN_POSE(0.34),
         ROTATE_RIGHT_ANGLE(0.57),
         ROTATE_LEFT_ANGLE(0.11);
         public double position;

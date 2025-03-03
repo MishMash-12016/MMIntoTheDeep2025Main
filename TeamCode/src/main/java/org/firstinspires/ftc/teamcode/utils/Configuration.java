@@ -52,7 +52,7 @@ public class Configuration {
 //    public static final int CLAW_INTAKE_SERVO = 4;
 
     //Linear Intake Arm:
-    public static final int INTAKE_ARM_SERVO_RIGHT = 5;
+    public static final int INTAKE_ARM_SERVO_RIGHT = 4;
     public static final int INTAKE_ARM_SERVO_LEFT = 1;
 
     public static final int WISHER = 3;
