@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
@@ -24,7 +25,8 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 import java.util.function.DoubleSupplier;
-
+import java.util.function.Supplier;
+@Config
 public class Elevator extends MMPIDSubsystem {
 
     //System parts:
@@ -53,14 +55,17 @@ public class Elevator extends MMPIDSubsystem {
     public double ticksOffset = 0;
 
 
+    public static double elevatorLowBasket = 70;
+    public static double elevatorHighBasket = 100;
+    public static double elevatorDown = 1;
     public enum ElevatorState {
 
         //65
-        LOW_BASKET(70), HIGH_BASKET(100), ELEVATOR_DOWN(1); //58
+        LOW_BASKET(()-> elevatorLowBasket), HIGH_BASKET(()-> elevatorHighBasket), ELEVATOR_DOWN(()-> elevatorDown); //58
 
-        public double position;
+        public Supplier<Double> position;
 
-        ElevatorState(double position) {
+        ElevatorState(Supplier<Double> position) {
             this.position = position;
         }
     }
@@ -102,8 +107,8 @@ public class Elevator extends MMPIDSubsystem {
     }
 
     public Command moveToPose(ElevatorState state) {
-        return new MMPIDCommand(this, state.position)
-                .alongWith(new InstantCommand(() -> targetPose = state.position));
+        return new MMPIDCommand(this, state.position.get())
+                .alongWith(new InstantCommand(() -> targetPose = state.position.get()));
     }
 
     public Command setPowerByJoystick(DoubleSupplier power) {
@@ -135,11 +140,11 @@ public class Elevator extends MMPIDSubsystem {
 
     @Override
     public void setPower(Double power) {
-        if (targetPose == ElevatorState.ELEVATOR_DOWN.position && power > 0.4) {
+        if (targetPose == ElevatorState.ELEVATOR_DOWN.position.get() && power > 0.4) {
             power = 0.4;
         }
 
-        if(getHeight() > 105 && targetPose != ElevatorState.ELEVATOR_DOWN.position){
+        if(getHeight() > 105 && targetPose != ElevatorState.ELEVATOR_DOWN.position.get()){
             power = 0.0;
         }
         motor1.setPower(power);

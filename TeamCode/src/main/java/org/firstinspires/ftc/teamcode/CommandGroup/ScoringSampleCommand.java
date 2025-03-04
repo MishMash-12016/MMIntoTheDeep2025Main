@@ -41,7 +41,7 @@ public class ScoringSampleCommand {
                 ),
                 new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_SCORE_SAMPLE.position+0.05),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_SCORE_SAMPLE.position.get()+0.05),
                 new WaitCommand(50),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_SCORE_SAMPLE)
         );

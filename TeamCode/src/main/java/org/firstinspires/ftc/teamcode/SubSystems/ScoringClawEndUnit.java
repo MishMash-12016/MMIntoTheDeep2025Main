@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -11,13 +12,18 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
+import java.util.function.Supplier;
 
+@Config
 public class ScoringClawEndUnit extends SubsystemBase {
+    public static double scoringClawOpenPos = 0.83;
+    public static double scoringClawClosePos = 0.4;
     CuttleServo clawScoringServo;
     public enum ScoringClawState {
-        OPEN(0.83), CLOSE(0.4);//0.16
-        public double position;
-        ScoringClawState(double position){
+        OPEN(()-> scoringClawOpenPos), CLOSE(()-> scoringClawClosePos);//0.16
+        public Supplier<Double> position;
+
+        ScoringClawState(Supplier<Double> position) {
             this.position = position;
         }}
 
@@ -25,16 +31,16 @@ public class ScoringClawEndUnit extends SubsystemBase {
     public ScoringClawEndUnit() {
         clawScoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_CLAW_SERVO);
         //clawScoringServo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Outake claw");
-        clawScoringServo.setPosition(ScoringClawState.CLOSE.position);
+        clawScoringServo.setPosition(ScoringClawState.CLOSE.position.get());
     }
 
     public Command openScoringClaw() {
         return new InstantCommand(() -> {
-            clawScoringServo.setPosition(ScoringClawState.OPEN.position);}, this);
+            clawScoringServo.setPosition(ScoringClawState.OPEN.position.get());}, this);
     }
     public Command closeScoringClaw() {
         return new InstantCommand(() -> {
-            clawScoringServo.setPosition(ScoringClawState.CLOSE.position);}, this);
+            clawScoringServo.setPosition(ScoringClawState.CLOSE.position.get());}, this);
     }
 
     public Command setPosition(double newPos){
@@ -44,7 +50,7 @@ public class ScoringClawEndUnit extends SubsystemBase {
     }
     public Command setPosition(ScoringClawState scoringClawState){
         return new InstantCommand(()-> {
-            clawScoringServo.setPosition(scoringClawState.position);} ,
+            clawScoringServo.setPosition(scoringClawState.position.get());} ,
                 this);
     }
 }
