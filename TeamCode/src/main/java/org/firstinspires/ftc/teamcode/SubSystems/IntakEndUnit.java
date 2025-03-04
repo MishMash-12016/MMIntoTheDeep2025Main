@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
@@ -14,16 +15,20 @@ import org.firstinspires.ftc.teamcode.TeleOp.testElevator;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
+@Config
 public class IntakEndUnit extends SubsystemBase {
+    public static double IntakeClawOpenPos = 0.95;
+    public static double IntakeClawClosePos = 0.4;
 
     Servo clawIntakeServo;
 
     public enum IntakeClawState {
-        OPEN(0.95), CLOSE(0.4);
-        public double position;
+        OPEN(()-> IntakeClawOpenPos), CLOSE(()-> IntakeClawClosePos);
+        public Supplier<Double> position;
 
-        IntakeClawState(double position) {
+        IntakeClawState(Supplier<Double> position) {
             this.position = position;
         }
     }
@@ -37,24 +42,13 @@ public class IntakEndUnit extends SubsystemBase {
     }
 
     public Command openIntakeClaw() {
-        return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.OPEN.position), this);
+        return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.OPEN.position.get()), this);
     }
     public Command closeIntakeClaw() {
-        return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.CLOSE.position), this);
+        return new InstantCommand(() -> clawIntakeServo.setPosition(IntakeClawState.CLOSE.position.get()), this);
     }
 
     public Command setPose(double pose) {
         return new InstantCommand(() -> clawIntakeServo.setPosition(pose), this);
     }
-//    public Command closeBySensor(BooleanSupplier bool){
-//        return new RunCommand(() -> {
-//            MMRobot.getInstance().mmSystems.intakeDistSensor ?
-//                    IntakeClawState.OPEN.position :
-//                    IntakeClawState.CLOSE.position);
-//        },
-//                this);
-//    }
-
-
-
 }

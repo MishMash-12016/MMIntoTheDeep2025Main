@@ -7,6 +7,8 @@ import org.rowlandhall.meepmeep.MeepMeep;
 import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
 import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
+import java.nio.channels.MembershipKey;
+
 public class Working1andFour {
 
         //collection from human player
@@ -33,71 +35,74 @@ public class Working1andFour {
         public static void main(String[] args) {
             MeepMeep meepMeep = new MeepMeep(700);
 
+            double xPose = -28;
             RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep).setDimensions(11.02,14.5)//14.5
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                     .setConstraints(100, 100, Math.toRadians(720), Math.toRadians(720), 15)
                     .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(5.5, -62.73, Math.toRadians(90.00)))
 
-                            .setTangent(Math.toRadians(270))
-                            .lineToLinearHeading(new Pose2d(50, -59.2,Math.toRadians(90)))
-                            .lineToLinearHeading(new Pose2d(-2, -25, Math.toRadians(90)))
+                    .setTangent(Math.toRadians(90))
+                    .lineToLinearHeading(new Pose2d(5.5, -32,Math.toRadians(90)))
 
-                            //Second specimen
-                            .setTangent(Math.toRadians(270))
-                            .splineToLinearHeading(new Pose2d(12, -40, Math.toRadians(90)), Math.atan((-40 + 59.2) / (12.0 - 45.0)))
-                            .lineToLinearHeading(new Pose2d(45, -59.2, Math.toRadians(90)))
-                            .lineToLinearHeading(new Pose2d(-2, -25, Math.toRadians(90)))
+                    .setTangent(Math.toRadians(270))
 
-                            //Third specimen
-                            .setTangent(Math.toRadians(270))
-                            .splineToLinearHeading(new Pose2d(12, -40, Math.toRadians(90)), Math.atan((-40 + 59.2) / (12.0 - 45.0)))
-                            .lineToLinearHeading(new Pose2d(45, -59.2, Math.toRadians(90)))
-                            .lineToLinearHeading(new Pose2d(-5, -25, Math.toRadians(90)))
+                    .splineToSplineHeading(new Pose2d(31, -35, Math.toRadians(220)), Math.toRadians(0))
+//
+                    .setTangent(Math.toRadians(290))
+                    .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(160)), Math.toRadians(240))
 
-                            //Forth specimen
-                            .setTangent(Math.toRadians(270))
-                            .splineToLinearHeading(new Pose2d(12, -40, Math.toRadians(90)), Math.atan((-40 + 59.2) / (12.0 - 45.0)))
-                            .lineToLinearHeading(new Pose2d(45, -59.2, Math.toRadians(90)))
-                            .lineToLinearHeading(new Pose2d(-5, -25, Math.toRadians(90)))
+                    .setTangent(Math.toRadians(80))
+                    .splineToLinearHeading(new Pose2d(40, -38, Math.toRadians(235)), Math.toRadians(70))
+//
+                    .setTangent(Math.toRadians(300))
+                    .splineToLinearHeading(new Pose2d(45.8, -47, Math.toRadians(160)), Math.toRadians(240))
 
-                            .setTangent(Math.toRadians(270))
-                            .splineToLinearHeading(new Pose2d(12, -42, Math.toRadians(90)), Math.atan((-42.0 + 57) / (12.0 - 45)))
-                            .lineToLinearHeading(new Pose2d(45, -57, Math.toRadians(90)))
+                    .setTangent(Math.toRadians(80))
+                     .splineToLinearHeading(new Pose2d(50, -38, Math.toRadians(235)), Math.toRadians(80))
+
+                    .setTangent(Math.toRadians(270))
+                    .splineToLinearHeading(new Pose2d(50, -47, Math.toRadians(90)), Math.toRadians(270))
+
+
+                    .splineToLinearHeading(new Pose2d(50,-47.5,Math.toRadians(90)), Math.toRadians(270))
+
+                    .splineToLinearHeading(new Pose2d(50, -58,Math.toRadians(90)), Math.toRadians(270)) //driveToIntakeFirstSpecimen
+
+                    .setTangent(Math.toRadians(110))
+                    .splineTo(new Vector2d(4, -30),Math.toRadians(110))
+
+
+                    .setTangent(Math.toRadians(290))
+                    .splineTo(new Vector2d(43, -58),Math.toRadians(290))
+
+                    .setTangent(Math.toRadians(110))
+                    .splineTo(new Vector2d(4, -30),Math.toRadians(110))
+
+
+                    .setTangent(Math.toRadians(290))
+                    .splineTo(new Vector2d(43, -58),Math.toRadians(290))
+
+                    .setTangent(Math.toRadians(110))
+                    .splineTo(new Vector2d(4, -30),Math.toRadians(110))
+
+
+                    .setTangent(Math.toRadians(290))
+                    .splineTo(new Vector2d(43, -58),Math.toRadians(290))
+
+                    .setTangent(Math.toRadians(110))
+                    .splineTo(new Vector2d(4, -30),Math.toRadians(110))
+
+
+                    .setTangent(Math.toRadians(290))
+                    .splineTo(new Vector2d(43, -58),Math.toRadians(290))
+//
+//
+
 
 //
 ////--
 //
-//                            //first
-                            .setTangent(Math.toRadians(270))
-                            .lineToLinearHeading(new Pose2d(50, -58.2, Math.toRadians(90)))
 //
-//                            .lineToLinearHeading(new Pose2d(2, -28,Math.toRadians(90)))
-//
-//                            //second
-//                            .setTangent(Math.toRadians(270))
-//                            .splineToLinearHeading(new Pose2d(12,-38,Math.toRadians(90)), Math.atan((-38.0+58.2)/(12.0-45.0)))
-//                            .lineToLinearHeading(new Pose2d(45,-58.2,Math.toRadians(90)))
-//
-//                            .lineToLinearHeading(new Pose2d(0, -28, Math.toRadians(90)))
-//
-//                            //third
-//                            .setTangent(Math.toRadians(270))
-//                            .splineToLinearHeading(new Pose2d(10,-38,Math.toRadians(90)), Math.atan((-38.0+58.2)/(10.0-45.0)))
-//                            .lineToLinearHeading(new Pose2d(45,-58.2,Math.toRadians(90)))
-//
-//                            .lineToLinearHeading(new Pose2d(-2, -28, Math.toRadians(90)))
-//
-//                            //forth
-//                            .setTangent(Math.toRadians(270))
-//                            .splineToLinearHeading(new Pose2d(8,-38,Math.toRadians(90)), Math.atan((-38.0+58.2)/(8.0-45.0)))
-//                            .lineToLinearHeading(new Pose2d(45,-58.2,Math.toRadians(90)))
-//
-//                            .lineToLinearHeading(new Pose2d(-4, -28, Math.toRadians(90)))
-//
-//                            //park
-//                            .setTangent(Math.toRadians(270))
-//                            .splineToLinearHeading(new Pose2d(6,-40,Math.toRadians(90)), Math.atan((-38.0+58)/(6.0-40)))
-//                            .lineToLinearHeading(new Pose2d(38, -58, Math.toRadians(90)))
                             .build());
 
 

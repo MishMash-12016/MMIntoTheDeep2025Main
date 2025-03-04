@@ -92,7 +92,6 @@ public class DriveTrain extends SubsystemBase {
         }
 
         return powerArray;
-
     }
 
     public void resetRotation(){
@@ -136,15 +135,6 @@ public class DriveTrain extends SubsystemBase {
     public void updateTelemetry() {
         FtcDashboard.getInstance().getTelemetry().addData("yaw", localizer.getHeading());
         FtcDashboard.getInstance().getTelemetry().update();
-    }
-
-    public Command stop() {
-        return new InstantCommand(() -> {
-            motorBL.setPower(0);
-            motorBR.setPower(0);
-            motorFL.setPower(0);
-            motorFR.setPower(0);
-        });
     }
 }
 

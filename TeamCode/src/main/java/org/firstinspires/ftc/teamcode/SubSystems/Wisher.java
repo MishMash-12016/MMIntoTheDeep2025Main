@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 public class Wisher extends SubsystemBase {
     CuttleServo wisherServo;
     public enum WisherState {
-        OUT(1), IN(0);
+        OUT_POSE(1), IN_POSE(0);
         public double position;
         WisherState(double position){
             this.position = position;
@@ -21,13 +21,13 @@ public class Wisher extends SubsystemBase {
 
     public Wisher() {
         wisherServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.WISHER);
-        wisherServo.setPosition(WisherState.IN.position);
+        wisherServo.setPosition(WisherState.IN_POSE.position);
     }
     public Command WisherOut() {
-        return new InstantCommand(() -> wisherServo.setPosition(WisherState.OUT.position), this);
+        return new InstantCommand(() -> wisherServo.setPosition(WisherState.OUT_POSE.position), this);
     }
     public Command WisherIn() {
-        return new InstantCommand(() -> wisherServo.setPosition(WisherState.IN.position), this);
+        return new InstantCommand(() -> wisherServo.setPosition(WisherState.IN_POSE.position), this);
     }
     public Command Wish() {
         return new SequentialCommandGroup(
@@ -40,11 +40,7 @@ public class Wisher extends SubsystemBase {
         return new InstantCommand(() -> wisherServo.setPosition(pose), this);
     }
     public Command setPosition(WisherState state){
-        return new InstantCommand(()-> {
-            wisherServo.setPosition(state.position);} ,
-                this);
+        return new InstantCommand(()-> wisherServo.setPosition(state.position), this);
     }
-
-
 }
 
