@@ -31,7 +31,7 @@ public class Vision extends SubsystemBase {
     public static double TARGET_HEIGHT = 39;
 
     public static double strafeConversionFactor = 10;
-    public static double cameraStrafeToBot = -130.0;
+    public static double cameraStrafeToBot = -20;
 
     public static double sampleToRobotDistance = 105;
 

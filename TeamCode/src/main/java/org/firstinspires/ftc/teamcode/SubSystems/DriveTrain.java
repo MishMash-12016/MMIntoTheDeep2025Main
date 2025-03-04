@@ -132,6 +132,10 @@ public class DriveTrain extends SubsystemBase {
                 }, this);
     }
 
+    public void stop(){
+        drive(0,0,0);
+    }
+
     public void updateTelemetry() {
         FtcDashboard.getInstance().getTelemetry().addData("yaw", localizer.getHeading());
         FtcDashboard.getInstance().getTelemetry().update();

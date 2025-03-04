@@ -5,6 +5,8 @@ import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.controller.PIDFController;
+import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -27,7 +29,7 @@ public class strafeToSample extends CommandBase {
 
     @Override
     public void initialize() {
-        pidController = new PIDController(0.0124, 0,0.0013);
+        pidController = new PIDController(0.009, 0,0);
         pidController.setSetPoint(0);
         pidController.setTolerance(7);
         timer = new FTCTimer();
@@ -40,7 +42,7 @@ public class strafeToSample extends CommandBase {
         if (!pidController.atSetPoint()){
             timer.start();
         }
-        MMRobot.getInstance().mmSystems.telemetry.addData("tim,er", timer.getTime());
+        MMRobot.getInstance().mmSystems.telemetry.addData("timer", timer.getTime());
     }
 
     @Override

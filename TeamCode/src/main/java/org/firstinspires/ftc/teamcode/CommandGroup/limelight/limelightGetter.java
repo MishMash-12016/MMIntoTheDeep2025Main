@@ -28,8 +28,8 @@ public class limelightGetter {
         return new alignToSampleAuto(limelight,drive,previousAction);
     }
 
-    public static Command strafeToSampleAuto(Limelight3A limelight, PinpointDrive drive ,TrajectoryActionBuilder previousAction) {
-        return new strafeToSampleAuto(limelight,drive,previousAction);
+    public static Command strafeToSampleAuto(PinpointDrive drive) {
+        return new strafeToSampleAuto(drive);
     }
 
     public static Command getRotateToSample() {

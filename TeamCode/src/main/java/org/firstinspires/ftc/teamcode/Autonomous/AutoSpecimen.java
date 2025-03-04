@@ -173,7 +173,7 @@ public class AutoSpecimen extends MMOpMode {
                 //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
                 score(),
                 new WaitCommand(200),
-                limelightGetter.strafeToSampleAuto(limelight, drive, limelightStrafe),
+                limelightGetter.strafeToSampleAuto(drive),
                 new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
                 new WaitCommand(200),
                 new SequentialCommandGroup(
@@ -288,7 +288,7 @@ public class AutoSpecimen extends MMOpMode {
                             new WaitCommand(300).andThen(
                                     new SequentialCommandGroup(
                                             MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                                            MMRobot.getInstance().mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
+                                            MMRobot.getInstance().mmSystems.scoringClawEndUnit.setPosition(0),
                                             MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),//be prepared for transfer
                                             MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                                             MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),

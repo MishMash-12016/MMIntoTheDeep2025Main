@@ -38,12 +38,12 @@ public class rotateToSample extends CommandBase {
             angle = MMRobot.getInstance().mmSystems.vision.getTurnServoDegree();
             if (angle>=0 && angle<= 90){
                 angle /= 270;
-                angle = IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE.position - angle;
+                angle = IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE.position.get() - angle;
             }
             else{
                 angle = 180 - angle;
                 angle /= 270;
-                angle = IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE.position + angle;
+                angle = IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE.position.get() + angle;
             }
 
 

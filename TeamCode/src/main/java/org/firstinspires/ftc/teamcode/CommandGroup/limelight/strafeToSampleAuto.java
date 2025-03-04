@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
 
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -12,6 +13,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutoSpecimen;
 import org.firstinspires.ftc.teamcode.Autonomous.TrialAutoSample;
+import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.FTCTimer;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.R;
@@ -20,46 +22,46 @@ import org.opencv.core.Mat;
 import java.util.List;
 
 public class strafeToSampleAuto extends CommandBase {
-    Limelight3A limelight;
 
-    LLResult result;
-    int noResultCounter;
-    PinpointDrive drive;
     PIDController pidController;
-    TrajectoryActionBuilder previousAction;
+    FTCTimer timer;
+    PinpointDrive drive;
     boolean finished;
 
-    private double robotWidth = 5.5;
-
-    public strafeToSampleAuto(Limelight3A limelight, PinpointDrive drive, TrajectoryActionBuilder previousAction) {
-        this.limelight = limelight;
+    public strafeToSampleAuto(PinpointDrive drive) {
         this.drive = drive;
         addRequirements(MMRobot.getInstance().mmSystems.driveTrain);
-        this.previousAction = previousAction;
         finished = false;
     }
 
 
     @Override
     public void initialize() {
-        noResultCounter = 0;
-        result = null;
-        limelight.pipelineSwitch(1);
+        pidController = new PIDController(0.0124, 0,0.0013);
+        pidController.setSetPoint(0);
+        pidController.setTolerance(7);
+        timer = new FTCTimer();
+        timer.start();
     }
 
     @Override
     public void execute() {
-
-            double[] outputPython = limelight.getLatestResult().getPythonOutput();
-            double limelight_x =  outputPython[1];
-            AutoSpecimen.LIMELIGHT_TURN = previousAction.strafeToLinearHeading(new Vector2d(drive.pose.position.x + limelight_x / 2.54 + robotWidth ,drive.pose.position.y), Math.toRadians(270));
-            AutoSpecimen.LIMELIGHT_INFO = limelight_x;
-            MMRobot.getInstance().mmSystems.telemetry.addData("distance X = ",limelight_x);
-            finished = true;
+        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(pidController.calculate(MMRobot.getInstance().mmSystems.vision.getStrafeOffset()),0) , 0));
+        if (!pidController.atSetPoint()){
+            timer.start();
+        }
+        MMRobot.getInstance().mmSystems.telemetry.addData("timer", timer.getTime());
     }
 
-//    @Override
-//    public boolean isFinished() {
-//        return finished;
-//    }
+    @Override
+    public void end(boolean interrupted) {
+        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0) , 0));
+    }
+
+    @Override
+    public boolean isFinished() {
+        timer.end();
+        return timer.getTime() >= 300;
+
+    }
 }
