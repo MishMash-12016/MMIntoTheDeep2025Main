@@ -46,7 +46,7 @@ public class Working1andFour {
 
                     .setTangent(Math.toRadians(270))
 
-                    .splineToSplineHeading(new Pose2d(31, -35, Math.toRadians(220)), Math.toRadians(0))
+                    .splineTo(new Vector2d(31, -35), Math.toRadians(50))
 //
                     .setTangent(Math.toRadians(290))
                     .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(160)), Math.toRadians(240))

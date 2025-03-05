@@ -23,8 +23,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotatorYAxis;
 import org.firstinspires.ftc.teamcode.SubSystems.Wisher;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
@@ -63,11 +63,11 @@ public class MMSystems {
     public IntakEndUnit intakEndUnit;
     public IntakeArm intakeArm;
     public IntakeEndUnitRotator intakeEndUnitRotator;
-    public ScoringEndUnitRotator scoringEndUnitRotator;
+    public ScoringEndUnitElbow scoringEndUnitElbow;
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
     public Elevator elevator;
-    public ScoringEndUnitRotatorYAxis scoringEndUnitRotatorYAxis;
+    public ScoringEndUnitRotator scoringEndUnitRotator;
     public Wisher wisher;
 
 
@@ -80,13 +80,13 @@ public class MMSystems {
         this.elevator = new Elevator(elevatorSwitch);
         this.linearIntake = new LinearIntake();
         this.intakEndUnit = new IntakEndUnit();
-        this.scoringEndUnitRotator = new ScoringEndUnitRotator();
+        this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.intakeArm = new IntakeArm();
         this.scoringArm = new ScoringArm();
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
-        this.scoringEndUnitRotatorYAxis = new ScoringEndUnitRotatorYAxis();
+        this.scoringEndUnitRotator = new ScoringEndUnitRotator();
         this.wisher = new Wisher();
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)
