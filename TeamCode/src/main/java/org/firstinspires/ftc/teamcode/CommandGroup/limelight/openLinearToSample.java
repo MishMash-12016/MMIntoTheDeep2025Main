@@ -13,11 +13,20 @@ public class openLinearToSample extends CommandBase {
     double noResultCounter;
 
     ExterpolationMap exterpolationMap = new ExterpolationMap()
-            .put(73.8, 0.19)
-            .put(93.3,0.23)
-            .put(110,0.247)
-            .put(130.6,0.2588)
-            .put(160,0.309);
+
+            .put(71,0.247 )
+            .put(89, 0.266)
+            .put(110.4,0.288)
+            .put(130, 0.294)
+            .put(140.37,0.3)
+            .put(149,0.32)
+            .put(168.5, 0.337)
+            .put(190,0.371)
+            .put(205.1,0.384)
+            .put(219,0.417)
+            .put(240.6,0.42)
+            .put(261.5,0.476)
+            .put(279,0.49);
 
     public  openLinearToSample() {
         addRequirements(

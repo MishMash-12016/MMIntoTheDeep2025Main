@@ -106,30 +106,38 @@ public class MMSystems {
 
     }
 
+
     public void initDriveTrain() {
         //roadRunner 90 is what we agree as 0 so reset it to 0
-        localizer.setPosition(new Pose2d(0, 0, localizer.getHeading() - Math.toRadians(90)));
+        localizer.setPosition(new Pose2d(0,0,localizer.getHeading()-Math.toRadians(90)));
         driveTrain = new DriveTrain();
+        driveTrain.setDefaultCommand(
+                MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
+                        ()-> Math.pow(gamepadEx1.getLeftX(),3),
+                        () -> Math.pow(gamepadEx1.getLeftY(),3),
+                        () -> Math.pow(gamepadEx1.getRightX(),3))
+
+        );
     }
 
-    public SequentialCommandGroup joystickDrive(){
-        if (currentMode == Mode.DRIVER_CONTROL) {
-            return new SequentialCommandGroup(new InstantCommand(()->
-                    MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
-                            () -> Math.pow(gamepadEx1.getLeftX(), 3),
-                            () -> Math.pow(gamepadEx1.getLeftY(), 3),
-                            () -> Math.pow(gamepadEx1.getRightX(), 3))
-
-            ));
-        }
-        else if (currentMode == Mode.AUTOMATIC_CONTROL) {
-            if (gamepadEx2.gamepad.a)
-            {
-                return currentAutoActions;
-            }
-        }
-        return new SequentialCommandGroup(new InstantCommand(()->MMRobot.getInstance().mmSystems.telemetry.addData("wtf",0)));
-    };
+//    public SequentialCommandGroup joystickDrive(){
+//        if (currentMode == Mode.DRIVER_CONTROL) {
+//            return new SequentialCommandGroup(new InstantCommand(()->
+//                    MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
+//                            () -> Math.pow(gamepadEx1.getLeftX(), 3),
+//                            () -> Math.pow(gamepadEx1.getLeftY(), 3),
+//                            () -> Math.pow(gamepadEx1.getRightX(), 3))
+//
+//            ));
+//        }
+//        else if (currentMode == Mode.AUTOMATIC_CONTROL) {
+//            if (gamepadEx2.gamepad.a)
+//            {
+//                return currentAutoActions;
+//            }
+//        }
+//        return new SequentialCommandGroup(new InstantCommand(()->MMRobot.getInstance().mmSystems.telemetry.addData("wtf",0)));
+//    };
 
     public MMSystems(OpModeType type, HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
         this.opModeType = type;
