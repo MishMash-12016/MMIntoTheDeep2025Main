@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
@@ -16,6 +18,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm.ScoringArmState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator.ScoringRotatorState;
+
+import java.util.function.BooleanSupplier;
 
 
 public class IntakeSpecimenCommand {
@@ -38,9 +42,13 @@ public class IntakeSpecimenCommand {
         );
     }
 
-    public static Command PrepareSpecimenIntakeWithSensor() {
+    public static Command PrepareSpecimenIntakeWithSensor(BooleanSupplier press) {
         return new SequentialCommandGroup(
                 PrepareSystemsSpecimenIntake(),
+                new RunCommand(() -> {
+                    if (press.getAsBoolean())
+                        CommandScheduler.getInstance().cancelAll();
+                }),
                 new WaitCommand(200),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 3.8),//3.8
                 SpecimenIntake()
