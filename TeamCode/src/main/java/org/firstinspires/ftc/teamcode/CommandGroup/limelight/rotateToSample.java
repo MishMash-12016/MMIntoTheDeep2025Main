@@ -28,6 +28,7 @@ public class rotateToSample extends CommandBase {
         oldAngle = 0;
         noResultCounter = 0;
         finished = false;
+        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
 
@@ -45,11 +46,6 @@ public class rotateToSample extends CommandBase {
                 angle /= 270;
                 angle = IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE.position.get() + angle;
             }
-
-
-
-
-
 //            angle += 90;
 //            double angleInServoDegrees = angle / 270;
 //        MMRobot.getInstance().mmSystems.telemetry.addData("found the stupid sample", 0);
@@ -58,6 +54,11 @@ public class rotateToSample extends CommandBase {
             finished = true;
         } else
             noResultCounter++;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override

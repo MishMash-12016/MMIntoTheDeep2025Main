@@ -18,9 +18,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Vision extends SubsystemBase {
     private final Limelight3A camera;
 
+    private double trackSample = 0;
+
 //    private final Servo led;
 
-    public static double ledPWM = 0.5;
 
     @Getter private boolean isDataOld = false;
     @Getter @Setter private SampleColor detectionColor = SampleColor.BLUE;
@@ -110,10 +111,18 @@ public class Vision extends SubsystemBase {
         return result.getPythonOutput()[3];
     }
 
+    public void startTracking(){
+        trackSample = 1;
+    }
+
+    public void stopTracking(){
+        trackSample = 0;
+    }
+
     @Override
     public void periodic() {
         camera.updatePythonInputs(
-                new double[] {detectionColor.colorVal, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+                new double[] {detectionColor.colorVal, trackSample, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
         result = camera.getLatestResult();
 
         if (result != null) {

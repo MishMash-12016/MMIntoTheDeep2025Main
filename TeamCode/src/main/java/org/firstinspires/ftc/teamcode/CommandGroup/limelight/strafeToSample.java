@@ -15,11 +15,12 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.FT
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.Vision;
+import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 
 import java.util.List;
 
 public class strafeToSample extends CommandBase {
-    PIDController pidController;
+    SQPIDController pidController;
     FTCTimer timer;
     public strafeToSample() {
         addRequirements(
@@ -29,17 +30,18 @@ public class strafeToSample extends CommandBase {
 
     @Override
     public void initialize() {
-        pidController = new PIDController(0.009, 0,0);
-        pidController.setSetPoint(0);
+        pidController = new SQPIDController(0.009, 0,0);
+        pidController.setSetpoint(0);
         pidController.setTolerance(7);
         timer = new FTCTimer();
         timer.start();
+        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
     @Override
     public void execute() {
         MMRobot.getInstance().mmSystems.driveTrain.drive(pidController.calculate(MMRobot.getInstance().mmSystems.vision.getStrafeOffset()), 0, 0);
-        if (!pidController.atSetPoint()){
+        if (!pidController.atSetpoint()){
             timer.start();
         }
         MMRobot.getInstance().mmSystems.telemetry.addData("timer", timer.getTime());
@@ -48,6 +50,7 @@ public class strafeToSample extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         MMRobot.getInstance().mmSystems.driveTrain.drive(0,0,0);
+        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override

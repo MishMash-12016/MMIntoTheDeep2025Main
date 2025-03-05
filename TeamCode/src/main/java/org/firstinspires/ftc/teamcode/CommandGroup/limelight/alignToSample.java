@@ -19,7 +19,7 @@ public class alignToSample extends CommandBase {
 
     LLResult result;
     int noResultCounter;
-    PIDController pidController;
+    PIDController pidController; //TODO: to SQPDID
     public alignToSample(Limelight3A limelight) {
         this.limelight = limelight;
         limelight.pipelineSwitch(0);
@@ -35,7 +35,7 @@ public class alignToSample extends CommandBase {
         pidController = new PIDController(0.019, 0,0.0005);
         pidController.setSetPoint(0);
         pidController.setTolerance(2);
-        limelight.pipelineSwitch(0);
+        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
     @Override
@@ -54,6 +54,11 @@ public class alignToSample extends CommandBase {
             noResultCounter++;
         }
         MMRobot.getInstance().mmSystems.telemetry.update();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override

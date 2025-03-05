@@ -12,6 +12,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import org.firstinspires.ftc.teamcode.Autonomous.TrialAutoSample;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 import org.opencv.core.Mat;
 
 import java.util.List;
@@ -22,7 +23,6 @@ public class alignToSampleAuto extends CommandBase {
     LLResult result;
     int noResultCounter;
     PinpointDrive drive;
-    PIDController pidController;
     TrajectoryActionBuilder previousAction;
     boolean finished;
 
@@ -39,9 +39,7 @@ public class alignToSampleAuto extends CommandBase {
     public void initialize() {
         noResultCounter = 0;
         result = null;
-        pidController = new PIDController(0.019, 0,0.0005);
-        pidController.setSetPoint(0);
-        pidController.setTolerance(2);
+        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
     @Override
@@ -60,6 +58,11 @@ public class alignToSampleAuto extends CommandBase {
         else {
             noResultCounter++;
         }
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override

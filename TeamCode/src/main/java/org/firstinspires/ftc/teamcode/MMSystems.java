@@ -112,7 +112,7 @@ public class MMSystems {
         driveTrain = new DriveTrain();
     }
 
-    public CommandGroupBase joystickDrive(){
+    public SequentialCommandGroup joystickDrive(){
         if (currentMode == Mode.DRIVER_CONTROL) {
             return new SequentialCommandGroup(new InstantCommand(()->
                     MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(

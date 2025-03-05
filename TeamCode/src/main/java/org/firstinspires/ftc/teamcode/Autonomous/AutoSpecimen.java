@@ -174,13 +174,13 @@ public class AutoSpecimen extends MMOpMode {
                 score(),
                 new WaitCommand(200),
                 limelightGetter.strafeToSampleAuto(drive),
-                new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
+//                new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
                 new WaitCommand(200),
                 new SequentialCommandGroup(
                         limelightGetter.getRotateToSample(),
                         limelightGetter.getOpenLinearToSample()
                 ),
-                new WaitCommand(100000),
+                new WaitCommand(1000),
 
 
 

@@ -75,7 +75,8 @@ public class LimeLightTeleOp extends MMOpMode {
     @Override
     public void run() {
         super.run();
-//        MMRobot.getInstance().mmSystems.joystickDrive().execute();
+        MMRobot.getInstance().mmSystems.joystickDrive().initialize();
+        MMRobot.getInstance().mmSystems.joystickDrive().execute();
         MMRobot.getInstance().mmSystems.controlHub.pullBulkData();
         MMRobot.getInstance().mmSystems.telemetry.addData("trigger", MMRobot.getInstance().mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
 

@@ -17,13 +17,14 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.FT
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.R;
+import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 import org.opencv.core.Mat;
 
 import java.util.List;
 
 public class strafeToSampleAuto extends CommandBase {
 
-    PIDController pidController;
+    SQPIDController pidController;
     FTCTimer timer;
     PinpointDrive drive;
     boolean finished;
@@ -37,17 +38,18 @@ public class strafeToSampleAuto extends CommandBase {
 
     @Override
     public void initialize() {
-        pidController = new PIDController(0.0124, 0,0.0013);
-        pidController.setSetPoint(0);
+        pidController = new SQPIDController(0.0124, 0,0.0013);
+        pidController.setSetpoint(0);
         pidController.setTolerance(7);
         timer = new FTCTimer();
         timer.start();
+        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
     @Override
     public void execute() {
         drive.setDrivePowers(new PoseVelocity2d(new Vector2d(pidController.calculate(MMRobot.getInstance().mmSystems.vision.getStrafeOffset()),0) , 0));
-        if (!pidController.atSetPoint()){
+        if (!pidController.atSetpoint()){
             timer.start();
         }
         MMRobot.getInstance().mmSystems.telemetry.addData("timer", timer.getTime());
@@ -56,6 +58,7 @@ public class strafeToSampleAuto extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0) , 0));
+        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override
