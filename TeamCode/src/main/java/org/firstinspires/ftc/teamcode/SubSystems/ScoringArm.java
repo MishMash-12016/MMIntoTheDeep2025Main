@@ -22,7 +22,7 @@ public class ScoringArm extends SubsystemBase {
     public static double scoringarmscoreSpecimenPose = 0.46;
     public static double scoringarmscoreSamplePose = 0.26;
     public static double scoringarmprepareScoreSamplePose = 0.32;
-
+    public static double intakeFormBackPos = 0.21;
 
     public enum ScoringArmState {
         REST_POSE(() -> scoringarmrestPos),
@@ -34,7 +34,8 @@ public class ScoringArm extends SubsystemBase {
         MID_POSE(() -> scoringarmmidPose),
         SCORE_SPECIMEN(() -> scoringarmscoreSpecimenPose),
         SCORE_SAMPLE(() -> scoringarmscoreSamplePose),
-        PREPARE_SCORE_SAMPLE(() -> scoringarmprepareScoreSamplePose);
+        PREPARE_SCORE_SAMPLE(() -> scoringarmprepareScoreSamplePose),
+        INTAKE_FROM_BACK_POSE(()->intakeFormBackPos);
         public Supplier<Double> position;
 
         ScoringArmState(Supplier<Double> position) {

@@ -1,34 +1,21 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
-import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.ConditionalCommand;
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoreSpecimenCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
-import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
-import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotatorYAxis;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
-
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
 
 @TeleOp
 public class testElevator extends MMOpMode {
@@ -53,7 +40,9 @@ public class testElevator extends MMOpMode {
         robotInstance.mmSystems.initRobotSystems();
         robotInstance.mmSystems.initDriveTrain();
 
-
+        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                IntakeSpecimenCommand.PrepareSystemsSpecimenIntakeFromBack()
+        );
 
 
 //        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whileHeld(
@@ -85,32 +74,32 @@ public class testElevator extends MMOpMode {
 //        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Trigger.RIGHT_TRIGGER).whenPressed(
 //                robotInstance.mmSystems.scoringArm.setPosition(update1(true))
 //        );
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER) // sample
-                .whenPressed(
-                        IntakeSampleCommand.prepareSampleIntake(
-                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
-                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()
-                        )
-                );
-
-        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                IntakeSampleCommand.SampleIntake()
-        );
-
-        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new SequentialCommandGroup(
-                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
-                        new WaitCommand(100),
-                        robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_SAMPLE_POSE),
-                        new WaitCommand(100),
-                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE),
-                        robotInstance.mmSystems.scoringEndUnitRotatorYAxis.setPosition(ScoringEndUnitRotatorYAxis.ScoringRotatorYAxisState.SAMPLE_TRANSFER_POSE),
-                        robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
-                        new WaitCommand(300),
-                        robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_TRANSFER_POSE),
-                        robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.HOLD_POSE_SPECIMEN)
-                        )
-        );
+//        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER) // sample
+//                .whenPressed(
+//                        IntakeSampleCommand.prepareSampleIntake(
+//                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
+//                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()
+//                        )
+//                );
+//
+//        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+//                IntakeSampleCommand.SampleIntake()
+//        );
+//
+//        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+//                new SequentialCommandGroup(
+//                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
+//                        new WaitCommand(100),
+//                        robotInstance.mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SAMPLE_POSE),
+//                        new WaitCommand(100),
+//                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE),
+//                        robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
+//                        robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
+//                        new WaitCommand(300),
+//                        robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_TRANSFER_POSE),
+//                        robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.HOLD_POSE_SPECIMEN)
+//                        )
+//        );
 
 //        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
 //                new SequentialCommandGroup(
@@ -147,12 +136,12 @@ public class testElevator extends MMOpMode {
 
     }
 
-    private double p1 = 0.5;
-    private final double STEP = 0.01;
-
-    private double update1(boolean d) {
-        return p1 += d ? STEP : -STEP;
-    }
+//    private double p1 = 0.5;
+//    private final double STEP = 0.01;
+//
+//    private double update1(boolean d) {
+//        return p1 += d ? STEP : -STEP;
+//    }
 
     @Override
     public void run() {
