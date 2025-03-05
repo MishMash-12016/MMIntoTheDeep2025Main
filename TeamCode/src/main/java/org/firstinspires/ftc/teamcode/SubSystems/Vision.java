@@ -27,12 +27,13 @@ public class Vision extends SubsystemBase {
     @Getter @Setter private SampleColor detectionColor = SampleColor.BLUE;
     @Getter private LLResult result;
 
+
     public static double CAMERA_HEIGHT = 420.0;
     public static double CAMERA_ANGLE = -45.0;
     public static double TARGET_HEIGHT = 39;
 
     public static double strafeConversionFactor = 10;
-    public static double cameraStrafeToBot = -20;
+    public static double cameraStrafeToBot = 0.0;
 
     public static double sampleToRobotDistance = 105;
 
@@ -122,7 +123,7 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         camera.updatePythonInputs(
-                new double[] {detectionColor.colorVal, trackSample, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+                new double[] {detectionColor.colorVal, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
         result = camera.getLatestResult();
 
         if (result != null) {

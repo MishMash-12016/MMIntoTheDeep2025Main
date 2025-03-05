@@ -41,8 +41,10 @@ public class LimeLightTeleOp extends MMOpMode {
                 new SequentialCommandGroup(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                         limelightGetter.strafeToSample(),
+                        limelightGetter.getAlignToSample(hardwareMap),
                         limelightGetter.getRotateToSample(),
                         limelightGetter.getOpenLinearToSample(),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.57),
                         new WaitCommand(500),
                         MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                         new WaitCommand(500),
@@ -65,20 +67,20 @@ public class LimeLightTeleOp extends MMOpMode {
                 )
         );
 
-        new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+        new Trigger(() -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
                 .whileActiveContinuous(
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(
-                                () -> MMRobot.getInstance().mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)
+                                () -> MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)
                         ).alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE))); //right trigger
     }
 
     @Override
     public void run() {
         super.run();
-        MMRobot.getInstance().mmSystems.joystickDrive().initialize();
-        MMRobot.getInstance().mmSystems.joystickDrive().execute();
+//        MMRobot.getInstance().mmSystems.joystickDrive().initialize();
+//        MMRobot.getInstance().mmSystems.joystickDrive().execute();
         MMRobot.getInstance().mmSystems.controlHub.pullBulkData();
-        MMRobot.getInstance().mmSystems.telemetry.addData("trigger", MMRobot.getInstance().mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
+        MMRobot.getInstance().mmSystems.telemetry.addData("trigger", MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
 
         telemetry.update();
     }

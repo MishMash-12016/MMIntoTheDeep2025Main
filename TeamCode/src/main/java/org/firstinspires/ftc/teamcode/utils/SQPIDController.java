@@ -82,7 +82,6 @@ public class SQPIDController {
      * @param kp The proportional coefficient.
      * @param ki The integral coefficient.
      * @param kd The derivative coefficient.
-     * @param period The period between controller updates in seconds.
      * @throws IllegalArgumentException if kp &lt; 0
      * @throws IllegalArgumentException if ki &lt; 0
      * @throws IllegalArgumentException if kd &lt; 0
@@ -427,7 +426,7 @@ public class SQPIDController {
         }
 
         // Square root proportional term
-        double proportionalTerm = Math.signum(m_error) * Math.sqrt(Math.abs(m_error)) * m_kp;
+        double proportionalTerm = m_error * m_kp;
 
         // Regular integral and derivative terms
         double integralTerm = m_ki * m_totalError;

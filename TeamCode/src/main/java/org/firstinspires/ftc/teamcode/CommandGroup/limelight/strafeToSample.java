@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
@@ -18,10 +19,13 @@ import org.firstinspires.ftc.teamcode.SubSystems.Vision;
 import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 
 import java.util.List;
-
+@Config
 public class strafeToSample extends CommandBase {
+    public static  double Kp = 0.01;
+    public static  double Ki = 0.0;
+    public static  double Kd = 0.0;
+    public static  double tolerance = 160;
     SQPIDController pidController;
-    FTCTimer timer;
     public strafeToSample() {
         addRequirements(
                 MMRobot.getInstance().mmSystems.driveTrain);
@@ -30,21 +34,15 @@ public class strafeToSample extends CommandBase {
 
     @Override
     public void initialize() {
-        pidController = new SQPIDController(0.009, 0,0);
+        pidController = new SQPIDController(Kp, Ki,Kd);
         pidController.setSetpoint(0);
-        pidController.setTolerance(7);
-        timer = new FTCTimer();
-        timer.start();
+        pidController.setTolerance(tolerance);
         MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
     @Override
     public void execute() {
         MMRobot.getInstance().mmSystems.driveTrain.drive(pidController.calculate(MMRobot.getInstance().mmSystems.vision.getStrafeOffset()), 0, 0);
-        if (!pidController.atSetpoint()){
-            timer.start();
-        }
-        MMRobot.getInstance().mmSystems.telemetry.addData("timer", timer.getTime());
     }
 
     @Override
@@ -55,8 +53,6 @@ public class strafeToSample extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        timer.end();
-        return timer.getTime() >= 300;
-
+        return pidController.atSetpoint();
     }
 }

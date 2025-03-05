@@ -13,21 +13,15 @@ public class openLinearToSample extends CommandBase {
     double noResultCounter;
 
     ExterpolationMap exterpolationMap = new ExterpolationMap()
-            .put(0.89, 0.2)
-            .put(110,0.23)
-            .put(115, 0.24)
-            .put(130, 0.25)
-            .put(142.5,0.312)
-            .put(160, 0.33)
-            .put(180,0.35)
-            .put(200, 0.365)
-            .put(218,0.38)
-            .put(247,0.447);
+            .put(73.8, 0.19)
+            .put(93.3,0.23)
+            .put(110,0.247)
+            .put(130.6,0.2588)
+            .put(160,0.309);
 
     public  openLinearToSample() {
         addRequirements(
-                MMRobot.getInstance().mmSystems.linearIntake,
-                MMRobot.getInstance().mmSystems.intakeArm
+                MMRobot.getInstance().mmSystems.linearIntake
         );
     }
 
@@ -44,11 +38,8 @@ public class openLinearToSample extends CommandBase {
         if (distance!=null){
 
             double distanceInServoDegrees = exterpolationMap.exterpolate(distance);
-//            distanceInServoDegrees *= 0.47;
-
 
             MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(distanceInServoDegrees);
-            MMRobot.getInstance().mmSystems.intakeArm.setPositionVoid(0.57);
 
             MMRobot.getInstance().mmSystems.telemetry.addData("distance servo -  ", distanceInServoDegrees);
             MMRobot.getInstance().mmSystems.telemetry.addData("distance -  ", distance);

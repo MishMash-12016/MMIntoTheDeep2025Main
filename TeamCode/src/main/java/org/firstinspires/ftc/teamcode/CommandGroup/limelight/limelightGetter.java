@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.arcrobotics.ftclib.command.Command;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 
@@ -20,8 +21,8 @@ public class limelightGetter {
         return new openLinearToSample();
     }
 
-    public static Command getAlignToSample(Limelight3A limelight) {
-        return new alignToSample(limelight);
+    public static Command getAlignToSample(HardwareMap hardwareMap) {
+        return new alignToSample(hardwareMap);
     }
 
     public static Command getAlignToSampleAuto(Limelight3A limelight, PinpointDrive drive ,TrajectoryActionBuilder previousAction) {

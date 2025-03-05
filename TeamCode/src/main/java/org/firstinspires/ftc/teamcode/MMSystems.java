@@ -26,8 +26,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotatorYAxis;
 import org.firstinspires.ftc.teamcode.SubSystems.Vision;
 import org.firstinspires.ftc.teamcode.SubSystems.Wisher;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
@@ -70,7 +70,7 @@ public class MMSystems {
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
     public Elevator elevator;
-    public ScoringEndUnitRotatorYAxis scoringEndUnitRotatorYAxis;
+    public ScoringEndUnitElbow scoringEndUnitElbow;
     public Wisher wisher;
 
     public Vision vision;
@@ -97,7 +97,7 @@ public class MMSystems {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
-        this.scoringEndUnitRotatorYAxis = new ScoringEndUnitRotatorYAxis();
+        this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.wisher = new Wisher();
         vision = new Vision(hardwareMap, telemetry);
 //        linearIntake.setDefaultCommand(

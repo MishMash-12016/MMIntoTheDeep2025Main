@@ -184,10 +184,6 @@ public class AutoSpecimen extends MMOpMode {
 
 
 
-
-
-
-
                 new ParallelCommandGroup(
                         new ActionCommand(driveToPush1.build()),
                         new WaitCommand(250).andThen(
