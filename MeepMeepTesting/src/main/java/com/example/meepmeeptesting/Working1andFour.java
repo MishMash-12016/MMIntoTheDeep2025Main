@@ -35,7 +35,9 @@ public class Working1andFour {
         public static void main(String[] args) {
             MeepMeep meepMeep = new MeepMeep(700);
 
-            double xPose = -28;
+            double tangentsToScoreSpecimen = 170;
+            double tangentsToIntakeSpecimen = 300;
+
             RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep).setDimensions(11.02,14.5)//14.5
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                     .setConstraints(100, 100, Math.toRadians(720), Math.toRadians(720), 15)
@@ -58,43 +60,41 @@ public class Working1andFour {
                     .splineToLinearHeading(new Pose2d(45.8, -47, Math.toRadians(160)), Math.toRadians(240))
 
                     .setTangent(Math.toRadians(80))
-                     .splineToLinearHeading(new Pose2d(50, -38, Math.toRadians(235)), Math.toRadians(80))
+                     .splineToLinearHeading(new Pose2d(51, -38, Math.toRadians(235)), Math.toRadians(80))
 
                     .setTangent(Math.toRadians(270))
-                    .splineToLinearHeading(new Pose2d(50, -47, Math.toRadians(90)), Math.toRadians(270))
+                    .splineToLinearHeading(new Pose2d(48, -47, Math.toRadians(90)), Math.toRadians(230))
 
 
-                    .splineToLinearHeading(new Pose2d(50,-47.5,Math.toRadians(90)), Math.toRadians(270))
+                    .splineToLinearHeading(new Pose2d(48, -58,Math.toRadians(90)), Math.toRadians(270)) //driveToIntakeFirstSpecimen
 
-                    .splineToLinearHeading(new Pose2d(50, -58,Math.toRadians(90)), Math.toRadians(270)) //driveToIntakeFirstSpecimen
-
-                    .setTangent(Math.toRadians(110))
-                    .splineTo(new Vector2d(4, -30),Math.toRadians(110))
+                    .setTangent(Math.toRadians(180))
+                    .splineToConstantHeading(new Vector2d(4, -30),Math.toRadians(90))
 
 
-                    .setTangent(Math.toRadians(290))
-                    .splineTo(new Vector2d(43, -58),Math.toRadians(290))
+                    .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
+                    .splineToConstantHeading(new Vector2d(43, -58),Math.toRadians(tangentsToIntakeSpecimen))
 
-                    .setTangent(Math.toRadians(110))
-                    .splineTo(new Vector2d(4, -30),Math.toRadians(110))
-
-
-                    .setTangent(Math.toRadians(290))
-                    .splineTo(new Vector2d(43, -58),Math.toRadians(290))
-
-                    .setTangent(Math.toRadians(110))
-                    .splineTo(new Vector2d(4, -30),Math.toRadians(110))
+                    .setTangent(Math.toRadians(tangentsToScoreSpecimen))
+                    .splineToConstantHeading(new Vector2d(4, -30),Math.toRadians(90))
 
 
-                    .setTangent(Math.toRadians(290))
-                    .splineTo(new Vector2d(43, -58),Math.toRadians(290))
+                    .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
+                    .splineToConstantHeading(new Vector2d(43, -58),Math.toRadians(tangentsToIntakeSpecimen))
 
-                    .setTangent(Math.toRadians(110))
-                    .splineTo(new Vector2d(4, -30),Math.toRadians(110))
+                    .setTangent(Math.toRadians(tangentsToScoreSpecimen))
+                    .splineToConstantHeading(new Vector2d(4, -30),Math.toRadians(90))
 
 
-                    .setTangent(Math.toRadians(290))
-                    .splineTo(new Vector2d(43, -58),Math.toRadians(290))
+                    .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
+                    .splineToConstantHeading(new Vector2d(43, -58),Math.toRadians(tangentsToIntakeSpecimen))
+
+                    .setTangent(Math.toRadians(tangentsToScoreSpecimen))
+                    .splineToConstantHeading(new Vector2d(4, -30),Math.toRadians(90))
+
+
+                            .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
+                            .splineToConstantHeading(new Vector2d(43, -58),Math.toRadians(tangentsToIntakeSpecimen))
 //
 //
 

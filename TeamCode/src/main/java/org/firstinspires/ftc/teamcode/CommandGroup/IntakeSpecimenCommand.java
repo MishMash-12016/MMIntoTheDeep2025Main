@@ -22,6 +22,7 @@ public class IntakeSpecimenCommand {
     public static Command PrepareSystemsSpecimenIntake() {
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SPECIMEN_POSE),
@@ -33,8 +34,7 @@ public class IntakeSpecimenCommand {
                         MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE)
                 ),
                 new WaitCommand(500),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.TRANSFER_POSE),//be prepared for transfer
-                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.TRANSFER_POSE)//be prepared for transfer
         );
     }
 

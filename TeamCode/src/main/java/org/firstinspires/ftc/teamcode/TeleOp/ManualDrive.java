@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -8,6 +9,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
@@ -24,11 +26,13 @@ public class ManualDrive extends MMOpMode {
     MMSystems mmSystems;
     private boolean SpecimenIntake;
     private boolean SpecimenScoring;
+    ElapsedTime elapsedTime = new ElapsedTime();
 
     public ManualDrive() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
         SpecimenIntake = false;
         SpecimenScoring = false;
+        elapsedTime.reset();
     }
 
     @Override
@@ -116,10 +120,17 @@ public class ManualDrive extends MMOpMode {
     public void run() {
         super.run();
 
+
+
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 //        MMRobot.getInstance().mmSystems.elevator.updateToDashboard();
 //        mmSystems.driveTrain.updateTelemetry();
-//        telemetry.addData("switch state", mmSystems.elevator.getElevatorSwitchState());
+//        FtcDashboard.getInstance().getTelemetry().addData("speed X",MMSystems.localizer.getVelocityRR().linearVel.x);
+//        FtcDashboard.getInstance().getTelemetry().addData("speed Y",MMSystems.localizer.getVelocityRR().linearVel.y);
+        FtcDashboard.getInstance().getTelemetry().addData("speed ANG",MMSystems.localizer.getVelocityRR().angVel);
+//        FtcDashboard.getInstance().getTelemetry().addData("time",elapsedTime.milliseconds());
+
+        FtcDashboard.getInstance().getTelemetry().update();
 //        telemetry.addData("target pose", mmSystems.elevator.targetPose);
 //        telemetry.addData("ticks", mmSystems.elevator.getTicks());
 //        telemetry.addData("height", mmSystems.elevator.getHeight());

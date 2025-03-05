@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 @Config
 public class ScoringArm extends SubsystemBase {
     public static double scoringarmrestPos = 0.7;
-    public static double scoringarmtransferPose = 0.605;
+    public static double scoringarmtransferPose = 0.6;
     public static double scoringarmsampleTransferPose = 0.62;
     public static double scoringarmparkAuto = 0.34;
     public static double scoringarminitPose = 0.6;
