@@ -121,7 +121,7 @@ public class TrialAutoSample extends MMOpMode {
                         )
                 ),
 
-                limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightFirst),
+                limelightGetter.getAlignToSampleAuto(hardwareMap, drive),
 
                 new ParallelCommandGroup(
                         new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
@@ -143,7 +143,7 @@ public class TrialAutoSample extends MMOpMode {
 
                 //second
 
-                limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightSecond).withTimeout(1500),
+                limelightGetter.getAlignToSampleAuto(hardwareMap, drive),
 
                 new ParallelCommandGroup(
                         new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
@@ -172,7 +172,7 @@ public class TrialAutoSample extends MMOpMode {
                 new WaitCommand(200),
                 ScoreHighSample().alongWith(new ActionCommand(driveToIntakeForth.build())),
 
-                limelightGetter.getAlignToSampleAuto(limelight, drive, midLimeLightForth).withTimeout(5000),
+                limelightGetter.getAlignToSampleAuto(hardwareMap, drive),
                 new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
 
                 prepareSampleIntake(),

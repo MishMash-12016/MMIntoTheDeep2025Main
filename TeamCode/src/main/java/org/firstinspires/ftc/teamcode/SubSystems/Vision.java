@@ -24,7 +24,7 @@ public class Vision extends SubsystemBase {
 
 
     @Getter private boolean isDataOld = false;
-    @Getter @Setter private SampleColor detectionColor = SampleColor.BLUE;
+    @Getter @Setter private SampleColor detectionColor = SampleColor.YELLOW;
     @Getter private LLResult result;
 
 
@@ -93,7 +93,7 @@ public class Vision extends SubsystemBase {
         double angleToGoalDegrees = CAMERA_ANGLE + ty;
         double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
         double distanceMM = (TARGET_HEIGHT - CAMERA_HEIGHT) / Math.tan(angleToGoalRadians);
-        return Math.abs(distanceMM) - sampleToRobotDistance;
+        return Math.abs(distanceMM) - sampleToRobotDistance - 10;
     }
 
     // Get the strafe
@@ -123,7 +123,7 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         camera.updatePythonInputs(
-                new double[] {detectionColor.colorVal, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+                new double[] {detectionColor.colorVal, trackSample, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
         result = camera.getLatestResult();
 
         if (result != null) {

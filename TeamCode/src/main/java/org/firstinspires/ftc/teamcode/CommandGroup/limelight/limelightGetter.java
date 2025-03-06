@@ -25,8 +25,8 @@ public class limelightGetter {
         return new alignToSample(hardwareMap);
     }
 
-    public static Command getAlignToSampleAuto(Limelight3A limelight, PinpointDrive drive ,TrajectoryActionBuilder previousAction) {
-        return new alignToSampleAuto(limelight,drive,previousAction);
+    public static Command getAlignToSampleAuto(HardwareMap hardwareMap, PinpointDrive drive) {
+        return new alignToSampleAuto(hardwareMap,drive);
     }
 
     public static Command strafeToSampleAuto(PinpointDrive drive) {

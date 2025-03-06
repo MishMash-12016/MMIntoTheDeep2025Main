@@ -16,8 +16,10 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.ScoreSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
@@ -173,128 +175,129 @@ public class AutoSpecimen extends MMOpMode {
                 //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
                 score(),
                 new WaitCommand(200),
-                limelightGetter.strafeToSampleAuto(drive),
-//                new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
-                new WaitCommand(200),
                 new SequentialCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+//                        limelightGetter.strafeToSample(),
+                        limelightGetter.getAlignToSampleAuto(hardwareMap, drive),
                         limelightGetter.getRotateToSample(),
                         limelightGetter.getOpenLinearToSample()
-                ),
-                new WaitCommand(1000),
-
-
-
-                new ParallelCommandGroup(
-                        new ActionCommand(driveToPush1.build()),
-                        new WaitCommand(250).andThen(
-                                robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),
-                                robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_POSE),
-                                robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                setupForPushing())),
-                robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
-                new WaitCommand(200),
-
-
-
-                new ActionCommand(turnRobot.build()),
-                new ActionCommand(driveToPush2.build()).alongWith(
-                        setupForPushing()),
-                robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
-                new WaitCommand(200),
-                robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),
-                robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_POSE),
-
-                new ActionCommand(turnRobot2.build()),
-                new ActionCommand(driveToPush3.build()).alongWith(
-                        robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)),
-                        new WaitCommand(50),
-                        setupForPushing(),
-
-
-                robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
-                new WaitCommand(200),
-                new ActionCommand(turnRobot3.build()).alongWith(
-                        new SequentialCommandGroup(
-                                new WaitCommand(900),
-                                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                                new WaitCommand(200),
-
-                                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.ROTATE_LEFT_ANGLE),
-                                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE)
-                        )
-                ),
-                new ActionCommand(turnToIntake.build()).alongWith(
-                        IntakeSpecimenCommand.PrepareSystemsSpecimenIntake()
-                ),
-
-                //First
-                new ActionCommand(driveToIntakeFirstSpecimen.build()),
-
-                new WaitCommand(100),
-                new ParallelCommandGroup(
-                        AutoSpecimensCommand.SpecimenIntakeAuto(),
-                        new ActionCommand(driveToScoreFirstSpecimen.build())
-                ),
-//                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
-                score(),
-
-                //Second
-
-                new ActionCommand(driveToIntakeSecondSpecimen.build()).alongWith(
-                        new WaitCommand(300).andThen(
-                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
-
-                new WaitCommand(100),
-                new ParallelCommandGroup(
-                        AutoSpecimensCommand.SpecimenIntakeAuto(),
-                        new ActionCommand(driveToScoreSecondSpecimen.build())
-                        ),
-
-                //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
-                score(),
-                //Third
-
-                new ActionCommand(driveToIntakeThirdSpecimen.build()).alongWith(
-                        new WaitCommand(300).andThen(
-                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
-                new WaitCommand(100),
-                new ParallelCommandGroup(
-                        AutoSpecimensCommand.SpecimenIntakeAuto(),
-                        new ActionCommand(driveToScoreThirdSpecimen.build())
-                        ),
-
-                //Forth
-                //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
-                score(),
-
-                new ActionCommand(driveToIntakeForthSpecimen.build()).alongWith(
-                        new WaitCommand(300).andThen(
-                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
-                new WaitCommand(100),
-                new ParallelCommandGroup(
-                        AutoSpecimensCommand.SpecimenIntakeAuto(),
-                                new ActionCommand(driveToScoreForthSpecimen.build())
-                        ),
-
-                //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
-                score(),
-
-                new ActionCommand(park.build())
-                        .alongWith(
-                            new WaitCommand(300).andThen(
-                                    new SequentialCommandGroup(
-                                            MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                                            MMRobot.getInstance().mmSystems.scoringClawEndUnit.setPosition(0),
-                                            MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),//be prepared for transfer
-                                            MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                            MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                                            MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.TRANSFER_POSE),
-                                            MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SPECIMEN_POSE),
-                                            MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_POSE)
-                                    )
-                            )
-                        )
-
+                                .alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
+                                )),
+                new WaitCommand(500),
+                IntakeSampleCommand.SampleIntake()
+//
+//
+//                new ParallelCommandGroup(
+//                        new ActionCommand(driveToPush1.build()),
+//                        new WaitCommand(250).andThen(
+//                                robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),
+//                                robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_POSE),
+//                                robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
+//                                setupForPushing())),
+//                robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
+//                new WaitCommand(200),
+//
+//
+//
+//                new ActionCommand(turnRobot.build()),
+//                new ActionCommand(driveToPush2.build()).alongWith(
+//                        setupForPushing()),
+//                robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
+//                new WaitCommand(200),
+//                robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),
+//                robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_POSE),
+//
+//                new ActionCommand(turnRobot2.build()),
+//                new ActionCommand(driveToPush3.build()).alongWith(
+//                        robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)),
+//                        new WaitCommand(50),
+//                        setupForPushing(),
+//
+//
+//                robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
+//                new WaitCommand(200),
+//                new ActionCommand(turnRobot3.build()).alongWith(
+//                        new SequentialCommandGroup(
+//                                new WaitCommand(900),
+//                                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+//                                new WaitCommand(200),
+//
+//                                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.ROTATE_LEFT_ANGLE),
+//                                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE)
+//                        )
+//                ),
+//                new ActionCommand(turnToIntake.build()).alongWith(
+//                        IntakeSpecimenCommand.PrepareSystemsSpecimenIntake()
+//                ),
+//
+//                //First
+//                new ActionCommand(driveToIntakeFirstSpecimen.build()),
+//
+//                new WaitCommand(100),
+//                new ParallelCommandGroup(
+//                        AutoSpecimensCommand.SpecimenIntakeAuto(),
+//                        new ActionCommand(driveToScoreFirstSpecimen.build())
+//                ),
+////                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
+//                score(),
+//
+//                //Second
+//
+//                new ActionCommand(driveToIntakeSecondSpecimen.build()).alongWith(
+//                        new WaitCommand(300).andThen(
+//                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
+//
+//                new WaitCommand(100),
+//                new ParallelCommandGroup(
+//                        AutoSpecimensCommand.SpecimenIntakeAuto(),
+//                        new ActionCommand(driveToScoreSecondSpecimen.build())
+//                        ),
+//
+//                //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
+//                score(),
+//                //Third
+//
+//                new ActionCommand(driveToIntakeThirdSpecimen.build()).alongWith(
+//                        new WaitCommand(300).andThen(
+//                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
+//                new WaitCommand(100),
+//                new ParallelCommandGroup(
+//                        AutoSpecimensCommand.SpecimenIntakeAuto(),
+//                        new ActionCommand(driveToScoreThirdSpecimen.build())
+//                        ),
+//
+//                //Forth
+//                //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
+//                score(),
+//
+//                new ActionCommand(driveToIntakeForthSpecimen.build()).alongWith(
+//                        new WaitCommand(300).andThen(
+//                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
+//                new WaitCommand(100),
+//                new ParallelCommandGroup(
+//                        AutoSpecimensCommand.SpecimenIntakeAuto(),
+//                                new ActionCommand(driveToScoreForthSpecimen.build())
+//                        ),
+//
+//                //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
+//                score(),
+//
+//                new ActionCommand(park.build())
+//                        .alongWith(
+//                            new WaitCommand(300).andThen(
+//                                    new SequentialCommandGroup(
+//                                            MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+//                                            MMRobot.getInstance().mmSystems.scoringClawEndUnit.setPosition(0),
+//                                            MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),//be prepared for transfer
+//                                            MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+//                                            MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+//                                            MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.TRANSFER_POSE),
+//                                            MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SPECIMEN_POSE),
+//                                            MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.TRANSFER_POSE)
+//                                    )
+//                            )
+//                        )
+//
         ).schedule();
     }
 

@@ -273,6 +273,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
+import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
@@ -386,7 +387,7 @@ public class ManualDrive extends MMOpMode {
     public void run() {
         super.run();
 
-
+        MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(LinearIntake.config);
 
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 //        MMRobot.getInstance().mmSystems.elevator.updateToDashboard();
