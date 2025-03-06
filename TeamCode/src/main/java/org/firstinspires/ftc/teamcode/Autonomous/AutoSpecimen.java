@@ -49,6 +49,8 @@ public class AutoSpecimen extends MMOpMode {
 
     //parking position
     private static final Pose2d parkPos = new Pose2d(45, -60, Math.toRadians(90));
+    private static final Pose2d side= new Pose2d(0,-30,Math.toRadians(90)); //side
+
 
 
     public AutoSpecimen() {
@@ -120,7 +122,7 @@ public class AutoSpecimen extends MMOpMode {
         TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToIntakeFirstSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(4, -32),Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(2,-30,Math.toRadians(90)),Math.toRadians(180));//side
+                .splineToLinearHeading(side,Math.toRadians(180));//side
 
         //Second specimen
         TrajectoryActionBuilder driveToIntakeSecondSpecimen = driveToScoreFirstSpecimen.endTrajectory().fresh()
@@ -129,27 +131,25 @@ public class AutoSpecimen extends MMOpMode {
         TrajectoryActionBuilder driveToScoreSecondSpecimen = driveToIntakeSecondSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToScoreSpecimen))
                 .splineToConstantHeading(new Vector2d(4, -32),Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(2,-30,Math.toRadians(90)),Math.toRadians(180)); //side
+                .splineToLinearHeading(side,Math.toRadians(180)); //side
 
         //Third specimen
         TrajectoryActionBuilder driveToIntakeThirdSpecimen = driveToScoreSecondSpecimen.endTrajectory().fresh()
-                .splineToConstantHeading(new Vector2d(2,-30),Math.toRadians(90)) //side
                 .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
                 .splineToConstantHeading(new Vector2d(43, -59),Math.toRadians(tangentsToIntakeSpecimen));
         TrajectoryActionBuilder driveToScoreThirdSpecimen = driveToIntakeThirdSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToScoreSpecimen))
                 .splineToConstantHeading(new Vector2d(4, -32),Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(2,-30,Math.toRadians(90)),Math.toRadians(180)); //side
+                .splineToLinearHeading(side,Math.toRadians(180)); //side
 
         //Forth specimen
         TrajectoryActionBuilder driveToIntakeForthSpecimen = driveToScoreThirdSpecimen.endTrajectory().fresh()
-                .splineToConstantHeading(new Vector2d(2,-30),Math.toRadians(90)) //side
                 .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
                 .splineToConstantHeading(new Vector2d(43, -59),Math.toRadians(tangentsToIntakeSpecimen));
         TrajectoryActionBuilder driveToScoreForthSpecimen = driveToIntakeForthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToScoreSpecimen))
                 .splineToConstantHeading(new Vector2d(4, -30),Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(2,-30,Math.toRadians(90)),Math.toRadians(180)); //side
+                .splineToLinearHeading(side,Math.toRadians(180)); //side
 
 
         TrajectoryActionBuilder driveToPark = driveToScoreForthSpecimen.endTrajectory().fresh()
