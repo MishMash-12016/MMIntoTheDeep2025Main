@@ -19,9 +19,9 @@ public class AutoSpecimensCommand {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE),
-                new WaitCommand(300),
-                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_POSE),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SPECIMEN)
+                new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_POSE).alongWith(
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SPECIMEN))
         );
 
     }

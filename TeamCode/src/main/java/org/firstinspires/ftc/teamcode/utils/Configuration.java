@@ -47,7 +47,7 @@ public class Configuration {
 //    public static final int RIGHT_LINEAR_INTAKE = 3;
 
     //Linear Intake End Unit Rotator:
-    public static final int LINEAR_END_UNIT_ROTATOR = 0;
+    public static final int LINEAR_END_UNIT_ROTATOR = 3;
 
 //    public static final int CLAW_INTAKE_SERVO = 4;
 
@@ -55,7 +55,7 @@ public class Configuration {
     public static final int INTAKE_ARM_SERVO_RIGHT = 4;
     public static final int INTAKE_ARM_SERVO_LEFT = 1;
 
-    public static final int WISHER = 3;
+    public static final int WISHER = 2;
 
 
     //EXPANSION HUB
