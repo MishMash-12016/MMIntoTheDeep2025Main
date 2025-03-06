@@ -21,7 +21,7 @@ public class LinearIntake extends SubsystemBase {
     private final Servo servoLeft;
     private final Servo servoRight;
     public static final double maxOpening = 0.6;
-    public static final double config = 0.3;
+    public static double config = 0.3;
     public enum LinearIntakeState {
         OFFSET(0.22),CLOSED_POSE(0);
         public double position;

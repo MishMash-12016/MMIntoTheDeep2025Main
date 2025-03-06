@@ -314,11 +314,20 @@ public class ManualDrive extends MMOpMode {
                 () -> mmSystems.driveTrain.resetRotation()
         );
 
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                ()->MMRobot.getInstance().mmSystems.vision.trackYellow()
+        );
+
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+                ()->MMRobot.getInstance().mmSystems.vision.trackRed()
+        );
+
+
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new SequentialCommandGroup(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                         limelightGetter.strafeToSample(),
-                        limelightGetter.getAlignToSample(hardwareMap),
+                        limelightGetter.getAlignToSample(hardwareMap).withTimeout(1000),
                         limelightGetter.getRotateToSample(),
                         limelightGetter.getOpenLinearToSample()
                             .alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
@@ -387,7 +396,7 @@ public class ManualDrive extends MMOpMode {
     public void run() {
         super.run();
 
-        MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(LinearIntake.config);
+//        MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(LinearIntake.config);
 
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 //        MMRobot.getInstance().mmSystems.elevator.updateToDashboard();

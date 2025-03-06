@@ -120,6 +120,19 @@ public class Vision extends SubsystemBase {
         trackSample = 0;
     }
 
+    public void trackYellow(){
+        camera.pipelineSwitch(0);
+    }
+
+    public void trackRed(){
+        camera.pipelineSwitch(1);
+    }
+
+    public void trackBlue(){
+        camera.pipelineSwitch(2);
+    }
+
+
     @Override
     public void periodic() {
         camera.updatePythonInputs(

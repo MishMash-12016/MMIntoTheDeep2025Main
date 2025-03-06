@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
+import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -79,6 +80,7 @@ public class LimeLightTeleOp extends MMOpMode {
         super.run();
 //        MMRobot.getInstance().mmSystems.joystickDrive().initialize();
 //        MMRobot.getInstance().mmSystems.joystickDrive().execute();
+//        MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(LinearIntake.config);
         MMRobot.getInstance().mmSystems.controlHub.pullBulkData();
         MMRobot.getInstance().mmSystems.telemetry.addData("trigger", MMRobot.getInstance().mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
 
