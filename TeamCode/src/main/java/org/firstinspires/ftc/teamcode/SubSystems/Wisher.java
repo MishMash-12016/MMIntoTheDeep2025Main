@@ -14,7 +14,7 @@ public class Wisher extends SubsystemBase {
     CuttleServo wisherServo;
     public enum WisherState {
         OUT_POSE(1), IN_POSE(0);
-        public double position;
+        public final double position;
         WisherState(double position){
             this.position = position;
         }}

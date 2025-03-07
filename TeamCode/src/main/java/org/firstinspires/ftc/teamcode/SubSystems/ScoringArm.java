@@ -12,30 +12,24 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringArm extends SubsystemBase {
-    public static double scoringarmrestPos = 0.5;
-    public static double scoringarmtransferPose = 0.605;
-    public static double scoringarmsampleTransferPose = 0.62;
-    public static double scoringarmparkAuto = 0.34;
-    public static double scoringarminitPose = 0.6;
-    public static double scoringarmprepareTransferPose = 0.63;
-    public static double scoringarmmidPose = 0.63;
-    public static double scoringarmscoreSpecimenPose = 0.46;
-    public static double scoringarmscoreSamplePose = 0.26;
-    public static double scoringarmprepareScoreSamplePose = 0.32;
-    public static double intakeFormBackPos = 0.21;
+    public static double scoringArmRestPose = 0.7;
+    public static double scoringArmSpecimenTransferPose = 0.52;
+    public static double scoringArmSampleTransferPose = 0.52;
+    public static double scoringArmInitPose = 0.4;
+    public static double scoringArmSpecimenScorePose = 0.67;
+    public static double scoringArmSampleScorePose = 0.26;
+    public static double scoringArmSamplePrepareScorePose = 0.32;
+    public static double intakeFromBackPose = 0.21;
 
     public enum ScoringArmState {
-        REST_POSE(() -> scoringarmrestPos),
-        TRANSFER_POSE(() -> scoringarmtransferPose),
-        SAMPLE_TRANSFER_POSE(() -> scoringarmsampleTransferPose),
-        PARK_AUTO(() -> scoringarmparkAuto),
-        INIT_POSE(() -> scoringarminitPose),
-        PREPARE_TRANSFER(() -> scoringarmprepareTransferPose),
-        MID_POSE(() -> scoringarmmidPose),
-        SCORE_SPECIMEN(() -> scoringarmscoreSpecimenPose),
-        SCORE_SAMPLE(() -> scoringarmscoreSamplePose),
-        PREPARE_SCORE_SAMPLE(() -> scoringarmprepareScoreSamplePose),
-        INTAKE_FROM_BACK_POSE(()->intakeFormBackPos);
+        REST_POSE(() -> scoringArmRestPose),
+        SPECIMEN_TRANSFER_POSE(() -> scoringArmSpecimenTransferPose),
+        SAMPLE_TRANSFER_POSE(() -> scoringArmSampleTransferPose),
+        INIT_POSE(() -> scoringArmInitPose),
+        SCORE_SPECIMEN(() -> scoringArmSpecimenScorePose),
+        SCORE_SAMPLE(() -> scoringArmSampleScorePose),
+        PREPARE_SCORE_SAMPLE(() -> scoringArmSamplePrepareScorePose),
+        INTAKE_FROM_BACK_POSE(()-> intakeFromBackPose);
         public Supplier<Double> position;
 
         ScoringArmState(Supplier<Double> position) {

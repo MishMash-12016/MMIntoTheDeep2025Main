@@ -15,20 +15,18 @@ import java.util.function.Supplier;
 
 @Config
 public class IntakeEndUnitRotator extends SubsystemBase {
-    public static double intakeRotatorSamplePos = 0.31;
-    public static double holdPoseSpecimenPos = 0.98;
-    public static double intakeSpecimenPos = 0.34;
-    public static double rotatorRightAnglePos = 0.57;
-    public static double rotatorLeftAnglePos = 0.11;
+
+    public static double defaultPose = 0.33;
+    public static double rotatorRightAnglePose = 0.57;
+    public static double rotatorLeftAnglePose = 0.11;
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
 
     public enum IntakeRotatorState {
-        INTAKE_SAMPLE_POSE(()-> intakeRotatorSamplePos),
-        HOLD_POSE_SPECIMEN(()-> holdPoseSpecimenPos),
-        INTAKE_SPECIMEN_POSE(()-> intakeSpecimenPos),
-        ROTATE_RIGHT_ANGLE(()-> rotatorRightAnglePos),
-        ROTATE_LEFT_ANGLE(()-> rotatorLeftAnglePos);
+
+        DEFAULT_POSE(()-> defaultPose),
+        ROTATE_RIGHT_ANGLE(()-> rotatorRightAnglePose),
+        ROTATE_LEFT_ANGLE(()-> rotatorLeftAnglePose);
 
         public Supplier<Double> position;
 
@@ -42,7 +40,7 @@ public class IntakeEndUnitRotator extends SubsystemBase {
 
     public IntakeEndUnitRotator() {
         servo = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LINEAR_END_UNIT_ROTATOR);
-        servo.setPosition(IntakeRotatorState.INTAKE_SAMPLE_POSE.position.get());
+        servo.setPosition(IntakeRotatorState.DEFAULT_POSE.position.get());
     }
 
     public Command setPosition(double newPos) {
@@ -70,7 +68,7 @@ public class IntakeEndUnitRotator extends SubsystemBase {
                 servo.setPosition(IntakeRotatorState.ROTATE_RIGHT_ANGLE.position.get());
             }
             else {
-                servo.setPosition(IntakeRotatorState.INTAKE_SAMPLE_POSE.position.get());
+                servo.setPosition(IntakeRotatorState.DEFAULT_POSE.position.get());
             } }
                 , this);
     }

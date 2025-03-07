@@ -13,25 +13,22 @@ import java.util.function.Supplier;
 
 @Config
 public class IntakeArm extends SubsystemBase {
-    public static double intakeArmIntakePos = 0.57;
-    public static double intakeArmPrepareSampleIntakePos = 0.5;
-    public static double intakeArmSpecimenIntakePos = 0.33;
-    public static double intakeArmMidIntakeSpecimenPos = 0.3;
-    public static double intakeArmTransferSpecimenPos = 0.185;
-    public static double intakeArmTransferSamplePos = 0.18;
-    public static double intakeArmInitPos = 0.05;
+    public static double intakeArmIntakeSamplePos = 0.57;
+    public static double intakeArmPrepareIntakeSamplePose = 0.5;
+    public static double intakeArmSpecimenIntakePose = 0.35;
+    public static double intakeArmTransferSpecimenPose = 0.185;
+    public static double intakeArmTransferSamplePose = 0.18;
+    public static double intakeArmInitPose = 0.05;
     CuttleServo servoLeft;
     CuttleServo servoRight;
 
     public enum IntakeArmState {
-        INTAKE_POSE(()-> intakeArmIntakePos),
-        PREPARE_SAMPLE_INTAKE(()-> intakeArmPrepareSampleIntakePos),
-        SPECIMEN_INTAKE(()-> intakeArmSpecimenIntakePos),
-        MID_INTAKE_SPECIMEN(()-> intakeArmMidIntakeSpecimenPos),
-
-        TRANSFER_POSE(()-> intakeArmTransferSpecimenPos),
-        SAMPLE_TRANSFER_POSE(()-> intakeArmTransferSamplePos),
-        INIT_POSE(()-> intakeArmInitPos);
+        SAMPLE_INTAKE_POSE(()-> intakeArmIntakeSamplePos),
+        PREPARE_SAMPLE_INTAKE(()-> intakeArmPrepareIntakeSamplePose),
+        SPECIMEN_INTAKE(()-> intakeArmSpecimenIntakePose),
+        TRANSFER_SPECIMEN_POSE(()-> intakeArmTransferSpecimenPose),
+        SAMPLE_TRANSFER_POSE(()-> intakeArmTransferSamplePose),
+        INIT_POSE(()-> intakeArmInitPose);
 
         public Supplier<Double> position;
 
