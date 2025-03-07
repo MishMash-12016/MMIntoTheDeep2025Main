@@ -18,13 +18,13 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     public static double transferSpecimenPose = 0.4;
     public static double transferSamplePose = 0.45;
     public static double scoreSamplePose = 0.61;
-    public static double initPose = 0.4;
+    public static double initPose = 0.7;
     public static double prepareSampleTransferPose = 0.7;
     public static double scoreSpecimenPose = 0.98;
     public static double intakeFromBackPose = 0.98; /// still needs tuning
 
 
-    private final static MMSystems mmSystems = MMRobot.getInstance().mmSystems;
+    private final static MMRobot robotinstance = MMRobot.getInstance();
 
     public enum ScoringElbowState {
         REST_POSE(() -> restPose),
@@ -47,7 +47,7 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     Servo servo;
 
     public ScoringEndUnitElbow() {
-        servo = mmSystems.hardwareMap.get(Servo.class, "scoring rot");
+        servo = robotinstance.mmSystems.hardwareMap.get(Servo.class, "scoring rot");
         servo.setPosition(ScoringElbowState.INIT_POSE.position.get());
     }
 

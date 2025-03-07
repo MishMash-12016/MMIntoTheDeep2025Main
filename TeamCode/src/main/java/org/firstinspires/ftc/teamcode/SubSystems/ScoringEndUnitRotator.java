@@ -15,9 +15,9 @@ import java.util.function.Supplier;
 @Config
 
 public class ScoringEndUnitRotator extends SubsystemBase {
-    public static double rotatorSpecimenTransferPose = 0.85;
-    public static double rotatorSampleTransferPose = 0.3;
-    public static double rotatorScoringPose = 0.3;
+    public static double rotatorSpecimenTransferPose = 0.36;
+    public static double rotatorSampleTransferPose = 0.36;
+    public static double rotatorScoringPose = 0.92;
 
 
     private final static MMSystems mmSystems = MMRobot.getInstance().mmSystems;
