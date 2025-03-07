@@ -12,21 +12,21 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringArm extends SubsystemBase {
-    public static double scoringarmrestPos = 0.7;
-    public static double scoringarmtransferPose = 0.535;
-    public static double scoringarmsampleTransferPose = 0.62;
+    public static double scoringArmRestPose = 0.7;
+    public static double scoringArmTransferPose = 0.52;
+    public static double scoringarmsampleTransferPose = 0.52;
     public static double scoringarmparkAuto = 0.34;
-    public static double scoringarminitPose = 0.535;
+    public static double scoringarminitPose = 0.4;
     public static double scoringarmprepareTransferPose = 0.63;
     public static double scoringarmmidPose = 0.63;
-    public static double scoringarmscoreSpecimenPose = 0.69;
+    public static double scoringarmscoreSpecimenPose = 0.67;
     public static double scoringarmscoreSamplePose = 0.26;
     public static double scoringarmprepareScoreSamplePose = 0.32;
     public static double intakeFormBackPos = 0.21;
 
     public enum ScoringArmState {
-        REST_POSE(() -> scoringarmrestPos),
-        TRANSFER_POSE(() -> scoringarmtransferPose),
+        REST_POSE(() -> scoringArmRestPose),
+        TRANSFER_POSE(() -> scoringArmTransferPose),
         SAMPLE_TRANSFER_POSE(() -> scoringarmsampleTransferPose),
         PARK_AUTO(() -> scoringarmparkAuto),
         INIT_POSE(() -> scoringarminitPose),

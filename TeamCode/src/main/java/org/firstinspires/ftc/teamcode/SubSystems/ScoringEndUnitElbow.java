@@ -13,26 +13,26 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringEndUnitElbow extends SubsystemBase {
-    public static double restPos = 0.45;
-    public static double transferPos = 0.14;
-    public static double transferSamplePos = 0.18;
-    public static double scoreSamplePos = 0.33;
-    public static double initPos = 0.18 ;
-    public static double midposespecimenPos = 0.23;
-    public static double scoreSpecimenPos = 0.7;
-    public static double intakeFormBackPos = 0.7;
+    public static double restPos = 0.73;
+    public static double transferSpecimenPos = 0.4;
+    public static double transferSamplePos = 0.45;
+    public static double scoreSamplePos = 0.61;
+    public static double initPos = 0.4 ;
+    public static double prepareSampleTransfer = 0.7;
+    public static double scoreSpecimenPos = 0.98;
+    public static double intakeFromBackPos = 0.98;
 
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
     public enum ScoringElbowState {
         REST_POSE(()-> restPos),
-        TRANSFER_POSE(()-> transferPos),
+        TRANSFER_SPECIMEN_POSE(()-> transferSpecimenPos),
+        PREPARE_SAMPLE_TRANSFER(()-> prepareSampleTransfer),
         TRANSFER_SAMPLE_POSE(()-> transferSamplePos),
         SCORE_SAMPLE_POSE(()-> scoreSamplePos),
         INIT_POSE(()-> initPos),
-        MID_POSE_SPECIMEN(()-> midposespecimenPos),
         SCORE_SPECIMEN_POSE(()-> scoreSpecimenPos),
-        INTAKE_FROM_BACK_POSE(()-> intakeFormBackPos);
+        INTAKE_FROM_BACK_POSE(()-> intakeFromBackPos);
 
 
         public Supplier<Double> position;

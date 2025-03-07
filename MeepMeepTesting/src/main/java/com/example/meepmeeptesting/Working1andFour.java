@@ -77,26 +77,26 @@ public class Working1andFour {
                     .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
                     .splineToConstantHeading(new Vector2d(43, -58),Math.toRadians(tangentsToIntakeSpecimen))
 
-//                    .setTangent(Math.toRadians(tangentsToScoreSpecimen))
-//                    .splineToConstantHeading(new Vector2d(4, -30),Math.toRadians(90))
-//
-//                    .splineToConstantHeading(new Vector2d(3,-30),Math.toRadians(90)) //side
-//                    .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
-//                    .splineToConstantHeading(new Vector2d(43, -58),Math.toRadians(tangentsToIntakeSpecimen))
-//
-//                    .setTangent(Math.toRadians(tangentsToScoreSpecimen))
-//                    .splineToConstantHeading(new Vector2d(4, -30),Math.toRadians(90))
-//
-//                    .splineToConstantHeading(new Vector2d(3,-30),Math.toRadians(90)) //side
-//                    .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
-//                    .splineToConstantHeading(new Vector2d(43, -58),Math.toRadians(tangentsToIntakeSpecimen))
-//
-//                    .setTangent(Math.toRadians(tangentsToScoreSpecimen))
-//                    .splineToConstantHeading(new Vector2d(4, -30),Math.toRadians(90))
-//
-//                    .splineToConstantHeading(new Vector2d(3,-30),Math.toRadians(90)) //side
-//                    .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
-//                    .splineToConstantHeading(new Vector2d(43, -58),Math.toRadians(tangentsToIntakeSpecimen))
+                    .setTangent(Math.toRadians(tangentsToScoreSpecimen))
+                    .splineToConstantHeading(new Vector2d(4, -30),Math.toRadians(90))
+
+                    .splineToConstantHeading(new Vector2d(3,-30),Math.toRadians(90)) //side
+                    .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
+                    .splineToConstantHeading(new Vector2d(43, -58),Math.toRadians(tangentsToIntakeSpecimen))
+
+                    .setTangent(Math.toRadians(tangentsToScoreSpecimen))
+                    .splineToConstantHeading(new Vector2d(4, -30),Math.toRadians(90))
+
+                    .splineToConstantHeading(new Vector2d(3,-30),Math.toRadians(90)) //side
+                    .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
+                    .splineToConstantHeading(new Vector2d(43, -58),Math.toRadians(tangentsToIntakeSpecimen))
+
+                    .setTangent(Math.toRadians(tangentsToScoreSpecimen))
+                    .splineToConstantHeading(new Vector2d(4, -30),Math.toRadians(90))
+
+                    .splineToConstantHeading(new Vector2d(3,-30),Math.toRadians(90)) //side
+                    .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
+                    .splineToConstantHeading(new Vector2d(43, -58),Math.toRadians(tangentsToIntakeSpecimen))
 ////
 ////
 

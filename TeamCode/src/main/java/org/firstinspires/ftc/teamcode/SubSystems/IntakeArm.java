@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public class IntakeArm extends SubsystemBase {
     public static double intakeArmIntakePos = 0.57;
     public static double intakeArmPrepareSampleIntakePos = 0.5;
-    public static double intakeArmSpecimenIntakePos = 0.33;
+    public static double intakeArmSpecimenIntakePos = 0.35;
     public static double intakeArmMidIntakeSpecimenPos = 0.3;
     public static double intakeArmTransferSpecimenPos = 0.185;
     public static double intakeArmTransferSamplePos = 0.18;

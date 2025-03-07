@@ -175,7 +175,7 @@ public class TrialAutoSample extends MMOpMode {
                 new LazyActionCommand(() -> LIMELIGHT_TURN.build()),
 
                 prepareSampleIntake(),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                 new WaitCommand(200),
                 IntakeSampleCommand.SampleIntake(),
                 new WaitCommand(200),
@@ -204,7 +204,7 @@ public class TrialAutoSample extends MMOpMode {
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_TRANSFER),
-                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_POSE)
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SPECIMEN_POSE)
         );
     }
     private static Command prepareSampleIntake() {
