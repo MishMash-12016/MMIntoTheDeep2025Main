@@ -157,7 +157,7 @@ public class AutoSpecimen extends MMOpMode {
                                 robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawState.COMPLETELYOPEN),
                                 new WaitCommand(500),
                                 new ParallelCommandGroup(
-                                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
+                                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArmState.REST_POSE),
                                         robotInstance.mmSystems.scoringEndUnitElbow.setPosition(ScoringElbowState.TRANSFER_SPECIMEN_POSE),
                                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose)
                                 ),
@@ -236,12 +236,12 @@ public class AutoSpecimen extends MMOpMode {
                                     new WaitCommand(300).andThen(
                                             new ParallelCommandGroup(
                                                     MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                                                    MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),//be prepared for transfer
+                                                    MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.REST_POSE),//be prepared for transfer
                                                     MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                                                     MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE),
-                                                    MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.TRANSFER_POSE),
+                                                    MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.TRANSFER_SPECIMEN_POSE),
                                                     MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.DEFAULT_POSE),
-                                                    MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.TRANSFER_POSE)
+                                                    MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SPECIMEN_TRANSFER_POSE)
                                         )
                                 )
                         ))
@@ -260,7 +260,7 @@ public class AutoSpecimen extends MMOpMode {
 
     private static Command setupForPushing() {
         return new ParallelCommandGroup(
-                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
+                robotInstance.mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
                 robotInstance.mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
                 robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)

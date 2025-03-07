@@ -47,8 +47,8 @@ public class openLinearToSample extends CommandBase {
             double distanceFromLimelight = dr.getTargetYDegrees();
             double distance = calculateDistance(distanceFromLimelight) - armLength;
 
-            if (distance > maxOpeningLinearCM * LinearIntake.maxOpening) {
-                distance = maxOpeningLinearCM * LinearIntake.maxOpening;
+            if (distance > maxOpeningLinearCM * LinearIntake.LinearIntakeState.MAX_OPENING.position) {
+                distance = maxOpeningLinearCM * LinearIntake.LinearIntakeState.MAX_OPENING.position;
             }
             double distanceInServoDegrees = distance / 130;
 

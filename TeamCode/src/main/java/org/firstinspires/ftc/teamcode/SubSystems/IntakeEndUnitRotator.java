@@ -17,16 +17,16 @@ import java.util.function.Supplier;
 public class IntakeEndUnitRotator extends SubsystemBase {
 
     public static double defaultPose = 0.33;
-    public static double rotatorRightAnglePos = 0.57;
-    public static double rotatorLeftAnglePos = 0.11;
+    public static double rotatorRightAnglePose = 0.57;
+    public static double rotatorLeftAnglePose = 0.11;
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
 
     public enum IntakeRotatorState {
 
         DEFAULT_POSE(()-> defaultPose),
-        ROTATE_RIGHT_ANGLE(()-> rotatorRightAnglePos),
-        ROTATE_LEFT_ANGLE(()-> rotatorLeftAnglePos);
+        ROTATE_RIGHT_ANGLE(()-> rotatorRightAnglePose),
+        ROTATE_LEFT_ANGLE(()-> rotatorLeftAnglePose);
 
         public Supplier<Double> position;
 

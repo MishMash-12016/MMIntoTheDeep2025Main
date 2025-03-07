@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.utils;
 
 
-import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
-
 /**
  * this file should represent ur configurations & ports.<p>
  * there are some examples here, ur welcome to change it however u want.</p>
@@ -62,7 +60,7 @@ public class Configuration {
      public static final int SCORING_CLAW_SERVO = 2;
     //Scoring arm:
     //public static final int SCORING_ROTATOR_SERVO = 2;
-    public static final int SCORING_YAXIS_ROTATOR =  3;
+    public static final int SCORING_ROTATOR =  3;
     //public static final int SERVO_RIGHT_SCORING_ARM = 5;
 
     //public static final int SERVO_LEFT_SCORING_ARM = 4;

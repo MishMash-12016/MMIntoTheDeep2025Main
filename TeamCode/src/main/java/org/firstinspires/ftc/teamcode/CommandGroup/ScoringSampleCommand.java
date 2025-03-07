@@ -35,9 +35,9 @@ public class ScoringSampleCommand {
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 new WaitCommand(100),
                 new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.REST_POSE),
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_POSE)
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORING_POSE)
                 ),
                 new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET),
@@ -50,10 +50,10 @@ public class ScoringSampleCommand {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new WaitCommand(300),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_POSE),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.REST_POSE),
                 new WaitCommand(400),
                 MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.PREPARE_TRANSFER),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SAMPLE_TRANSFER_POSE),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SPECIMEN_POSE)
         );
     }
