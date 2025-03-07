@@ -17,8 +17,8 @@ import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 @Config
 public class alignToSampleAuto extends CommandBase {
 
-    public static  double Kp = 0.11;
-    public static  double Ki = 0.009;
+    public static  double Kp = 0.1;
+    public static  double Ki = 0.042;
     public static  double Kd = 0.0055;
     public static  double Ks = 1.32;
     public static  double tolerance = 1.0;

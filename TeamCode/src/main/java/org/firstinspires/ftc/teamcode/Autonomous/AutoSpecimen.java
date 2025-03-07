@@ -30,6 +30,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.LazyActionCommand;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -54,10 +55,6 @@ public class AutoSpecimen extends MMOpMode {
 
     //parking position
     private static final Pose2d parkPos = new Pose2d(45, -60, Math.toRadians(90));
-    public static double LIMELIGHT_INFO = -1;
-    public static TrajectoryActionBuilder LIMELIGHT_TURN = null;
-
-    Limelight3A limelight;
 
     public AutoSpecimen() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -78,11 +75,7 @@ public class AutoSpecimen extends MMOpMode {
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
 
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
-
-        limelight.pipelineSwitch(0);
-
-        limelight.start();
+        MMRobot.getInstance().mmSystems.vision.trackRed();
 
         //poses for pushing
 
@@ -90,7 +83,7 @@ public class AutoSpecimen extends MMOpMode {
         //Score pre-load
         TrajectoryActionBuilder driveToScorePreloadSpecimen = drive.actionBuilder(currentPose)
                 .setTangent(90)
-                .strafeToLinearHeading(new Vector2d(5.5, -33), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                .strafeToLinearHeading(new Vector2d(5.5, -28), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel*1.2));
 
             TrajectoryActionBuilder limelightStrafe = driveToScorePreloadSpecimen.endTrajectory().fresh();
 /*
@@ -169,22 +162,25 @@ public class AutoSpecimen extends MMOpMode {
 
         new SequentialCommandGroup(
                 new InstantCommand(),
-                new ActionCommand(driveToScorePreloadSpecimen.build()).alongWith(
-                        AutoSpecimensCommand.SpecimenScorePreLoad()),
+                new ActionCommand(driveToScorePreloadSpecimen.build()).alongWith(new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(
+                                IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(0.8))
+                ),
+
 
                 //                robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.BARELY_OPEN),
                 score(),
                 new WaitCommand(200),
                 new SequentialCommandGroup(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-//                        limelightGetter.strafeToSample(),
-                        limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(1000),
+                        limelightGetter.getAlignToSampleAuto(hardwareMap, drive),
                         limelightGetter.getRotateToSample(),
-                        limelightGetter.getOpenLinearToSample()
-                                .alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(
-                                        IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE))),
+                        limelightGetter.getOpenLinearToSample()),
                 new WaitCommand(500),
-                IntakeSampleCommand.SampleIntake()
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE)
+
+//                IntakeSampleCommand.SampleIntake()
 //
 //
 //                new ParallelCommandGroup(
@@ -312,7 +308,7 @@ public class AutoSpecimen extends MMOpMode {
 
     private static Command setupForPushing() {
         return new ParallelCommandGroup(
-                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.maxOpening),
+                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
                 robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
                 robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)

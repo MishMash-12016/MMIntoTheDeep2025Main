@@ -21,6 +21,8 @@ public class LinearIntake extends SubsystemBase {
     private final Servo servoLeft;
     private final Servo servoRight;
 
+    public static double config;
+
     public enum LinearIntakeState {
         MAX_OPENING(0.6),CLOSED_POSE(0);
         public double position;
@@ -36,7 +38,7 @@ public class LinearIntake extends SubsystemBase {
         servoRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "R linear intake ");//5
         servoRight.setPosition(1-LinearIntakeState.CLOSED_POSE.position);
         servoLeft.setPosition(LinearIntakeState.CLOSED_POSE.position);
-
+        config =0.6;
     }
 
     public Command setPosition(double newPos){

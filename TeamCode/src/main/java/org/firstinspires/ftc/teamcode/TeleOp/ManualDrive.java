@@ -327,7 +327,7 @@ public class ManualDrive extends MMOpMode {
                 new SequentialCommandGroup(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                         limelightGetter.strafeToSample(),
-                        limelightGetter.getAlignToSample(hardwareMap).withTimeout(1000),
+                        limelightGetter.getAlignToSample(hardwareMap).withTimeout(2000),
                         limelightGetter.getRotateToSample(),
                         limelightGetter.getOpenLinearToSample()
                             .alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)

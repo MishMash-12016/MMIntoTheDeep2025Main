@@ -60,7 +60,7 @@ public class LimeLightTeleOp extends MMOpMode {
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
                 new SequentialCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INTAKE_SAMPLE_POSE),
+                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0),
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.15)
 
