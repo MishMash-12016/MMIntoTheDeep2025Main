@@ -11,6 +11,7 @@ import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.FTCTimer;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
@@ -24,7 +25,7 @@ public class strafeToSampleAuto extends CommandBase {
     public static  double Kp = 0.01;
     public static  double Ki = 0.0;
     public static  double Kd = 0.0;
-    public static  double tolerance = 160;
+    public static  double tolerance = 5;
     SQPIDController pidController;
     PinpointDrive drive;
 
@@ -45,7 +46,7 @@ public class strafeToSampleAuto extends CommandBase {
 
     @Override
     public void execute() {
-        MMRobot.getInstance().mmSystems.driveTrain.drive(pidController.calculate(MMRobot.getInstance().mmSystems.vision.getStrafeOffset()), 0, 0);
+        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,-pidController.calculate(MMRobot.getInstance().mmSystems.vision.getStrafeOffset())) , 0));
     }
 
     @Override

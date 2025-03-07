@@ -27,10 +27,9 @@ public class alignToSampleAuto extends CommandBase {
     ElapsedTime timer;
 
     PinpointDrive driveTrain;
-
     VoltageSensor voltageSensor;
-    public alignToSampleAuto(HardwareMap hardwareMap, PinpointDrive driveTrain) {
-        this.driveTrain=driveTrain;
+    public alignToSampleAuto(HardwareMap hardwareMap , PinpointDrive driveTrain) {
+        this.driveTrain = driveTrain;
         addRequirements(
                 MMRobot.getInstance().mmSystems.driveTrain);
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
@@ -55,24 +54,25 @@ public class alignToSampleAuto extends CommandBase {
                         pidController.calculate(-MMRobot.getInstance().mmSystems.vision.getTx(
                                 0))/voltageSensor.getVoltage()),
                 0));
-
         if (!pidController.atSetpoint()){
             timer.reset();
         }
-
         FtcDashboard.getInstance().getTelemetry().addData("timer", timer.milliseconds());
     }
 
 
     @Override
     public void end(boolean interrupted) {
-        driveTrain.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0), 0));
-
+        driveTrain.setDrivePowers(new PoseVelocity2d(
+                new Vector2d(0,
+                        0),
+                0));
         MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override
     public boolean isFinished() {
-        return timer.milliseconds() >= timeAligned;
+        return timer.milliseconds() >= timeAligned
+                ;
     }
 }

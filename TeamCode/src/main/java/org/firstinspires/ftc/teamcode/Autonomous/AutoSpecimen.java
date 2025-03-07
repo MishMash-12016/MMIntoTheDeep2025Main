@@ -174,7 +174,7 @@ public class AutoSpecimen extends MMOpMode {
                 new WaitCommand(200),
                 new SequentialCommandGroup(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                        limelightGetter.getAlignToSampleAuto(hardwareMap, drive),
+                        limelightGetter.strafeToSampleAuto(drive),
                         limelightGetter.getRotateToSample(),
                         limelightGetter.getOpenLinearToSample()),
                 new WaitCommand(500),

@@ -20,14 +20,21 @@ public class openLinearToSample extends CommandBase {
             .put(101,0.38)
             .put(110.4,0.39)
             .put(115.4,0.399)
+            .put(130,0.418)
             .put(140,0.423)
             .put(155,0.434)
+            .put(160,0.448)
             .put(170,0.455)
+            .put(183,0.46)
+            .put(191,0.48)
             .put(202,0.49)
+            .put(212,0.51)
+            .put(218,0.52)
             .put(230,0.53)
-            .put(240,0.54)
-            .put(246.6,0.56)
-            .put(270,0.6);
+            .put(240,0.55)
+            .put(250,0.57)
+            .put(260,0.596)
+            .put(270,0.7);
 
     public  openLinearToSample() {
         addRequirements(
