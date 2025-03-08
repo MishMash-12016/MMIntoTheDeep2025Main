@@ -14,13 +14,13 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringEndUnitElbow extends SubsystemBase {
-    public static double restPose = 0.73;
-    public static double transferSpecimenPose = 0.4;
-    public static double transferSamplePose = 0.45;
-    public static double scoreSamplePose = 0.61;
-    public static double initPose = 0.7;
+    public static double restPose = 0.05;
+    public static double transferSpecimenPose = 0.13;
+    public static double transferSamplePose = 0.1;
+    public static double scoreSamplePose = 0.63;
+    public static double initPose = 0.2;
     public static double prepareSampleTransferPose = 0.7;
-    public static double scoreSpecimenPose = 0.98;
+    public static double scoreSpecimenPose = 0.66;
     public static double intakeFromBackPose = 0.98; /// still needs tuning
 
 

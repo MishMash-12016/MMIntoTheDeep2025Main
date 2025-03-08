@@ -12,14 +12,15 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringArm extends SubsystemBase {
-    public static double scoringArmRestPose = 0.7;
-    public static double scoringArmSpecimenTransferPose = 0.52;
-    public static double scoringArmSampleTransferPose = 0.52;
-    public static double scoringArmInitPose = 0.4;
-    public static double scoringArmSpecimenScorePose = 0.67;
-    public static double scoringArmSampleScorePose = 0.26;
-    public static double scoringArmSamplePrepareScorePose = 0.32;
+    public static double scoringArmRestPose = 0.46;
+    public static double scoringArmSpecimenTransferPose = 0.46;
+    public static double scoringArmSampleTransferPose = 0.44;
+    public static double scoringArmInitPose = 0.56;
+    public static double scoringArmSpecimenScorePose = 0.315;
+    public static double scoringArmSampleScorePose = 0.3;
+    public static double scoringArmSamplePrepareScorePose = 0.33;
     public static double intakeFromBackPose = 0.21;
+    public static double afterScoreSpecimenPose = 0.23;
 
     public enum ScoringArmState {
         REST_POSE(() -> scoringArmRestPose),
@@ -29,6 +30,7 @@ public class ScoringArm extends SubsystemBase {
         SCORE_SPECIMEN(() -> scoringArmSpecimenScorePose),
         SCORE_SAMPLE(() -> scoringArmSampleScorePose),
         PREPARE_SCORE_SAMPLE(() -> scoringArmSamplePrepareScorePose),
+        AFTER_SCORE_POSE(()-> afterScoreSpecimenPose),
         INTAKE_FROM_BACK_POSE(()-> intakeFromBackPose);
         public Supplier<Double> position;
 

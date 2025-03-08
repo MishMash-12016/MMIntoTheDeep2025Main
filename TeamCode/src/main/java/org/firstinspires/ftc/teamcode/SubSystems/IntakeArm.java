@@ -17,8 +17,9 @@ public class IntakeArm extends SubsystemBase {
     public static double intakeArmPrepareIntakeSamplePose = 0.5;
     public static double intakeArmSpecimenIntakePose = 0.35;
     public static double intakeArmTransferSpecimenPose = 0.185;
-    public static double intakeArmTransferSamplePose = 0.18;
-    public static double intakeArmInitPose = 0.05;
+    public static double intakeArmTransferSamplePose = 0.27;
+    public static double intakeArmInitPose = 0.0;
+    public static double intakeArmMidPose = 0.28;
     CuttleServo servoLeft;
     CuttleServo servoRight;
 
@@ -28,7 +29,8 @@ public class IntakeArm extends SubsystemBase {
         SPECIMEN_INTAKE(()-> intakeArmSpecimenIntakePose),
         TRANSFER_SPECIMEN_POSE(()-> intakeArmTransferSpecimenPose),
         SAMPLE_TRANSFER_POSE(()-> intakeArmTransferSamplePose),
-        INIT_POSE(()-> intakeArmInitPose);
+        INIT_POSE(()-> intakeArmInitPose),
+        MID_POSE(()-> intakeArmMidPose);
 
         public Supplier<Double> position;
 

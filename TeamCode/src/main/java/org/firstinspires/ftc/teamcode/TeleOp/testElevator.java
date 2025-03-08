@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
@@ -41,7 +42,7 @@ public class testElevator extends MMOpMode {
         robotInstance.mmSystems.initDriveTrain();
 
         robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                IntakeSpecimenCommand.PrepareSystemsSpecimenIntakeFromBack()
+                AutoSpecimensCommand.SpecimenScorePreLoad()
         );
 
 
@@ -51,7 +52,7 @@ public class testElevator extends MMOpMode {
 
 //        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
 //                mmSystems.elevator.moveToPose(Elevator.ElevatorState.LOW_BASKET)
-//        );[[[[[[[[[[[[[[[[[[[[[[[
+//        );
 
 
 

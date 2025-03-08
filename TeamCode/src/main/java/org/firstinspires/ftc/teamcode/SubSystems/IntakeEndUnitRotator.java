@@ -17,6 +17,7 @@ import java.util.function.Supplier;
 public class IntakeEndUnitRotator extends SubsystemBase {
 
     public static double defaultPose = 0.33;
+    public static double initPose = 0.98;
     public static double rotatorRightAnglePose = 0.57;
     public static double rotatorLeftAnglePose = 0.11;
 
@@ -25,6 +26,7 @@ public class IntakeEndUnitRotator extends SubsystemBase {
     public enum IntakeRotatorState {
 
         DEFAULT_POSE(()-> defaultPose),
+        INIT_POSE(()-> initPose),
         ROTATE_RIGHT_ANGLE(()-> rotatorRightAnglePose),
         ROTATE_LEFT_ANGLE(()-> rotatorLeftAnglePose);
 
@@ -39,8 +41,8 @@ public class IntakeEndUnitRotator extends SubsystemBase {
 
 
     public IntakeEndUnitRotator() {
-        servo = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.LINEAR_END_UNIT_ROTATOR);
-        servo.setPosition(IntakeRotatorState.DEFAULT_POSE.position.get());
+        servo = new CuttleServo(robotInstance.mmSystems.controlHub, Configuration.INTAKE_ROTATOR);
+        servo.setPosition(IntakeRotatorState.INIT_POSE.position.get());
     }
 
     public Command setPosition(double newPos) {

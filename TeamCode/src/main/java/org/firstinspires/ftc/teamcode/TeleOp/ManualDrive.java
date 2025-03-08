@@ -131,10 +131,10 @@ public class ManualDrive extends MMOpMode {
 //        FtcDashboard.getInstance().getTelemetry().addData("time",elapsedTime.milliseconds());
 
         FtcDashboard.getInstance().getTelemetry().update();
-//        telemetry.addData("target pose", mmSystems.elevator.targetPose);
-//        telemetry.addData("ticks", mmSystems.elevator.getTicks());
-//        telemetry.addData("height", mmSystems.elevator.getHeight());
-//        telemetry.addData("power", MMRobot.getInstance().mmSystems.elevator.getPower());
+        telemetry.addData("target pose", mmSystems.elevator.targetPose);
+        telemetry.addData("ticks", mmSystems.elevator.getTicks());
+        telemetry.addData("height", mmSystems.elevator.getHeight());
+        telemetry.addData("power", MMRobot.getInstance().mmSystems.elevator.getPower());
         telemetry.update();
 
 

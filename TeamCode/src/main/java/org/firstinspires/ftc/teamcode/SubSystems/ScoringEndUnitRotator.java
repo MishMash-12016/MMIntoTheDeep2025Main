@@ -15,12 +15,12 @@ import java.util.function.Supplier;
 @Config
 
 public class ScoringEndUnitRotator extends SubsystemBase {
-    public static double rotatorSpecimenTransferPose = 0.36;
-    public static double rotatorSampleTransferPose = 0.36;
-    public static double rotatorScoringPose = 0.92;
+    public static double rotatorSpecimenTransferPose = 0.3;
+    public static double rotatorSampleTransferPose = 0.3;
+    public static double rotatorScoringPose = 0.845;
 
 
-    private final static MMSystems mmSystems = MMRobot.getInstance().mmSystems;
+    private final static MMRobot robotInstance = MMRobot.getInstance();
 
     public enum ScoringRotatorState {
 
@@ -37,7 +37,7 @@ public class ScoringEndUnitRotator extends SubsystemBase {
 
     CuttleServo servo;
     public ScoringEndUnitRotator(){
-        servo = new CuttleServo(mmSystems.expansionHub, Configuration.SCORING_ROTATOR);
+        servo = new CuttleServo(robotInstance.mmSystems.expansionHub, Configuration.SCORING_ROTATOR);
         servo.setPosition(ScoringRotatorState.SCORING_POSE.position.get());
     }
 
