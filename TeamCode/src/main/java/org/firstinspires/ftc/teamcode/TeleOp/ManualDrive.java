@@ -30,7 +30,7 @@ public class ManualDrive extends MMOpMode {
 
     public ManualDrive() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
-        SpecimenIntake = false;
+        SpecimenIntake = true;
         SpecimenScoring = false;
         elapsedTime.reset();
     }

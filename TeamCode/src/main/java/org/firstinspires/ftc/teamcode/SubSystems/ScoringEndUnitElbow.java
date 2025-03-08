@@ -8,12 +8,12 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.MMSystems;
 
 import java.util.function.Supplier;
 
 @Config
 public class ScoringEndUnitElbow extends SubsystemBase {
+    public static double midPose = 0.4;
     public static double restPose = 0.05;
     public static double transferSpecimenPose = 0.13;
     public static double transferSamplePose = 0.1;
@@ -27,6 +27,7 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     private final static MMRobot robotinstance = MMRobot.getInstance();
 
     public enum ScoringElbowState {
+        MID_POSE(() -> midPose),
         REST_POSE(() -> restPose),
         TRANSFER_SPECIMEN_POSE(() -> transferSpecimenPose),
         PREPARE_SAMPLE_TRANSFER(() -> prepareSampleTransferPose),
