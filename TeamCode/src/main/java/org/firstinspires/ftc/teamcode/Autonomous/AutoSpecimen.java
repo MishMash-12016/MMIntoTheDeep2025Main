@@ -72,7 +72,7 @@ public class AutoSpecimen extends MMOpMode {
         //Score pre-load
         TrajectoryActionBuilder driveToScorePreloadSpecimen = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(0, -27), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*0.6), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
+                .splineToConstantHeading(new Vector2d(0, -27), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
 
 /*
      -----------------------
@@ -149,18 +149,19 @@ public class AutoSpecimen extends MMOpMode {
 
         new SequentialCommandGroup(
                 new InstantCommand(),
-                new ActionCommand(driveToScorePreloadSpecimen.build()).alongWith(
+                AutoSpecimensCommand.SpecimenScorePreLoad().alongWith(
                         new WaitCommand(200).andThen(
-                        AutoSpecimensCommand.SpecimenScorePreLoad())),
+                                new ActionCommand(driveToScorePreloadSpecimen.build())
+                        )
+                ),
+
 
 
                 new ActionCommand(driveToPush1.build()).alongWith(
                         new SequentialCommandGroup(
                                 ScoreSpecimenCommand.ScoreSpecimen(),
-                                new WaitCommand(500),
+                                new WaitCommand(200),
                                 new ParallelCommandGroup(
-                                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArmState.REST_POSE),
-                                        robotInstance.mmSystems.scoringEndUnitElbow.setPosition(ScoringElbowState.TRANSFER_SPECIMEN_POSE),
                                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose)
                                 ),
                                 setupForPushing()

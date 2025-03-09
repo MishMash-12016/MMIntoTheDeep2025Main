@@ -12,16 +12,16 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringArm extends SubsystemBase {
-    private static final double scoringArmMidePose = 0.3;
-    private static final double scoringArmRestPose = 0.46;
-    private static final double scoringArmSpecimenTransferPose = 0.62;
-    private static final double scoringArmSampleTransferPose = 0.44;
-    private static final double scoringArmInitPose = 0.4;
-    private static final double scoringArmSpecimenScorePose = 0.7;
-    private static final double scoringArmSampleScorePose = 0.3;
-    private static final double scoringArmSamplePrepareScorePose = 0.33;
-    private static final double scoringArmIntakeFromBackPose = 0.21;
-    private static final double scoringArmAfterScoreSpecimenPose = 0.85;
+    public static double scoringArmMidePose = 0.3;
+    public static double scoringArmRestPose = 0.46;
+    public static double scoringArmSpecimenTransferPose = 0.62;
+    public static double scoringArmSampleTransferPose = 0.44;
+    public static double scoringArmInitPose = 0.4;
+    public static double scoringArmSpecimenScorePose = 0.7;
+    public static double scoringArmSampleScorePose = 0.3;
+    public static double scoringArmSamplePrepareScorePose = 0.33;
+    public static double scoringArmIntakeFromBackPose = 0.21;
+    public static double scoringArmAfterScoreSpecimenPose = 0.85;
 
     public enum ScoringArmState {
         MID_POSE(() -> scoringArmMidePose),
