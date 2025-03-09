@@ -160,7 +160,7 @@ public class AutoSpecimen extends MMOpMode {
                 new ActionCommand(driveToPush1.build()).alongWith(
                         new SequentialCommandGroup(
                                 ScoreSpecimenCommand.ScoreSpecimen(),
-                                new WaitCommand(200),
+                                new WaitCommand(100),
                                 new ParallelCommandGroup(
                                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose)
                                 ),
@@ -194,7 +194,7 @@ public class AutoSpecimen extends MMOpMode {
                                 new ActionCommand(driveToIntakeFirstSpecimen.build())
                         ),
                     IntakeSpecimenCommand.SpecimenIntake().alongWith(
-                        new WaitCommand(500).andThen(
+                        new WaitCommand(400).andThen(
                         new ActionCommand(driveToScoreFirstSpecimen.build()))),
 
 ////
@@ -207,7 +207,7 @@ public class AutoSpecimen extends MMOpMode {
 //
                 new WaitCommand(200),
                 IntakeSpecimenCommand.SpecimenIntake().alongWith(
-                        new WaitCommand(500).andThen(
+                        new WaitCommand(400).andThen(
                         new ActionCommand(driveToScoreSecondSpecimen.build()))),
 //
 //                //Third
@@ -218,7 +218,7 @@ public class AutoSpecimen extends MMOpMode {
 //
                 new WaitCommand(200),
                 IntakeSpecimenCommand.SpecimenIntake().alongWith(
-                        new WaitCommand(500).andThen(
+                        new WaitCommand(400).andThen(
                         new ActionCommand(driveToScoreThirdSpecimen.build()))),
 
                 //Forth
@@ -229,7 +229,7 @@ public class AutoSpecimen extends MMOpMode {
 
                 new WaitCommand(200),
                 IntakeSpecimenCommand.SpecimenIntake().alongWith(
-                    new WaitCommand(500).andThen(
+                    new WaitCommand(400).andThen(
                         new ActionCommand(driveToScoreForthSpecimen.build()))),
 
                 //park
