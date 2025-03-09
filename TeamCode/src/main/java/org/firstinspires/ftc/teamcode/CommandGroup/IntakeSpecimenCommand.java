@@ -23,18 +23,15 @@ import java.util.function.BooleanSupplier;
 
 public class IntakeSpecimenCommand {
     public static Command PrepareSystemsSpecimenIntake() {
-        return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SPECIMEN_POSE),
-                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SPECIMEN_TRANSFER_POSE),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SPECIMEN_TRANSFER_POSE),//be prepared for transfer
-                new WaitCommand(300),
-                new ParallelCommandGroup(
+        return new ParallelCommandGroup(
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.DEFAULT_POSE),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
-                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.DEFAULT_POSE),
-                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-                )
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SPECIMEN_POSE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SPECIMEN_TRANSFER_POSE),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SPECIMEN_TRANSFER_POSE)//be prepared for transfer
 
 
 
@@ -77,9 +74,10 @@ public class IntakeSpecimenCommand {
                 new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.MID_POSE),
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.DEFAULT_POSE),
-                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORING_POSE).alongWith(
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SAMPLE_TRANSFER_POSE).alongWith(
                                     MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE),
-                                    MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SPECIMEN))
+                                    MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SPECIMEN)
+                        )
         );
     }
 
