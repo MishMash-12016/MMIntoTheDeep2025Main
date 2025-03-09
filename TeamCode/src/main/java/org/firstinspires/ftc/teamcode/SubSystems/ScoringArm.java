@@ -14,10 +14,10 @@ import java.util.function.Supplier;
 public class ScoringArm extends SubsystemBase {
     public static double scoreingArmMidePose = 0.3;
     public static double scoringArmRestPose = 0.46;
-    public static double scoringArmSpecimenTransferPose = 0.46;
-    public static double scoringArmSampleTransferPose = 0.44;
+    public static double scoringArmSpecimenTransferPose = 0.6;
+    public static double scoringArmSampleTransferPose = 0.44
     public static double scoringArmInitPose = 0.05;
-    public static double scoringArmSpecimenScorePose = 0.315;
+    public static double scoringArmSpecimenScorePose = 0.8;
     public static double scoringArmSampleScorePose = 0.3;
     public static double scoringArmSamplePrepareScorePose = 0.33;
     public static double intakeFromBackPose = 0.21;

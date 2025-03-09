@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public class ScoringEndUnitElbow extends SubsystemBase {
     public static double midPose = 0.4;
     public static double restPose = 0.05;
-    public static double transferSpecimenPose = 0.13;
+    public static double transferSpecimenPose = 0.05;
     public static double transferSamplePose = 0.1;
     public static double scoreSamplePose = 0.63;
     public static double initPose = 0.2;
