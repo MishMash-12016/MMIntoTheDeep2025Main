@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
@@ -12,12 +13,15 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 import java.util.function.DoubleSupplier;
 
+@Config
 public class LinearIntake extends SubsystemBase {
 
     private final MMRobot robotInstance = MMRobot.getInstance();
 
     private final Servo servoLeft;
     private final Servo servoRight;
+
+    public static double config;
 
     public enum LinearIntakeState {
         MAX_OPENING(0.6),CLOSED_POSE(0);
@@ -34,7 +38,7 @@ public class LinearIntake extends SubsystemBase {
         servoRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "R linear intake ");//5
         servoRight.setPosition(1-LinearIntakeState.CLOSED_POSE.position);
         servoLeft.setPosition(LinearIntakeState.CLOSED_POSE.position);
-
+        config =0.6;
     }
 
     public Command setPosition(double newPos){
@@ -43,12 +47,14 @@ public class LinearIntake extends SubsystemBase {
             servoRight.setPosition(1-newPos);} ,
                 this);
     }
+
     public Command setPosition(DoubleSupplier newPos){
         return new RunCommand(()-> {
             servoLeft.setPosition(newPos.getAsDouble());
             servoRight.setPosition(1-newPos.getAsDouble());} ,
                 this);
     }
+
     public Command setPosition(LinearIntakeState state){
         return new InstantCommand(()-> {
             servoLeft.setPosition(state.position);
@@ -58,9 +64,13 @@ public class LinearIntake extends SubsystemBase {
 
     public void setPositionVoid(double newPos){
         servoLeft.setPosition(newPos);
-        servoRight.setPosition(newPos);
+        servoRight.setPosition(1-newPos);
     }
 
+    public void setPositionForConfig(){
+        servoLeft.setPosition(config);
+        servoRight.setPosition(config);
+    }
 
     public Command defultCommand(double newPos){
 

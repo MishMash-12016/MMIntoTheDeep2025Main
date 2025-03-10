@@ -15,9 +15,12 @@ import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoreSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
+import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
@@ -54,6 +57,25 @@ public class ManualDrive extends MMOpMode {
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
                 () -> mmSystems.driveTrain.resetRotation()
+        );
+
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                ()->MMRobot.getInstance().mmSystems.vision.trackYellow()
+        );
+
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+                ()->MMRobot.getInstance().mmSystems.vision.trackRed()
+        );
+
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new SequentialCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                        limelightGetter.getAlignToSample(hardwareMap),
+                        limelightGetter.getRotateToSample(),
+                        limelightGetter.getOpenLinearToSample()
+                            .alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
+                        ))
         );
 
         //prepareSampleIntake
@@ -110,7 +132,7 @@ public class ManualDrive extends MMOpMode {
     public void run() {
         super.run();
 
-
+//        MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(LinearIntake.config);
 
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 //        MMRobot.getInstance().mmSystems.elevator.updateToDashboard();

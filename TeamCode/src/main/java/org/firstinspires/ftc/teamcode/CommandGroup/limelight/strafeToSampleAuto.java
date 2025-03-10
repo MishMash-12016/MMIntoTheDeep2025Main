@@ -1,0 +1,62 @@
+package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
+
+
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.arcrobotics.ftclib.command.CommandBase;
+import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.controller.PIDFController;
+import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.FTCTimer;
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
+import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.Vision;
+import org.firstinspires.ftc.teamcode.utils.SQPIDController;
+
+import java.util.List;
+@Config
+public class strafeToSampleAuto extends CommandBase {
+    public static  double Kp = 0.01;
+    public static  double Ki = 0.0;
+    public static  double Kd = 0.0;
+    public static  double tolerance = 5;
+    SQPIDController pidController;
+    PinpointDrive drive;
+
+    public strafeToSampleAuto(PinpointDrive drive) {
+        this.drive = drive;
+        addRequirements(
+                MMRobot.getInstance().mmSystems.driveTrain);
+    }
+
+
+    @Override
+    public void initialize() {
+        pidController = new SQPIDController(Kp, Ki,Kd);
+        pidController.setSetpoint(0);
+        pidController.setTolerance(tolerance);
+        MMRobot.getInstance().mmSystems.vision.startTracking();
+    }
+
+    @Override
+    public void execute() {
+        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,-pidController.calculate(MMRobot.getInstance().mmSystems.vision.getStrafeOffset())) , 0));
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0) , 0));
+        MMRobot.getInstance().mmSystems.vision.stopTracking();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return pidController.atSetpoint();
+    }
+}
