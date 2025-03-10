@@ -7,79 +7,62 @@ import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 
 import java.util.List;
 
 public class rotateToSample extends CommandBase {
-    Limelight3A limelight;
-
-    LLResult result;
-    int noResultCounter;
-
-
     public double oldAngle;
+    boolean finished = false;
+    double noResultCounter;
 
-    public rotateToSample(Limelight3A limelight) {
-        this.limelight = limelight;
+    public rotateToSample() {
         addRequirements(
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator);
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator
+        );
     }
 
     @Override
     public void initialize() {
-        noResultCounter = 0;
-        result = null;
         oldAngle = 0;
+        noResultCounter = 0;
+        finished = false;
+        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
-    public Double calculate_distance_vectors(List<Double> vector1, List<Double> vector2) {
-        return Math.sqrt((vector1.get(0) - vector2.get(0)) * (vector1.get(0) - vector2.get(0)) + (vector1.get(1) - vector2.get(1)) * (vector1.get(1) - vector2.get(1)));
-    }
-
-    public double getAngle(Limelight3A limelight) {
-
-        //crop_x, crop_y, crop_width, crop_height = llrobot[0:4] first 4 to send
-        double angle = oldAngle;
-
-        while (angle == oldAngle) {
-            long startTime = System.currentTimeMillis();
-            double[] outputPython = limelight.getLatestResult().getPythonOutput();
-            angle = outputPython[0];
-            MMRobot.getInstance().mmSystems.telemetry.addData("looking for angle, loop time", System.currentTimeMillis() - startTime);
-            MMRobot.getInstance().mmSystems.telemetry.update();
-        }
-        //        MMRobot.getInstance().mmSystems.telemetry.addData("width - ",width);
-        //        MMRobot.getInstance().mmSystems.telemetry.addData("height -  ",height);
-        //        MMRobot.getInstance().mmSystems.telemetry.addData("X left up-  ",cornerUpLeft.get(0));
-        //        MMRobot.getInstance().mmSystems.telemetry.addData("Y left up -  ",cornerUpLeft.get(1));
-        //        MMRobot.getInstance().mmSystems.telemetry.addData("did it cropped - ",cropped);
-
-        MMRobot.getInstance().mmSystems.telemetry.addData("angle - ", angle);
-        return angle;
-    }
 
     @Override
     public void execute() {
-        result = limelight.getLatestResult();
-        if (result != null && result.isValid()) {
-            List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
-            LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
-
-            limelight.pipelineSwitch(1);
-            double angle = getAngle(limelight);
-            limelight.pipelineSwitch(0);
-
-            angle = angle + 90;
-            double angleInServoDegrees = angle / 270;
-
-            MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angleInServoDegrees);
-        } else {
+        Double angle = MMRobot.getInstance().mmSystems.vision.getTurnServoDegree();
+        if (angle != null) {
+            angle = MMRobot.getInstance().mmSystems.vision.getTurnServoDegree();
+            if (angle>=0 && angle<= 90){
+                angle /= 270;
+                angle = IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get() - angle;
+            }
+            else{
+                angle = 180 - angle;
+                angle /= 270;
+                angle = IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get() + angle;
+            }
+//            angle += 90;
+//            double angleInServoDegrees = angle / 270;
+//        MMRobot.getInstance().mmSystems.telemetry.addData("found the stupid sample", 0);
+            MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angle);
+            MMRobot.getInstance().mmSystems.telemetry.update();
+            finished = true;
+        } else
             noResultCounter++;
-        }
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override
     public boolean isFinished() {
-        return noResultCounter > 5 || result != null;
+        return finished || noResultCounter == 5;
     }
 }

@@ -13,50 +13,54 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringEndUnitElbow extends SubsystemBase {
-    public static double restPos = 0.45;
-    public static double transferPos = 0.13;
-    public static double transferSamplePos = 0.18;
-    public static double scoreSamplePos = 0.33;
-    public static double initPos = 0.23;
-    public static double midposespecimenPos = 0.23;
-    public static double scoreSpecimenPos = 0.7;
-    public static double intakeFormBackPos = 0.7;
+    public static double ElbowMidPose = 0.4+0.035;
+    public static double ElbowRestPose = 0.05+0.035;
+    public static double ElbowTransferSpecimenPose = 0.165;
+    public static double ElbowTransferSamplePose = 0.19+0.035;
+    public static double ElbowScoreSamplePose = 0.48+0.035;
+    public static double ElbowInitPose = 0.4+0.035;
+    public static double ElbowPrepareSampleTransferPose = 0.27+0.035;
+    public static double ElbowScoreSpecimenPose = 0.58+0.035;
+    public static double ElbowIntakeFromBackPose = 1; /// still needs tuning
+    public static double prepareSampleScorePose = 0.38+0.035;
 
 
-    private final static MMRobot robotInstance = MMRobot.getInstance();
+    private final static MMRobot robotinstance = MMRobot.getInstance();
+
     public enum ScoringElbowState {
-        REST_POSE(()-> restPos),
-        TRANSFER_POSE(()-> transferPos),
-        TRANSFER_SAMPLE_POSE(()-> transferSamplePos),
-        SCORE_SAMPLE_POSE(()-> scoreSamplePos),
-        INIT_POSE(()-> initPos),
-        MID_POSE_SPECIMEN(()-> midposespecimenPos),
-        SCORE_SPECIMEN_POSE(()-> scoreSpecimenPos),
-        INTAKE_FROM_BACK_POSE(()-> intakeFormBackPos);
+        MID_POSE(() -> ElbowMidPose),
+        REST_POSE(() -> ElbowRestPose),
+        TRANSFER_SPECIMEN_POSE(() -> ElbowTransferSpecimenPose),
+        PREPARE_SAMPLE_TRANSFER(() -> ElbowPrepareSampleTransferPose),
+        TRANSFER_SAMPLE_POSE(() -> ElbowTransferSamplePose),
+        SCORE_SAMPLE_POSE(() -> ElbowScoreSamplePose),
+        INIT_POSE(() -> ElbowInitPose),
+        SCORE_SPECIMEN_POSE(() -> ElbowScoreSpecimenPose),
+        INTAKE_FROM_BACK_POSE(() -> ElbowIntakeFromBackPose),
+        PREPARE_SAMPLE_SCORE(() -> prepareSampleScorePose);
 
 
-        public Supplier<Double> position;
+        public final Supplier<Double> position;
 
         ScoringElbowState(Supplier<Double> position) {
             this.position = position;
-        } }
+        }
+    }
+
     Servo servo;
 
-    public ScoringEndUnitElbow(){
-        servo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "scoring rot");//0
-        //servo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_ROTATOR_SERVO);
-        //servo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Outake angle");
+    public ScoringEndUnitElbow() {
+        servo = robotinstance.mmSystems.hardwareMap.get(Servo.class, "scoring rot");
         servo.setPosition(ScoringElbowState.INIT_POSE.position.get());
     }
 
-    public Command setPosition(double newPos){
-        return new InstantCommand(()-> {
-            servo.setPosition(newPos);} ,
+    public Command setPosition(double newPos) {
+        return new InstantCommand(() -> servo.setPosition(newPos),
                 this);
     }
-    public Command setPosition(ScoringElbowState state){
-        return new InstantCommand(()-> {
-            servo.setPosition(state.position.get());} ,
+
+    public Command setPosition(ScoringElbowState state) {
+        return new InstantCommand(() -> servo.setPosition(state.position.get()),
                 this);
     }
 }

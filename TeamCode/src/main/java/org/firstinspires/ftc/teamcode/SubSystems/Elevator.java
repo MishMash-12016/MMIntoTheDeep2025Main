@@ -55,13 +55,12 @@ public class Elevator extends MMPIDSubsystem {
     public double ticksOffset = 0;
 
 
-    public static double elevatorLowBasket = 70;
-    public static double elevatorHighBasket = 100;
+    public static double elevatorHighBasket = 80;
     public static double elevatorDown = 1;
     public enum ElevatorState {
 
-        //65
-        LOW_BASKET(()-> elevatorLowBasket), HIGH_BASKET(()-> elevatorHighBasket), ELEVATOR_DOWN(()-> elevatorDown); //58
+
+        HIGH_BASKET(()-> elevatorHighBasket), ELEVATOR_DOWN(()-> elevatorDown); //58
 
         public Supplier<Double> position;
 

@@ -1,77 +1,89 @@
 package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
-
-import static org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter.angleFixed;
-import static org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter.armLength;
-import static org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter.heightFromGround;
-import static org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter.maxOpeningLinearCM;
-import static org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter.sampleHeight;
+import static org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter.maxOpeningLinearMM;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
 
+import org.firstinspires.ftc.teamcode.Libraries.exterpolation.ExterpolationMap;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
-
-import java.util.List;
 
 public class openLinearToSample extends CommandBase {
-    Limelight3A limelight;
 
-    LLResult result;
-    int noResultCounter;
+    boolean finished = false;
+    double noResultCounter;
 
-    public openLinearToSample(Limelight3A limelight) {
-        this.limelight = limelight;
+    private double correctionDist = 70; //TODO: change to 20
+
+    ExterpolationMap exterpolationMap = new ExterpolationMap()
+            .put(63,0.33)
+            .put(75,0.356)
+            .put(85,0.361)
+            .put(95,0.37)
+            .put(101,0.38)
+            .put(110.4,0.39)
+            .put(115.4,0.399)
+            .put(130,0.418)
+            .put(140,0.423)
+            .put(155,0.434)
+            .put(160,0.448)
+            .put(170,0.455)
+            .put(183,0.46)
+            .put(191,0.48)
+            .put(202,0.49)
+            .put(212,0.51)
+            .put(218,0.52)
+            .put(230,0.53)
+            .put(240,0.55)
+            .put(250,0.57)
+            .put(260,0.596)
+            .put(270,0.7);
+
+    public  openLinearToSample() {
         addRequirements(
-                MMRobot.getInstance().mmSystems.linearIntake,
-                MMRobot.getInstance().mmSystems.intakeArm);
+                MMRobot.getInstance().mmSystems.linearIntake
+        );
     }
-
 
     @Override
     public void initialize() {
         noResultCounter = 0;
-        result = null;
+        finished = false;
+        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
     @Override
     public void execute() {
-        result = limelight.getLatestResult();
-        if (result != null && result.isValid()) {
-            List<LLResultTypes.DetectorResult> allDetectorResults = result.getDetectorResults();
-            LLResultTypes.DetectorResult dr = allDetectorResults.get(0);
+        Double distance = MMRobot.getInstance().mmSystems.vision.getDistance() + correctionDist;
+        if (distance!=null){
 
-            double distanceFromLimelight = dr.getTargetYDegrees();
-            double distance = calculateDistance(distanceFromLimelight) - armLength;
-
-            if (distance > maxOpeningLinearCM * LinearIntake.maxOpening) {
-                distance = maxOpeningLinearCM * LinearIntake.maxOpening;
-            }
-            double distanceInServoDegrees = distance / 130;
+            double distanceInServoDegrees = exterpolationMap.exterpolate(distance);
 
             MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(distanceInServoDegrees);
-            MMRobot.getInstance().mmSystems.intakeArm.setPositionVoid(0.55);
 
             MMRobot.getInstance().mmSystems.telemetry.addData("distance servo -  ", distanceInServoDegrees);
             MMRobot.getInstance().mmSystems.telemetry.addData("distance -  ", distance);
-        } else {
-            noResultCounter++;
+
+            MMRobot.getInstance().mmSystems.telemetry.update();
+            finished = true;
+        }
+        else {
+            noResultCounter += 1;
         }
     }
 
     @Override
+    public void end(boolean interrupted) {
+        MMRobot.getInstance().mmSystems.vision.stopTracking();
+    }
+
+    @Override
     public boolean isFinished() {
-        return noResultCounter > 5 || result != null;
+        return finished || noResultCounter == 5;
     }
 
-
-    public static double calculateDistance(double angleFromLimelight) {
-        double height = heightFromGround - sampleHeight;
-        double angle = Math.abs(angleFromLimelight + angleFixed);
-        return height / Math.tan(Math.toRadians(angle));
-    }
-
+//    public static double calculateDistance(double angleFromLimelight) {
+//        double height = heightFromGround - sampleHeight;
+//        double angle = Math.abs(angleFromLimelight + angleFixed);
+//        return height / Math.tan(Math.toRadians(angle));
+//    }
 }
