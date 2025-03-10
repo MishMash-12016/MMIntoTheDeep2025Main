@@ -18,8 +18,9 @@ public class alignToSample extends CommandBase {
     public static  double Ki = 0.042;
     public static  double Kd = 0.0055;
     public static  double Ks = 1.32;
-    public static  double tolerance = 1.0;
+    public static  double tolerance = 0.5;
     public static double timeAligned = 150;
+    public static  double setPoint = -1;
     SQPIDController pidController;
     ElapsedTime timer;
 
@@ -34,7 +35,7 @@ public class alignToSample extends CommandBase {
     @Override
     public void initialize() {
         pidController = new SQPIDController(Kp, Ki,Kd,Ks,0,0);
-        pidController.setSetpoint(0);
+        pidController.setSetpoint(setPoint);
         pidController.setTolerance(tolerance);
         timer = new ElapsedTime();
         timer.reset();
@@ -61,7 +62,6 @@ public class alignToSample extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return timer.milliseconds() >= timeAligned
-                ;
+        return timer.milliseconds() >= timeAligned;
     }
 }
