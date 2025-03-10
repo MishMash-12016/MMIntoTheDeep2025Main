@@ -47,5 +47,8 @@ dependencies {
     implementation "page.j5155.roadrunner:ftc-otos:0.1.2+0.1.14"
     implementation "com.revrobotics.frc:REVLib-java:2025.0.2"
 
+
+    implementation files("lib/wpimath-java-2024.3.2.jar")
+
 }
 

@@ -5,7 +5,10 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
+import com.arcrobotics.ftclib.command.CommandGroupBase;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -25,6 +28,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
+import org.firstinspires.ftc.teamcode.SubSystems.Vision;
 import org.firstinspires.ftc.teamcode.SubSystems.Wisher;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
@@ -53,8 +57,7 @@ public class MMSystems {
 
     public static GoBildaPinpointDriverRR localizer;
     static boolean hasImuBeenReset = false;
-
-
+    public Pose2d localizerCurrentPose;
 
 
     //Subsystems
@@ -69,6 +72,8 @@ public class MMSystems {
     public Elevator elevator;
     public ScoringEndUnitRotator scoringEndUnitRotator;
     public Wisher wisher;
+
+    public Vision vision;
 
 
 
@@ -86,13 +91,15 @@ public class MMSystems {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
-        this.scoringEndUnitRotator = new ScoringEndUnitRotator();
+        this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.wisher = new Wisher();
+        vision = new Vision(hardwareMap, telemetry);
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)
 //        );
 
     }
+
 
     public void initDriveTrain() {
         //roadRunner 90 is what we agree as 0 so reset it to 0
