@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
-
+@Autonomous
 public class AutoSampleNoLimelight extends MMOpMode {
     MMRobot robotInstance;
 

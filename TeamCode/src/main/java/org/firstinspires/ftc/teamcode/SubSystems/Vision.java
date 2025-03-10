@@ -89,7 +89,9 @@ public class Vision extends SubsystemBase {
 
     public double getDistance() {
         double ty = getTy(0.0);
-
+        if (ty == 0){
+            return 0;
+        }
         double angleToGoalDegrees = CAMERA_ANGLE + ty;
         double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
         double distanceMM = (TARGET_HEIGHT - CAMERA_HEIGHT) / Math.tan(angleToGoalRadians);

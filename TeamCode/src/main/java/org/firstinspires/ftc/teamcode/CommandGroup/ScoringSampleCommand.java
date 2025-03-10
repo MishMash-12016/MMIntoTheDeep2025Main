@@ -17,8 +17,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 public class ScoringSampleCommand {
     public static Command PrepareHighSample(){
         return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.ELEVATOR_DOWN),
                 new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.defaultPose),
+                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_TRANSFER_POSE),
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),

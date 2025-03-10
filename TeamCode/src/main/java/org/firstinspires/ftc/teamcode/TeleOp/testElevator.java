@@ -42,12 +42,12 @@ public class testElevator extends MMOpMode {
         robotInstance.mmSystems.initRobotSystems();
         robotInstance.mmSystems.initDriveTrain();
 
-        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                robotInstance.mmSystems.intakEndUnit.closeIntakeClaw()
-        );
-        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                robotInstance.mmSystems.intakEndUnit.openIntakeClaw()
-        );
+//        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+//                robotInstance.mmSystems.intakEndUnit.closeIntakeClaw()
+//        );
+//        robotInstance.mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+//                robotInstance.mmSystems.intakEndUnit.openIntakeClaw()
+//        );
 
 
 

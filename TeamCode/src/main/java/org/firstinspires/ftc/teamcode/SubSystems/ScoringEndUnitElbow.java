@@ -13,16 +13,16 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringEndUnitElbow extends SubsystemBase {
-    public static double ElbowMidPose = 0.4;
-    public static double ElbowRestPose = 0.05;
-    public static double ElbowTransferSpecimenPose = 0.13;
-    public static double ElbowTransferSamplePose = 0.19;
-    public static double ElbowScoreSamplePose = 0.48;
-    public static double ElbowInitPose = 0.4;
-    public static double ElbowPrepareSampleTransferPose = 0.27;
-    public static double ElbowScoreSpecimenPose = 0.58;
-    public static double ElbowIntakeFromBackPose = 0.98; /// still needs tuning
-    public static double prepareSampleScorePose = 0.38;
+    public static double ElbowMidPose = 0.4+0.035;
+    public static double ElbowRestPose = 0.05+0.035;
+    public static double ElbowTransferSpecimenPose = 0.165;
+    public static double ElbowTransferSamplePose = 0.19+0.035;
+    public static double ElbowScoreSamplePose = 0.48+0.035;
+    public static double ElbowInitPose = 0.4+0.035;
+    public static double ElbowPrepareSampleTransferPose = 0.27+0.035;
+    public static double ElbowScoreSpecimenPose = 0.58+0.035;
+    public static double ElbowIntakeFromBackPose = 1; /// still needs tuning
+    public static double prepareSampleScorePose = 0.38+0.035;
 
 
     private final static MMRobot robotinstance = MMRobot.getInstance();
