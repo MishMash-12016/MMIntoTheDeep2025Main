@@ -55,7 +55,7 @@ public class Elevator extends MMPIDSubsystem {
     public double ticksOffset = 0;
 
 
-    public static double elevatorHighBasket = 60;
+    public static double elevatorHighBasket = 65;
     public static double elevatorDown = 1;
     public enum ElevatorState {
 

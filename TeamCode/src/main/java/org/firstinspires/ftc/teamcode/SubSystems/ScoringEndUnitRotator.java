@@ -7,7 +7,6 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 import java.util.function.Supplier;
@@ -16,8 +15,9 @@ import java.util.function.Supplier;
 
 public class ScoringEndUnitRotator extends SubsystemBase {
     public static double rotatorSpecimenTransferPose = 0.3;
-    public static double rotatorSampleTransferPose = 0.3;
-    public static double rotatorScoringPose = 0.845;//
+    public static double rotatorSampleTransferPose = 0.845;
+    public static double rotatorScoringSpecimenPose = 0.3;//
+    public static double rotatorScoringSamplePose = 0.3;
 
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
@@ -26,7 +26,8 @@ public class ScoringEndUnitRotator extends SubsystemBase {
 
         SPECIMEN_TRANSFER_POSE(()-> rotatorSpecimenTransferPose),
         SAMPLE_TRANSFER_POSE(()-> rotatorSampleTransferPose),
-        SCORING_POSE(()-> rotatorScoringPose);
+        SCORING_SPECIMEN_POSE(()-> rotatorScoringSpecimenPose),
+        SCORING_SAMPLE_POSE(() -> rotatorScoringSamplePose);
 
         public final Supplier<Double> position;
 
