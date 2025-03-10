@@ -109,23 +109,23 @@ public class ManualDrive extends MMOpMode {
                 ScoringSampleCommand.ScoreHighSample()
         );
 
-//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
-//                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-0.6)); //left trigger
-//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
-//                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
-//
-//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-//                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.6)); //right trigger
-//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-//                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
-//
-//        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-//                .whenActive(() -> MMRobot.getInstance().mmSystems.elevator.resetTicks());
-//
-//        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-//                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0));
-//        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-//                ScoringSampleCommand.PrepareHighSample());
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0)); //left trigger
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
+
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0)); //right trigger
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
+
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenActive(() -> MMRobot.getInstance().mmSystems.elevator.resetTicks());
+
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0));
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                ScoringSampleCommand.PrepareHighSample());
     }
 
     @Override
