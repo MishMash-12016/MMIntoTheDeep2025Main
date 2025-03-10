@@ -12,6 +12,8 @@ public class openLinearToSample extends CommandBase {
     boolean finished = false;
     double noResultCounter;
 
+    private double correctionDist = 20;
+
     ExterpolationMap exterpolationMap = new ExterpolationMap()
             .put(63,0.33)
             .put(75,0.356)
@@ -51,7 +53,7 @@ public class openLinearToSample extends CommandBase {
 
     @Override
     public void execute() {
-        Double distance = MMRobot.getInstance().mmSystems.vision.getDistance();
+        Double distance = MMRobot.getInstance().mmSystems.vision.getDistance() + correctionDist;
         if (distance!=null){
 
             double distanceInServoDegrees = exterpolationMap.exterpolate(distance);
