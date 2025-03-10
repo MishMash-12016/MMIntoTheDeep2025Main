@@ -75,7 +75,10 @@ public class ManualDrive extends MMOpMode {
                         limelightGetter.getRotateToSample(),
                         limelightGetter.getOpenLinearToSample()
                             .alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
-                        ))
+                        )
+                ).alongWith(
+                        new InstantCommand(() -> SpecimenIntake = false)
+                )
         );
 
         //prepareSampleIntake

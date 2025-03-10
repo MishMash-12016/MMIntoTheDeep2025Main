@@ -91,7 +91,7 @@ public class MMSystems {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
-        this.scoringEndUnitElbow = new ScoringEndUnitElbow();
+        this.scoringEndUnitRotator = new ScoringEndUnitRotator();
         this.wisher = new Wisher();
         vision = new Vision(hardwareMap, telemetry);
 //        linearIntake.setDefaultCommand(
