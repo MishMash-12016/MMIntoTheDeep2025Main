@@ -16,10 +16,10 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     public static double ElbowMidPose = 0.4;
     public static double ElbowRestPose = 0.05;
     public static double ElbowTransferSpecimenPose = 0.13;
-    public static double ElbowTransferSamplePose = 0.21;
-    public static double ElbowScoreSamplePose = 0.5;
+    public static double ElbowTransferSamplePose = 0.19;
+    public static double ElbowScoreSamplePose = 0.48;
     public static double ElbowInitPose = 0.4;
-    public static double ElbowPrepareSampleTransferPose = 0.33;
+    public static double ElbowPrepareSampleTransferPose = 0.27;
     public static double ElbowScoreSpecimenPose = 0.58;
     public static double ElbowIntakeFromBackPose = 0.98; /// still needs tuning
     public static double prepareSampleScorePose = 0.38;
