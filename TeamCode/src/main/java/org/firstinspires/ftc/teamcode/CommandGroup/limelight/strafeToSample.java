@@ -21,10 +21,10 @@ import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 import java.util.List;
 @Config
 public class strafeToSample extends CommandBase {
-    public static  double Kp = 0.01;
+    public static  double Kp = 0.1;
     public static  double Ki = 0.0;
     public static  double Kd = 0.0;
-    public static  double tolerance = 160;
+    public static  double tolerance = 5;
     SQPIDController pidController;
     public strafeToSample() {
         addRequirements(

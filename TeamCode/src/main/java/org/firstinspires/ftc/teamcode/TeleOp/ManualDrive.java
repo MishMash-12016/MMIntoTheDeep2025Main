@@ -326,8 +326,7 @@ public class ManualDrive extends MMOpMode {
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new SequentialCommandGroup(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                        limelightGetter.strafeToSample(),
-//                        limelightGetter.getAlignToSample(hardwareMap).withTimeout(2000),
+                        limelightGetter.getAlignToSample(hardwareMap),
                         limelightGetter.getRotateToSample(),
                         limelightGetter.getOpenLinearToSample()
                             .alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
