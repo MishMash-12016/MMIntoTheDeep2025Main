@@ -72,6 +72,6 @@ public class alignToSampleAuto extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return finished;
+        return timer.milliseconds() >= timeAligned;
     }
 }

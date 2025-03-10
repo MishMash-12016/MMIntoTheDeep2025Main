@@ -73,6 +73,8 @@ public class MMSystems {
     public ScoringEndUnitRotator scoringEndUnitRotator;
     public Wisher wisher;
 
+    public Vision vision;
+
 
 
 
