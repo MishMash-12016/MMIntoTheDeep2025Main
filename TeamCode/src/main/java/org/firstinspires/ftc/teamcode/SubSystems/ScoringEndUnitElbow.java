@@ -1,4 +1,3 @@
-
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -20,8 +19,8 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     public static double ElbowScoreSamplePose = 0.48+0.035;
     public static double ElbowInitPose = 0.4+0.035;
     public static double ElbowPrepareSampleTransferPose = 0.27+0.035;
-    public static double ElbowScoreSpecimenPose = 0.58+0.035;
-    public static double ElbowIntakeFromBackPose = 1; /// still needs tuning
+    public static double ElbowScoreSpecimenPose = 0.59+0.035;
+    public static double ElbowIntakeFromFrontPose = 0.26+0.035; /// still needs tuning
     public static double prepareSampleScorePose = 0.38+0.035;
 
 
@@ -36,7 +35,7 @@ public class ScoringEndUnitElbow extends SubsystemBase {
         SCORE_SAMPLE_POSE(() -> ElbowScoreSamplePose),
         INIT_POSE(() -> ElbowInitPose),
         SCORE_SPECIMEN_POSE(() -> ElbowScoreSpecimenPose),
-        INTAKE_FROM_BACK_POSE(() -> ElbowIntakeFromBackPose),
+        INTAKE_FROM_FRONT_POSE(() -> ElbowIntakeFromFrontPose),
         PREPARE_SAMPLE_SCORE(() -> prepareSampleScorePose);
 
 
@@ -64,4 +63,3 @@ public class ScoringEndUnitElbow extends SubsystemBase {
                 this);
     }
 }
-

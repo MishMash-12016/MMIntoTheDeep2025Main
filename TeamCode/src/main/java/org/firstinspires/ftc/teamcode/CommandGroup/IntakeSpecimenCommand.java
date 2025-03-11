@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm.ScoringArmState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator.ScoringRotatorState;
 
 import java.util.function.BooleanSupplier;
@@ -27,11 +28,11 @@ public class IntakeSpecimenCommand {
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.DEFAULT_POSE),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SPECIMEN_POSE),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SPECIMEN_TRANSFER_POSE),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SPECIMEN_TRANSFER_POSE)//be prepared for transfer
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SPECIMEN_POSE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SPECIMEN_TRANSFER_POSE),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SPECIMEN_TRANSFER_POSE)//be prepared for transfer
 
 
 
@@ -54,13 +55,13 @@ public class IntakeSpecimenCommand {
     public static Command SpecimenIntake() {
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                    MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SPECIMEN_TRANSFER_POSE),
-                    MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SPECIMEN_POSE),
-                    MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SPECIMEN_TRANSFER_POSE),
-                    MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE),
-                    MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.DEFAULT_POSE),
-                    MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                    MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SPECIMEN_TRANSFER_POSE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SPECIMEN_POSE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SPECIMEN_TRANSFER_POSE),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE),
+                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.DEFAULT_POSE),
+                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
                 ),
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(200),
@@ -81,14 +82,26 @@ public class IntakeSpecimenCommand {
         );
     }
 
-    public static Command PrepareSystemsSpecimenIntakeFromBack() {
+    public static Command PrepareSpecimenIntakeFront() {
         return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_BACK_POSE),
-                new WaitCommand(100),
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORING_SPECIMEN_POSE),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.INTAKE_FROM_BACK_POSE),
-                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SPECIMEN_TRANSFER_POSE),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+        );
+    }
+
+    public static Command IntakeFromFront() {
+        return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                new WaitCommand(200),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_SPECIMEN).alongWith(
+                        new WaitCommand(100).andThen(
+                                new ParallelCommandGroup(
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SPECIMEN_TRANSFER_POSE),
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
+                                )
+                        )
                 )
         );
     }

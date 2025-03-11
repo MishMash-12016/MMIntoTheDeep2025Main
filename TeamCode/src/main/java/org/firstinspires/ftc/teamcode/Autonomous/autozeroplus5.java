@@ -61,7 +61,7 @@ public class autozeroplus5 extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
 
-        Pose2d currentPose = (new Pose2d(5.5, -62.73, Math.toRadians(90.00)));
+        Pose2d currentPose = (new Pose2d(5.5, -62.73, Math.toRadians(270)));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
@@ -182,55 +182,52 @@ public class autozeroplus5 extends MMOpMode {
                         )
                 ),
                 //First
-                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake().alongWith(
+                IntakeSpecimenCommand.PrepareSpecimenIntakeFront().alongWith(
                         new ActionCommand(driveToIntakeFirstSpecimen.build())
                 ),
-                IntakeSpecimenCommand.SpecimenIntake().alongWith(
+                IntakeSpecimenCommand.IntakeFromFront().alongWith(
                         new WaitCommand(400).andThen(
                                 new ActionCommand(driveToScoreFirstSpecimen.build()))),
 
-////
-//
-//                //Second
+
+                //Second
                 ScoreSpecimenCommand.ScoreSpecimen(),
                 new ActionCommand(driveToIntakeSecondSpecimen.build()).alongWith(
-                        new WaitCommand(800).andThen(
-                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
-//
+                                IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
+                ),
+
                 new WaitCommand(200),
-                IntakeSpecimenCommand.SpecimenIntake().alongWith(
+                IntakeSpecimenCommand.IntakeFromFront().alongWith(
                         new WaitCommand(400).andThen(
                                 new ActionCommand(driveToScoreSecondSpecimen.build()))),
-//
-//                //Third
-                ScoreSpecimenCommand.ScoreSpecimen(),
+
+                //Third
                 new ActionCommand(driveToIntakeThirdSpecimen.build()).alongWith(
-                        new WaitCommand(800).andThen(
-                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
-//
+                                IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
+                ),
+
                 new WaitCommand(200),
-                IntakeSpecimenCommand.SpecimenIntake().alongWith(
+                IntakeSpecimenCommand.IntakeFromFront().alongWith(
                         new WaitCommand(400).andThen(
                                 new ActionCommand(driveToScoreThirdSpecimen.build()))),
 
                 //Forth
-                ScoreSpecimenCommand.ScoreSpecimen(),
                 new ActionCommand(driveToIntakeForthSpecimen.build()).alongWith(
-                        new WaitCommand(800).andThen(
-                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
+                                IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
+                ),
 
                 new WaitCommand(200),
-                IntakeSpecimenCommand.SpecimenIntake().alongWith(
+                IntakeSpecimenCommand.IntakeFromFront().alongWith(
                         new WaitCommand(400).andThen(
                                 new ActionCommand(driveToScoreForthSpecimen.build()))),
 
-                ScoreSpecimenCommand.ScoreSpecimen(),
+                //Fifth
                 new ActionCommand(driveToIntakeFifthSpecimen.build()).alongWith(
-                        new WaitCommand(800).andThen(
-                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
+                                IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
+                ),
 
                 new WaitCommand(200),
-                IntakeSpecimenCommand.SpecimenIntake().alongWith(
+                IntakeSpecimenCommand.IntakeFromFront().alongWith(
                         new WaitCommand(400).andThen(
                                 new ActionCommand(driveToScoreFifthSpecimen.build()))),
 
