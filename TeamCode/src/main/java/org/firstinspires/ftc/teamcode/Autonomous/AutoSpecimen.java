@@ -233,20 +233,10 @@ public class AutoSpecimen extends MMOpMode {
                         new ActionCommand(driveToScoreForthSpecimen.build()))),
 
                 //park
-                new ActionCommand(driveToPark.build())
-                        .alongWith(
-                                new WaitCommand(100).andThen(ScoreSpecimenCommand.ScoreSpecimenAuto()).andThen(
-                                    new WaitCommand(300).andThen(
-                                            new ParallelCommandGroup(
-                                                    MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                                                    MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                                    MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE),
-                                                    MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.TRANSFER_SPECIMEN_POSE),
-                                                    MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.DEFAULT_POSE),
-                                                    MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SPECIMEN_TRANSFER_POSE)
-                                        )
-                                )
-                        ))
+                ScoreSpecimenCommand.ScoreSpecimenAuto(),
+                new ActionCommand(driveToPark.build()).alongWith(
+                        new WaitCommand(800).andThen(
+                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake()))
 
         ).schedule();
     }
