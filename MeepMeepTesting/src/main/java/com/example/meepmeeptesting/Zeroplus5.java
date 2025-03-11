@@ -22,7 +22,7 @@ public class Zeroplus5 {
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep).setDimensions(11.02,14.5)//14.5
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(100, 100, Math.toRadians(720), Math.toRadians(720), 15)
-                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(5.5, -62.73, Math.toRadians(90)))
+                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(5.5, -62.73, Math.toRadians(270)))
 
 
 
@@ -32,8 +32,8 @@ public class Zeroplus5 {
      -----------------------
 */
                         //Push first specimen
-                        .setTangent(Math.toRadians(70))
-                        .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(260)), Math.toRadians(70))
+                        .setTangent(Math.toRadians(30))
+                        .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(235)), Math.toRadians(60))
 
                         .setTangent(Math.toRadians(270))
                         .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(160)), Math.toRadians(240))
