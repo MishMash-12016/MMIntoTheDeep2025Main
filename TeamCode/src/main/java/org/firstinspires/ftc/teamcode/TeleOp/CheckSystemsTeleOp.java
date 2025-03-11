@@ -1,10 +1,20 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
+import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
@@ -18,46 +28,60 @@ public class CheckSystemsTeleOp extends MMOpMode {
     public void onInit() {
         robotInstance.mmSystems.initRobotSystems();
         robotInstance.mmSystems.initDriveTrain();
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-//                new SequentialCommandGroup(
-//                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.ROTATE_LEFT_ANGLE),
-//                new WaitCommand(300),
-//                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.ROTATE_RIGHT_ANGLE),
-//                new WaitCommand(500),
-//                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.TRANSFER_POSE),
-//                new WaitCommand(300),
-//                robotInstance.mmSystems.intakeArm.setPosition(0.2),
-//                new WaitCommand(500),
-//                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-//                new WaitCommand(300),
-//                robotInstance.mmSystems.linearIntake.setPosition(0.2)
-//                )
-//        );
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-//                new SequentialCommandGroup(
-//                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.LOW_BASKET),
-//                        new WaitCommand(500),
-//                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE),
-//                        new WaitCommand(300),
-//                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
-//                        new WaitCommand(500),
-//                        robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.CLOSE),
-//                        new WaitCommand(300),
-//                        robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.OPEN),
-//                        new WaitCommand(500),
-//                        robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORE_SAMPLE_POSE),
-//                        new WaitCommand(300),
-//                        robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.MID_POSE_SPECIMEN),
-//                        MMRobot.getInstance().mmSystems.elevator.moveToPose(10))
-//
-//        );
-//
-//
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-//                new SequentialCommandGroup(
-//                        robotInstance.mmSystems.intakEndUnit.closeIntakeClaw()
-//                )
-//        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new SequentialCommandGroup(
+                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.ROTATE_LEFT_ANGLE),
+                new WaitCommand(300),
+                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.ROTATE_RIGHT_ANGLE),
+                new WaitCommand(500),
+
+                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.MID_POSE),
+                new WaitCommand(300),
+                robotInstance.mmSystems.intakeArm.setPosition(0.2),
+                new WaitCommand(500),
+
+                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+                new WaitCommand(300),
+                robotInstance.mmSystems.linearIntake.setPosition(0.2)
+                )
+        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new SequentialCommandGroup(
+                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET),
+                        new WaitCommand(500),
+
+                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE),
+                        new WaitCommand(300),
+                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
+                        new WaitCommand(500),
+
+                        robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.CLOSE),
+                        new WaitCommand(300),
+                        robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.OPEN),
+                        new WaitCommand(500),
+
+                        robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SCORING_SAMPLE_POSE),
+                        new WaitCommand(300),
+                        robotInstance.mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
+                        new WaitCommand(500),
+
+                        robotInstance.mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE),
+                        new WaitCommand(300),
+                        robotInstance.mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INIT_POSE),
+                        new WaitCommand(500),
+
+                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_DOWN))
+                );
+
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                        robotInstance.mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET)
+        );
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                robotInstance.mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_DOWN)
+        );
+
 
     }
 

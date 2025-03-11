@@ -68,20 +68,19 @@ public class ManualDrive extends MMOpMode {
         );
 
 
-
-
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new SequentialCommandGroup(
-
-                        limelightGetter.getAlignToSample(hardwareMap)
+//                !!!!!!!EVIL FORCES HAS DELETED THIS MAJESTIC THING (FOR NOW):!!!!!!!!! LIMELIGHT WILL RETURN...
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+//                new SequentialCommandGroup(
+//
+//                        limelightGetter.getAlignToSample(hardwareMap)
 //                        limelightGetter.getRotateToSample(),
 //                        limelightGetter.getOpenLinearToSample()
 //                            .alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
 //                        )
-                ).alongWith(
-                        new InstantCommand(() -> SpecimenIntake = false)
-                )
-        );
+//                ).alongWith(
+//                        new InstantCommand(() -> SpecimenIntake = false)
+//                )
+//        );
 
         //prepareSampleIntake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
@@ -116,11 +115,13 @@ public class ManualDrive extends MMOpMode {
 
         new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
                 .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0)); //left trigger
+
         new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
                 .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
 
         new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
                 .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0)); //right trigger
+
         new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
                 .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
 
@@ -129,6 +130,7 @@ public class ManualDrive extends MMOpMode {
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0));
+
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 ScoringSampleCommand.PrepareHighSample());
     }
@@ -136,8 +138,8 @@ public class ManualDrive extends MMOpMode {
     @Override
     public void run() {
         super.run();
-
-//        MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(LinearIntake.config);
+        //FOR CONFIG EXTREPULATION:
+//      MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(LinearIntake.config);
 
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 //        MMRobot.getInstance().mmSystems.elevator.updateToDashboard();
@@ -153,7 +155,5 @@ public class ManualDrive extends MMOpMode {
         telemetry.addData("height", mmSystems.elevator.getHeight());
         telemetry.addData("power", MMRobot.getInstance().mmSystems.elevator.getPower());
         telemetry.update();
-
-
     }
 }

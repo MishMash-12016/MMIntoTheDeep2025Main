@@ -109,6 +109,7 @@ public class AutoSpecimen extends MMOpMode {
         //First specimen
         TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(48, intakePose.y, Math.toRadians(90)), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel ));
+
         TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToIntakeFirstSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .splineToConstantHeading(scorePose,Math.toRadians(90))
@@ -118,6 +119,7 @@ public class AutoSpecimen extends MMOpMode {
         TrajectoryActionBuilder driveToIntakeSecondSpecimen = driveToScoreFirstSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
                 .splineToConstantHeading(intakePose,Math.toRadians(tangentsToIntakeSpecimen));
+
         TrajectoryActionBuilder driveToScoreSecondSpecimen = driveToIntakeSecondSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToScoreSpecimen))
                 .splineToConstantHeading(scorePose,Math.toRadians(90))
@@ -127,6 +129,7 @@ public class AutoSpecimen extends MMOpMode {
         TrajectoryActionBuilder driveToIntakeThirdSpecimen = driveToScoreSecondSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
                 .splineToConstantHeading(intakePose,Math.toRadians(tangentsToIntakeSpecimen));
+
         TrajectoryActionBuilder driveToScoreThirdSpecimen = driveToIntakeThirdSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToScoreSpecimen))
                 .splineToConstantHeading(scorePose,Math.toRadians(90))
@@ -136,6 +139,7 @@ public class AutoSpecimen extends MMOpMode {
         TrajectoryActionBuilder driveToIntakeForthSpecimen = driveToScoreThirdSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
                 .splineToConstantHeading(intakePose,Math.toRadians(tangentsToIntakeSpecimen));
+
         TrajectoryActionBuilder driveToScoreForthSpecimen = driveToIntakeForthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToScoreSpecimen))
                 .splineToConstantHeading(new Vector2d(scorePose.x, -28),Math.toRadians(90))
@@ -147,6 +151,7 @@ public class AutoSpecimen extends MMOpMode {
                 .splineToConstantHeading(new Vector2d(intakePose.x, -58),Math.toRadians(tangentsToIntakeSpecimen),new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel));
 
 
+        //Executing the paths
         new SequentialCommandGroup(
                 new InstantCommand(),
                 AutoSpecimensCommand.SpecimenScorePreLoad().alongWith(
@@ -154,8 +159,6 @@ public class AutoSpecimen extends MMOpMode {
                                 new ActionCommand(driveToScorePreloadSpecimen.build())
                         )
                 ),
-
-
 
                 new ActionCommand(driveToPush1.build()).alongWith(
                         new SequentialCommandGroup(
@@ -167,11 +170,13 @@ public class AutoSpecimen extends MMOpMode {
                                 setupForPushing()
                         )
                 ),
+
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                 new WaitCommand(50),
                 new ActionCommand(turnRobot.build()),
                 new ActionCommand(driveToPush2.build()).alongWith(
                         setupForPushing()),
+
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                 new WaitCommand(50),
 
@@ -192,10 +197,10 @@ public class AutoSpecimen extends MMOpMode {
                 //First
                 IntakeSpecimenCommand.PrepareSystemsSpecimenIntake().alongWith(
                                 new ActionCommand(driveToIntakeFirstSpecimen.build())
-                        ),
-                    IntakeSpecimenCommand.SpecimenIntake().alongWith(
-                        new WaitCommand(400).andThen(
-                        new ActionCommand(driveToScoreFirstSpecimen.build()))),
+                ),
+                IntakeSpecimenCommand.SpecimenIntake().alongWith(
+                    new WaitCommand(400).andThen(
+                    new ActionCommand(driveToScoreFirstSpecimen.build()))),
 
 ////
 //
@@ -266,7 +271,6 @@ public class AutoSpecimen extends MMOpMode {
                 robotInstance.mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
                 robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)
-
         );
     }
 
@@ -277,6 +281,7 @@ public class AutoSpecimen extends MMOpMode {
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(0.15)
                 ),
                 new WaitCommand(200),
+
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
         );
     }
