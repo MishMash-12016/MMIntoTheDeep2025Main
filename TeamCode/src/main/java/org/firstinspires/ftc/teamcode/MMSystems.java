@@ -5,9 +5,11 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandGroupBase;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -76,7 +78,12 @@ public class MMSystems {
     public Vision vision;
 
 
+    public enum Mode{
+        AUTO,
+        MANUAL
+    }
 
+    private Mode mode;
 
 
     //creating and initiating all subsystems
@@ -105,12 +112,25 @@ public class MMSystems {
         //roadRunner 90 is what we agree as 0 so reset it to 0
         localizer.setPosition(new Pose2d(0,0,localizer.getHeading()-Math.toRadians(90)));
         driveTrain = new DriveTrain();
-        driveTrain.setDefaultCommand(
-                MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
-                        ()-> Math.pow(gamepadEx1.getLeftX(),3),
-                        () -> Math.pow(gamepadEx1.getLeftY(),3),
-                        () -> Math.pow(gamepadEx1.getRightX(),3))
+    }
 
+    public void autoMode(SequentialCommandGroup commands){
+        mode = Mode.AUTO;
+        commands.initialize();
+        commands.execute();
+    }
+
+    public void manualMode(){
+        mode = Mode.MANUAL;
+        executeDrive().initialize();
+        executeDrive().execute();
+    }
+
+    public Command executeDrive(){
+        return driveTrain.fieldOrientedDrive(
+                ()-> Math.pow(gamepadEx1.getLeftX(),3),
+                () -> Math.pow(gamepadEx1.getLeftY(),3),
+                () -> Math.pow(gamepadEx1.getRightX(),3)
         );
     }
 

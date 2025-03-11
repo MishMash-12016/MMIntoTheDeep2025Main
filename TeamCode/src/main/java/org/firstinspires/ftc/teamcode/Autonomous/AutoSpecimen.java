@@ -58,7 +58,6 @@ public class AutoSpecimen extends MMOpMode {
 
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
-
         Pose2d currentPose = (new Pose2d(5.5, -62.73, Math.toRadians(90.00)));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
 
