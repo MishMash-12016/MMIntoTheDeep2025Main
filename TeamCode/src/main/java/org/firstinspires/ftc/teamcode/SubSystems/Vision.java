@@ -28,7 +28,7 @@ public class Vision extends SubsystemBase {
     @Getter private LLResult result;
 
 
-    public static double CAMERA_HEIGHT = 420.0;
+    public static double CAMERA_HEIGHT = 420; //  TODO :420
     public static double CAMERA_ANGLE = -45.0;
     public static double TARGET_HEIGHT = 39;
 

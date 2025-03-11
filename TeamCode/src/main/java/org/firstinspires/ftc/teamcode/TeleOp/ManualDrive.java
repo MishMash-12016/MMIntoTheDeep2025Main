@@ -21,6 +21,8 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
@@ -69,18 +71,20 @@ public class ManualDrive extends MMOpMode {
 
 
 //                !!!!!!!EVIL FORCES HAS DELETED THIS MAJESTIC THING (FOR NOW):!!!!!!!!! LIMELIGHT WILL RETURN...
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-//                new SequentialCommandGroup(
-//
-//                        limelightGetter.getAlignToSample(hardwareMap)
-//                        limelightGetter.getRotateToSample(),
-//                        limelightGetter.getOpenLinearToSample()
-//                            .alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
-//                        )
-//                ).alongWith(
-//                        new InstantCommand(() -> SpecimenIntake = false)
-//                )
-//        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new SequentialCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
+                        limelightGetter.getAlignToSample(hardwareMap).withTimeout(1500),
+                        limelightGetter.getRotateToSample(),
+                        limelightGetter.getOpenLinearToSample()
+                            .alongWith(MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
+                        )
+                ).alongWith(
+                        new InstantCommand(() -> SpecimenIntake = false)
+                )
+        );
 
         //prepareSampleIntake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(

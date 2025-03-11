@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoreSpecimenCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
@@ -27,7 +28,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake.LinearIntakeState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm.ScoringArmState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit.ScoringClawState;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow.ScoringElbowState;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator.ScoringRotatorState;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
@@ -170,6 +173,13 @@ public class AutoSpecimen extends MMOpMode {
                                 setupForPushing()
                         )
                 ),
+                new SequentialCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
+                        limelightGetter.getAlignToSampleAuto(hardwareMap, drive ).withTimeout(1500),
+                        limelightGetter.getRotateToSample(),
+                        limelightGetter.getOpenLinearToSample()),
 
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                 new WaitCommand(50),

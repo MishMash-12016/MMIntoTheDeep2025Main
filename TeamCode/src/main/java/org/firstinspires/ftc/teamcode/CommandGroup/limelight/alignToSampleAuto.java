@@ -21,8 +21,9 @@ public class alignToSampleAuto extends CommandBase {
     public static  double Ki = 0.042;
     public static  double Kd = 0.0055;
     public static  double Ks = 1.32;
-    public static  double tolerance = 1.0;
+    public static  double tolerance = 0.5;
     public static double timeAligned = 150;
+    public static  double setPoint = 0;
     SQPIDController pidController;
     ElapsedTime timer;
 
