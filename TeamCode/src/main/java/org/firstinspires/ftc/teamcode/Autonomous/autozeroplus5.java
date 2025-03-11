@@ -74,31 +74,27 @@ public class autozeroplus5 extends MMOpMode {
  -----------------------
 */
         //Push first specimen
-        TrajectoryActionBuilder driveToPush1 =  drive.actionBuilder(currentPose)
-                .setTangent(Math.toRadians(30))
-                .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(235)), Math.toRadians(60), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2));
+        TrajectoryActionBuilder driveToPush1 = drive.actionBuilder(currentPose)
+                .setTangent(Math.toRadians(70))
+                .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(260)), Math.toRadians(70));
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
-                .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(160)), Math.toRadians(240));
+                .setTangent(Math.toRadians(290))
+                .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(150)), Math.toRadians(240), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel ), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel ));
         //Push second specimen
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(40, -38, Math.toRadians(235)), Math.toRadians(70), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
+                .splineToLinearHeading(new Pose2d(40, -38, Math.toRadians(235)), Math.toRadians(70), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel ), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel ));
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(300))
                 .splineToLinearHeading(new Pose2d(45.8, -47, Math.toRadians(150)), Math.toRadians(250), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.5));
         //Push third specimen
         TrajectoryActionBuilder driveToPush3 = turnRobot2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(51, -38, Math.toRadians(235)), Math.toRadians(80), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
+                .splineToLinearHeading(new Pose2d(51, -38, Math.toRadians(235)), Math.toRadians(80), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel ), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel ));
         TrajectoryActionBuilder turnRobot3 = driveToPush3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(51, -47, Math.toRadians(90)), Math.toRadians(240), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel));
-/*
- -----------------------
-    intake & scoring
- -----------------------
-*/
+                .splineToLinearHeading(new Pose2d(51, -47, Math.toRadians(90)), Math.toRadians(240), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel ));
+
 
         //First specimen
         TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
@@ -175,7 +171,7 @@ public class autozeroplus5 extends MMOpMode {
                 new WaitCommand(50),
                 new ActionCommand(turnRobot3.build()).alongWith(
                         new SequentialCommandGroup(
-                                new WaitCommand(300),
+                                new WaitCommand(370),
                                 robotInstance.mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE),
                                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.ROTATE_LEFT_ANGLE),
                                 robotInstance.mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE)
