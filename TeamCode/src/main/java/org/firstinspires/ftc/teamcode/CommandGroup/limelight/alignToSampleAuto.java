@@ -50,7 +50,7 @@ public class alignToSampleAuto extends CommandBase {
     @Override
     public void execute() {
         drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),
-                pidController.calculate(MMRobot.getInstance().mmSystems.vision.getTx(0))
+                pidController.calculate(-MMRobot.getInstance().mmSystems.vision.getTx(0))
                         / voltageSensor.getVoltage()));
         if (!pidController.atSetpoint()){
             timer.reset();

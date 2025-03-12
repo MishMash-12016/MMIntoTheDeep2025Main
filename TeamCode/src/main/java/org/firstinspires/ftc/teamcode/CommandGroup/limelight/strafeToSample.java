@@ -42,7 +42,7 @@ public class strafeToSample extends CommandBase {
 
     @Override
     public void execute() {
-        MMRobot.getInstance().mmSystems.driveTrain.drive(pidController.calculate(MMRobot.getInstance().mmSystems.vision.getStrafeOffset()), 0, 0);
+        MMRobot.getInstance().mmSystems.driveTrain.drive(pidController.calculate(-MMRobot.getInstance().mmSystems.vision.getStrafeOffset()), 0, 0);
     }
 
     @Override

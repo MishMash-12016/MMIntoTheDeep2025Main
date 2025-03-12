@@ -46,7 +46,7 @@ public class alignToSample extends CommandBase {
     @Override
     public void execute() {
         MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0,
-                pidController.calculate(-MMRobot.getInstance().mmSystems.vision.getTx(0))/voltageSensor.getVoltage());
+                pidController.calculate(MMRobot.getInstance().mmSystems.vision.getTx(0))/voltageSensor.getVoltage());
         if (!pidController.atSetpoint()){
             timer.reset();
         }
