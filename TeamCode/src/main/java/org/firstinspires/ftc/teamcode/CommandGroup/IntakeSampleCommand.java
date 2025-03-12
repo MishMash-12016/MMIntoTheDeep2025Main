@@ -52,6 +52,7 @@ public class IntakeSampleCommand {
         );
     }
 
+
     public static Command limeLightIntake_TeleOp(HardwareMap hardwareMap){
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
@@ -59,10 +60,12 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
 
-                limelightGetter.getAlignToSample(hardwareMap).withTimeout(1500),
+                limelightGetter.getAlignToSample(hardwareMap).withTimeout(1000),
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 
+                new WaitCommand(300),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new WaitCommand(200),
                 SampleIntake()
         );
