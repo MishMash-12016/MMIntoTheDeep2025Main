@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringArm extends SubsystemBase {
-    public static double scoringArmMidePose = 0.3;
+    public static double scoringArmMidePose = 0.77;
     public static double scoringArmRestPose = 0.46;
     public static double scoringArmSpecimenTransferPose = 0.62;
     public static double scoringArmSampleTransferPose = 0.61;
@@ -20,7 +20,7 @@ public class ScoringArm extends SubsystemBase {
     public static double scoringArmSpecimenScorePose = 0.71;
     public static double scoringArmSampleScorePose = 0.77;
     public static double scoringArmSamplePrepareScorePose = 0.33;
-    public static double scoringArmIntakeFromFrontPose = 0.52;
+    public static double scoringArmIntakeFromFrontPose = 0.51;
     public static double scoringArmAfterScoreSpecimenPose = 0.85;
 
     public enum ScoringArmState {

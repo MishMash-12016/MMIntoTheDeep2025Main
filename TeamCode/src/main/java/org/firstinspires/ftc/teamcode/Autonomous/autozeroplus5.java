@@ -27,8 +27,10 @@ import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator.IntakeRotatorState;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake.LinearIntakeState;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm.ScoringArmState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit.ScoringClawState;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow.ScoringElbowState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator.ScoringRotatorState;
@@ -43,10 +45,10 @@ public class autozeroplus5 extends MMOpMode {
     final double intakeArmPose = 0.59;
 
     //parking position
-    private static final Pose2d dragScoredSpecimenToSide = new Pose2d(-1, -30, Math.toRadians(90)); //side
+    private static final Pose2d dragScoredSpecimenToSide = new Pose2d(1, -32, Math.toRadians(90)); //side
     private static final double tangentsToScoreSpecimen = 170;
     private static final double tangentsToIntakeSpecimen = 300;
-    private static final Vector2d intakePose = new Vector2d(43, -62.5);
+    private static final Vector2d intakePose = new Vector2d(43, -66);
     private static final Vector2d scorePose = new Vector2d(4, -32);
 
 
@@ -61,7 +63,7 @@ public class autozeroplus5 extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
 
-        Pose2d currentPose = (new Pose2d(5.5, -62.73, Math.toRadians(270)));
+        Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
@@ -76,33 +78,33 @@ public class autozeroplus5 extends MMOpMode {
         //Push first specimen
         TrajectoryActionBuilder driveToPush1 = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(70))
-                .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(260)), Math.toRadians(70));
+                .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(260)), Math.toRadians(70), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.3));
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(290))
-                .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(150)), Math.toRadians(240), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel ), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel ));
+                .splineToLinearHeading(new Pose2d(35.8, -48, Math.toRadians(150)), Math.toRadians(240), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel ));
         //Push second specimen
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(40, -38, Math.toRadians(235)), Math.toRadians(70), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel ), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel ));
+                .splineToLinearHeading(new Pose2d(40, -38, Math.toRadians(235)), Math.toRadians(70), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel*1.2));
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(300))
-                .splineToLinearHeading(new Pose2d(45.8, -47, Math.toRadians(150)), Math.toRadians(250), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.5));
+                .splineToLinearHeading(new Pose2d(45.8, -48, Math.toRadians(150)), Math.toRadians(250), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.5));
         //Push third specimen
         TrajectoryActionBuilder driveToPush3 = turnRobot2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(51, -38, Math.toRadians(235)), Math.toRadians(80), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel ), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel ));
+                .splineToLinearHeading(new Pose2d(51, -38, Math.toRadians(235)), Math.toRadians(80), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel*1.2));
         TrajectoryActionBuilder turnRobot3 = driveToPush3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(51, -47, Math.toRadians(90)), Math.toRadians(240), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel ));
+                .splineToLinearHeading(new Pose2d(51, -47, Math.toRadians(90)), Math.toRadians(240), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.2));
 
 
         //First specimen
         TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
-                .splineToLinearHeading (new Pose2d(48, intakePose.y, Math.toRadians(90)), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel));
+                .splineToLinearHeading (new Pose2d(48, intakePose.y-1, Math.toRadians(90)), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel));
         TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToIntakeFirstSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .splineToConstantHeading(scorePose, Math.toRadians(90))
-                .splineToLinearHeading(dragScoredSpecimenToSide, Math.toRadians(180));//side
+                .splineToLinearHeading(dragScoredSpecimenToSide, Math.toRadians(180), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.5, MecanumDrive.PARAMS.maxProfileAccel*1.5));//side
 
         //Second specimen
         TrajectoryActionBuilder driveToIntakeSecondSpecimen = driveToScoreFirstSpecimen.endTrajectory().fresh()
@@ -111,7 +113,7 @@ public class autozeroplus5 extends MMOpMode {
         TrajectoryActionBuilder driveToScoreSecondSpecimen = driveToIntakeSecondSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToScoreSpecimen))
                 .splineToConstantHeading(scorePose, Math.toRadians(90))
-                .splineToLinearHeading(dragScoredSpecimenToSide, Math.toRadians(180)); //side
+                .splineToLinearHeading(dragScoredSpecimenToSide, Math.toRadians(180), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.5, MecanumDrive.PARAMS.maxProfileAccel*1.5)); //side
 
         //Third specimen
         TrajectoryActionBuilder driveToIntakeThirdSpecimen = driveToScoreSecondSpecimen.endTrajectory().fresh()
@@ -120,7 +122,7 @@ public class autozeroplus5 extends MMOpMode {
         TrajectoryActionBuilder driveToScoreThirdSpecimen = driveToIntakeThirdSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToScoreSpecimen))
                 .splineToConstantHeading(scorePose, Math.toRadians(90))
-                .splineToLinearHeading(dragScoredSpecimenToSide, Math.toRadians(180)); //side
+                .splineToLinearHeading(dragScoredSpecimenToSide, Math.toRadians(180), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.5, MecanumDrive.PARAMS.maxProfileAccel*1.5)); //side
 
         //Forth specimen
         TrajectoryActionBuilder driveToIntakeForthSpecimen = driveToScoreThirdSpecimen.endTrajectory().fresh()
@@ -129,19 +131,19 @@ public class autozeroplus5 extends MMOpMode {
         TrajectoryActionBuilder driveToScoreForthSpecimen = driveToIntakeForthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToScoreSpecimen))
                 .splineToConstantHeading(new Vector2d(scorePose.x, -28), Math.toRadians(90))
-                .splineToLinearHeading(dragScoredSpecimenToSide, Math.toRadians(180)); //side
+                .splineToLinearHeading(dragScoredSpecimenToSide, Math.toRadians(180), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.5, MecanumDrive.PARAMS.maxProfileAccel*1.5)); //side
         TrajectoryActionBuilder driveToIntakeFifthSpecimen = driveToScoreForthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
                 .splineToConstantHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen));
         TrajectoryActionBuilder driveToScoreFifthSpecimen = driveToIntakeFifthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToScoreSpecimen))
                 .splineToConstantHeading(new Vector2d(scorePose.x, -28), Math.toRadians(90))
-                .splineToLinearHeading(dragScoredSpecimenToSide, Math.toRadians(180)); //side
+                .splineToLinearHeading(dragScoredSpecimenToSide, Math.toRadians(180), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.5, MecanumDrive.PARAMS.maxProfileAccel*1.5)); //side
 
 
-        TrajectoryActionBuilder driveToPark = driveToScoreForthSpecimen.endTrajectory().fresh()
+        TrajectoryActionBuilder driveToPark = driveToScoreFifthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(tangentsToIntakeSpecimen))
-                .splineToConstantHeading(new Vector2d(intakePose.x, -58), Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel));
+                .splineToConstantHeading(new Vector2d(intakePose.x, -58), Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.5, MecanumDrive.PARAMS.maxProfileAccel*1.5));
 
 
         new SequentialCommandGroup(
@@ -149,103 +151,110 @@ public class autozeroplus5 extends MMOpMode {
 
                 new ActionCommand(driveToPush1.build()).alongWith(
                         new SequentialCommandGroup(
-                                ScoreSpecimenCommand.ScoreSpecimen(),
-                                new WaitCommand(300),
+                                new SequentialCommandGroup(
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                                        new ParallelCommandGroup(
+                                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SPECIMEN_TRANSFER_POSE),
+                                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER)
+                                        ),
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SPECIMEN_TRANSFER_POSE)
+                                ),
+                                new WaitCommand(500),
                                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                                 setupForPushing()
                         )
                 ),
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
-                new WaitCommand(50),
                 new ActionCommand(turnRobot.build()),
                 new ActionCommand(driveToPush2.build()).alongWith(
                         setupForPushing()),
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
-                new WaitCommand(50),
 
                 new ActionCommand(turnRobot2.build()),
                 new ActionCommand(driveToPush3.build()).alongWith(
                         setupForPushing()),
 
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
-                new WaitCommand(50),
                 new ActionCommand(turnRobot3.build()).alongWith(
                         new SequentialCommandGroup(
                                 new WaitCommand(370),
                                 robotInstance.mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE),
-                                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.ROTATE_LEFT_ANGLE),
-                                robotInstance.mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE)
+                                robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.DEFAULT_POSE),
+                                robotInstance.mmSystems.intakeArm.setPosition(IntakeArmState.INIT_POSE)
                         )
                 ),
                 //First
-                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake().alongWith(
+                new ParallelCommandGroup(
+                        IntakeSpecimenCommand.PrepareSpecimenIntakeFront(),
                         new ActionCommand(driveToIntakeFirstSpecimen.build())
                 ),
-                IntakeSpecimenCommand.SpecimenIntake().alongWith(
-                        new WaitCommand(200).andThen(
-                                new ActionCommand(driveToScoreFirstSpecimen.build()))),
+                IntakeSpecimenCommand.IntakeFromFront().alongWith(
+                        new ActionCommand(driveToScoreFirstSpecimen.build())),
 
 ////
 //
 //                //Second
-                ScoreSpecimenCommand.ScoreSpecimen(),
+                robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new ActionCommand(driveToIntakeSecondSpecimen.build()).alongWith(
-                        new WaitCommand(800).andThen(
-                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
+                        new SequentialCommandGroup(
+                                new WaitCommand(800),
+                                IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
+                        )
+                ),
 //
-                new WaitCommand(50),
-                IntakeSpecimenCommand.SpecimenIntake().alongWith(
-                        new WaitCommand(200).andThen(
-                                new ActionCommand(driveToScoreSecondSpecimen.build()))),
+                IntakeSpecimenCommand.IntakeFromFront().alongWith(
+                        new ActionCommand(driveToScoreSecondSpecimen.build())),
 //
 //                //Third
-                ScoreSpecimenCommand.ScoreSpecimen(),
+                robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new ActionCommand(driveToIntakeThirdSpecimen.build()).alongWith(
-                        new WaitCommand(800).andThen(
-                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
+                        new SequentialCommandGroup(
+                                new WaitCommand(800),
+                                IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
+                        )
+                ),
 //
-                new WaitCommand(50),
-                IntakeSpecimenCommand.SpecimenIntake().alongWith(
-                        new WaitCommand(200).andThen(
-                                new ActionCommand(driveToScoreThirdSpecimen.build()))),
+                IntakeSpecimenCommand.IntakeFromFront().alongWith(
+                        new ActionCommand(driveToScoreThirdSpecimen.build())),
 
                 //Forth
-                ScoreSpecimenCommand.ScoreSpecimen(),
+                robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new ActionCommand(driveToIntakeForthSpecimen.build()).alongWith(
-                        new WaitCommand(800).andThen(
-                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
+                        new SequentialCommandGroup(
+                                new WaitCommand(800),
+                                IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
+                        )
+                ),
 
-                new WaitCommand(50),
-                IntakeSpecimenCommand.SpecimenIntake().alongWith(
-                        new WaitCommand(200).andThen(
-                                new ActionCommand(driveToScoreForthSpecimen.build()))),
+                IntakeSpecimenCommand.IntakeFromFront().alongWith(
+                        new ActionCommand(driveToScoreForthSpecimen.build())),
 
-                ScoreSpecimenCommand.ScoreSpecimen(),
+                robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new ActionCommand(driveToIntakeFifthSpecimen.build()).alongWith(
-                        new WaitCommand(800).andThen(
-                                IntakeSpecimenCommand.PrepareSystemsSpecimenIntake())),
+                        new SequentialCommandGroup(
+                                new WaitCommand(800),
+                                IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
+                        )
+                ),
 
-                new WaitCommand(50),
-                IntakeSpecimenCommand.SpecimenIntake().alongWith(
-                        new WaitCommand(200).andThen(
-                                new ActionCommand(driveToScoreFifthSpecimen.build()))),
+                IntakeSpecimenCommand.IntakeFromFront().alongWith(
+                        new ActionCommand(driveToScoreFifthSpecimen.build())),
 
                 //park
-                new ActionCommand(driveToPark.build())
-                        .alongWith(
-                                new WaitCommand(100).andThen(ScoreSpecimenCommand.ScoreSpecimen()).andThen(
-                                        new WaitCommand(300).andThen(
-                                                new ParallelCommandGroup(
-                                                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE),
-                                                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.TRANSFER_SPECIMEN_POSE),
-                                                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
-                                                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SPECIMEN_TRANSFER_POSE)
-                                                )
-                                        )
-                                ))
-
+                robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
+                new ActionCommand(driveToPark.build()).alongWith(
+                        new SequentialCommandGroup(
+                                new WaitCommand(800),
+                                new ParallelCommandGroup(
+                                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE),
+                                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.TRANSFER_SPECIMEN_POSE),
+                                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SPECIMEN_TRANSFER_POSE)
+                                )
+                        )
+                )
         ).schedule();
     }
 
