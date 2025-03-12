@@ -137,11 +137,12 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
+        //updating the python endlessly
         camera.updatePythonInputs(
                 new double[] {detectionColor.colorVal, trackSample, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
-        result = camera.getLatestResult();
+        result = camera.getLatestResult(); //get the result from the camera
 
-        if (result != null) {
+        if (result != null) { //if it detects something
             long staleness = result.getStaleness();
             // Less than 100 milliseconds old
             isDataOld = staleness >= 100;

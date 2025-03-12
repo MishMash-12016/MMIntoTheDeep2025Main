@@ -63,6 +63,7 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
 
+                //Lamlam side:
                 limelightGetter.getAlignToSample(hardwareMap).withTimeout(750),
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
@@ -82,6 +83,7 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
 
+                //Lamlam side:
                 limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(750),
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),

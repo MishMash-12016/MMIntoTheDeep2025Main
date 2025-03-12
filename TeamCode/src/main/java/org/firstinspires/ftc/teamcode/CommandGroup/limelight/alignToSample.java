@@ -14,17 +14,20 @@ import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 @Config
 public class alignToSample extends CommandBase {
 
+    // PID:
     public static  double Kp = 0.1;
     public static  double Ki = 0.042;
     public static  double Kd = 0.0055;
     public static  double Ks = 1.32;
+
     public static  double tolerance = 0.5;
     public static double timeAligned = 150;
     public static  double setPoint = 0;
+
     SQPIDController pidController;
     ElapsedTime timer;
-
     VoltageSensor voltageSensor;
+
     public alignToSample(HardwareMap hardwareMap) {
         addRequirements(
                 MMRobot.getInstance().mmSystems.driveTrain);
@@ -34,7 +37,7 @@ public class alignToSample extends CommandBase {
 
     @Override
     public void initialize() {
-        pidController = new SQPIDController(Kp, Ki,Kd,Ks,0,0);
+        pidController = new SQPIDController(Kp,Ki,Kd,Ks,0,0); //better for small distances
         pidController.setSetpoint(setPoint);
         pidController.setTolerance(tolerance);
         timer = new ElapsedTime();
@@ -45,8 +48,11 @@ public class alignToSample extends CommandBase {
 
     @Override
     public void execute() {
+        // PID updating based on limelight distance from target in the x axis:
         MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0,
                 pidController.calculate(MMRobot.getInstance().mmSystems.vision.getTx(0))/voltageSensor.getVoltage());
+
+        //if the pid controller isnt at the set point the timer will reset:
         if (!pidController.atSetpoint()){
             timer.reset();
         }
@@ -56,12 +62,12 @@ public class alignToSample extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        MMRobot.getInstance().mmSystems.driveTrain.drive(0,0,0);
+        MMRobot.getInstance().mmSystems.driveTrain.drive(0,0,0); //Stops the robot when the pid finished:
         MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override
     public boolean isFinished() {
-        return timer.milliseconds() >= timeAligned;
+        return timer.milliseconds() >= timeAligned; //meaning it have been in the set pint for a time so it can be stopped
     }
 }
