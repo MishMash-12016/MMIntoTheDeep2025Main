@@ -45,7 +45,7 @@ public class autozeroplus5 extends MMOpMode {
     final double intakeArmPose = 0.59;
 
     //parking position
-    private static final Pose2d dragScoredSpecimenToSide = new Pose2d(1, -32, Math.toRadians(90)); //side
+    private static final Pose2d dragScoredSpecimenToSide = new Pose2d(0, -32, Math.toRadians(90)); //side
     private static final double tangentsToScoreSpecimen = 170;
     private static final double tangentsToIntakeSpecimen = 300;
     private static final Vector2d intakePose = new Vector2d(43, -66);
@@ -78,7 +78,7 @@ public class autozeroplus5 extends MMOpMode {
         //Push first specimen
         TrajectoryActionBuilder driveToPush1 = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(70))
-                .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(260)), Math.toRadians(70), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.3));
+                .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(240)), Math.toRadians(70), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.3));
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(290))
                 .splineToLinearHeading(new Pose2d(35.8, -48, Math.toRadians(150)), Math.toRadians(240), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel ));
