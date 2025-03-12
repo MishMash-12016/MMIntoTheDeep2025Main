@@ -31,16 +31,38 @@ public class Zeroplus5 {
         pushing
      -----------------------
 */
+
+
+                                .setTangent(Math.toRadians(270))
+                                .splineTo(new Vector2d(29, -35), Math.toRadians(50))
+
+                .setTangent(Math.toRadians(290))
+                .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(150)), Math.toRadians(240))
+        //Push second specimen
+
+                .setTangent(Math.toRadians(80))
+                .splineToLinearHeading(new Pose2d(40, -38, Math.toRadians(235)), Math.toRadians(70))
+
+                .setTangent(Math.toRadians(300))
+                .splineToLinearHeading(new Pose2d(45.8, -47, Math.toRadians(150)), Math.toRadians(250))
+        //Push third specimen
+
+                .setTangent(Math.toRadians(80))
+                .splineToLinearHeading(new Pose2d(51, -38, Math.toRadians(235)), Math.toRadians(80))
+
+                .setTangent(Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(51, -47, Math.toRadians(90)), Math.toRadians(240))
+
                         //Push first specimen
-                        .setTangent(Math.toRadians(70))
-                        .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(260)), Math.toRadians(70))
+                        .setTangent(Math.toRadians(30))
+                        .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(235)), Math.toRadians(60))
 
                         .setTangent(Math.toRadians(270))
                         .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(160)), Math.toRadians(240))
 
                         //Push second specimen
                         .setTangent(Math.toRadians(80))
-                        .splineToLinearHeading(new Pose2d(40, -35, Math.toRadians(230)), Math.toRadians(70))
+                        .splineToLinearHeading(new Pose2d(40, -35, Math.toRadians(235)), Math.toRadians(70))
 
                         .setTangent(Math.toRadians(270))
                         .splineToLinearHeading(new Pose2d(45.8, -47, Math.toRadians(160)), Math.toRadians(270))
