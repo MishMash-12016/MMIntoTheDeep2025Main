@@ -72,15 +72,7 @@ public class ManualDrive extends MMOpMode {
 
 //                 LIMELIGHT HAS RETURNED...
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new SequentialCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
-                        limelightGetter.getAlignToSample(hardwareMap).withTimeout(1500),
-                        limelightGetter.getRotateToSample(),
-                        limelightGetter.getOpenLinearToSample()
-                ).alongWith(
+                IntakeSampleCommand.limeLightIntake_TeleOp(hardwareMap).alongWith(
                         new InstantCommand(() -> SpecimenIntake = false)
                 )
         );
