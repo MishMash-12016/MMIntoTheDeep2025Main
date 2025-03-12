@@ -55,12 +55,13 @@ public class IntakeSampleCommand {
 
     public static Command limeLightIntake_TeleOp(HardwareMap hardwareMap){
         return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SAMPLE_TRANSFER_POSE),//be prepared for transfer
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
 
-                limelightGetter.getAlignToSample(hardwareMap).withTimeout(1000),
+                limelightGetter.getAlignToSample(hardwareMap).withTimeout(750),
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 
@@ -73,9 +74,20 @@ public class IntakeSampleCommand {
 
     public static Command limeLightIntake_Auto(HardwareMap hardwareMap, PinpointDrive drive){
         return new SequentialCommandGroup(
-                limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(1500),
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SAMPLE_TRANSFER_POSE),//be prepared for transfer
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+
+                limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(750),
                 limelightGetter.getRotateToSample(),
-                limelightGetter.getOpenLinearToSample()
+                limelightGetter.getOpenLinearToSample(),
+
+                new WaitCommand(300),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                new WaitCommand(200),
+                SampleIntake()
         );
     }
 }

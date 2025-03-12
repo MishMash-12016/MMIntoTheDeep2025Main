@@ -104,16 +104,8 @@ public class TrialAutoSample extends MMOpMode {
                         )
                 ),
 
-                limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(1500),
-
-                new ParallelCommandGroup(
-                        prepareSampleIntake(),
-                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.4)
-                ),
-                new WaitCommand(400),
-                IntakeSampleCommand.SampleIntake(),
-                new WaitCommand(200),
-
+                IntakeSampleCommand.limeLightIntake_Auto(hardwareMap,drive),
+                new WaitCommand(500),
 
                 new ActionCommand(driveToScoreFirstSample.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample()
@@ -125,15 +117,10 @@ public class TrialAutoSample extends MMOpMode {
 
                 //second
 
-                limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(1500),
+                IntakeSampleCommand.limeLightIntake_Auto(hardwareMap,drive),
+                new WaitCommand(500),
 
-                new ParallelCommandGroup(
-                        prepareSampleIntake(),
-                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.35)
-                ),
-                new WaitCommand(400),
-                IntakeSampleCommand.SampleIntake(),
-                new WaitCommand(200),
+
 
                 new ActionCommand(driveToSecondSample.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample()
@@ -153,13 +140,9 @@ public class TrialAutoSample extends MMOpMode {
                 new WaitCommand(200),
                 ScoreHighSample().alongWith(new ActionCommand(driveToIntakeForth.build())),
 
-                limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(1500),
+                IntakeSampleCommand.limeLightIntake_Auto(hardwareMap,drive),
 
-                prepareSampleIntake(),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
-                new WaitCommand(400),
-                IntakeSampleCommand.SampleIntake(),
-                new WaitCommand(200),
+                new WaitCommand(500),
                 new ActionCommand(driveToScoreForth.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample()
                 ),
