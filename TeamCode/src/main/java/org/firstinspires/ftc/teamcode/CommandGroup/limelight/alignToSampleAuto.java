@@ -43,8 +43,6 @@ public class alignToSampleAuto extends CommandBase {
         pidController.setTolerance(tolerance);
         timer = new ElapsedTime();
         timer.reset();
-        MMRobot.getInstance().mmSystems.vision.startTracking();
-
     }
 
     @Override

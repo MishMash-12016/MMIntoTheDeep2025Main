@@ -28,7 +28,6 @@ public class rotateToSample extends CommandBase {
         oldAngle = 0;
         noResultCounter = 0;
         finished = false;
-        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
 

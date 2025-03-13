@@ -58,8 +58,6 @@ public class alignToSample extends CommandBase {
 
         timer = new ElapsedTime();
         timer.reset();
-        MMRobot.getInstance().mmSystems.vision.startTracking();
-
     }
 
     @Override

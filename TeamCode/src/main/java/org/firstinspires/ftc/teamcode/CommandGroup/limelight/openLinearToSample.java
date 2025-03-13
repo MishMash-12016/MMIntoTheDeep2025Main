@@ -48,7 +48,6 @@ public class openLinearToSample extends CommandBase {
     public void initialize() {
         noResultCounter = 0;
         finished = false;
-        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
     @Override
