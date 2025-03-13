@@ -62,7 +62,6 @@ public class alignToSampleAuto extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
-        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override

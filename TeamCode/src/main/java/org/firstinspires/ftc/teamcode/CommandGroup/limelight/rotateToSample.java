@@ -56,10 +56,6 @@ public class rotateToSample extends CommandBase {
             noResultCounter++;
     }
 
-    @Override
-    public void end(boolean interrupted) {
-        MMRobot.getInstance().mmSystems.vision.stopTracking();
-    }
 
     @Override
     public boolean isFinished() {
