@@ -22,7 +22,10 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     public static double ElbowScoreSpecimenPose = 0.59+0.035;
     public static double ElbowIntakeFromFrontPose = 0.26+0.035; /// still needs tuning
     public static double prepareSampleScorePose = 0.38+0.035;
-    public static double afterSpecimenScore = 0.4+0.035;
+    public static double afterSpecimenScore = 0.345;
+
+    public static double elbowSpecimenSideScore = 0.22;
+
 
 
     private final static MMRobot robotinstance = MMRobot.getInstance();
@@ -38,6 +41,8 @@ public class ScoringEndUnitElbow extends SubsystemBase {
         SCORE_SPECIMEN_POSE(() -> ElbowScoreSpecimenPose),
         INTAKE_FROM_FRONT_POSE(() -> ElbowIntakeFromFrontPose),
         PREPARE_SAMPLE_SCORE(() -> prepareSampleScorePose),
+
+        SCORING_SPECIMEN_SIDE_POSE(() -> elbowSpecimenSideScore),
         AFTER_SPECIMEN_SCORE(() -> afterSpecimenScore);
 
 
