@@ -15,10 +15,10 @@ import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 public class alignToSample extends CommandBase {
 
     // PID:
-    public static  double Kp_short = 0.1;
-    public static  double Ki_short = 0.042;
-    public static  double Kd_short = 0.0055;
-    public static  double Ks_short = 2;
+    public static  double Kp_short = 0.01;
+    public static  double Ki_short = 0;
+    public static  double Kd_short = 0;
+    public static  double Ks_short = 2.2;
 
     public static  double Kp_long = 0.1;
     public static  double Ki_long = 0.042;
@@ -26,6 +26,7 @@ public class alignToSample extends CommandBase {
     public static  double Ks_long = 1.32;
 
     public static  double tolerance = 0.5;
+    public static  double toleranceShort = 0.1;
     public static double timeAligned = 150;
     public static double setPoint = 0;
 
@@ -50,7 +51,7 @@ public class alignToSample extends CommandBase {
     public void initialize() {
         pidControllerShort = new SQPIDController(Kp_short, Ki_short, Kd_short, Ks_short,0,0); //better for small distances
         pidControllerShort.setSetpoint(setPoint);
-        pidControllerShort.setTolerance(tolerance);
+        pidControllerShort.setTolerance(toleranceShort);
 
         pidControllerLong = new SQPIDController(Kp_long, Ki_long, Kd_long, Ks_long,0,0); //better for small distances
         pidControllerLong.setSetpoint(setPoint);
@@ -85,6 +86,8 @@ public class alignToSample extends CommandBase {
             timer.reset();
         }
         FtcDashboard.getInstance().getTelemetry().addData("timer", timer.milliseconds());
+        FtcDashboard.getInstance().getTelemetry().addData("SHORT", shortPID);
+        FtcDashboard.getInstance().getTelemetry().addData("LOMG", longPID);
     }
 
 

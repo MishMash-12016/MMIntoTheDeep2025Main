@@ -76,9 +76,8 @@ public class IntakeSampleCommand {
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 
-                new WaitCommand(300),
+                new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                new WaitCommand(200),
                 SampleIntake(),
                 new InstantCommand(()->
                     MMRobot.getInstance().mmSystems.vision.stopTracking()
