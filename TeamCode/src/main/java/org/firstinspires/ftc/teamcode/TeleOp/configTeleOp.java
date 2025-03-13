@@ -16,8 +16,15 @@ import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
+import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
+import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @Config
@@ -40,11 +47,13 @@ public class configTeleOp extends MMOpMode {
         super(OpModeType.NonCompetition.EXPERIMENTING);
         scoringArmPose = ScoringArm.scoringArmInitPose;
         scoringElbowPose = ScoringEndUnitElbow.prepareSampleScorePose;
-        scoringArmPose = ScoringArm.scoringArmInitPose;
-        scoringArmPose = ScoringArm.scoringArmInitPose;
-        scoringArmPose = ScoringArm.scoringArmInitPose;
-        scoringArmPose = ScoringArm.scoringArmInitPose;
-        scoringArmPose = ScoringArm.scoringArmInitPose;
+        scoringEndUnitPose = ScoringClawEndUnit.scoringClawOpenPos;
+        scoringEndUnitRotatorPose = ScoringEndUnitRotator.rotatorSampleTransferPose;
+        intakeEndUnitPose = IntakEndUnit.IntakeClawOpenPos;
+        linearIntakePose = 0;
+        elevatorPose = Elevator.elevatorDown;
+        intakeArmPose = IntakeArm.intakeArmInitPose;
+        intakeEndUnitRotatorPose = IntakeEndUnitRotator.initPose;
     }
 
     @Override
