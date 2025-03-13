@@ -1,18 +1,15 @@
 package com.example.meepmeeptesting;
 
 
-import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
-import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 
 import org.rowlandhall.meepmeep.MeepMeep;
 import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
 import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 
-public class RedFar {
+public class oneplusfive {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(600);
 
@@ -22,7 +19,7 @@ public class RedFar {
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(11.02,14.5)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(100, 100, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(60, 70, Math.toRadians(180), Math.toRadians(180), 15)
 
                 .followTrajectorySequence(drive-> drive.trajectorySequenceBuilder(new Pose2d(5.5, -62.73, Math.toRadians(90.00)))
 
@@ -36,7 +33,9 @@ public class RedFar {
 */
                         //Push first specimen
                         .setTangent(Math.toRadians(270))
-                        .splineTo(new Vector2d(29, -35), Math.toRadians(50))
+                        .splineToLinearHeading(new Pose2d(22, -45,Math.toRadians(325+180)), Math.toRadians(340))
+                        .setTangent(0)
+                        .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(230)), Math.toRadians(50))
                         .setTangent(Math.toRadians(290))
                         .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(150)),Math.toRadians(240))
                         //Push second specimen
