@@ -71,7 +71,10 @@ public class IntakeSampleCommand {
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new WaitCommand(200),
-                SampleIntake()
+                SampleIntake(),
+                new InstantCommand(()->
+                        MMRobot.getInstance().mmSystems.vision.stopTracking()
+                )
         );
     }
 
@@ -91,7 +94,10 @@ public class IntakeSampleCommand {
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new WaitCommand(200),
-                SampleIntake()
+                SampleIntake(),
+                new InstantCommand(()->
+                    MMRobot.getInstance().mmSystems.vision.stopTracking()
+                )
         );
     }
 }

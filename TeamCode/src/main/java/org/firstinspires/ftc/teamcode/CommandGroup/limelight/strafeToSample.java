@@ -48,7 +48,6 @@ public class strafeToSample extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         MMRobot.getInstance().mmSystems.driveTrain.drive(0,0,0);
-        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override

@@ -72,11 +72,6 @@ public class openLinearToSample extends CommandBase {
     }
 
     @Override
-    public void end(boolean interrupted) {
-        MMRobot.getInstance().mmSystems.vision.stopTracking();
-    }
-
-    @Override
     public boolean isFinished() {
         return finished || noResultCounter == 5;
     }
