@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 
 public class ScoreSpecimenCommand {
-    public static Command ScoreSpecimen() {
+    public static Command ScoreSpecimenAuto() {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new ParallelCommandGroup(
@@ -17,6 +17,13 @@ public class ScoreSpecimenCommand {
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SPECIMEN_POSE)
                 ),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SPECIMEN_TRANSFER_POSE)
+        );
+    }
+
+    public static Command ScoreSpecimen() {
+        return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.MID_POSE),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE)
         );
     }
 }

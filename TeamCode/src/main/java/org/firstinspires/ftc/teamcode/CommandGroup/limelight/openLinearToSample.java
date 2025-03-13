@@ -12,7 +12,7 @@ public class openLinearToSample extends CommandBase {
     boolean finished = false;
     double noResultCounter;
 
-    private double correctionDist = 70; //TODO: change to 20
+    private double correctionDist = 20; //TODO: change to 20
 
     ExterpolationMap exterpolationMap = new ExterpolationMap()
             .put(63,0.33)
@@ -48,7 +48,6 @@ public class openLinearToSample extends CommandBase {
     public void initialize() {
         noResultCounter = 0;
         finished = false;
-        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
     @Override
@@ -69,11 +68,6 @@ public class openLinearToSample extends CommandBase {
         else {
             noResultCounter += 1;
         }
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override

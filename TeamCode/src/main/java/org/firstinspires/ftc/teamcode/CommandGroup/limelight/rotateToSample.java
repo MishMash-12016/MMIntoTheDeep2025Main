@@ -28,7 +28,6 @@ public class rotateToSample extends CommandBase {
         oldAngle = 0;
         noResultCounter = 0;
         finished = false;
-        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
 
@@ -56,10 +55,6 @@ public class rotateToSample extends CommandBase {
             noResultCounter++;
     }
 
-    @Override
-    public void end(boolean interrupted) {
-        MMRobot.getInstance().mmSystems.vision.stopTracking();
-    }
 
     @Override
     public boolean isFinished() {
