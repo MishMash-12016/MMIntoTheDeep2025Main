@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Autonomous.AutoOnePlusFive;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -23,7 +24,7 @@ import java.util.function.BooleanSupplier;
 public class IntakeSampleCommand {
     public static Command prepareSampleIntake(BooleanSupplier rotateRightButton,BooleanSupplier rotateLeftButton) {
         return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
+                //MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
@@ -49,8 +50,6 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SAMPLE_TRANSFER_POSE),
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
-
-
         );
     }
 
@@ -94,7 +93,7 @@ public class IntakeSampleCommand {
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new WaitCommand(200),
-                SampleIntake(),
+                AutoOnePlusFive.FirstSampleIntake(),
                 new InstantCommand(()->
                     MMRobot.getInstance().mmSystems.vision.stopTracking()
                 )

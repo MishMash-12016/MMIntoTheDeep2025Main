@@ -116,4 +116,16 @@ public class IntakeSpecimenCommand {
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
         );
     }
+
+    public static Command IntakeFromFrontToSide() {
+        return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                new WaitCommand(200),
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORING_SPECIMEN_SIDE_POSE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORING_SPECIMEN_SIDE_POSE),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORING_SPECIMEN_SIDE_POSE)
+                )
+        );
+    }
 }

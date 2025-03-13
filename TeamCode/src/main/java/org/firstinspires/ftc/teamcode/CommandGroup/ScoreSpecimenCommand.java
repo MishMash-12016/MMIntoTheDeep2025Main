@@ -26,4 +26,6 @@ public class ScoreSpecimenCommand {
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE)
         );
     }
+
+
 }
