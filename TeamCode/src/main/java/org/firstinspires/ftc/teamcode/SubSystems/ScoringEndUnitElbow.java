@@ -1,4 +1,3 @@
-
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -66,4 +65,3 @@ public class ScoringEndUnitElbow extends SubsystemBase {
                 this);
     }
 }
-

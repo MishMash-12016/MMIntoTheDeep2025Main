@@ -55,7 +55,7 @@ public class Elevator extends MMPIDSubsystem {
     public double ticksOffset = 0;
 
 
-    public static double elevatorHighBasket = 80;
+    public static double elevatorHighBasket = 73;
     public static double elevatorDown = 1;
     public enum ElevatorState {
 
@@ -120,11 +120,11 @@ public class Elevator extends MMPIDSubsystem {
         return !elevatorSwitch.getState();
     }
 
-    public Command ElevatorGetToZero() {
-        return new SequentialCommandGroup(
-                moveToPose(ElevatorState.ELEVATOR_DOWN)
-        );
-    }
+//    public Command ElevatorGetToZero() {
+//        return new SequentialCommandGroup(
+//                moveToPose(ElevatorState.ELEVATOR_DOWN)
+//        );
+//    }
 
     public Command ElevatorGetToZeroSensor() {
         return new SequentialCommandGroup(

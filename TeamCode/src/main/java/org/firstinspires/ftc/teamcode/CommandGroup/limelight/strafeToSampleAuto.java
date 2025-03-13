@@ -46,7 +46,7 @@ public class strafeToSampleAuto extends CommandBase {
 
     @Override
     public void execute() {
-        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,-pidController.calculate(MMRobot.getInstance().mmSystems.vision.getStrafeOffset())) , 0));
+        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,-pidController.calculate(-MMRobot.getInstance().mmSystems.vision.getStrafeOffset())) , 0));
     }
 
     @Override
