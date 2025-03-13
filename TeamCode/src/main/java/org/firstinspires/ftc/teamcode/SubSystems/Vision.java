@@ -146,14 +146,14 @@ public class Vision extends SubsystemBase {
             long staleness = result.getStaleness();
             // Less than 100 milliseconds old
             isDataOld = staleness >= 100;
-            telemetry.addData("Strafe Offset", getStrafeOffset());
-            telemetry.addData("Distance", getDistance());
-            telemetry.addData("Turn Servo Degrees", getTurnServoDegree());
-
-                  telemetry.addData("Tx", result.getTx());
-                  telemetry.addData("Ty", result.getTy());
-                  telemetry.addData("Ta", result.getTa());
-             telemetry.update();
+//            telemetry.addData("Strafe Offset", getStrafeOffset());
+//            telemetry.addData("Distance", getDistance());
+//            telemetry.addData("Turn Servo Degrees", getTurnServoDegree());
+//
+//                  telemetry.addData("Tx", result.getTx());
+//                  telemetry.addData("Ty", result.getTy());
+//                  telemetry.addData("Ta", result.getTa());
+//             telemetry.update();
         }
     }
 }
