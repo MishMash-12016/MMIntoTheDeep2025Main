@@ -19,6 +19,7 @@ public class Vision extends SubsystemBase {
     private final Limelight3A camera;
 
     private double trackSample = 0;
+    private double autoOrTele = 0;
 
 //    private final Servo led;
 
@@ -134,26 +135,29 @@ public class Vision extends SubsystemBase {
         camera.pipelineSwitch(2);
     }
 
+    public void auto(){autoOrTele = 1;}
+    public void teleOp(){autoOrTele = 0;}
+
 
     @Override
     public void periodic() {
         //updating the python endlessly
         camera.updatePythonInputs(
-                new double[] {detectionColor.colorVal, trackSample, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+                new double[] {detectionColor.colorVal, trackSample, 1, 0.0, 0.0, 0.0, 0.0, 0.0});
         result = camera.getLatestResult(); //get the result from the camera
 
         if (result != null) { //if it detects something
             long staleness = result.getStaleness();
             // Less than 100 milliseconds old
             isDataOld = staleness >= 100;
-//            telemetry.addData("Strafe Offset", getStrafeOffset());
-//            telemetry.addData("Distance", getDistance());
-//            telemetry.addData("Turn Servo Degrees", getTurnServoDegree());
-//
-//                  telemetry.addData("Tx", result.getTx());
-//                  telemetry.addData("Ty", result.getTy());
-//                  telemetry.addData("Ta", result.getTa());
-//             telemetry.update();
+            telemetry.addData("Strafe Offset", getStrafeOffset());
+            telemetry.addData("Distance", getDistance());
+            telemetry.addData("Turn Servo Degrees", getTurnServoDegree());
+
+                  telemetry.addData("Tx", result.getTx());
+                  telemetry.addData("Ty", result.getTy());
+                  telemetry.addData("Ta", result.getTa());
+             telemetry.update();
         }
     }
 }

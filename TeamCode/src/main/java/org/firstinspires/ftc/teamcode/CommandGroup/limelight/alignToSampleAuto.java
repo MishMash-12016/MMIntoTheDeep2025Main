@@ -21,10 +21,10 @@ public class alignToSampleAuto extends CommandBase {
     public static double Kp_short = 0.01;
     public static double Ki_short = 0;
     public static double Kd_short = 0;
-    public static double Ks_short = 2.2;
+    public static double Ks_short = 2;
 
     public static double Kp_long = 0.1;
-    public static double Ki_long = 0.042;
+    public static double Ki_long = 0.04;
     public static double Kd_long = 0.0055;
     public static double Ks_long = 1.32;
 
@@ -40,8 +40,8 @@ public class alignToSampleAuto extends CommandBase {
 
     public static double min = -16;
     public static double max = 16;
-    boolean shortPID = false;
-    boolean longPID = false;
+    boolean shortPID;
+    boolean longPID ;
     PinpointDrive drive;
 
     int notFound = 0;
@@ -64,13 +64,16 @@ public class alignToSampleAuto extends CommandBase {
         pidControllerLong.setSetpoint(setPoint);
         pidControllerLong.setTolerance(tolerance);
 
+        longPID= false;
+        shortPID= false;
+
         timer = new ElapsedTime();
         timer.reset();
     }
 
     @Override
     public void execute() {
-        double distanceX = -MMRobot.getInstance().mmSystems.vision.getTx(-999);
+        double distanceX = MMRobot.getInstance().mmSystems.vision.getTx(-999);
 
         if (distanceX == -999) {
             notFound += 1;

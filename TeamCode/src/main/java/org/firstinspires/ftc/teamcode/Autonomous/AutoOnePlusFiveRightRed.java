@@ -17,7 +17,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoreSpecimenCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
@@ -31,7 +30,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @Autonomous
-public class AutoOnePlusFive extends MMOpMode {
+public class AutoOnePlusFiveRightRed extends MMOpMode {
     static MMRobot robotInstance;
     static final double halfOpenClaw = 0.6;
     static final double rotator = 0;
@@ -45,7 +44,7 @@ public class AutoOnePlusFive extends MMOpMode {
     static final Pose2d scorePose = new Pose2d(8, -35, Math.toRadians(120));
     public static final Vector2d scoreVector = new Vector2d(scorePose.position.x, scorePose.position.y);
 
-    public AutoOnePlusFive() {
+    public AutoOnePlusFiveRightRed() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
@@ -55,7 +54,8 @@ public class AutoOnePlusFive extends MMOpMode {
 
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
-        MMRobot.getInstance().mmSystems.vision.trackRed();
+//        MMRobot.getInstance().mmSystems.vision.trackRed();
+        MMRobot.getInstance().mmSystems.vision.auto();
 
         Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
@@ -65,7 +65,7 @@ public class AutoOnePlusFive extends MMOpMode {
 
         TrajectoryActionBuilder driveToScorePreload = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(5.5, -28), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel));
+                .splineToConstantHeading(new Vector2d(2, -28), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel));
 
         TrajectoryActionBuilder driveToEject = driveToScorePreload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(260))
@@ -123,7 +123,7 @@ public class AutoOnePlusFive extends MMOpMode {
                 .splineToSplineHeading(scorePose, Math.toRadians(tangentsToScoreSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
         TrajectoryActionBuilder driveToPark = driveToScoreFifthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))
-                .splineToLinearHeading(new Pose2d(intakePose.position.x, intakePose.position.y + 2, intakePose.heading.toDouble()), Math.toRadians(310), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         new SequentialCommandGroup(
                 new InstantCommand(),
@@ -139,7 +139,8 @@ public class AutoOnePlusFive extends MMOpMode {
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.AFTER_SCORING_FRONT_SPECIMEN_POSE),
                         new WaitCommand(200),
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
-                ).alongWith(IntakeSampleCommand.limeLightIntake_Auto(hardwareMap, drive)),
+                ),
+                IntakeSampleCommand.limeLightIntake_Auto(hardwareMap, drive),
                 new ActionCommand(driveToEject.build()).alongWith(
                         new WaitCommand(700).andThen(
                                 ThrowSample()

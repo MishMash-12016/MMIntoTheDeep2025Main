@@ -7,7 +7,6 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Autonomous.AutoOnePlusFive;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -101,7 +100,7 @@ public class IntakeSampleCommand {
                 ),
 
                 //Lamlam side:
-                limelightGetter.getAlignToSample(hardwareMap).withTimeout(750),
+                limelightGetter.getAlignToSampleAuto(hardwareMap,drive).withTimeout(750),
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 

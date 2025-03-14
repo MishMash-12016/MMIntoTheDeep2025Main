@@ -29,7 +29,7 @@ public class OneandFive {
 
                         //TrajectoryActionBuilder driveToScorePreload = drive.actionBuilder(currentPose)
                         .setTangent(Math.toRadians(90))
-                        .splineToConstantHeading(new Vector2d(5.5, -29), Math.toRadians(90))
+                        .splineToConstantHeading(new Vector2d(-5, -29), Math.toRadians(90))
 
                 //TrajectoryActionBuilder driveToEject = driveToScorePreload.endTrajectory().fresh()
                         .setTangent(Math.toRadians(260))
