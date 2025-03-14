@@ -15,18 +15,18 @@ import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 public class alignToSample extends CommandBase {
 
     // PID:
-    public static  double Kp_short = 0.01;
-    public static  double Ki_short = 0;
-    public static  double Kd_short = 0;
-    public static  double Ks_short = 2.2;
+    public static double Kp_short = 0.01;
+    public static double Ki_short = 0;
+    public static double Kd_short = 0;
+    public static double Ks_short = 2.2;
 
-    public static  double Kp_long = 0.1;
-    public static  double Ki_long = 0.042;
-    public static  double Kd_long = 0.0055;
-    public static  double Ks_long = 1.32;
+    public static double Kp_long = 0.1;
+    public static double Ki_long = 0.042;
+    public static double Kd_long = 0.0055;
+    public static double Ks_long = 1.32;
 
-    public static  double tolerance = 0.5;
-    public static  double toleranceShort = 0.1;
+    public static double tolerance = 0.5;
+    public static double toleranceShort = 0.1;
     public static double timeAligned = 150;
     public static double setPoint = 0;
 
@@ -40,6 +40,8 @@ public class alignToSample extends CommandBase {
     boolean shortPID = false;
     boolean longPID = false;
 
+    int notFound = 0;
+
     public alignToSample(HardwareMap hardwareMap) {
         addRequirements(
                 MMRobot.getInstance().mmSystems.driveTrain);
@@ -49,11 +51,11 @@ public class alignToSample extends CommandBase {
 
     @Override
     public void initialize() {
-        pidControllerShort = new SQPIDController(Kp_short, Ki_short, Kd_short, Ks_short,0,0); //better for small distances
+        pidControllerShort = new SQPIDController(Kp_short, Ki_short, Kd_short, Ks_short, 0, 0); //better for small distances
         pidControllerShort.setSetpoint(setPoint);
         pidControllerShort.setTolerance(toleranceShort);
 
-        pidControllerLong = new SQPIDController(Kp_long, Ki_long, Kd_long, Ks_long,0,0); //better for small distances
+        pidControllerLong = new SQPIDController(Kp_long, Ki_long, Kd_long, Ks_long, 0, 0); //better for small distances
         pidControllerLong.setSetpoint(setPoint);
         pidControllerLong.setTolerance(tolerance);
 
@@ -63,28 +65,34 @@ public class alignToSample extends CommandBase {
 
     @Override
     public void execute() {
-        double distnaceX = -MMRobot.getInstance().mmSystems.vision.getTx(0);
+        double distanceX = -MMRobot.getInstance().mmSystems.vision.getTx(-999);
 
-        // PID updating based on limelight distance from target in the x axis, two PID for short distance and long:
-        if (distnaceX >= min && distnaceX <=max && !longPID){
-            MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0,
-                    pidControllerShort.calculate(distnaceX)/voltageSensor.getVoltage());
-            if (!shortPID){
-                shortPID = true;
-            }
-        }
-        else {
-            if (!shortPID) {
+        if (distanceX == -999) {
+            notFound += 1;
+        } else {
+            if (!longPID) {  // If long PID was never triggered, use short
+                if (distanceX >= min && distanceX <= max) {
+                    MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0,
+                            pidControllerShort.calculate(distanceX) / voltageSensor.getVoltage());
+                    shortPID = true;
+                } else {  // If the distance is outside the min-max range at the start, use long
+                    MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0,
+                            pidControllerLong.calculate(distanceX) / voltageSensor.getVoltage());
+                    longPID = true;
+                }
+            } else {  // If long PID was already triggered, continue using it
                 MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0,
-                        pidControllerLong.calculate(distnaceX) / voltageSensor.getVoltage());
-                longPID = true;
+                        pidControllerLong.calculate(distanceX) / voltageSensor.getVoltage());
+            }
+
+
+            //if the pid controller isn't at the set point the timer will reset:
+            if (!pidControllerLong.atSetpoint() && !pidControllerShort.atSetpoint()) {
+                timer.reset();
             }
         }
 
-        //if the pid controller isn't at the set point the timer will reset:
-        if (!pidControllerLong.atSetpoint() && !pidControllerShort.atSetpoint()){
-            timer.reset();
-        }
+
         FtcDashboard.getInstance().getTelemetry().addData("timer", timer.milliseconds());
         FtcDashboard.getInstance().getTelemetry().addData("SHORT", shortPID);
         FtcDashboard.getInstance().getTelemetry().addData("LOMG", longPID);
@@ -93,11 +101,11 @@ public class alignToSample extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        MMRobot.getInstance().mmSystems.driveTrain.drive(0,0,0); //Stops the robot when the pid finished:
+        MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0, 0); //Stops the robot when the pid finished:
     }
 
     @Override
     public boolean isFinished() {
-        return timer.milliseconds() >= timeAligned; //meaning it have been in the set pint for a time so it can be stopped
+        return timer.milliseconds() >= timeAligned || notFound == 5; //meaning it have been in the set pint for a time so it can be stopped
     }
 }
