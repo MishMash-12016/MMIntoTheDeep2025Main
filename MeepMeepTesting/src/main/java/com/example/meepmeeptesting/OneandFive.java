@@ -31,57 +31,70 @@ public class OneandFive {
         pushing
      -----------------------
 */
-                        //Push first specimen
-                        .setTangent(Math.toRadians(260))
-                        .splineToLinearHeading(new Pose2d(22, -45,Math.toRadians(325+180)), Math.toRadians(340))
-                        .setTangent(0)
-                        .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(230)), Math.toRadians(50))
-                        .setTangent(Math.toRadians(290))
-                        .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(150)),Math.toRadians(240))
-                        //Push second specimen
-                        .setTangent(Math.toRadians(80))
-                        .splineToLinearHeading(new Pose2d(40, -38, Math.toRadians(235)), Math.toRadians(70))
-                        .setTangent(Math.toRadians(300))
-                        .splineToLinearHeading(new Pose2d(45.8, -47, Math.toRadians(150)), Math.toRadians(250))
-                        //Push third specimen
-                        .setTangent(Math.toRadians(80))
-                        .splineToLinearHeading(new Pose2d(51, -38, Math.toRadians(235)), Math.toRadians(80))
-                        .setTangent(Math.toRadians(270))
-                        .splineToLinearHeading(new Pose2d(51, -53, Math.toRadians(90)), Math.toRadians(270))
+                                .setTangent(Math.toRadians(90))
+                                .splineToConstantHeading(new Vector2d(5.5, -29), Math.toRadians(90))
+
+                .setTangent(Math.toRadians(260))
+                .splineToLinearHeading(new Pose2d(25, -45,Math.toRadians(140)), Math.toRadians(0))
+
+                .setTangent(0)
+                .splineToLinearHeading(new Pose2d(29, -35,Math.toRadians(230)), Math.toRadians(50))
+                .setTangent(Math.toRadians(290))
+                .splineToLinearHeading(new Pose2d(35.8, -48, Math.toRadians(150)),Math.toRadians(240))
 
 
-//intake & score
+//                        //Push first specimen
+//
+//                        .setTangent(Math.toRadians(290))
+//                        .splineToLinearHeading(new Pose2d(35.8, -47, Math.toRadians(150)),Math.toRadians(240))
+//                        //Push second specimen
+//                        .setTangent(Math.toRadians(80))
+//                        .splineToLinearHeading(new Pose2d(40, -38, Math.toRadians(235)), Math.toRadians(70))
+//                        .setTangent(Math.toRadians(300))
+//                        .splineToLinearHeading(new Pose2d(45.8, -47, Math.toRadians(150)), Math.toRadians(250))
+//                        //Push third specimen
+//                        .setTangent(Math.toRadians(80))
+//                        .splineToLinearHeading(new Pose2d(51, -38, Math.toRadians(235)), Math.toRadians(80))
+//                        .setTangent(Math.toRadians(270))
+//                        .splineToLinearHeading(new Pose2d(51, -53, Math.toRadians(90)), Math.toRadians(270))
+//
+//
+////intake & score
+//
+////first
+//                        .splineToLinearHeading(new Pose2d(51, -60, Math.toRadians(90)), Math.toRadians(270))
+//
+//                        .setTangent(Math.toRadians(145))
+//                        .splineToSplineHeading(new Pose2d(10,-34,Math.toRadians(145)), Math.toRadians(145))
 
-//first
-                        .splineToLinearHeading(new Pose2d(51, -60, Math.toRadians(90)), Math.toRadians(270))
-
-                        .setTangent(Math.toRadians(140))
-                        .splineToSplineHeading(new Pose2d(7,-30,Math.toRadians(120)),Math.toRadians(135))
-//second
-                        .setTangent(Math.toRadians(310))
-                        .splineToLinearHeading(new Pose2d(38, -58, Math.toRadians(90)),Math.toRadians(310))
-
-                        .setTangent(Math.toRadians(140))
-                        .splineToSplineHeading(new Pose2d(7,-30,Math.toRadians(120)),Math.toRadians(135))
-//third
-                        .setTangent(Math.toRadians(310))
-                        .splineToLinearHeading(new Pose2d(38, -58, Math.toRadians(90)),Math.toRadians(310))
-
-                        .setTangent(Math.toRadians(140))
-                        .splineToSplineHeading(new Pose2d(7,-30,Math.toRadians(120)),Math.toRadians(135))
-//forth
-                        .setTangent(Math.toRadians(310))
-                        .splineToLinearHeading(new Pose2d(38, -58, Math.toRadians(90)),Math.toRadians(310))
-
-
-                        .setTangent(Math.toRadians(140))
-                        .splineToSplineHeading(new Pose2d(7,-30,Math.toRadians(120)),Math.toRadians(135))
-//fifth
-                        .setTangent(Math.toRadians(310))
-                        .splineToLinearHeading(new Pose2d(38, -58, Math.toRadians(90)),Math.toRadians(310))
-
-                        .setTangent(Math.toRadians(140))
-                        .splineToSplineHeading(new Pose2d(7,-30,Math.toRadians(120)),Math.toRadians(135))
+//
+//                        .setTangent(Math.toRadians(140))
+//                        .splineToSplineHeading(new Pose2d(10,-34,Math.toRadians(120)),Math.toRadians(135))
+////second
+//                        .setTangent(Math.toRadians(310))
+//                        .splineToLinearHeading(new Pose2d(38, -58, Math.toRadians(90)),Math.toRadians(310))
+//
+//                        .setTangent(Math.toRadians(140))
+//                        .splineToSplineHeading(new Pose2d(7,-30,Math.toRadians(120)),Math.toRadians(135))
+////third
+//                        .setTangent(Math.toRadians(310))
+//                        .splineToLinearHeading(new Pose2d(38, -58, Math.toRadians(90)),Math.toRadians(310))
+//
+//                        .setTangent(Math.toRadians(140))
+//                        .splineToSplineHeading(new Pose2d(7,-30,Math.toRadians(120)),Math.toRadians(135))
+////forth
+//                        .setTangent(Math.toRadians(310))
+//                        .splineToLinearHeading(new Pose2d(38, -58, Math.toRadians(90)),Math.toRadians(310))
+//
+//
+//                        .setTangent(Math.toRadians(140))
+//                        .splineToSplineHeading(new Pose2d(7,-30,Math.toRadians(120)),Math.toRadians(135))
+////fifth
+//                        .setTangent(Math.toRadians(310))
+//                        .splineToLinearHeading(new Pose2d(38, -58, Math.toRadians(90)),Math.toRadians(310))
+//
+//                        .setTangent(Math.toRadians(140))
+//                        .splineToSplineHeading(new Pose2d(7,-30,Math.toRadians(120)),Math.toRadians(135))
 
                         .build());
 
