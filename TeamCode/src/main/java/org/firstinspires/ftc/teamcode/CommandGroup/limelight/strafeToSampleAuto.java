@@ -41,7 +41,6 @@ public class strafeToSampleAuto extends CommandBase {
         pidController = new SQPIDController(Kp, Ki,Kd);
         pidController.setSetpoint(0);
         pidController.setTolerance(tolerance);
-        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
     @Override
