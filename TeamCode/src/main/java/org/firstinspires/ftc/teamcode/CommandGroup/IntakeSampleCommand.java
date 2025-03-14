@@ -24,7 +24,6 @@ import java.util.function.BooleanSupplier;
 public class IntakeSampleCommand {
     public static Command prepareSampleIntake(BooleanSupplier rotateRightButton,BooleanSupplier rotateLeftButton) {
         return new ParallelCommandGroup(
-                //MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
@@ -39,7 +38,6 @@ public class IntakeSampleCommand {
 
     public static Command SampleIntake(){
         return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SAMPLE_INTAKE_POSE),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
@@ -53,18 +51,27 @@ public class IntakeSampleCommand {
         );
     }
 
+    public static Command SampleIntakeLowerEnd(){
+        return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SAMPLE_INTAKE_POSE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SAMPLE_TRANSFER_POSE),
+                new WaitCommand(200),
+                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+                new WaitCommand(200),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.45),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
+        );
+    }
+
 
     public static Command limeLightIntake_TeleOp(HardwareMap hardwareMap){
         return new SequentialCommandGroup(
                 new InstantCommand(()->
                     MMRobot.getInstance().mmSystems.vision.startTracking()
                 ),
-                new ParallelCommandGroup(
-                    MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
-                    MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
-                    MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SAMPLE_TRANSFER_POSE)//be prepared for transfer
-                ),
-                new WaitCommand(100),
                 new ParallelCommandGroup(
                     MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                     MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
@@ -75,9 +82,8 @@ public class IntakeSampleCommand {
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 
-                new WaitCommand(100),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                SampleIntake(),
+                new WaitCommand(500),
+                SampleIntakeLowerEnd(),
                 new InstantCommand(()->
                     MMRobot.getInstance().mmSystems.vision.stopTracking()
                 )
@@ -90,27 +96,19 @@ public class IntakeSampleCommand {
                         MMRobot.getInstance().mmSystems.vision.startTracking()
                 ),
                 new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SAMPLE_TRANSFER_POSE)//be prepared for transfer
-                ),
-                new WaitCommand(100),
-                new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 ),
 
                 //Lamlam side:
-                limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(750),
+                limelightGetter.getAlignToSample(hardwareMap).withTimeout(750),
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 
-                new WaitCommand(300),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                new WaitCommand(200),
-                AutoOnePlusFive.FirstSampleIntake(),
+                new WaitCommand(500),
+                SampleIntakeLowerEnd(),
                 new InstantCommand(()->
-                    MMRobot.getInstance().mmSystems.vision.stopTracking()
+                        MMRobot.getInstance().mmSystems.vision.stopTracking()
                 )
         );
     }

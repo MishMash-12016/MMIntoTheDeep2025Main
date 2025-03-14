@@ -21,7 +21,7 @@ public class alignToSample extends CommandBase {
     public static double Ks_short = 2.2;
 
     public static double Kp_long = 0.1;
-    public static double Ki_long = 0.042;
+    public static double Ki_long = 0.04;
     public static double Kd_long = 0.0055;
     public static double Ks_long = 1.32;
 
@@ -37,8 +37,8 @@ public class alignToSample extends CommandBase {
 
     public static double min = -16;
     public static double max = 16;
-    boolean shortPID = false;
-    boolean longPID = false;
+    boolean shortPID;
+    boolean longPID;
 
     int notFound = 0;
 
@@ -58,6 +58,9 @@ public class alignToSample extends CommandBase {
         pidControllerLong = new SQPIDController(Kp_long, Ki_long, Kd_long, Ks_long, 0, 0); //better for small distances
         pidControllerLong.setSetpoint(setPoint);
         pidControllerLong.setTolerance(tolerance);
+
+        longPID= false;
+        shortPID= false;
 
         timer = new ElapsedTime();
         timer.reset();
