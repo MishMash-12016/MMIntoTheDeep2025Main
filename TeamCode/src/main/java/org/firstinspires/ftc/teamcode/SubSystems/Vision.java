@@ -28,7 +28,7 @@ public class Vision extends SubsystemBase {
     @Getter private LLResult result;
 
 
-    public static double CAMERA_HEIGHT = 420; //  TODO :420
+    public static double CAMERA_HEIGHT = 424;
     public static double CAMERA_ANGLE = -45.0;
     public static double TARGET_HEIGHT = 39;
 
@@ -139,7 +139,7 @@ public class Vision extends SubsystemBase {
     public void periodic() {
         //updating the python endlessly
         camera.updatePythonInputs(
-                new double[] {detectionColor.colorVal, trackSample, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+                new double[] {detectionColor.colorVal, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
         result = camera.getLatestResult(); //get the result from the camera
 
         if (result != null) { //if it detects something

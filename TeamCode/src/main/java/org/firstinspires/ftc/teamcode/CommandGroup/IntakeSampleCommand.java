@@ -23,7 +23,6 @@ import java.util.function.BooleanSupplier;
 public class IntakeSampleCommand {
     public static Command prepareSampleIntake(BooleanSupplier rotateRightButton,BooleanSupplier rotateLeftButton) {
         return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
@@ -38,7 +37,6 @@ public class IntakeSampleCommand {
 
     public static Command SampleIntake(){
         return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SAMPLE_INTAKE_POSE),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
@@ -76,8 +74,8 @@ public class IntakeSampleCommand {
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 
-                new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                new WaitCommand(500),
                 SampleIntake(),
                 new InstantCommand(()->
                     MMRobot.getInstance().mmSystems.vision.stopTracking()
