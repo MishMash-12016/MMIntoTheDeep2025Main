@@ -3,12 +3,10 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
@@ -18,7 +16,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
-public class testElevator extends MMOpMode {
+public class TuningTest extends MMOpMode {
     MMRobot robotInstance;
     MMSystems mmSystems;
     boolean Specimenintake = true;
@@ -27,7 +25,7 @@ public class testElevator extends MMOpMode {
     private static double posElbow = 0.59+0.035;
     private static double posArm = 0.71;
     private static final double changeBy = 0.02;
-    public testElevator() {
+    public TuningTest() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 

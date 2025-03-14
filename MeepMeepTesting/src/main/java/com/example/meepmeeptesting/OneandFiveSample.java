@@ -9,7 +9,7 @@ import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
 import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 
-public class OneandFive {
+public class OneandFiveSample {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(600);
 
@@ -79,15 +79,12 @@ public class OneandFive {
                 //TrajectoryActionBuilder driveToScoreForthSpecimen = driveToIntakeForthSpecimen.endTrajectory().fresh()
                         .setTangent(Math.toRadians(140))
                         .splineToSplineHeading(scorePose, Math.toRadians(tangentsToScoreSpecimen))
-                //TrajectoryActionBuilder driveToIntakeFifthSpecimen = driveToScoreForthSpecimen.endTrajectory().fresh()
+                //drive to pick up yelllow sample
                         .setTangent(Math.toRadians(310))
-                        .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen))
-                //TrajectoryActionBuilder driveToScoreFifthSpecimen = driveToIntakeFifthSpecimen.endTrajectory().fresh()
-                        .setTangent(Math.toRadians(140))
-                        .splineToSplineHeading(scorePose, Math.toRadians(tangentsToScoreSpecimen))
-                //TrajectoryActionBuilder driveToPark = driveToScoreFifthSpecimen.endTrajectory().fresh()
-                        .setTangent(Math.toRadians(310))
-                        .splineToLinearHeading(new Pose2d(51, -66 + 2, Math.toRadians(90)), Math.toRadians(310))
+                        .splineToLinearHeading(new Pose2d(18, -45, Math.toRadians(130)), Math.toRadians(310))
+                //diev to score yellow sample
+                        .setTangent(Math.toRadians(200))
+                        .lineToLinearHeading(new Pose2d(-55, -55, Math.toRadians(230)))
 
                         .build());
 

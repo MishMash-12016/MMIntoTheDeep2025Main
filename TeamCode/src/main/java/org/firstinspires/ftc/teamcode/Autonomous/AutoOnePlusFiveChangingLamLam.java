@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -17,7 +18,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoreSpecimenCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
@@ -31,21 +32,20 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @Autonomous
-public class AutoOnePlusFive extends MMOpMode {
+public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
     static MMRobot robotInstance;
     static final double halfOpenClaw = 0.6;
     static final double rotator = 0;
     final double intakeArmPose = 0.59;
 
     //parking position
-    private static final Pose2d dragScoredSpecimenToSide = new Pose2d(-1, -30, Math.toRadians(90)); //side
     private static final double tangentsToScoreSpecimen = 135;
     private static final double tangentsToIntakeSpecimen = 310;
     final Pose2d intakePose = new Pose2d(40, -66, Math.toRadians(90));
     static final Pose2d scorePose = new Pose2d(8, -35, Math.toRadians(120));
-    public static final Vector2d scoreVector = new Vector2d(scorePose.position.x, scorePose.position.y);
+    final boolean RedSample= false;
 
-    public AutoOnePlusFive() {
+    public AutoOnePlusFiveChangingLamLam() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
@@ -125,6 +125,12 @@ public class AutoOnePlusFive extends MMOpMode {
                 .setTangent(Math.toRadians(310))
                 .splineToLinearHeading(new Pose2d(intakePose.position.x, intakePose.position.y + 2, intakePose.heading.toDouble()), Math.toRadians(310), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
+        TrajectoryActionBuilder driveToIntakeYellowSample = driveToScoreForthSpecimen.endTrajectory().fresh()
+                .setTangent(Math.toRadians(310))
+                .splineToLinearHeading(new Pose2d(18, -45, Math.toRadians(130)), Math.toRadians(310));
+        TrajectoryActionBuilder driveToScoreYellowSample = driveToIntakeYellowSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(200))
+                .strafeToLinearHeading(new Vector2d(-55, -55), Math.toRadians(230));
         new SequentialCommandGroup(
                 new InstantCommand(),
                 new ParallelCommandGroup(
@@ -132,7 +138,6 @@ public class AutoOnePlusFive extends MMOpMode {
                         AutoSpecimensCommand.SpecimenScorePreLoad(),
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
                 ),
-                //TODO: i believe that with other positions you can put them in parallel
                 new SequentialCommandGroup(
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.AFTER_SCORING_FRONT_SPECIMEN_POSE),
                         new WaitCommand(50),
@@ -222,26 +227,44 @@ public class AutoOnePlusFive extends MMOpMode {
                         new WaitCommand(50).andThen(
                                 new ActionCommand(driveToScoreForthSpecimen.build()))),
 
-                //fifth
-
-                new ActionCommand(driveToIntakeFifthSpecimen.build()).alongWith(
+                new ConditionalCommand(
+                        new SequentialCommandGroup(
+                        new ActionCommand(driveToIntakeFifthSpecimen.build()).alongWith(
                         new SequentialCommandGroup(
                                 ScoreFromTheSide(),
                                 new WaitCommand(200),
                                 IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
                         )
                 ),
-                IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
-                        new WaitCommand(50).andThen(
-                                new ActionCommand(driveToScoreFifthSpecimen.build()))),
+                        IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
+                                new WaitCommand(50).andThen(
+                                        new ActionCommand(driveToScoreFifthSpecimen.build()))),
 
-                //park
-                new ActionCommand(driveToPark.build()).alongWith(
+                        //park
+                        new ActionCommand(driveToPark.build()).alongWith(
+                                new SequentialCommandGroup(
+                                        ScoreFromTheSide(),
+                                        new WaitCommand(200),
+                                        IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
+                                ))),
                         new SequentialCommandGroup(
-                                ScoreFromTheSide(),
-                                new WaitCommand(200),
-                                IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
-                        ))
+                        new ActionCommand(driveToIntakeYellowSample.build()).alongWith(
+                                new SequentialCommandGroup(
+                                        ScoreFromTheSide(),
+                                        new WaitCommand(200),
+                                        IntakeSampleCommand.prepareSampleIntake(()-> false,()-> false),
+                                        new WaitCommand(200),
+                                        IntakeSampleCommand.SampleIntake()
+                                )),
+                        new ActionCommand(driveToScoreYellowSample.build()).alongWith(
+                                new WaitCommand(300).andThen(ScoringSampleCommand.PrepareHighSample())
+                        ),
+                        ScoringSampleCommand.ScoreHighSample())
+                        ,()-> RedSample)
+
+                //fifth
+
+
         ).schedule();
 
     }
