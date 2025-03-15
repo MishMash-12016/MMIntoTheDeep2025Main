@@ -27,8 +27,9 @@ public class alignToSampleAuto extends CommandBase {
     SQPIDController pidController;
     ElapsedTime timer;
     PinpointDrive drive;
+
     VoltageSensor voltageSensor;
-    public alignToSampleAuto(HardwareMap hardwareMap , PinpointDrive drive) {
+    public alignToSampleAuto(HardwareMap hardwareMap, PinpointDrive drive) {
         this.drive = drive;
         addRequirements(
                 MMRobot.getInstance().mmSystems.driveTrain);
@@ -49,7 +50,8 @@ public class alignToSampleAuto extends CommandBase {
 
     @Override
     public void execute() {
-        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),pidController.calculate(-MMRobot.getInstance().mmSystems.vision.getTx(0))/voltageSensor.getVoltage()));
+        double distanceX = MMRobot.getInstance().mmSystems.vision.getTx(0) /voltageSensor.getVoltage();
+        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0), pidController.calculate(distanceX)));
         if (!pidController.atSetpoint()){
             timer.reset();
         }

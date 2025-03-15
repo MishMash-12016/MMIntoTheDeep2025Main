@@ -28,32 +28,38 @@ public class rotateToSample extends CommandBase {
         oldAngle = 0;
         noResultCounter = 0;
         finished = false;
+        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
 
     @Override
     public void execute() {
         Double angle = MMRobot.getInstance().mmSystems.vision.getTurnServoDegree();
-
         if (angle != null) {
             angle = MMRobot.getInstance().mmSystems.vision.getTurnServoDegree();
-            if (angle >= 0 && angle <= 90) {
+            if (angle>=0 && angle<= 90){
                 angle /= 270;
                 angle = IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get() - angle;
-            } else {
+            }
+            else{
                 angle = 180 - angle;
                 angle /= 270;
                 angle = IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get() + angle;
             }
-
+//            angle += 90;
+//            double angleInServoDegrees = angle / 270;
+//        MMRobot.getInstance().mmSystems.telemetry.addData("found the stupid sample", 0);
             MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angle);
             MMRobot.getInstance().mmSystems.telemetry.update();
             finished = true;
-        } else {
+        } else
             noResultCounter++;
-        }
     }
 
+    @Override
+    public void end(boolean interrupted) {
+        MMRobot.getInstance().mmSystems.vision.stopTracking();
+    }
 
     @Override
     public boolean isFinished() {

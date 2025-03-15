@@ -72,8 +72,8 @@ public class IntakeSampleCommand {
     public static Command limeLightIntake_TeleOp(HardwareMap hardwareMap){
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                    MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                    MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 ),
 
                 limelightGetter.getAlignToSample(hardwareMap).withTimeout(1000),
