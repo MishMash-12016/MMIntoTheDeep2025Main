@@ -38,6 +38,9 @@ public class Vision extends SubsystemBase {
 
     public static double sampleToRobotDistance = 105;
 
+    public static double opModeType = 0;
+
+
     Telemetry telemetry;
 
     public Vision(final HardwareMap hardwareMap, Telemetry telemetry) {
@@ -135,16 +138,16 @@ public class Vision extends SubsystemBase {
         camera.pipelineSwitch(2);
     }
 
-    public void auto(){autoOrTele = 1;}
-    public void teleOp(){autoOrTele = 0;}
+    public void auto(){opModeType = 1;}
+    public void teleOp(){opModeType = 0;}
 
 
     @Override
     public void periodic() {
         //updating the python endlessly
         camera.updatePythonInputs(
-                new double[] {detectionColor.colorVal, trackSample, 1, 0.0, 0.0, 0.0, 0.0, 0.0});
-        result = camera.getLatestResult(); //get the result from the camera
+                new double[] {detectionColor.colorVal, trackSample, opModeType, 0.0, 0.0, 0.0, 0.0, 0.0});
+        result = camera.getLatestResult();
 
         if (result != null) { //if it detects something
             long staleness = result.getStaleness();

@@ -9,14 +9,7 @@ import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 
 
 public class limelightGetter {
-
-    public static final double maxOpeningLinearMM = 298.0;//cm
-    public static final double heightFromGround = 42; //cm
-    public static final double angleFixed = 45; //degrees
-    public static final double sampleHeight = 3.9; //cm
-    public static final double armLength = 5; //cm
-
-
+    public static double correctionDist = 20;
     public static Command getOpenLinearToSample() {
         return new openLinearToSample();
     }

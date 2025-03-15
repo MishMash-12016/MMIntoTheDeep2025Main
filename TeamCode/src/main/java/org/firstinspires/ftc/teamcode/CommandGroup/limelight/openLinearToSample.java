@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
-import static org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter.maxOpeningLinearMM;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
