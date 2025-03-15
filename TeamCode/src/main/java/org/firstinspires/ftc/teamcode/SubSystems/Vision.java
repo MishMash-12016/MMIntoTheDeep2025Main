@@ -37,6 +37,9 @@ public class Vision extends SubsystemBase {
 
     public static double sampleToRobotDistance = 105;
 
+    public static double opModeType = 0;
+
+
     Telemetry telemetry;
 
     public Vision(final HardwareMap hardwareMap, Telemetry telemetry) {
@@ -134,11 +137,14 @@ public class Vision extends SubsystemBase {
         camera.pipelineSwitch(2);
     }
 
+    public void auto(){opModeType = 1;}
+    public void teleOp(){opModeType = 0;}
+
 
     @Override
     public void periodic() {
         camera.updatePythonInputs(
-                new double[] {detectionColor.colorVal, trackSample, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+                new double[] {detectionColor.colorVal, trackSample, opModeType, 0.0, 0.0, 0.0, 0.0, 0.0});
         result = camera.getLatestResult();
 
         if (result != null) {
