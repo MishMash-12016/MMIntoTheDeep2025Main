@@ -100,13 +100,13 @@ public class ManualDrive extends MMOpMode {
 
         //sample/specimen intake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new ConditionalCommand(IntakeSpecimenCommand.IntakeFromFront(), IntakeSampleCommand.SampleIntake(), () -> SpecimenIntake)
+                new ConditionalCommand(IntakeSpecimenCommand.IntakeFromFrontToSide(), IntakeSampleCommand.SampleIntake(), () -> SpecimenIntake)
         );
 
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
                 .whenActive(
                         new ConditionalCommand(
-                                ScoreSpecimenCommand.ScoreSpecimen(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
+                                ScoreSpecimenCommand.ScoreFromTheSide(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
                         )
                 );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(

@@ -12,17 +12,19 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringArm extends SubsystemBase {
-    public static double scoringArmMidePose = 0.77;
-    public static double scoringArmRestPose = 0.46;
-    public static double scoringArmSpecimenTransferPose = 0.62;
-    public static double scoringArmSampleTransferPose = 0.61;
-    public static double scoringArmInitPose = 0.4;
-    public static double scoringArmSpecimenScorePose = 0.71;
-    public static double scoringArmSampleScorePose = 0.77;
-    public static double scoringArmSamplePrepareScorePose = 0.33;
-    public static double scoringArmIntakeFromFrontPose = 0.51;
-    public static double scoringArmAfterScoreSpecimenPose = 0.89;
-    public static double scoringArmSpecimenSideScore = 0.99;
+    public static double scoringArmMidePose = 0.77-0.26;
+    public static double scoringArmRestPose = 0.46-0.26;
+    public static double scoringArmSpecimenTransferPose = 0.62-0.26;
+    public static double scoringArmSampleTransferPose = 0.61-0.28;
+    public static double scoringArmInitPose = 0.47-0.28;//0.21
+    public static double scoringArmSpecimenScorePose = 0.71-0.26;
+    public static double scoringArmSampleScorePose = 0.77-0.26;
+    public static double scoringArmSamplePrepareScorePose = 0.33-0.26;
+    public static double scoringArmIntakeFromFrontPose = 0.51-0.26;
+    public static double scoringArmAfterScoreSpecimenPose = 0.89-0.26;
+    public static double scoringArmSpecimenSideScore = 0.99-0.26;
+
+    public static double scoringArmAfterScoreFromFrontSpecimenPose = 0.45-0.26;
 
     public enum ScoringArmState {
         MID_POSE(() -> scoringArmMidePose),
@@ -36,7 +38,9 @@ public class ScoringArm extends SubsystemBase {
         AFTER_SCORE_POSE(()-> scoringArmAfterScoreSpecimenPose),
         INTAKE_FROM_FRONT_POSE(()-> scoringArmIntakeFromFrontPose),
 
-        SCORING_SPECIMEN_SIDE_POSE(() -> scoringArmSpecimenSideScore);
+        SCORING_SPECIMEN_SIDE_POSE(() -> scoringArmSpecimenSideScore),
+        AFTER_SCORING_FRONT_SPECIMEN_POSE(() -> scoringArmAfterScoreFromFrontSpecimenPose);
+
         public Supplier<Double> position;
 
         ScoringArmState(Supplier<Double> position) {
