@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Autonomous.AutoOnePlusFiveRightRed;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -93,13 +94,18 @@ public class IntakeSampleCommand {
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 ),
 
-                limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(1000),
+                //Lamlam side:
+                limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(750),
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 
+                new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                new WaitCommand(500),
-                SampleIntakeLowExit()
+                new WaitCommand(200),
+                AutoOnePlusFiveRightRed.FirstSampleIntake(),
+                new InstantCommand(()->
+                        MMRobot.getInstance().mmSystems.vision.stopTracking()
+                )
         );
     }
 }
