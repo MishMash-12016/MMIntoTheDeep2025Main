@@ -58,7 +58,7 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SAMPLE_TRANSFER_POSE),
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
-                new WaitCommand(200),
+                new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.45),
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
@@ -77,7 +77,7 @@ public class IntakeSampleCommand {
                 ),
 
                 //Lamlam side:
-                limelightGetter.getAlignToSample(hardwareMap).withTimeout(750),
+                limelightGetter.getAlignToSample(hardwareMap).withTimeout(1000),
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 

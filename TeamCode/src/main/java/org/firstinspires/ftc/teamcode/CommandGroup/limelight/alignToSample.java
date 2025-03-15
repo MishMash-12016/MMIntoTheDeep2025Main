@@ -18,7 +18,7 @@ public class alignToSample extends CommandBase {
     public static double Kp_short = 0.01;
     public static double Ki_short = 0;
     public static double Kd_short = 0;
-    public static double Ks_short = 2.2;
+    public static double Ks_short = 1.87;
 
     public static double Kp_long = 0.1;
     public static double Ki_long = 0.04;
@@ -72,20 +72,24 @@ public class alignToSample extends CommandBase {
 
         if (distanceX == -999) {
             notFound += 1;
-        } else {
-            if (!longPID) {  // If long PID was never triggered, use short
-                if (distanceX >= min && distanceX <= max) {
-                    MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0,
-                            pidControllerShort.calculate(distanceX) / voltageSensor.getVoltage());
+        }
+        else
+        {
+            if (distanceX >= min && distanceX <= max && !longPID) {
+                MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0,
+                        pidControllerShort.calculate(distanceX) / voltageSensor.getVoltage());
+                if (!shortPID) {
                     shortPID = true;
-                } else {  // If the distance is outside the min-max range at the start, use long
+                }
+            }
+            else
+            {
+                if (!shortPID) {
+                    // If long PID was already triggered, continue using it
                     MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0,
                             pidControllerLong.calculate(distanceX) / voltageSensor.getVoltage());
                     longPID = true;
                 }
-            } else {  // If long PID was already triggered, continue using it
-                MMRobot.getInstance().mmSystems.driveTrain.drive(0, 0,
-                        pidControllerLong.calculate(distanceX) / voltageSensor.getVoltage());
             }
 
 
@@ -109,6 +113,6 @@ public class alignToSample extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return timer.milliseconds() >= timeAligned || notFound == 5; //meaning it have been in the set pint for a time so it can be stopped
+        return timer.milliseconds() >= timeAligned || notFound == 20; //meaning it have been in the set pint for a time so it can be stopped
     }
 }

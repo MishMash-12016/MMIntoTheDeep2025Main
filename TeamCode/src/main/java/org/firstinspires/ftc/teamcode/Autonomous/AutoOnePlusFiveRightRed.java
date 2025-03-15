@@ -51,10 +51,10 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
 
     @Override
     public void onInit() {
-
+ 
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
-//        MMRobot.getInstance().mmSystems.vision.trackRed();
+        MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.auto();
 
         Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));

@@ -19,9 +19,9 @@ public class alignToSampleAuto extends CommandBase {
 
     // PID:
     public static double Kp_short = 0.01;
-    public static double Ki_short = 0;
+    public static double Ki_short = 0.038;
     public static double Kd_short = 0;
-    public static double Ks_short = 2;
+    public static double Ks_short = 1.87;
 
     public static double Kp_long = 0.1;
     public static double Ki_long = 0.04;
@@ -110,6 +110,6 @@ public class alignToSampleAuto extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return timer.milliseconds() >= timeAligned || notFound == 5; //meaning it have been in the set pint for a time so it can be stopped
+        return timer.milliseconds() >= timeAligned || notFound == 20; //meaning it have been in the set pint for a time so it can be stopped
     }
 }

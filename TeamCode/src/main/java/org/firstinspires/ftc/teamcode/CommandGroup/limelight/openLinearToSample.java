@@ -22,7 +22,7 @@ public class openLinearToSample extends CommandBase {
             .put(110.4, 0.39)
             .put(121, 0.41)
             .put(131, 0.42)
-            .put(140, 0.423)
+            .put(140, 0.428)
             .put(155, 0.434)
             .put(160, 0.448)
             .put(170, 0.455)
