@@ -98,22 +98,13 @@ public class ManualDrive extends MMOpMode {
 
                 //prepareSampleIntake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-                new ConditionalCommand(
-                    new ParallelCommandGroup(
-                            MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                            new InstantCommand(()-> linearOpened = false)
-                    ),
-                    new ParallelCommandGroup(
+                new ParallelCommandGroup(
                         IntakeSampleCommand.prepareSampleIntake(
-                            () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
-                            () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()
+                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
+                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()
                         ),
                         new InstantCommand(()-> linearOpened = true)
-                    ),
-
-                    ()->linearOpened
-                )
-                .alongWith(
+                ).alongWith(
                         new InstantCommand(() -> SpecimenIntake = false)
                 )
         );
@@ -133,8 +124,17 @@ public class ManualDrive extends MMOpMode {
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
                 .whenActive(
                         new ConditionalCommand(
-                                AutoOnePlusFiveRightRed.ScoreFromTheSide(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
+                                new ParallelCommandGroup(
+                                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
+                                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+                                        new InstantCommand(()-> linearOpened = false)
+                                ),
+                                new ConditionalCommand(
+                                        AutoOnePlusFiveRightRed.ScoreFromTheSide(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
+                                ),
+                                () -> linearOpened
                         )
+
                 );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 ScoringSampleCommand.ScoreHighSample()
@@ -182,6 +182,8 @@ public class ManualDrive extends MMOpMode {
         telemetry.addData("ticks", mmSystems.elevator.getTicks());
         telemetry.addData("height", mmSystems.elevator.getHeight());
         telemetry.addData("power", MMRobot.getInstance().mmSystems.elevator.getPower());
+        telemetry.addData("autonomous", linearOpened);
+        telemetry.addData("linear", robotInstance.mmSystems.linearIntake.getPosition());
         telemetry.update();
     }
 }
