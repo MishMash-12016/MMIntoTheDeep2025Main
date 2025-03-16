@@ -89,7 +89,8 @@ public class LinearIntake extends SubsystemBase {
                 this);
     }
 
-    public String getPosition(){
-        return String.valueOf(servoLeft.getPosition())+" "+String.valueOf(servoRight.getPosition()) ;
+    public double getPosition(){
+        return servoLeft.getPosition();
     }
+
 }

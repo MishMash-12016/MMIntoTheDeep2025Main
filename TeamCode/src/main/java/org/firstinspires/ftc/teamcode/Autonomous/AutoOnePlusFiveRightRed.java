@@ -54,8 +54,9 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
  
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
-        MMRobot.getInstance().mmSystems.vision.trackRed();
+//        MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.auto();
+        MMRobot.getInstance().mmSystems.vision.trackRed();
 
         Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
@@ -312,8 +313,8 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
 
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.AFTER_SCORING_FRONT_SPECIMEN_POSE),
-                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.AFTER_SCORING_FRONT_SPECIMEN_POSE)),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.AFTER_SCORING_SIDE_SPECIMEN_POSE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.AFTER_SCORING_SIDE_SPECIMEN_POSE)),
                 new WaitCommand(125),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
         );

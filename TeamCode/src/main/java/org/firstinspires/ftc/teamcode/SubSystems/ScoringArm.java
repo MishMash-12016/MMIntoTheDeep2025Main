@@ -26,9 +26,11 @@ public class ScoringArm extends SubsystemBase {
     public static double scoringArmScoreFromFrontSpecimenPose = 0.51;
 
     public static double scoringArmAfterScoreFromFrontSpecimenPose = 0.3;
-    public static double scoringArmAfterScoreFromSideSpecimenPose = 0.73;
+    public static double scoringArmAfterScoreFromSideSpecimenPose = 0.7;
+    public static double scoringArmMidToFront = 0.4;
 
     public enum ScoringArmState {
+        MID_TO_FRONT(() -> scoringArmMidToFront),
         MID_POSE(() -> scoringArmMidePose),
         REST_POSE(() -> scoringArmRestPose),
         SPECIMEN_TRANSFER_POSE(() -> scoringArmSpecimenTransferPose),

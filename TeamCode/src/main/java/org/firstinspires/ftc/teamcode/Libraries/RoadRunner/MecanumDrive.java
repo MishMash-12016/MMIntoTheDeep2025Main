@@ -39,6 +39,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.messages.DriveCommandMessage;
@@ -259,6 +262,49 @@ public class MecanumDrive {
         rightBack.setPower(wheelVels.rightBack.get(0) / maxPowerMag);
         rightFront.setPower(wheelVels.rightFront.get(0) / maxPowerMag);
     }
+
+    private void setMotorPower(double[] power) {
+
+        leftFront.setPower(power[0]);
+        leftBack.setPower(power[1]);
+        rightFront.setPower(power[2]);
+        rightBack.setPower(power[3]);
+    }
+
+    public void setPowerAutoAlign(double x, double y, double yaw){
+        setMotorPower(joystickToPower(x, y, yaw));
+    }
+
+    final double[][] transformationMatrix = {
+            {1, 1, 1}, //frontLeft
+            {-1, 1, 1}, //backLeft
+            {-1, 1,-1}, //frontRight
+            {1, 1, -1} //backRight
+    };
+    private double[] joystickToPower(double x, double y, double yaw) {
+
+        //v = (x, y, yaw)^t (3x1)
+        RealVector joystickVector = MatrixUtils.createRealVector(new double[]{
+                x,
+                y,
+                yaw
+        });
+
+        RealMatrix matrixT = MatrixUtils.createRealMatrix(transformationMatrix); //4x3
+
+        //calculation of the power needed by T constants
+        RealVector powerVector = matrixT.operate(joystickVector); //p = Tv
+
+        double[] powerArray = powerVector.toArray(); //4x1
+
+        //normalize the array
+        for (int i = 0; i < powerArray.length; i++) {
+            powerArray[i] = powerArray[i] / Math.max(Math.abs(x) + Math.abs(y) + Math.abs(yaw), 1);
+        }
+
+        return powerArray;
+    }
+
 
     public final class FollowTrajectoryAction implements Action {
         public final TimeTrajectory timeTrajectory;

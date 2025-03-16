@@ -11,6 +11,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Autonomous.AutoOnePlusFiveRightRed;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoreSpecimenCommand;
@@ -31,12 +32,15 @@ public class ManualDrive extends MMOpMode {
     MMRobot robotInstance;
     MMSystems mmSystems;
     private boolean SpecimenIntake;
+    private boolean linearOpened;
     ElapsedTime elapsedTime = new ElapsedTime();
+
 
     public ManualDrive() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
         SpecimenIntake = true;
         elapsedTime.reset();
+        linearOpened = false;
     }
 
     @Override
@@ -44,7 +48,6 @@ public class ManualDrive extends MMOpMode {
 
         robotInstance = MMRobot.getInstance();
         mmSystems = robotInstance.mmSystems;
-
 
         robotInstance.mmSystems.initRobotSystems();
         robotInstance.mmSystems.initDriveTrain();
@@ -63,11 +66,11 @@ public class ManualDrive extends MMOpMode {
         );
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                ()->MMRobot.getInstance().mmSystems.vision.trackYellow()
+                () -> MMRobot.getInstance().mmSystems.vision.trackYellow()
         );
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-                ()->MMRobot.getInstance().mmSystems.vision.trackRed()
+                () -> MMRobot.getInstance().mmSystems.vision.trackRed()
         );
 
 
@@ -78,12 +81,12 @@ public class ManualDrive extends MMOpMode {
                 )
         );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                 new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
 //                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
 //                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
 //                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE)//be prepared for transfer
-                 )
+                )
         );
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
@@ -93,13 +96,26 @@ public class ManualDrive extends MMOpMode {
                 )
         );
 
-        //prepareSampleIntake
+                //prepareSampleIntake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-                IntakeSampleCommand.prepareSampleIntake(
-                        () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
-                        () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()
-                ).alongWith(
-                        new InstantCommand(() -> SpecimenIntake = false))
+                new ConditionalCommand(
+                    new ParallelCommandGroup(
+                            MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+                            new InstantCommand(()-> linearOpened = false)
+                    ),
+                    new ParallelCommandGroup(
+                        IntakeSampleCommand.prepareSampleIntake(
+                            () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
+                            () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()
+                        ),
+                        new InstantCommand(()-> linearOpened = true)
+                    ),
+
+                    ()->linearOpened
+                )
+                .alongWith(
+                        new InstantCommand(() -> SpecimenIntake = false)
+                )
         );
 
         //prepareSpecimenIntake
@@ -111,19 +127,18 @@ public class ManualDrive extends MMOpMode {
 
         //sample/specimen intake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new ConditionalCommand(IntakeSpecimenCommand.IntakeFromFront(), IntakeSampleCommand.SampleIntake(), () -> SpecimenIntake)
+                new ConditionalCommand(IntakeSpecimenCommand.IntakeFromFrontToSide(), IntakeSampleCommand.SampleIntake(), () -> SpecimenIntake)
         );
 
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
                 .whenActive(
                         new ConditionalCommand(
-                                ScoreSpecimenCommand.ScoreSpecimen(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
+                                AutoOnePlusFiveRightRed.ScoreFromTheSide(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
                         )
                 );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 ScoringSampleCommand.ScoreHighSample()
         );
-
 
 
         new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
@@ -159,7 +174,7 @@ public class ManualDrive extends MMOpMode {
 //        mmSystems.driveTrain.updateTelemetry();
 //        FtcDashboard.getInstance().getTelemetry().addData("speed X",MMSystems.localizer.getVelocityRR().linearVel.x);
 //        FtcDashboard.getInstance().getTelemetry().addData("speed Y",MMSystems.localizer.getVelocityRR().linearVel.y);
-        FtcDashboard.getInstance().getTelemetry().addData("speed ANG",MMSystems.localizer.getVelocityRR().angVel);
+        FtcDashboard.getInstance().getTelemetry().addData("speed ANG", MMSystems.localizer.getVelocityRR().angVel);
 //        FtcDashboard.getInstance().getTelemetry().addData("time",elapsedTime.milliseconds());
 
         FtcDashboard.getInstance().getTelemetry().update();

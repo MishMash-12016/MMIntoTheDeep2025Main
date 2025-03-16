@@ -27,7 +27,7 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     public static double scoringElbowScoreFromFrontSpecimenPose = 0.365;
     public static double scoringElbowAfterScoreFromFrontSpecimenPose = 0.565;
     public static double elbowSpecimenSideScore = 0.1;
-    public static double scoringElbowAfterScoreFromSideSpecimenPose = 0.245;
+    public static double scoringElbowAfterScoreFromSideSpecimenPose = 0.27 ;
 
 
     private final static MMRobot robotinstance = MMRobot.getInstance();
