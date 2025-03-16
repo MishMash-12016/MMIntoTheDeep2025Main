@@ -17,13 +17,14 @@ import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 @Config
 public class alignToSampleAuto extends CommandBase {
 
-    public static  double Kp = 0.1;
-    public static  double Ki = 0.042;
-    public static  double Kd = 0.0055;
-    public static  double Ks = 1.32;
-    public static  double tolerance = 0.5;
+    public static  double Kp = 0.2; //0.1
+    public static  double Ki = 0.1; //0.042
+    public static  double Kd = 0.0007; // 0.0055
+    public static  double Ks = 1.32; // 1.32
+    public static  double tolerance = 1.5;
     public static double timeAligned = 150;
     public static  double setPoint = 0;
+    public static  double plusDis = 3;
     SQPIDController pidController;
     ElapsedTime timer;
 
@@ -49,8 +50,9 @@ public class alignToSampleAuto extends CommandBase {
 
     @Override
     public void execute() {
+        double distanceX = MMRobot.getInstance().mmSystems.vision.getTx(0) + plusDis;
         drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),
-                pidController.calculate(MMRobot.getInstance().mmSystems.vision.getTx(0))
+                pidController.calculate(distanceX)
                         / voltageSensor.getVoltage()));
         if (!pidController.atSetpoint()){
             timer.reset();
