@@ -97,7 +97,6 @@ public class MMSystems {
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)
 //        );
-
     }
 
 
@@ -110,7 +109,6 @@ public class MMSystems {
                         ()-> Math.pow(gamepadEx1.getLeftX(),3),
                         () -> Math.pow(gamepadEx1.getLeftY(),3),
                         () -> Math.pow(gamepadEx1.getRightX(),3))
-
         );
     }
 

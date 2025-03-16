@@ -310,8 +310,8 @@ public class AutoOnePlusFiveLeftBlue extends MMOpMode {
 
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.AFTER_SCORING_FRONT_SPECIMEN_POSE),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.AFTER_SCORING_FRONT_SPECIMEN_POSE)),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.AFTER_SCORING_SIDE_SPECIMEN_POSE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.AFTER_SCORING_SIDE_SPECIMEN_POSE)),
                 new WaitCommand(125),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
         );

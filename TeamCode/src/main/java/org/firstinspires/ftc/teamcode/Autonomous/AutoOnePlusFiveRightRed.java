@@ -127,22 +127,24 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
 
         new SequentialCommandGroup(
                 new InstantCommand(),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new ParallelCommandGroup(
                         new ActionCommand(driveToScorePreload.build()),
-                        AutoSpecimensCommand.SpecimenScorePreLoad(),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
+                        AutoSpecimensCommand.SpecimenScorePreLoad()
                 ),
                 //TODO: i believe that with other positions you can put them in parallel
-                new SequentialCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.AFTER_SCORING_FRONT_SPECIMEN_POSE),
-                        new WaitCommand(50),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.AFTER_SCORING_FRONT_SPECIMEN_POSE),
-                        new WaitCommand(200),
-                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
-                ),
+                new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.AFTER_SCORING_FRONT_SPECIMEN_POSE),
+                new WaitCommand(50),
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.AFTER_SCORING_FRONT_SPECIMEN_POSE),
+                new WaitCommand(200),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 IntakeSampleCommand.limeLightIntake_Auto(hardwareMap, drive),
+
                 new ActionCommand(driveToEject.build()).alongWith(
-                        new WaitCommand(700).andThen(
+                        new SequentialCommandGroup(
+                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                                new WaitCommand(700),
                                 ThrowSample()
                         )
                 ),
@@ -150,7 +152,10 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
 
                 //push first
                 new ActionCommand(driveToPush1.build()).alongWith(
-                        new WaitCommand(200).andThen(setupForPushing())
+                        new SequentialCommandGroup(
+                                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                                new WaitCommand(200).andThen(setupForPushing())
+                                )
                 ),
                 new ActionCommand(turnRobot.build()).alongWith(
                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose)
@@ -299,10 +304,7 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
-                new WaitCommand(400).andThen(
-                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-                )
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE)
         );
     }
 

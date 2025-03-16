@@ -17,15 +17,17 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     public static double ElbowTransferSpecimenPose = 0.165;
     public static double ElbowTransferSamplePose = 0.19+0.025;
     public static double ElbowScoreSamplePose = 0.48+0.025;
-    public static double ElbowInitPose = 0.4+0.025;
+    public static double ElbowInitPose = 0.17;
     public static double ElbowPrepareSampleTransferPose = 0.27+0.025;
-    public static double ElbowScoreSpecimenPose = 0.59+0.025;
-    public static double ElbowIntakeFromFrontPose = 0.2; /// 0.285
+    public static double ElbowScoreSpecimenPose = 0.485;
+    public static double ElbowIntakeFromFrontPose = 0.225; /// 0.285
+    public static double scoringElbowMidToFront = 0.3;
     public static double prepareSampleScorePose = 0.38+0.025;
     public static double afterSpecimenScore = 0.4+0.025;
-    public static double scoringElbowScoreFromFrontSpecimenPose = 0.535;
-    public static double scoringElbowAfterScoreFromFrontSpecimenPose = 0.675;
-    public static double elbowSpecimenSideScore = 0.24;
+    public static double scoringElbowScoreFromFrontSpecimenPose = 0.365;
+    public static double scoringElbowAfterScoreFromFrontSpecimenPose = 0.565;
+    public static double elbowSpecimenSideScore = 0.1;
+    public static double scoringElbowAfterScoreFromSideSpecimenPose = 0.245;
 
 
     private final static MMRobot robotinstance = MMRobot.getInstance();
@@ -44,7 +46,10 @@ public class ScoringEndUnitElbow extends SubsystemBase {
         PREPARE_SAMPLE_SCORE(() -> prepareSampleScorePose),
         SCORING_SPECIMEN_SIDE_POSE(() -> elbowSpecimenSideScore),
         AFTER_SPECIMEN_SCORE(() -> afterSpecimenScore),
-        AFTER_SCORING_FRONT_SPECIMEN_POSE(() -> scoringElbowAfterScoreFromFrontSpecimenPose);
+        AFTER_SCORING_FRONT_SPECIMEN_POSE(() -> scoringElbowAfterScoreFromFrontSpecimenPose),
+
+        AFTER_SCORING_SIDE_SPECIMEN_POSE(() -> scoringElbowAfterScoreFromSideSpecimenPose),
+        MID_TO_FRONT(() -> scoringElbowMidToFront);
 
 
         public final Supplier<Double> position;

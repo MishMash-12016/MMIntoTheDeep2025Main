@@ -17,15 +17,16 @@ public class ScoringArm extends SubsystemBase {
     public static double scoringArmSpecimenTransferPose = 0.62- 0.28+0.12;
     public static double scoringArmSampleTransferPose = 0.61- 0.28+0.12;
     public static double scoringArmInitPose = 0.4- 0.28 +0.12;
-    public static double scoringArmSpecimenScorePose = 0.71- 0.28 + 0.12;
+    public static double scoringArmSpecimenScorePose = 0.63;
     public static double scoringArmSampleScorePose = 0.77- 0.28+ 0.12;
     public static double scoringArmSamplePrepareScorePose = 0.33- 0.28+ 0.12;
     public static double scoringArmIntakeFromFrontPose = 0.35; //0.35
     public static double scoringArmAfterScoreSpecimenPose = 0.89- 0.28 + 0.12;
-    public static double scoringArmSpecimenSideScore = 0.99- 0.28 + 0.12;
-    public static double scoringArmScoreFromFrontSpecimenPose = 0.61- 0.28 + 0.12;
+    public static double scoringArmSpecimenSideScore = 0.9;
+    public static double scoringArmScoreFromFrontSpecimenPose = 0.51;
 
-    public static double scoringArmAfterScoreFromFrontSpecimenPose = 0.45- 0.28 + 0.12;
+    public static double scoringArmAfterScoreFromFrontSpecimenPose = 0.3;
+    public static double scoringArmAfterScoreFromSideSpecimenPose = 0.73;
 
     public enum ScoringArmState {
         MID_POSE(() -> scoringArmMidePose),
@@ -40,7 +41,8 @@ public class ScoringArm extends SubsystemBase {
         AFTER_SCORE_POSE(()-> scoringArmAfterScoreSpecimenPose),
         INTAKE_FROM_FRONT_POSE(()-> scoringArmIntakeFromFrontPose),
         SCORING_SPECIMEN_SIDE_POSE(() -> scoringArmSpecimenSideScore),
-        AFTER_SCORING_FRONT_SPECIMEN_POSE(() -> scoringArmAfterScoreFromFrontSpecimenPose);
+        AFTER_SCORING_FRONT_SPECIMEN_POSE(() -> scoringArmAfterScoreFromFrontSpecimenPose),
+        AFTER_SCORING_SIDE_SPECIMEN_POSE(() -> scoringArmAfterScoreFromSideSpecimenPose);
 
         public Supplier<Double> position;
 

@@ -160,7 +160,7 @@ public class Vision extends SubsystemBase {
                   telemetry.addData("Tx", result.getTx());
                   telemetry.addData("Ty", result.getTy());
                   telemetry.addData("Ta", result.getTa());
-             telemetry.update();
+//             telemetry.update();
         }
     }
 }
