@@ -20,7 +20,7 @@ public class alignToSample extends CommandBase {
     public static  double Ks = 1.32;
     public static  double tolerance = 0.5;
     public static double timeAligned = 150;
-    public static  double setPoint = -1;
+    public static  double setPoint = 0;
     SQPIDController pidController;
     ElapsedTime timer;
 

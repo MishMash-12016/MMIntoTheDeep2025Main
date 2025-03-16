@@ -19,6 +19,7 @@ public class Vision extends SubsystemBase {
     private final Limelight3A camera;
 
     private double trackSample = 0;
+    private double autoOrTele = 0;
 
 //    private final Servo led;
 
@@ -28,7 +29,7 @@ public class Vision extends SubsystemBase {
     @Getter private LLResult result;
 
 
-    public static double CAMERA_HEIGHT = 420.0;
+    public static double CAMERA_HEIGHT = 424;
     public static double CAMERA_ANGLE = -45.0;
     public static double TARGET_HEIGHT = 39;
 
@@ -36,6 +37,9 @@ public class Vision extends SubsystemBase {
     public static double cameraStrafeToBot = 0.0;
 
     public static double sampleToRobotDistance = 105;
+
+    public static double opModeType = 0;
+
 
     Telemetry telemetry;
 
@@ -134,14 +138,18 @@ public class Vision extends SubsystemBase {
         camera.pipelineSwitch(2);
     }
 
+    public void auto(){opModeType = 1;}
+    public void teleOp(){opModeType = 0;}
+
 
     @Override
     public void periodic() {
+        //updating the python endlessly
         camera.updatePythonInputs(
-                new double[] {detectionColor.colorVal, trackSample, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+                new double[] {detectionColor.colorVal, trackSample, opModeType, 0.0, 0.0, 0.0, 0.0, 0.0});
         result = camera.getLatestResult();
 
-        if (result != null) {
+        if (result != null) { //if it detects something
             long staleness = result.getStaleness();
             // Less than 100 milliseconds old
             isDataOld = staleness >= 100;

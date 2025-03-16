@@ -37,18 +37,16 @@ public class strafeToSample extends CommandBase {
         pidController = new SQPIDController(Kp, Ki,Kd);
         pidController.setSetpoint(0);
         pidController.setTolerance(tolerance);
-        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
     @Override
     public void execute() {
-        MMRobot.getInstance().mmSystems.driveTrain.drive(pidController.calculate(MMRobot.getInstance().mmSystems.vision.getStrafeOffset()), 0, 0);
+        MMRobot.getInstance().mmSystems.driveTrain.drive(pidController.calculate(-MMRobot.getInstance().mmSystems.vision.getStrafeOffset()), 0, 0);
     }
 
     @Override
     public void end(boolean interrupted) {
         MMRobot.getInstance().mmSystems.driveTrain.drive(0,0,0);
-        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override

@@ -21,17 +21,17 @@ public class alignToSampleAuto extends CommandBase {
     public static  double Ki = 0.042;
     public static  double Kd = 0.0055;
     public static  double Ks = 1.32;
-    public static  double tolerance = 1.0;
+    public static  double tolerance = 0.5;
     public static double timeAligned = 150;
+    public static  double setPoint = 0;
     SQPIDController pidController;
     ElapsedTime timer;
 
-    PinpointDrive driveTrain;
     VoltageSensor voltageSensor;
-    public alignToSampleAuto(HardwareMap hardwareMap , PinpointDrive driveTrain) {
-        this.driveTrain = driveTrain;
-        addRequirements(
-                MMRobot.getInstance().mmSystems.driveTrain);
+
+    PinpointDrive drive;
+    public alignToSampleAuto(HardwareMap hardwareMap , PinpointDrive drive) {
+        this.drive = drive;
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
     }
 
@@ -39,7 +39,7 @@ public class alignToSampleAuto extends CommandBase {
     @Override
     public void initialize() {
         pidController = new SQPIDController(Kp, Ki,Kd,Ks,0,0);
-        pidController.setSetpoint(0);
+        pidController.setSetpoint(setPoint);
         pidController.setTolerance(tolerance);
         timer = new ElapsedTime();
         timer.reset();
@@ -49,11 +49,9 @@ public class alignToSampleAuto extends CommandBase {
 
     @Override
     public void execute() {
-        driveTrain.setDrivePowers(new PoseVelocity2d(
-                new Vector2d(0,
-                        pidController.calculate(-MMRobot.getInstance().mmSystems.vision.getTx(
-                                0))/voltageSensor.getVoltage()),
-                0));
+        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),
+                pidController.calculate(MMRobot.getInstance().mmSystems.vision.getTx(0))
+                        / voltageSensor.getVoltage()));
         if (!pidController.atSetpoint()){
             timer.reset();
         }
@@ -63,11 +61,7 @@ public class alignToSampleAuto extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        driveTrain.setDrivePowers(new PoseVelocity2d(
-                new Vector2d(0,
-                        0),
-                0));
-        MMRobot.getInstance().mmSystems.vision.stopTracking();
+        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
     }
 
     @Override

@@ -12,19 +12,20 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringArm extends SubsystemBase {
-    public static double scoringArmMidePose = 0.77-0.26;
-    public static double scoringArmRestPose = 0.46-0.26;
-    public static double scoringArmSpecimenTransferPose = 0.62-0.26;
-    public static double scoringArmSampleTransferPose = 0.61-0.28;
-    public static double scoringArmInitPose = 0.47-0.28;//0.21
-    public static double scoringArmSpecimenScorePose = 0.71-0.26;
-    public static double scoringArmSampleScorePose = 0.77-0.26;
-    public static double scoringArmSamplePrepareScorePose = 0.33-0.26;
-    public static double scoringArmIntakeFromFrontPose = 0.51-0.26;
-    public static double scoringArmAfterScoreSpecimenPose = 0.89-0.26;
-    public static double scoringArmSpecimenSideScore = 0.99-0.26;
+    public static double scoringArmMidePose = 0.77 - 0.28;
+    public static double scoringArmRestPose = 0.46- 0.28;
+    public static double scoringArmSpecimenTransferPose = 0.62- 0.28;
+    public static double scoringArmSampleTransferPose = 0.61- 0.28;
+    public static double scoringArmInitPose = 0.4- 0.28;
+    public static double scoringArmSpecimenScorePose = 0.71- 0.28;
+    public static double scoringArmSampleScorePose = 0.77- 0.28;
+    public static double scoringArmSamplePrepareScorePose = 0.33- 0.28;
+    public static double scoringArmIntakeFromFrontPose = 0.51- 0.28;
+    public static double scoringArmAfterScoreSpecimenPose = 0.89- 0.28;
+    public static double scoringArmSpecimenSideScore = 0.99- 0.28;
+    public static double scoringArmScoreFromFrontSpecimenPose = 0.61- 0.28;
 
-    public static double scoringArmAfterScoreFromFrontSpecimenPose = 0.45-0.26;
+    public static double scoringArmAfterScoreFromFrontSpecimenPose = 0.45- 0.28;
 
     public enum ScoringArmState {
         MID_POSE(() -> scoringArmMidePose),
@@ -34,10 +35,10 @@ public class ScoringArm extends SubsystemBase {
         INIT_POSE(() -> scoringArmInitPose),
         SCORE_SPECIMEN(() -> scoringArmSpecimenScorePose),
         SCORE_SAMPLE(() -> scoringArmSampleScorePose),
+        SCORE_FROM_FRONT(()-> scoringArmScoreFromFrontSpecimenPose),
         PREPARE_SCORE_SAMPLE(() -> scoringArmSamplePrepareScorePose),
         AFTER_SCORE_POSE(()-> scoringArmAfterScoreSpecimenPose),
         INTAKE_FROM_FRONT_POSE(()-> scoringArmIntakeFromFrontPose),
-
         SCORING_SPECIMEN_SIDE_POSE(() -> scoringArmSpecimenSideScore),
         AFTER_SCORING_FRONT_SPECIMEN_POSE(() -> scoringArmAfterScoreFromFrontSpecimenPose);
 

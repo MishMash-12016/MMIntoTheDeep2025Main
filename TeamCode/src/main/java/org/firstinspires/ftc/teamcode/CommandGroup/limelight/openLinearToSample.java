@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
-import static org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter.maxOpeningLinearMM;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
@@ -12,7 +11,7 @@ public class openLinearToSample extends CommandBase {
     boolean finished = false;
     double noResultCounter;
 
-    private double correctionDist = 70; //TODO: change to 20
+    private double correctionDist = 20; //TODO: change to 20
 
     ExterpolationMap exterpolationMap = new ExterpolationMap()
             .put(63,0.33)

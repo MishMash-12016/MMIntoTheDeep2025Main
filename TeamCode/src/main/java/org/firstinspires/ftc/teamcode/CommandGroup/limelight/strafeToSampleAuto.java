@@ -41,18 +41,16 @@ public class strafeToSampleAuto extends CommandBase {
         pidController = new SQPIDController(Kp, Ki,Kd);
         pidController.setSetpoint(0);
         pidController.setTolerance(tolerance);
-        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
     @Override
     public void execute() {
-        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,-pidController.calculate(MMRobot.getInstance().mmSystems.vision.getStrafeOffset())) , 0));
+        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,-pidController.calculate(-MMRobot.getInstance().mmSystems.vision.getStrafeOffset())) , 0));
     }
 
     @Override
     public void end(boolean interrupted) {
         drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0) , 0));
-        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override
