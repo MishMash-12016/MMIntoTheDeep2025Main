@@ -132,8 +132,17 @@ public class ManualDrive extends MMOpMode {
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
                 .whenActive(
                         new ConditionalCommand(
-                                AutoOnePlusFiveRightRed.ScoreFromTheSide(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
+                                new ParallelCommandGroup(
+                                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
+                                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+                                        new InstantCommand(()-> linearOpened = false)
+                                ),
+                                new ConditionalCommand(
+                                        AutoOnePlusFiveRightRed.ScoreFromTheSide(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
+                                ),
+                                () -> linearOpened
                         )
+
                 );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 ScoringSampleCommand.ScoreHighSample()
