@@ -20,6 +20,7 @@ public class LinearIntake extends SubsystemBase {
 
     private final Servo servoLeft;
     private final Servo servoRight;
+    public double pose = 0;
 
     public static double config;
 
@@ -44,27 +45,31 @@ public class LinearIntake extends SubsystemBase {
     public Command setPosition(double newPos){
         return new InstantCommand(()-> {
             servoLeft.setPosition(newPos);
-            servoRight.setPosition(1-newPos);} ,
+            servoRight.setPosition(1-newPos);
+            pose = newPos;} ,
                 this);
     }
 
     public Command setPosition(DoubleSupplier newPos){
         return new RunCommand(()-> {
             servoLeft.setPosition(newPos.getAsDouble());
-            servoRight.setPosition(1-newPos.getAsDouble());} ,
+            servoRight.setPosition(1-newPos.getAsDouble());
+            pose = newPos.getAsDouble();} ,
                 this);
     }
 
     public Command setPosition(LinearIntakeState state){
         return new InstantCommand(()-> {
             servoLeft.setPosition(state.position);
-            servoRight.setPosition(1-state.position);} ,
+            servoRight.setPosition(1-state.position);
+            pose = state.position;} ,
                 this);
     }
 
     public void setPositionVoid(double newPos){
         servoLeft.setPosition(newPos);
         servoRight.setPosition(1-newPos);
+        pose = newPos;
     }
 
     public void setPositionForConfig(){

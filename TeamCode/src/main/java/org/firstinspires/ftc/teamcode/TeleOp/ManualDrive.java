@@ -131,18 +131,10 @@ public class ManualDrive extends MMOpMode {
 
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
                 .whenActive(
-                        new ConditionalCommand(
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
-                                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                                        new InstantCommand(()-> linearOpened = false)
-                                ),
-                                new ConditionalCommand(
-                                        AutoOnePlusFiveRightRed.ScoreFromTheSide(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
-                                ),
-                                () -> linearOpened
+                        new ParallelCommandGroup(
+                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
+                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
                         )
-
                 );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 ScoringSampleCommand.ScoreHighSample()
@@ -227,10 +219,9 @@ public class ManualDrive extends MMOpMode {
         telemetry.addData("1", update1);
         telemetry.addData("2", update2);
         telemetry.addData("true pos", robotInstance.mmSystems.linearIntake.getPosition());
-        telemetry.addData("pos type", LinearIntake.LinearIntakeState.MAX_OPENING.position );
         telemetry.addData("max", LinearIntake.LinearIntakeState.MAX_OPENING.position);
-        telemetry.addData("opened", (robotInstance.mmSystems.linearIntake.getPosition() == LinearIntake.LinearIntakeState.MAX_OPENING.position));
-        telemetry.addData("opened", (Double.toString(robotInstance.mmSystems.linearIntake.getPosition()).equals(Double.toString(LinearIntake.LinearIntakeState.MAX_OPENING.position))));
+        telemetry.addData("opened1", (robotInstance.mmSystems.linearIntake.pose == LinearIntake.LinearIntakeState.MAX_OPENING.position));
+        telemetry.addData("opened2", (robotInstance.mmSystems.linearIntake.pose == 0.6));
         telemetry.update();
         telemetry.update();
     }
