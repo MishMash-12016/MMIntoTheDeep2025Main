@@ -5,31 +5,25 @@ import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Autonomous.AutoOnePlusFiveRightRed;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoreSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @TeleOp
-public class ManualDrive extends MMOpMode {
+public class ManualDrive_BLUE extends MMOpMode {
     MMRobot robotInstance;
     MMSystems mmSystems;
     private boolean SpecimenIntake;
@@ -38,7 +32,7 @@ public class ManualDrive extends MMOpMode {
     ElapsedTime elapsedTime = new ElapsedTime();
 
 
-    public ManualDrive() {
+    public ManualDrive_BLUE() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
         SpecimenIntake = true;
         elapsedTime.reset();
@@ -53,6 +47,7 @@ public class ManualDrive extends MMOpMode {
         robotInstance.mmSystems.initRobotSystemsTeleOp();
         robotInstance.mmSystems.initDriveTrain();
 
+
         //drive
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05).whileActiveContinuous(
                 MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
@@ -66,13 +61,6 @@ public class ManualDrive extends MMOpMode {
                 () -> mmSystems.driveTrain.resetRotation()
         );
 
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                () -> MMRobot.getInstance().mmSystems.vision.trackYellow()
-        );
-
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-                () -> MMRobot.getInstance().mmSystems.vision.trackRed()
-        );
 
 
 //                 LIMELIGHT HAS RETURNED...
@@ -97,11 +85,11 @@ public class ManualDrive extends MMOpMode {
                 )
         );
 
-                //prepareSampleIntake
+        //prepareSampleIntake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
                 IntakeSampleCommand.prepareSampleIntake(
-                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
-                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()
+                        () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
+                        () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()
                 ).alongWith(
                         new InstantCommand(() -> SpecimenIntake = false)
                 )
@@ -165,7 +153,7 @@ public class ManualDrive extends MMOpMode {
         );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                ()-> MMRobot.getInstance().mmSystems.vision.trackRed()
+                ()-> MMRobot.getInstance().mmSystems.vision.trackBlue()
         );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
