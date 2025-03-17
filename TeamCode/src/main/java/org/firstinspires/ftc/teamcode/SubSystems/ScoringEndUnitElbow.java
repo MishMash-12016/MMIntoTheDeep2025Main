@@ -12,22 +12,23 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringEndUnitElbow extends SubsystemBase {
-    public static double ElbowMidPose = 0.4+0.035;
-    public static double ElbowRestPose = 0.05+0.035;
-    public static double ElbowTransferSpecimenPose = 0.165;
-    public static double ElbowTransferSamplePose = 0.19+0.025;
-    public static double ElbowScoreSamplePose = 0.48+0.025;
-    public static double ElbowInitPose = 0.17;
-    public static double ElbowPrepareSampleTransferPose = 0.27+0.025;
-    public static double ElbowScoreSpecimenPose = 0.485;
-    public static double ElbowIntakeFromFrontPose = 0.225; /// 0.285
-    public static double scoringElbowMidToFront = 0.3;
-    public static double prepareSampleScorePose = 0.38+0.025;
-    public static double afterSpecimenScore = 0.4+0.025;
-    public static double scoringElbowScoreFromFrontSpecimenPose = 0.365;
-    public static double scoringElbowAfterScoreFromFrontSpecimenPose = 0.565;
-    public static double elbowSpecimenSideScore = 0.1;
-    public static double scoringElbowAfterScoreFromSideSpecimenPose = 0.27 ;
+    public static double ElbowMidPose = 0.4+0.035 + 0.28;
+    public static double ElbowRestPose = 0.05+0.035 + 0.28;
+    public static double ElbowTransferSpecimenPose = 0.165 + 0.28;
+    public static double ElbowTransferSamplePose = 0.19+0.025 + 0.28;
+    public static double ElbowScoreSamplePose = 0.48+0.025 + 0.28;
+    public static double ElbowInitPose = 0.28 + 0.28;
+    public static double ElbowPrepareSampleTransferPose = 0.27+0.025 + 0.28;
+    public static double ElbowScoreSpecimenPose = 0.485 + 0.28;
+    public static double ElbowIntakeFromFrontPose = 0.525; //0.505
+    public static double scoringElbowMidToFront = 0.1 + 0.28;
+    public static double prepareSampleScorePose = 0.38+0.025 + 0.28;
+    public static double afterSpecimenScore = 0.4+0.025 + 0.28;
+    public static double scoringElbowScoreFromFrontSpecimenPose = 0.365 + 0.28;
+    public static double scoringElbowAfterScoreFromFrontSpecimenPose = 0.565 + 0.28;
+    public static double elbowSpecimenSideScore = 0.425;
+    public static double scoringElbowAfterScoreFromSideSpecimenPose = 0.27 + 0.28;
+    public static double ElbowTelOpInitPose = 0.5 + 0.28;
 
 
     private final static MMRobot robotinstance = MMRobot.getInstance();
@@ -41,6 +42,7 @@ public class ScoringEndUnitElbow extends SubsystemBase {
         TRANSFER_SAMPLE_POSE(() -> ElbowTransferSamplePose),
         SCORE_SAMPLE_POSE(() -> ElbowScoreSamplePose),
         INIT_POSE(() -> ElbowInitPose),
+        TELOP_INIT_POSE(() -> ElbowTelOpInitPose),
         SCORE_SPECIMEN_POSE(() -> ElbowScoreSpecimenPose),
         INTAKE_FROM_FRONT_POSE(() -> ElbowIntakeFromFrontPose),
         PREPARE_SAMPLE_SCORE(() -> prepareSampleScorePose),
@@ -65,6 +67,10 @@ public class ScoringEndUnitElbow extends SubsystemBase {
         servo = robotinstance.mmSystems.hardwareMap.get(Servo.class, "scoring rot");
         servo.setPosition(ScoringElbowState.INIT_POSE.position.get());
     }
+    public ScoringEndUnitElbow(boolean Void) {
+        servo = robotinstance.mmSystems.hardwareMap.get(Servo.class, "scoring rot");
+        servo.setPosition(ScoringElbowState.TELOP_INIT_POSE.position.get());
+    }
 
     public Command setPosition(double newPos) {
         return new InstantCommand(() -> servo.setPosition(newPos),
@@ -74,5 +80,9 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     public Command setPosition(ScoringElbowState state) {
         return new InstantCommand(() -> servo.setPosition(state.position.get()),
                 this);
+    }
+
+    public double getPosition() {
+        return servo.getPosition();
     }
 }

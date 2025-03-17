@@ -88,19 +88,17 @@ public class IntakeSpecimenCommand {
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.INIT_POSE),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.INIT_POSE)
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.INIT_POSE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SPECIMEN_TRANSFER_POSE)
                 ),
-                new WaitCommand(200),
+                new WaitCommand(300),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.MID_TO_FRONT),
+                new WaitCommand(300),
                 new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.MID_TO_FRONT),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.MID_TO_FRONT)
-                ),
-                new WaitCommand(200),
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE)
-                ),
-                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SPECIMEN_TRANSFER_POSE)
+                )
+
         );
     }
 

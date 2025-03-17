@@ -25,9 +25,22 @@ import java.util.function.BooleanSupplier;
 import kotlinx.android.parcel.WriteWith;
 
 public class IntakeSampleCommand {
+    public static Command prepareSampleIntakeWithoutButton() {
+        return new ParallelCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
+                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SAMPLE_TRANSFER_POSE),//be prepared for transfer
+                new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                new WaitCommand(1100),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+        );
+    }
     public static Command prepareSampleIntake(BooleanSupplier rotateRightButton,BooleanSupplier rotateLeftButton) {
         return new ParallelCommandGroup(
-
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
                 MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringEndUnitRotator.ScoringRotatorState.SAMPLE_TRANSFER_POSE),
@@ -101,9 +114,7 @@ public class IntakeSampleCommand {
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 
-                new WaitCommand(300),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                new WaitCommand(200),
+                new WaitCommand(400),
                 AutoOnePlusFiveRightRed.FirstSampleIntake(),
                 new InstantCommand(()->
                         MMRobot.getInstance().mmSystems.vision.stopTracking()

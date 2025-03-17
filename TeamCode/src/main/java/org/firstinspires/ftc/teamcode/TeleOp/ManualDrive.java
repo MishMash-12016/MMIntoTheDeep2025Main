@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
@@ -32,7 +33,8 @@ public class ManualDrive extends MMOpMode {
     MMRobot robotInstance;
     MMSystems mmSystems;
     private boolean SpecimenIntake;
-    private boolean linearOpened;
+    private boolean update1;
+    private boolean update2;
     ElapsedTime elapsedTime = new ElapsedTime();
 
 
@@ -40,7 +42,6 @@ public class ManualDrive extends MMOpMode {
         super(OpModeType.NonCompetition.EXPERIMENTING);
         SpecimenIntake = true;
         elapsedTime.reset();
-        linearOpened = false;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class ManualDrive extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         mmSystems = robotInstance.mmSystems;
 
-        robotInstance.mmSystems.initRobotSystems();
+        robotInstance.mmSystems.initRobotSystemsTeleOp();
         robotInstance.mmSystems.initDriveTrain();
 
         //drive
@@ -98,31 +99,29 @@ public class ManualDrive extends MMOpMode {
 
                 //prepareSampleIntake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-                new ConditionalCommand(
-                    new ParallelCommandGroup(
-                            MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                            new InstantCommand(()-> linearOpened = false)
-                    ),
-                    new ParallelCommandGroup(
-                        IntakeSampleCommand.prepareSampleIntake(
-                            () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
-                            () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()
-                        ),
-                        new InstantCommand(()-> linearOpened = true)
-                    ),
-
-                    ()->linearOpened
-                )
-                .alongWith(
+                IntakeSampleCommand.prepareSampleIntake(
+                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).get(),
+                                () -> mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).get()
+                ).alongWith(
                         new InstantCommand(() -> SpecimenIntake = false)
                 )
         );
 
         //prepareSpecimenIntake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
-                IntakeSpecimenCommand.PrepareSpecimenIntakeFront().alongWith(
-                        new InstantCommand(() -> SpecimenIntake = true)
+                new ConditionalCommand(
+                        new ParallelCommandGroup(
+                                new InstantCommand(() -> update1 = !update1),
+                                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+                                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE)
+                        ),
+                        IntakeSpecimenCommand.PrepareSpecimenIntakeFront().alongWith(
+                                new InstantCommand(() -> update2 = !update2),
+                                new InstantCommand(() -> SpecimenIntake = true)
+                        ),
+                        () -> (robotInstance.mmSystems.linearIntake.getPosition() == LinearIntake.LinearIntakeState.MAX_OPENING.position)
                 )
+
         );
 
         //sample/specimen intake
@@ -153,14 +152,48 @@ public class ManualDrive extends MMOpMode {
         new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
                 .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
 
-        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenActive(() -> MMRobot.getInstance().mmSystems.elevator.resetTicks());
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.START).whenPressed(
+                () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0)
+        );
 
-        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0));
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
+        );
+
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+        );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                ScoringSampleCommand.PrepareHighSample());
+                ()-> MMRobot.getInstance().mmSystems.vision.trackRed()
+        );
+
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                ()-> MMRobot.getInstance().mmSystems.vision.trackYellow()
+        );
+
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whileHeld(
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(MMRobot.getInstance().mmSystems.scoringEndUnitElbow.getPosition()-0.05)
+        );
+
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whileHeld(
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(MMRobot.getInstance().mmSystems.scoringEndUnitElbow.getPosition()+0.05)
+        );
+
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whileHeld(
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(MMRobot.getInstance().mmSystems.scoringArm.getPosition()-0.05)
+        );
+
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whileHeld(
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(MMRobot.getInstance().mmSystems.scoringArm.getPosition()+0.05)
+        );
+
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whileHeld(
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(MMRobot.getInstance().mmSystems.intakeArm.getPosition() + 0.05)
+        );
+
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whileHeld(
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(MMRobot.getInstance().mmSystems.intakeArm.getPosition() - 0.05)
+        );
     }
 
     @Override
@@ -182,6 +215,14 @@ public class ManualDrive extends MMOpMode {
         telemetry.addData("ticks", mmSystems.elevator.getTicks());
         telemetry.addData("height", mmSystems.elevator.getHeight());
         telemetry.addData("power", MMRobot.getInstance().mmSystems.elevator.getPower());
+        telemetry.addData("1", update1);
+        telemetry.addData("2", update2);
+        telemetry.addData("true pos", robotInstance.mmSystems.linearIntake.getPosition());
+        telemetry.addData("pos type", LinearIntake.LinearIntakeState.MAX_OPENING.position );
+        telemetry.addData("max", LinearIntake.LinearIntakeState.MAX_OPENING.position);
+        telemetry.addData("opened", (robotInstance.mmSystems.linearIntake.getPosition() == LinearIntake.LinearIntakeState.MAX_OPENING.position));
+        telemetry.addData("opened", (Double.toString(robotInstance.mmSystems.linearIntake.getPosition()).equals(Double.toString(LinearIntake.LinearIntakeState.MAX_OPENING.position))));
+        telemetry.update();
         telemetry.update();
     }
 }

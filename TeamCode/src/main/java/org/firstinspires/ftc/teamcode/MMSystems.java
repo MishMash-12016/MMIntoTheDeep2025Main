@@ -98,6 +98,24 @@ public class MMSystems {
 //                linearIntake.defultCommand(0)
 //        );
     }
+    public void initRobotSystemsTeleOp() {
+
+        this.elevator = new Elevator(elevatorSwitch);
+        this.linearIntake = new LinearIntake();
+        this.intakEndUnit = new IntakEndUnit();
+        this.scoringEndUnitElbow = new ScoringEndUnitElbow(true);
+        this.intakeArm = new IntakeArm();
+        this.scoringArm = new ScoringArm();
+        this.scoringClawEndUnit = new ScoringClawEndUnit();
+        this.intakeEndUnitRotator = new IntakeEndUnitRotator();
+        this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
+        this.scoringEndUnitRotator = new ScoringEndUnitRotator();
+        this.wisher = new Wisher();
+        vision = new Vision(hardwareMap, telemetry);
+//        linearIntake.setDefaultCommand(
+//                linearIntake.defultCommand(0)
+//        );
+    }
 
 
     public void initDriveTrain() {
