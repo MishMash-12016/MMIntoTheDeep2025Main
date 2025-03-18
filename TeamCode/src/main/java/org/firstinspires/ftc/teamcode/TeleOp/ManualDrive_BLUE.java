@@ -10,6 +10,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Autonomous.Red_Right_6;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
@@ -46,7 +47,6 @@ public class ManualDrive_BLUE extends MMOpMode {
 
         robotInstance.mmSystems.initRobotSystemsTeleOp();
         robotInstance.mmSystems.initDriveTrain();
-
 
         //drive
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05).whileActiveContinuous(
@@ -99,15 +99,14 @@ public class ManualDrive_BLUE extends MMOpMode {
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
                 new ConditionalCommand(
                         new ParallelCommandGroup(
-                                new InstantCommand(() -> update1 = !update1),
                                 robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE)
+                                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
+                                robotInstance.mmSystems.intakEndUnit.openIntakeClaw()
                         ),
                         IntakeSpecimenCommand.PrepareSpecimenIntakeFront().alongWith(
-                                new InstantCommand(() -> update2 = !update2),
                                 new InstantCommand(() -> SpecimenIntake = true)
                         ),
-                        () -> (robotInstance.mmSystems.linearIntake.getPosition() == LinearIntake.LinearIntakeState.MAX_OPENING.position)
+                        () -> (robotInstance.mmSystems.linearIntake.pose == LinearIntake.LinearIntakeState.MAX_OPENING.position)
                 )
 
         );
@@ -119,9 +118,9 @@ public class ManualDrive_BLUE extends MMOpMode {
 
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
                 .whenActive(
-                        new ParallelCommandGroup(
-                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
-                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
+                        //ScoringSampleCommand.PrepareHighSample()
+                        new ConditionalCommand(
+                                Red_Right_6.ScoreFromTheSide(), new InstantCommand(), () -> SpecimenIntake
                         )
                 );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
