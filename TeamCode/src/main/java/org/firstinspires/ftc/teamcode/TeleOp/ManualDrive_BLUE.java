@@ -113,7 +113,7 @@ public class ManualDrive_BLUE extends MMOpMode {
 
         //sample/specimen intake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new ConditionalCommand(IntakeSpecimenCommand.IntakeFromFrontToSide(), IntakeSampleCommand.SampleIntake(), () -> SpecimenIntake)
+                new ConditionalCommand(IntakeSpecimenCommand.IntakeFromFrontToSideForEyal(), IntakeSampleCommand.SampleIntake(), () -> SpecimenIntake)
         );
 
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
@@ -128,17 +128,17 @@ public class ManualDrive_BLUE extends MMOpMode {
         );
 
 
-        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
-                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0)); //left trigger
-
-        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
-                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
-
-        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0)); //right trigger
-
-        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+//                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0)); //left trigger
+//
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+//                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
+//
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+//                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0)); //right trigger
+//
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+//                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.START).whenPressed(
                 () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0)
@@ -160,27 +160,27 @@ public class ManualDrive_BLUE extends MMOpMode {
         );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whileHeld(
-                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(MMRobot.getInstance().mmSystems.scoringEndUnitElbow.getPosition()-0.05)
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(MMRobot.getInstance().mmSystems.scoringEndUnitElbow.estimatedPose-0.05)
         );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whileHeld(
-                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(MMRobot.getInstance().mmSystems.scoringEndUnitElbow.getPosition()+0.05)
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(MMRobot.getInstance().mmSystems.scoringEndUnitElbow.estimatedPose+0.05)
         );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whileHeld(
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(MMRobot.getInstance().mmSystems.scoringArm.getPosition()-0.05)
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(MMRobot.getInstance().mmSystems.scoringArm.estimatedPose-0.05)
         );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whileHeld(
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(MMRobot.getInstance().mmSystems.scoringArm.getPosition()+0.05)
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(MMRobot.getInstance().mmSystems.scoringArm.estimatedPose+0.05)
         );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whileHeld(
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(MMRobot.getInstance().mmSystems.intakeArm.getPosition() + 0.05)
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(MMRobot.getInstance().mmSystems.intakeArm.estimatedPose + 0.05)
         );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whileHeld(
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(MMRobot.getInstance().mmSystems.intakeArm.getPosition() - 0.05)
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(MMRobot.getInstance().mmSystems.intakeArm.estimatedPose - 0.05)
         );
     }
 

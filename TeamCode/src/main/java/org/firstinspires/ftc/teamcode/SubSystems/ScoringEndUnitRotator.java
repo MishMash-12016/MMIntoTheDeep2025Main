@@ -19,6 +19,7 @@ public class ScoringEndUnitRotator extends SubsystemBase {
     public static double rotatorScoringSpecimenPose = 0.11;
     public static double rotatorScoringSamplePose = 0.11;
     public static double rotatorSpecimenSideScore = 0.24;
+    public static double rotatorScoringSideScoreForEyal = 0.2;
 
 
     private final static MMRobot robotInstance = MMRobot.getInstance();
@@ -29,7 +30,8 @@ public class ScoringEndUnitRotator extends SubsystemBase {
         SAMPLE_TRANSFER_POSE(()-> rotatorSampleTransferPose),
         SCORING_SPECIMEN_POSE(()-> rotatorScoringSpecimenPose),
         SCORING_SAMPLE_POSE(() -> rotatorScoringSamplePose),
-        SCORING_SPECIMEN_SIDE_POSE(() -> rotatorSpecimenSideScore);
+        SCORING_SPECIMEN_SIDE_POSE(() -> rotatorSpecimenSideScore),
+        SCORING_SPECIMEN_SIDE_POSE_FOR_EYAL(() -> rotatorScoringSideScoreForEyal);
 
         public final Supplier<Double> position;
 

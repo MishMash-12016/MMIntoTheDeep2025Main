@@ -20,6 +20,7 @@ public class IntakeArm extends SubsystemBase {
     public static double intakeArmTransferSamplePose = 0.17;
     public static double intakeArmInitPose = 0.05;
     public static double intakeArmMidPose = 0.28;
+    public double estimatedPose = intakeArmInitPose;
     CuttleServo servoLeft;
     CuttleServo servoRight;
 
@@ -54,6 +55,7 @@ public class IntakeArm extends SubsystemBase {
 
     //tell servo intake to get to down position
     public Command setPosition(double newPos) {
+        estimatedPose = newPos;
         return new InstantCommand(() -> {
             servoLeft.setPosition(newPos);
             servoRight.setPosition(1 - newPos);
@@ -62,6 +64,7 @@ public class IntakeArm extends SubsystemBase {
     }
 
     public Command setPosition(IntakeArmState state) {
+        estimatedPose = state.position.get();
         return new InstantCommand(() -> {
             servoLeft.setPosition(state.position.get());
             servoRight.setPosition(1 - state.position.get());
@@ -72,9 +75,5 @@ public class IntakeArm extends SubsystemBase {
     public void setPositionVoid(double newPos) {
         servoLeft.setPosition(newPos);
         servoRight.setPosition(1 - newPos);
-    }
-
-    public double getPosition() {
-        return servoRight.getPosition();
     }
 }

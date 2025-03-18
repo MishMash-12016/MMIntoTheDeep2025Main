@@ -146,7 +146,7 @@ public class Vision extends SubsystemBase {
     public void periodic() {
         //updating the python endlessly
         camera.updatePythonInputs(
-                new double[] {detectionColor.colorVal, trackSample, opModeType, 0.0, 0.0, 0.0, 0.0, 0.0});
+                new double[] {detectionColor.colorVal, 1, opModeType, 0.0, 0.0, 0.0, 0.0, 0.0});
         result = camera.getLatestResult();
 
         if (result != null) { //if it detects something

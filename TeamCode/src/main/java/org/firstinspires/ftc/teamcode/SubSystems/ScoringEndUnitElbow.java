@@ -29,6 +29,7 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     public static double elbowSpecimenSideScore = 0.425;
     public static double scoringElbowAfterScoreFromSideSpecimenPose = 0.6;
     public static double ElbowTelOpInitPose =0.78;
+    public double estimatedPose = ElbowInitPose;
 
 
     private final static MMRobot robotinstance = MMRobot.getInstance();
@@ -73,16 +74,14 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     }
 
     public Command setPosition(double newPos) {
+        estimatedPose = newPos;
         return new InstantCommand(() -> servo.setPosition(newPos),
                 this);
     }
 
     public Command setPosition(ScoringElbowState state) {
+        estimatedPose = state.position.get();
         return new InstantCommand(() -> servo.setPosition(state.position.get()),
                 this);
-    }
-
-    public double getPosition() {
-        return servo.getPosition();
     }
 }

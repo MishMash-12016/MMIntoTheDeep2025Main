@@ -66,7 +66,7 @@ public class Blue_Left_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToScorePreload = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-12, -28), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                .splineToConstantHeading(new Vector2d(-5, -28), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         TrajectoryActionBuilder driveToEject = driveToScorePreload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(260))

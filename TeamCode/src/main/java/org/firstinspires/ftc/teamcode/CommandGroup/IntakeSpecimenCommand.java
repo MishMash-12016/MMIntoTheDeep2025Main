@@ -133,4 +133,17 @@ public class IntakeSpecimenCommand {
                 )
         );
     }
+    public static Command IntakeFromFrontToSideForEyal() {
+        return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                new WaitCommand(200),
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORING_SPECIMEN_SIDE_POSE),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORING_SPECIMEN_SIDE_POSE),
+                        new WaitCommand(150).andThen(
+                                MMRobot.getInstance().mmSystems.scoringEndUnitRotator.setPosition(ScoringRotatorState.SCORING_SPECIMEN_SIDE_POSE_FOR_EYAL)
+                        )
+                )
+        );
+    }
 }

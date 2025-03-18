@@ -30,6 +30,8 @@ public class ScoringArm extends SubsystemBase {
     public static double scoringArmAfterScoreFromSideSpecimenPose = 0.53;
     public static double scoringArmMidToFront = 0.4-0.12;
 
+    public double estimatedPose = scoringArmInitPose;
+
     public enum ScoringArmState {
         MID_TO_FRONT(() -> scoringArmMidToFront),
         MID_POSE(() -> scoringArmMidePose),
@@ -66,6 +68,7 @@ public class ScoringArm extends SubsystemBase {
 
     //Tell arm to get to position
     public Command setPosition(double newPos) {
+        estimatedPose = newPos+0.01;
         return new InstantCommand(() -> {
             servoLeft.setPosition(newPos+0.01);
             servoRight.setPosition(1 - newPos);
@@ -75,14 +78,11 @@ public class ScoringArm extends SubsystemBase {
 
 
     public Command setPosition(ScoringArmState state) {
+        estimatedPose = state.position.get()+0.01;
         return new InstantCommand(() -> {
             servoLeft.setPosition(state.position.get()+0.01);
             servoRight.setPosition(1 - state.position.get());
         },
                 this);
-    }
-
-    public double getPosition() {
-        return servoRight.getPosition();
     }
 }
