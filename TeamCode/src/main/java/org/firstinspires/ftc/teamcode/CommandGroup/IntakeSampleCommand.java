@@ -110,7 +110,7 @@ public class IntakeSampleCommand {
                 ),
 
                 //Lamlam side:
-                limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(1200),
+                limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(1000),
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 

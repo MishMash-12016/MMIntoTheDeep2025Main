@@ -81,17 +81,16 @@ public class MMSystems {
 
     //creating and initiating all subsystems
     public void initRobotSystems() {
-
+        this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.elevator = new Elevator(elevatorSwitch);
         this.linearIntake = new LinearIntake();
         this.intakEndUnit = new IntakEndUnit();
-        this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.intakeArm = new IntakeArm();
         this.scoringArm = new ScoringArm();
-        this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
         this.scoringEndUnitRotator = new ScoringEndUnitRotator();
+        this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.wisher = new Wisher();
         vision = new Vision(hardwareMap, telemetry);
 //        linearIntake.setDefaultCommand(
@@ -99,17 +98,16 @@ public class MMSystems {
 //        );
     }
     public void initRobotSystemsTeleOp() {
-
+        this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.elevator = new Elevator(elevatorSwitch);
         this.linearIntake = new LinearIntake();
         this.intakEndUnit = new IntakEndUnit();
-        this.scoringEndUnitElbow = new ScoringEndUnitElbow(true);
         this.intakeArm = new IntakeArm();
         this.scoringArm = new ScoringArm();
-        this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
         this.scoringEndUnitRotator = new ScoringEndUnitRotator();
+        this.scoringEndUnitElbow = new ScoringEndUnitElbow(true);
         this.wisher = new Wisher();
         vision = new Vision(hardwareMap, telemetry);
 //        linearIntake.setDefaultCommand(

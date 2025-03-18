@@ -26,8 +26,8 @@ public class ScoringArm extends SubsystemBase {
     public static double scoringArmSpecimenSideScore = 0.725;
     public static double scoringArmScoreFromFrontSpecimenPose = 0.51-0.12;
 
-    public static double scoringArmAfterScoreFromFrontSpecimenPose = 0.3-0.12;
-    public static double scoringArmAfterScoreFromSideSpecimenPose = 0.7-0.12;
+    public static double scoringArmAfterScoreFromFrontSpecimenPose = 0.17;
+    public static double scoringArmAfterScoreFromSideSpecimenPose = 0.53;
     public static double scoringArmMidToFront = 0.4-0.12;
 
     public enum ScoringArmState {
