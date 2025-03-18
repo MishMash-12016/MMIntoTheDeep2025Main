@@ -40,8 +40,8 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
     private static final Pose2d dragScoredSpecimenToSide = new Pose2d(-1, -30, Math.toRadians(90)); //side
     private static final double tangentsToScoreSpecimen = 135;
     private static final double tangentsToIntakeSpecimen = 310;
-    final Pose2d intakePose = new Pose2d(40, -67, Math.toRadians(90));
-    static final Pose2d scorePose = new Pose2d(7, -32.5, Math.toRadians(120));
+    final Pose2d intakePose = new Pose2d(40, -63, Math.toRadians(90));
+    static final Pose2d scorePose = new Pose2d(7, -31.8, Math.toRadians(120));
     public static final Vector2d scoreVector = new Vector2d(scorePose.position.x, scorePose.position.y);
 
     public AutoOnePlusFiveRightRed() {
@@ -69,12 +69,12 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
                 .splineToConstantHeading(new Vector2d(2, -28), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         TrajectoryActionBuilder driveToEject = driveToScorePreload.endTrajectory().fresh()
-                .setTangent(Math.toRadians(270))
+                .setTangent(Math.toRadians(260))
                 .splineToLinearHeading(new Pose2d(25, -45, Math.toRadians(140)), Math.toRadians(0), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
 
         TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(26.5, -34, Math.toRadians(225)), Math.toRadians(50), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+                .splineToLinearHeading(new Pose2d(26.5, -34, Math.toRadians(210)), Math.toRadians(50), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
 
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(290))
@@ -97,8 +97,8 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
         TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(51, -68, Math.toRadians(90)), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
         TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToIntakeFirstSpecimen.endTrajectory().fresh()
-                .setTangent(Math.toRadians(140 + 10))
-                .splineToLinearHeading(new Pose2d(7, -34, Math.toRadians(120)), Math.toRadians(tangentsToScoreSpecimen - 20), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                .setTangent(Math.toRadians(140 + 5))
+                .splineToLinearHeading(new Pose2d(3, -34.5, Math.toRadians(112.5)), Math.toRadians(tangentsToScoreSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
         TrajectoryActionBuilder driveToIntakeSecondSpecimen = driveToScoreFirstSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))
                 .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
@@ -107,22 +107,22 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
                 .splineToSplineHeading(scorePose, Math.toRadians(tangentsToScoreSpecimen));
         TrajectoryActionBuilder driveToIntakeThirdSpecimen = driveToScoreSecondSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))
-                .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
         TrajectoryActionBuilder driveToScoreThirdSpecimen = driveToIntakeThirdSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(140))
                 .splineToSplineHeading(scorePose, Math.toRadians(tangentsToScoreSpecimen));
         TrajectoryActionBuilder driveToIntakeForthSpecimen = driveToScoreThirdSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))
-                .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
         TrajectoryActionBuilder driveToScoreForthSpecimen = driveToIntakeForthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(140))
                 .splineToSplineHeading(scorePose, Math.toRadians(tangentsToScoreSpecimen));
         TrajectoryActionBuilder driveToIntakeFifthSpecimen = driveToScoreForthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))
-                .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
         TrajectoryActionBuilder driveToScoreFifthSpecimen = driveToIntakeFifthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(140))
-                .splineToSplineHeading(scorePose, Math.toRadians(tangentsToScoreSpecimen));
+                .splineToSplineHeading(new Pose2d(8, scorePose.position.y, scorePose.heading.toDouble()), Math.toRadians(tangentsToScoreSpecimen));
         TrajectoryActionBuilder driveToPark = driveToScoreFifthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))
 
@@ -134,7 +134,6 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
                         new ActionCommand(driveToScorePreload.build()),
                         AutoSpecimensCommand.SpecimenScorePreLoad()
                 ),
-                //TODO: i believe that with other positions you can put them in parallel
 
                 IntakeSampleCommand.limeLightIntake_Auto(hardwareMap, drive).alongWith(
                         new SequentialCommandGroup(
@@ -175,7 +174,7 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
                 ),
                 new ActionCommand(driveToPush3.build()).alongWith(
                         new ParallelCommandGroup(
-                                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
+                                robotInstance.mmSystems.linearIntake.setPosition(0.4),
                                 robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
                                 robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)
@@ -258,11 +257,12 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
                                 new ActionCommand(driveToScoreFifthSpecimen.build()))),
 
                 //park
-                new ActionCommand(driveToPark.build()).alongWith(
-                        new SequentialCommandGroup(
-                                ScoreFromTheSide(),
-                                IntakeSampleCommand.prepareSampleIntakeWithoutButton()
-                        ))
+                new ParallelCommandGroup(
+                        ScoreFromTheSide().andThen(IntakeSampleCommand.prepareSampleIntakeWithoutButton()),
+                        new WaitCommand(50).andThen(
+                                new ActionCommand(driveToPark.build())
+                        )
+                )
         ).schedule();
 
     }

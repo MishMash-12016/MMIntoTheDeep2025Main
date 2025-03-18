@@ -24,7 +24,7 @@ public class TuningTest extends MMOpMode {
     private static double posRot = 0.55;
     private static double posElbow = 0.59+0.035;
     private static double posArm = 0.71;
-    private static final double changeBy = 0.02;
+    private static final double changeBy = 0.005;
     public TuningTest() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
