@@ -1,15 +1,13 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Autonomous.AutoOnePlusFiveRightRed;
+import org.firstinspires.ftc.teamcode.Autonomous.Red_Right_6;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -22,9 +20,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 
 import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
 
-import kotlinx.android.parcel.WriteWith;
 public class IntakeSampleCommand {
 
     public static Command prepareSampleIntakeWithoutButton() {
@@ -118,7 +114,7 @@ public class IntakeSampleCommand {
                 limelightGetter.getOpenLinearToSample(),
 
                 new WaitCommand(400),
-                AutoOnePlusFiveRightRed.FirstSampleIntake(),
+                Red_Right_6.FirstSampleIntake(),
                 new InstantCommand(()->
                         MMRobot.getInstance().mmSystems.vision.stopTracking()
                 )

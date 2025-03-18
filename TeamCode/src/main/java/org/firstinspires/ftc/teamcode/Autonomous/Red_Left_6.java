@@ -30,7 +30,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @Autonomous
-public class AutoOnePlusFiveRightRed extends MMOpMode {
+public class Red_Left_6 extends MMOpMode {
     static MMRobot robotInstance;
     static final double halfOpenClaw = 0.6;
     static final double rotator = 0;
@@ -44,7 +44,7 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
     static final Pose2d scorePose = new Pose2d(7, -31.8, Math.toRadians(120));
     public static final Vector2d scoreVector = new Vector2d(scorePose.position.x, scorePose.position.y);
 
-    public AutoOnePlusFiveRightRed() {
+    public Red_Left_6() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
@@ -66,7 +66,7 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
 
         TrajectoryActionBuilder driveToScorePreload = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(2, -28), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                .splineToConstantHeading(new Vector2d(-12, -28), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         TrajectoryActionBuilder driveToEject = driveToScorePreload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(260))
@@ -179,7 +179,7 @@ public class AutoOnePlusFiveRightRed extends MMOpMode {
                                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
                                 robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)
                         )
-                        ),
+                ),
 
                 //push third
                 new ActionCommand(turnRobot3.build()).alongWith(
