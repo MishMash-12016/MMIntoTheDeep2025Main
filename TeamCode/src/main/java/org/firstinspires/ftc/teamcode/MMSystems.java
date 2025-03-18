@@ -102,12 +102,12 @@ public class MMSystems {
         this.elevator = new Elevator(elevatorSwitch);
         this.linearIntake = new LinearIntake();
         this.intakEndUnit = new IntakEndUnit();
-        this.intakeArm = new IntakeArm();
+        this.intakeArm = new IntakeArm(false);
         this.scoringArm = new ScoringArm();
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
         this.scoringEndUnitRotator = new ScoringEndUnitRotator();
-        this.scoringEndUnitElbow = new ScoringEndUnitElbow(true);
+        this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.wisher = new Wisher();
         vision = new Vision(hardwareMap, telemetry);
 //        linearIntake.setDefaultCommand(

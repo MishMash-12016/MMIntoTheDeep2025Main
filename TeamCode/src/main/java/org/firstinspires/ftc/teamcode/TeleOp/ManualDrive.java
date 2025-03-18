@@ -111,15 +111,14 @@ public class ManualDrive extends MMOpMode {
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
                 new ConditionalCommand(
                         new ParallelCommandGroup(
-                                new InstantCommand(() -> update1 = !update1),
                                 robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE)
+                                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
+                                robotInstance.mmSystems.intakEndUnit.openIntakeClaw()
                         ),
                         IntakeSpecimenCommand.PrepareSpecimenIntakeFront().alongWith(
-                                new InstantCommand(() -> update2 = !update2),
                                 new InstantCommand(() -> SpecimenIntake = true)
                         ),
-                        () -> (robotInstance.mmSystems.linearIntake.getPosition() == LinearIntake.LinearIntakeState.MAX_OPENING.position)
+                        () -> (robotInstance.mmSystems.linearIntake.pose == LinearIntake.LinearIntakeState.MAX_OPENING.position)
                 )
 
         );

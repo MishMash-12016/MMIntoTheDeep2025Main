@@ -85,7 +85,6 @@ public class IntakeSpecimenCommand {
     public static Command PrepareSpecimenIntakeFront() {
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.INIT_POSE),
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.INIT_POSE),
@@ -97,9 +96,10 @@ public class IntakeSpecimenCommand {
                 new WaitCommand(300),
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE)
-                )
+                ),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
 
-        );
+                );
     }
 
     public static Command IntakeFromFront() {
