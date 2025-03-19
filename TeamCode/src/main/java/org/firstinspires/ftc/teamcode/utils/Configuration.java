@@ -70,7 +70,7 @@ public class Configuration {
     public static final int ELEVATOR3 = 2;
     public static final int ELEVATOR4 = 3;
 
-    public static final int ELEVATOR_ENCODER = 2;
+    public static final int ELEVATOR_ENCODER = 1;
 
 
 

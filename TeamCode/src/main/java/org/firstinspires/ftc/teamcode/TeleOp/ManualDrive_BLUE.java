@@ -118,9 +118,8 @@ public class ManualDrive_BLUE extends MMOpMode {
 
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
                 .whenActive(
-                        //ScoringSampleCommand.PrepareHighSample()
                         new ConditionalCommand(
-                                Red_Right_6.ScoreFromTheSide(), new InstantCommand(), () -> SpecimenIntake
+                                Red_Right_6.ScoreFromTheSide(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
                         )
                 );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
@@ -145,11 +144,9 @@ public class ManualDrive_BLUE extends MMOpMode {
         );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
+                ScoringSampleCommand.PrepareHighSampleEran()
         );
 
-        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-        );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 ()-> MMRobot.getInstance().mmSystems.vision.trackBlue()
