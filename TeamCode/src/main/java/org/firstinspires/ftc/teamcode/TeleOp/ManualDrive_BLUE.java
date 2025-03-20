@@ -30,6 +30,7 @@ public class ManualDrive_BLUE extends MMOpMode {
     private boolean SpecimenIntake;
     private boolean update1;
     private boolean update2;
+    private double elbowOffset;
     ElapsedTime elapsedTime = new ElapsedTime();
 
 
@@ -41,7 +42,7 @@ public class ManualDrive_BLUE extends MMOpMode {
 
     @Override
     public void onInit() {
-
+        elbowOffset = 0;
         robotInstance = MMRobot.getInstance();
         mmSystems = robotInstance.mmSystems;
 
@@ -118,6 +119,7 @@ public class ManualDrive_BLUE extends MMOpMode {
 
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
                 .whenActive(
+
                         new ConditionalCommand(
                                 Red_Right_6.ScoreFromTheSide(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
                         )
@@ -127,17 +129,17 @@ public class ManualDrive_BLUE extends MMOpMode {
         );
 
 
-//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
-//                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0)); //left trigger
-//
-//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
-//                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
-//
-//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-//                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0)); //right trigger
-//
-//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-//                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-0.3)); //left trigger
+
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
+
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.3)); //right trigger
+
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.START).whenPressed(
                 () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0)
@@ -147,7 +149,6 @@ public class ManualDrive_BLUE extends MMOpMode {
                 ScoringSampleCommand.PrepareHighSampleEran()
         );
 
-
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 ()-> MMRobot.getInstance().mmSystems.vision.trackBlue()
         );
@@ -156,36 +157,65 @@ public class ManualDrive_BLUE extends MMOpMode {
                 ()-> MMRobot.getInstance().mmSystems.vision.trackYellow()
         );
 
-        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whileHeld(
-                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(MMRobot.getInstance().mmSystems.scoringEndUnitElbow.estimatedPose-0.05)
-        );
-
-        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whileHeld(
-                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(MMRobot.getInstance().mmSystems.scoringEndUnitElbow.estimatedPose+0.05)
-        );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whileHeld(
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(MMRobot.getInstance().mmSystems.scoringArm.estimatedPose-0.05)
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            elbowOffset -= 0.035;
+                            ScoringEndUnitElbow.ElbowMidPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowRestPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowTransferSpecimenPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowTransferSamplePose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowScoreSamplePose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowInitPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowPrepareSampleTransferPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowScoreSpecimenPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowIntakeFromFrontPose += elbowOffset;
+                            ScoringEndUnitElbow.scoringElbowMidToFront += elbowOffset;
+                            ScoringEndUnitElbow.prepareSampleScorePose += elbowOffset;
+                            ScoringEndUnitElbow.afterSpecimenScore += elbowOffset;
+                            ScoringEndUnitElbow.scoringElbowScoreFromFrontSpecimenPose += elbowOffset;
+                            ScoringEndUnitElbow.scoringElbowAfterScoreFromFrontSpecimenPose += elbowOffset;
+                            ScoringEndUnitElbow.elbowSpecimenSideScore += elbowOffset;
+                            ScoringEndUnitElbow.scoringElbowAfterScoreFromSideSpecimenPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowTelOpInitPose += elbowOffset;
+                        })
+                )
         );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whileHeld(
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(MMRobot.getInstance().mmSystems.scoringArm.estimatedPose+0.05)
-        );
-
-        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whileHeld(
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(MMRobot.getInstance().mmSystems.intakeArm.estimatedPose + 0.05)
-        );
-
-        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whileHeld(
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(MMRobot.getInstance().mmSystems.intakeArm.estimatedPose - 0.05)
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            elbowOffset += 0.035;
+                            ScoringEndUnitElbow.ElbowMidPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowRestPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowTransferSpecimenPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowTransferSamplePose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowScoreSamplePose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowInitPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowPrepareSampleTransferPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowScoreSpecimenPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowIntakeFromFrontPose += elbowOffset;
+                            ScoringEndUnitElbow.scoringElbowMidToFront += elbowOffset;
+                            ScoringEndUnitElbow.prepareSampleScorePose += elbowOffset;
+                            ScoringEndUnitElbow.afterSpecimenScore += elbowOffset;
+                            ScoringEndUnitElbow.scoringElbowScoreFromFrontSpecimenPose += elbowOffset;
+                            ScoringEndUnitElbow.scoringElbowAfterScoreFromFrontSpecimenPose += elbowOffset;
+                            ScoringEndUnitElbow.elbowSpecimenSideScore += elbowOffset;
+                            ScoringEndUnitElbow.scoringElbowAfterScoreFromSideSpecimenPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowTelOpInitPose += elbowOffset;
+                        })
+                )
         );
     }
 
     @Override
     public void run() {
         super.run();
-        //FOR CONFIG EXTREPULATION:
+//        //FOR CONFIG EXTREPULATION:
 //      MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(LinearIntake.config);
+//    MMRobot.getInstance().mmSystems.intakeArm.setPositionVoid(0.52);
+
 
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 //        MMRobot.getInstance().mmSystems.elevator.updateToDashboard();
