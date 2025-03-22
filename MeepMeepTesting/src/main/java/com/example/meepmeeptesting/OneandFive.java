@@ -17,8 +17,8 @@ public class OneandFive {
         double maxProfileAccel = 70;
         final double tangentsToScoreSpecimen = 135;
         final double tangentsToIntakeSpecimen = 310;
-        final Pose2d intakePose = new Pose2d(38, -66, Math.toRadians(90));
-        final Pose2d scorePose = new Pose2d(5, -33, Math.toRadians(120));
+        final Pose2d intakePose = new Pose2d(40, -67, Math.toRadians(90));
+        final Pose2d scorePose = new Pose2d(6, -31.8, Math.toRadians(120));
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(11.02,14.5)//+(150/25.4)
@@ -29,7 +29,7 @@ public class OneandFive {
 
 //                        TrajectoryActionBuilder driveToScorePreload = drive.actionBuilder(currentPose)
                                 .setTangent(Math.toRadians(90))
-                                .splineToConstantHeading(new Vector2d(2, -28), Math.toRadians(90))
+                                .splineToConstantHeading(new Vector2d(-5, -28), Math.toRadians(90))
 
 //        TrajectoryActionBuilder driveToEject = driveToScorePreload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(260))
@@ -37,7 +37,7 @@ public class OneandFive {
 
 //        TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(29, -35, Math.toRadians(225)), Math.toRadians(50))
+                .splineToLinearHeading(new Pose2d(26.5, -34, Math.toRadians(210)), Math.toRadians(50))
 //        TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(290))
                 .splineToLinearHeading(new Pose2d(35.8, -51, Math.toRadians(150)), Math.toRadians(250))
@@ -60,7 +60,7 @@ public class OneandFive {
                 .splineToLinearHeading(new Pose2d(51,-66, Math.toRadians(90)), Math.toRadians(270))
 //        TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToIntakeFirstSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(140+5))
-                .splineToLinearHeading(new Pose2d(10,-34,Math.toRadians(112.5)), Math.toRadians(tangentsToScoreSpecimen))
+                .splineToLinearHeading(new Pose2d(3,-34.5,Math.toRadians(112.5)), Math.toRadians(tangentsToScoreSpecimen))
 //        TrajectoryActionBuilder driveToIntakeSecondSpecimen = driveToScoreFirstSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))
                 .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen))
@@ -83,7 +83,7 @@ public class OneandFive {
                 .setTangent(Math.toRadians(310))
                 .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen))
 //        TrajectoryActionBuilder driveToScoreFifthSpecimen = driveToIntakeFifthSpecimen.endTrajectory().fresh()
-                .setTangent(Math.toRadians(150))
+                .setTangent(Math.toRadians(145))
                 .splineToSplineHeading(scorePose, Math.toRadians(tangentsToScoreSpecimen-10))
 //        TrajectoryActionBuilder driveToPark = driveToScoreFifthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))

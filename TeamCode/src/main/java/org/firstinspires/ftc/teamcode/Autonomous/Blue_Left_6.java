@@ -41,7 +41,7 @@ public class Blue_Left_6 extends MMOpMode {
     private static final double tangentsToScoreSpecimen = 135;
     private static final double tangentsToIntakeSpecimen = 310;
     final Pose2d intakePose = new Pose2d(40, -66, Math.toRadians(90));
-    static final Pose2d scorePose = new Pose2d(7, -31.8, Math.toRadians(120));
+    static final Pose2d scorePose = new Pose2d(6, -31.8, Math.toRadians(120));
     public static final Vector2d scoreVector = new Vector2d(scorePose.position.x, scorePose.position.y);
 
     public Blue_Left_6() {
