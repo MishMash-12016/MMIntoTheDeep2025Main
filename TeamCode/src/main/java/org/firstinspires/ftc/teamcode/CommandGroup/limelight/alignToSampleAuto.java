@@ -52,7 +52,7 @@ public class alignToSampleAuto extends CommandBase {
     public void execute() {
         double distanceX = -MMRobot.getInstance().mmSystems.vision.getTx(0) + plusDis;
         if (distanceX != plusDis) {
-            drive.setPowerAutoAlign(0, 0,
+            drive.setPowerManually(0, 0,
                     pidController.calculate(distanceX) / voltageSensor.getVoltage());
         }
         if (!pidController.atSetpoint()){

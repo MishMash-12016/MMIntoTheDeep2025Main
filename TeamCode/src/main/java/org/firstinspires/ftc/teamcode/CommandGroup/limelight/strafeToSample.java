@@ -1,56 +1,52 @@
 package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.PoseVelocity2d;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.controller.PIDController;
-import com.arcrobotics.ftclib.controller.PIDFController;
-import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
-import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.FTCTimer;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.Vision;
 import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 
-import java.util.List;
 @Config
 public class strafeToSample extends CommandBase {
-    public static  double Kp = 0.1;
-    public static  double Ki = 0.0;
-    public static  double Kd = 0.0;
-    public static  double tolerance = 5;
-    SQPIDController pidController;
-    public strafeToSample() {
+    VoltageSensor voltageSensor;
+    boolean finished;
+    public strafeToSample(HardwareMap hardwareMap) {
+        finished = false;
         addRequirements(
                 MMRobot.getInstance().mmSystems.driveTrain);
+        voltageSensor = hardwareMap.voltageSensor.iterator().next();
     }
 
 
     @Override
     public void initialize() {
-        pidController = new SQPIDController(Kp, Ki,Kd);
-        pidController.setSetpoint(0);
-        pidController.setTolerance(tolerance);
+        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
     @Override
     public void execute() {
-        MMRobot.getInstance().mmSystems.driveTrain.drive(pidController.calculate(-MMRobot.getInstance().mmSystems.vision.getStrafeOffset()), 0, 0);
+        double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset() ;
+        if (distanceX != 0){
+            MMRobot.getInstance().mmSystems.driveTrain.actionBuilder(MMRobot.getInstance().mmSystems.currentPose).
+                    lineToX(distanceX).
+                    build();
+        }
+        finished = true;
     }
+
 
     @Override
     public void end(boolean interrupted) {
-        MMRobot.getInstance().mmSystems.driveTrain.drive(0,0,0);
+        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override
     public boolean isFinished() {
-        return pidController.atSetpoint();
+        return finished;
     }
 }

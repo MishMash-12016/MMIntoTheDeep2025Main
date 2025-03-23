@@ -10,6 +10,9 @@ import com.acmerobotics.roadrunner.ftc.FlightRecorder;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
 import com.acmerobotics.roadrunner.ftc.LazyImu;
+import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.RunCommand;
+import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -19,6 +22,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.messages.PoseMessage;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
+
+import java.util.function.DoubleSupplier;
 
 /**
  * Experimental extension of MecanumDrive that uses the Gobilda Pinpoint sensor for localization.
@@ -112,5 +117,18 @@ public class PinpointDrive extends MecanumDrive {
         }
     }
 
+    public Command fieldOrientedDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier yaw) {
+        return new RunCommand(
+                () -> {
+                    localizer.update();
+                    Vector2d joystickDirection = new Vector2d(x.getAsDouble(), y.getAsDouble());
+                    Vector2d fieldOrientedVector = joystickDirection.rotateBy(Math.toDegrees(-pinpoint.getHeading()));
+                    setPowerManually(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());
+                }, this);
+    }
+
+    public void resetRotation(){
+        pinpoint.setPosition(new Pose2d(new com.acmerobotics.roadrunner.Vector2d(pinpoint.getPosX(), pinpoint.getPosY()),0));
+    }
 
 }
