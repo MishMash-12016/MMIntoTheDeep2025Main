@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
@@ -272,8 +273,7 @@ public class Blue_Right_6 extends MMOpMode {
         super.run();
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
         telemetry.addData("linear", MMRobot.getInstance().mmSystems.linearIntake.getPosition());
-        telemetry.update();
-        FtcDashboard.getInstance().getTelemetry().update();
+        telemetry.addData("locked", limelightGetter.getIsLockedInLinear());
     }
 
     private static Command setupForPushing() {

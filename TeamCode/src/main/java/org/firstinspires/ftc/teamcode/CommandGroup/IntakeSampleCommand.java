@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -114,7 +115,11 @@ public class IntakeSampleCommand {
                 limelightGetter.getOpenLinearToSample(),
 
                 new WaitCommand(400),
-                Red_Right_6.FirstSampleIntake(),
+                new ConditionalCommand(
+                        Red_Right_6.FirstSampleIntake(),
+                        new InstantCommand(),
+                        limelightGetter.getIsLockedInLinear()
+                ),
                 new InstantCommand(()->
                         MMRobot.getInstance().mmSystems.vision.stopTracking()
                 )

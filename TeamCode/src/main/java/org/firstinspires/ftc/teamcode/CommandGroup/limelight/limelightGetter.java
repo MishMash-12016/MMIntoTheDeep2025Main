@@ -7,11 +7,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 
+import java.util.function.BooleanSupplier;
+
 
 public class limelightGetter {
     public static double correctionDist = 20;
+    static openLinearToSample instance;
     public static Command getOpenLinearToSample() {
-        return new openLinearToSample();
+        instance = new openLinearToSample();
+        return instance;
+    }
+    public static BooleanSupplier getIsLockedInLinear() {
+        return () -> instance.finished;
     }
 
     public static Command getAlignToSample(HardwareMap hardwareMap) {

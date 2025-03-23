@@ -91,10 +91,10 @@ public class Vision extends SubsystemBase {
         return !MathUtil.isNear(0, result.getTa(), 0.0001);
     }
 
-    public double getDistance() {
+    public Double getDistance() {
         double ty = getTy(0.0);
         if (ty == 0){
-            return 0;
+            return null;
         }
         double angleToGoalDegrees = CAMERA_ANGLE + ty;
         double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
