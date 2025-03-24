@@ -12,7 +12,7 @@ import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 public class AutoSample7 {
     public static void main(String[] args) {
 
-        final Pose2d scorePose = new Pose2d(-62, -49, Math.toRadians(-100.67));
+        final Pose2d scorePose = new Pose2d(-58, -49, Math.toRadians(-115));
         final Pose2d intakePose = new Pose2d(-24, -8, Math.toRadians(180));
 
 
@@ -33,19 +33,19 @@ public class AutoSample7 {
                  .lineToLinearHeading(new Pose2d(-48, -65.5, Math.toRadians(180)))
 
 //        TrajectoryActionBuilder driveToIntakeFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
-                .lineToLinearHeading(new Pose2d(-58.9, -46.8, Math.toRadians(-112.3)))
+                .lineToLinearHeading(new Pose2d(-58.9, -46.8, Math.toRadians(250)))
 
 //        TrajectoryActionBuilder driveToScoreFirstSample = driveToIntakeFirstSample.endTrajectory().fresh()
-                .lineToLinearHeading(new Pose2d(-59.1, -52, Math.toRadians(-112.3)))
+                .lineToLinearHeading(new Pose2d(-59.1, -52, Math.toRadians(247.7)))
 
 //        TrajectoryActionBuilder driveToSecondSample = driveToScoreFirstSample.endTrajectory().fresh()
-                .lineToLinearHeading(new Pose2d(-62.9, -48.5, Math.toRadians(-102.56)))
+                .lineToLinearHeading(new Pose2d(-62.9, -48.5, Math.toRadians(266)))
 
 //        TrajectoryActionBuilder driveToIntakeThird = driveToSecondSample.endTrajectory().fresh()
-                .lineToLinearHeading(new Pose2d(-62.5, -47.28, Math.toRadians(-75.16)))
+                .lineToLinearHeading(new Pose2d(-61, -47.28, Math.toRadians(295)))
 
 //        TrajectoryActionBuilder driveToScoreThird = driveToIntakeThird.endTrajectory().fresh()
-                .lineToLinearHeading(new Pose2d(-64.9, -49, Math.toRadians(-100.67)))
+                .lineToLinearHeading(new Pose2d(-64.9, -49, Math.toRadians(259.33)))
 
 //        TrajectoryActionBuilder driveToIntakeForth = driveToScoreThird.endTrajectory().fresh()
                 .lineToLinearHeading(intakePose)
