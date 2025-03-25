@@ -65,7 +65,7 @@ public class PinpointDrive extends MecanumDrive {
             throw new RuntimeException(e);
         }
 
-        pose = new Pose2d(pose.position.x, pose.position.y , pose.heading.toDouble());
+        pose = new Pose2d(pose.position.x, pose.position.y, pose.heading.toDouble());
 
         pinpoint.setPosition(pose);
 
@@ -85,7 +85,7 @@ public class PinpointDrive extends MecanumDrive {
         }
         pinpoint.update();
         pose = pinpoint.getPositionRR();
-        pose = new Pose2d(pose.position.x , pose.position.y , pose.heading.toDouble());
+        pose = new Pose2d(pose.position.x, pose.position.y, pose.heading.toDouble());
         lastPinpointPose = pose;
 
         // RR standard
@@ -121,14 +121,20 @@ public class PinpointDrive extends MecanumDrive {
         return new RunCommand(
                 () -> {
                     localizer.update();
+                    pinpoint.update();
                     Vector2d joystickDirection = new Vector2d(x.getAsDouble(), y.getAsDouble());
                     Vector2d fieldOrientedVector = joystickDirection.rotateBy(Math.toDegrees(-pinpoint.getHeading()));
                     setPowerManually(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());
-                }, this);
+
+                },this
+        );
     }
 
-    public void resetRotation(){
-        pinpoint.setPosition(new Pose2d(new com.acmerobotics.roadrunner.Vector2d(pinpoint.getPosX(), pinpoint.getPosY()),0));
+    public void resetRotation() {
+        pinpoint.setPosition(new Pose2d(pinpoint.getPositionRR().component1(), 0));
     }
 
+    public boolean isJoystickPressed(){
+        return (MMRobot.getInstance().mmSystems.gamepadEx1.getLeftX() > 0.1 || MMRobot.getInstance().mmSystems.gamepadEx1.getRightX() > 0.1 || MMRobot.getInstance().mmSystems.gamepadEx1.getLeftY() > 0.1) || (MMRobot.getInstance().mmSystems.gamepadEx1.getLeftX() < 0.1 || MMRobot.getInstance().mmSystems.gamepadEx1.getRightX() < 0.1 || MMRobot.getInstance().mmSystems.gamepadEx1.getLeftY() < 0.1);
+    }
 }

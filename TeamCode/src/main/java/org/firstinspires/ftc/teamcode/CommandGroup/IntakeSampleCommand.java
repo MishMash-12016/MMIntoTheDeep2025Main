@@ -92,7 +92,7 @@ public class IntakeSampleCommand {
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 ),
 
-                limelightGetter.getAlignToSample(hardwareMap).withTimeout(1000),
+                limelightGetter.strafeToSample(),
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 

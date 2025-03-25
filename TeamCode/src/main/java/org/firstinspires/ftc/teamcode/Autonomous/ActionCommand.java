@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.Subsystem;
 
@@ -9,15 +10,18 @@ import java.util.Collections;
 import java.util.Set;
 import com.acmerobotics.roadrunner.Action;
 
+import org.firstinspires.ftc.teamcode.MMRobot;
+
 
 public class ActionCommand implements Command {
     private final Action action;
     private final Set<Subsystem> requirements;
     private boolean finished = false;
 
-    public ActionCommand(Action action) {
-        this.action = action;
+    public ActionCommand(TrajectoryActionBuilder trajectory) {
+        this.action = trajectory.build();
         this.requirements = Collections.emptySet();
+        MMRobot.getInstance().mmSystems.currentTrajectory = trajectory;
     }
 
     @Override

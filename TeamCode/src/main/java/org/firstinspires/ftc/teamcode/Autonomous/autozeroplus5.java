@@ -149,7 +149,7 @@ public class autozeroplus5 extends MMOpMode {
         new SequentialCommandGroup(
                 new InstantCommand(),
 
-                new ActionCommand(driveToPush1.build()).alongWith(
+                new ActionCommand(driveToPush1).alongWith(
                         new SequentialCommandGroup(
                                 new SequentialCommandGroup(
                                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
@@ -165,17 +165,17 @@ public class autozeroplus5 extends MMOpMode {
                         )
                 ),
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
-                new ActionCommand(turnRobot.build()),
-                new ActionCommand(driveToPush2.build()).alongWith(
+                new ActionCommand(turnRobot),
+                new ActionCommand(driveToPush2).alongWith(
                         setupForPushing()),
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
 
-                new ActionCommand(turnRobot2.build()),
-                new ActionCommand(driveToPush3.build()).alongWith(
+                new ActionCommand(turnRobot2),
+                new ActionCommand(driveToPush3).alongWith(
                         setupForPushing()),
 
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
-                new ActionCommand(turnRobot3.build()).alongWith(
+                new ActionCommand(turnRobot3).alongWith(
                         new SequentialCommandGroup(
                                 new WaitCommand(370),
                                 robotInstance.mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE),
@@ -186,16 +186,16 @@ public class autozeroplus5 extends MMOpMode {
                 //First
                 new ParallelCommandGroup(
                         IntakeSpecimenCommand.PrepareSpecimenIntakeFront(),
-                        new ActionCommand(driveToIntakeFirstSpecimen.build())
+                        new ActionCommand(driveToIntakeFirstSpecimen)
                 ),
                 IntakeSpecimenCommand.IntakeFromFront().alongWith(
-                        new ActionCommand(driveToScoreFirstSpecimen.build())),
+                        new ActionCommand(driveToScoreFirstSpecimen)),
 
 ////
 //
 //                //Second
                 robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
-                new ActionCommand(driveToIntakeSecondSpecimen.build()).alongWith(
+                new ActionCommand(driveToIntakeSecondSpecimen).alongWith(
                         new SequentialCommandGroup(
                                 new WaitCommand(800),
                                 IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
@@ -203,11 +203,11 @@ public class autozeroplus5 extends MMOpMode {
                 ),
 //
                 IntakeSpecimenCommand.IntakeFromFront().alongWith(
-                        new ActionCommand(driveToScoreSecondSpecimen.build())),
+                        new ActionCommand(driveToScoreSecondSpecimen)),
 //
 //                //Third
                 robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
-                new ActionCommand(driveToIntakeThirdSpecimen.build()).alongWith(
+                new ActionCommand(driveToIntakeThirdSpecimen).alongWith(
                         new SequentialCommandGroup(
                                 new WaitCommand(800),
                                 IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
@@ -215,11 +215,11 @@ public class autozeroplus5 extends MMOpMode {
                 ),
 //
                 IntakeSpecimenCommand.IntakeFromFront().alongWith(
-                        new ActionCommand(driveToScoreThirdSpecimen.build())),
+                        new ActionCommand(driveToScoreThirdSpecimen)),
 
                 //Forth
                 robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
-                new ActionCommand(driveToIntakeForthSpecimen.build()).alongWith(
+                new ActionCommand(driveToIntakeForthSpecimen).alongWith(
                         new SequentialCommandGroup(
                                 new WaitCommand(800),
                                 IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
@@ -227,10 +227,10 @@ public class autozeroplus5 extends MMOpMode {
                 ),
 
                 IntakeSpecimenCommand.IntakeFromFront().alongWith(
-                        new ActionCommand(driveToScoreForthSpecimen.build())),
+                        new ActionCommand(driveToScoreForthSpecimen)),
 
                 robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
-                new ActionCommand(driveToIntakeFifthSpecimen.build()).alongWith(
+                new ActionCommand(driveToIntakeFifthSpecimen).alongWith(
                         new SequentialCommandGroup(
                                 new WaitCommand(800),
                                 IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
@@ -238,11 +238,11 @@ public class autozeroplus5 extends MMOpMode {
                 ),
 
                 IntakeSpecimenCommand.IntakeFromFront().alongWith(
-                        new ActionCommand(driveToScoreFifthSpecimen.build())),
+                        new ActionCommand(driveToScoreFifthSpecimen)),
 
                 //park
                 robotInstance.mmSystems.scoringClawEndUnit.openScoringClaw(),
-                new ActionCommand(driveToPark.build()).alongWith(
+                new ActionCommand(driveToPark).alongWith(
                         new SequentialCommandGroup(
                                 new WaitCommand(800),
                                 new ParallelCommandGroup(

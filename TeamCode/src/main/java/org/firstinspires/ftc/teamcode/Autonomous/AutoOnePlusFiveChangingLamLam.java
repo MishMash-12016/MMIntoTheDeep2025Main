@@ -134,7 +134,7 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
         new SequentialCommandGroup(
                 new InstantCommand(),
                 new ParallelCommandGroup(
-                        new ActionCommand(driveToScorePreload.build()),
+                        new ActionCommand(driveToScorePreload),
                         AutoSpecimensCommand.SpecimenScorePreLoad(),
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
                 ),
@@ -145,7 +145,7 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
                         new WaitCommand(200),
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                 ).alongWith(IntakeSampleCommand.limeLightIntake_Auto(hardwareMap, drive)),
-                new ActionCommand(driveToEject.build()).alongWith(
+                new ActionCommand(driveToEject).alongWith(
                         new WaitCommand(700).andThen(
                                 ThrowSample()
                         )
@@ -153,24 +153,24 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
 
 
                 //push first
-                new ActionCommand(driveToPush1.build()).alongWith(
+                new ActionCommand(driveToPush1).alongWith(
                         new WaitCommand(200).andThen(setupForPushing())
                 ),
-                new ActionCommand(turnRobot.build()).alongWith(
+                new ActionCommand(turnRobot).alongWith(
                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose)
                 ),
-                new ActionCommand(driveToPush2.build()).alongWith(
+                new ActionCommand(driveToPush2).alongWith(
                         setupForPushing()),
 
                 //push second
-                new ActionCommand(turnRobot2.build()).alongWith(
+                new ActionCommand(turnRobot2).alongWith(
                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose)
                 ),
-                new ActionCommand(driveToPush3.build()).alongWith(
+                new ActionCommand(driveToPush3).alongWith(
                         setupForPushing()),
 
                 //push third
-                new ActionCommand(turnRobot3.build()).alongWith(
+                new ActionCommand(turnRobot3).alongWith(
                         new SequentialCommandGroup(
                                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                                 new WaitCommand(550),
@@ -182,14 +182,14 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
                         )
                 ),
                 //First
-                new ActionCommand(driveToIntakeFirstSpecimen.build()),
+                new ActionCommand(driveToIntakeFirstSpecimen),
                 IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
                         new WaitCommand(50).andThen(
-                                new ActionCommand(driveToScoreFirstSpecimen.build()))),
+                                new ActionCommand(driveToScoreFirstSpecimen))),
 
 
                 //Second
-                new ActionCommand(driveToIntakeSecondSpecimen.build()).alongWith(
+                new ActionCommand(driveToIntakeSecondSpecimen).alongWith(
                         new SequentialCommandGroup(
                                 ScoreFromTheSide(),
                                 new WaitCommand(300),
@@ -199,10 +199,10 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
 
                 IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
                         new WaitCommand(50).andThen(
-                                new ActionCommand(driveToScoreSecondSpecimen.build()))),
+                                new ActionCommand(driveToScoreSecondSpecimen))),
 
                 //Third
-                new ActionCommand(driveToIntakeThirdSpecimen.build()).alongWith(
+                new ActionCommand(driveToIntakeThirdSpecimen).alongWith(
                         new SequentialCommandGroup(
                                 ScoreFromTheSide(),
                                 new WaitCommand(200),
@@ -212,10 +212,10 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
 
                 IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
                         new WaitCommand(50).andThen(
-                                new ActionCommand(driveToScoreThirdSpecimen.build()))),
+                                new ActionCommand(driveToScoreThirdSpecimen))),
 
                 //Forth
-                new ActionCommand(driveToIntakeForthSpecimen.build()).alongWith(
+                new ActionCommand(driveToIntakeForthSpecimen).alongWith(
                         new SequentialCommandGroup(
                                 ScoreFromTheSide(),
                                 new WaitCommand(200),
@@ -225,11 +225,11 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
 
                 IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
                         new WaitCommand(50).andThen(
-                                new ActionCommand(driveToScoreForthSpecimen.build()))),
+                                new ActionCommand(driveToScoreForthSpecimen))),
 
                 new ConditionalCommand(
                         new SequentialCommandGroup(
-                        new ActionCommand(driveToIntakeFifthSpecimen.build()).alongWith(
+                        new ActionCommand(driveToIntakeFifthSpecimen).alongWith(
                         new SequentialCommandGroup(
                                 ScoreFromTheSide(),
                                 new WaitCommand(200),
@@ -238,17 +238,17 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
                 ),
                         IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
                                 new WaitCommand(50).andThen(
-                                        new ActionCommand(driveToScoreFifthSpecimen.build()))),
+                                        new ActionCommand(driveToScoreFifthSpecimen))),
 
                         //park
-                        new ActionCommand(driveToPark.build()).alongWith(
+                        new ActionCommand(driveToPark).alongWith(
                                 new SequentialCommandGroup(
                                         ScoreFromTheSide(),
                                         new WaitCommand(200),
                                         IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
                                 ))),
                         new SequentialCommandGroup(
-                        new ActionCommand(driveToIntakeYellowSample.build()).alongWith(
+                        new ActionCommand(driveToIntakeYellowSample).alongWith(
                                 new SequentialCommandGroup(
                                         ScoreFromTheSide(),
                                         new WaitCommand(200),
@@ -256,7 +256,7 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
                                         new WaitCommand(200),
                                         IntakeSampleCommand.SampleIntake()
                                 )),
-                        new ActionCommand(driveToScoreYellowSample.build()).alongWith(
+                        new ActionCommand(driveToScoreYellowSample).alongWith(
                                 new WaitCommand(300).andThen(ScoringSampleCommand.PrepareHighSample())
                         ),
                         ScoringSampleCommand.ScoreHighSample())

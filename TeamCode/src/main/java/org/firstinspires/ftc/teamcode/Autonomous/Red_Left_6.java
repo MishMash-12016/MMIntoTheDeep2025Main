@@ -131,7 +131,7 @@ public class Red_Left_6 extends MMOpMode {
         new SequentialCommandGroup(
                 new InstantCommand(),
                 new ParallelCommandGroup(
-                        new ActionCommand(driveToScorePreload.build()),
+                        new ActionCommand(driveToScorePreload),
                         AutoSpecimensCommand.SpecimenScorePreLoad()
                 ),
 
@@ -145,7 +145,7 @@ public class Red_Left_6 extends MMOpMode {
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())
                 ),
 
-                new ActionCommand(driveToEject.build()).alongWith(
+                new ActionCommand(driveToEject).alongWith(
                         new SequentialCommandGroup(
                                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                                 new WaitCommand(700),
@@ -153,7 +153,7 @@ public class Red_Left_6 extends MMOpMode {
                         )
                 ),
                 //push first
-                new ActionCommand(driveToPush1.build()).alongWith(
+                new ActionCommand(driveToPush1).alongWith(
                         new SequentialCommandGroup(
                                 new ParallelCommandGroup(
                                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
@@ -162,17 +162,17 @@ public class Red_Left_6 extends MMOpMode {
                                 new WaitCommand(200).andThen(setupForPushing())
                         )
                 ),
-                new ActionCommand(turnRobot.build()).alongWith(
+                new ActionCommand(turnRobot).alongWith(
                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose)
                 ),
-                new ActionCommand(driveToPush2.build()).alongWith(
+                new ActionCommand(driveToPush2).alongWith(
                         setupForPushing()),
 
                 //push second
-                new ActionCommand(turnRobot2.build()).alongWith(
+                new ActionCommand(turnRobot2).alongWith(
                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose)
                 ),
-                new ActionCommand(driveToPush3.build()).alongWith(
+                new ActionCommand(driveToPush3).alongWith(
                         new ParallelCommandGroup(
                                 robotInstance.mmSystems.linearIntake.setPosition(0.4),
                                 robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
@@ -182,7 +182,7 @@ public class Red_Left_6 extends MMOpMode {
                 ),
 
                 //push third
-                new ActionCommand(turnRobot3.build()).alongWith(
+                new ActionCommand(turnRobot3).alongWith(
                         new SequentialCommandGroup(
                                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                                 new WaitCommand(630),
@@ -201,15 +201,15 @@ public class Red_Left_6 extends MMOpMode {
                         )
                 ),
                 //First
-                new ActionCommand(driveToIntakeFirstSpecimen.build()).alongWith(
+                new ActionCommand(driveToIntakeFirstSpecimen).alongWith(
                 ),
                 IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
                         new WaitCommand(100).andThen(
-                                new ActionCommand(driveToScoreFirstSpecimen.build()))),
+                                new ActionCommand(driveToScoreFirstSpecimen))),
 
 
                 //Second
-                new ActionCommand(driveToIntakeSecondSpecimen.build()).alongWith(
+                new ActionCommand(driveToIntakeSecondSpecimen).alongWith(
                         new SequentialCommandGroup(
                                 ScoreFromTheSide(),
                                 PrepareSpecimenIntakeFront()
@@ -218,10 +218,10 @@ public class Red_Left_6 extends MMOpMode {
 
                 IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
                         new WaitCommand(100).andThen(
-                                new ActionCommand(driveToScoreSecondSpecimen.build()))),
+                                new ActionCommand(driveToScoreSecondSpecimen))),
 
                 //Third
-                new ActionCommand(driveToIntakeThirdSpecimen.build()).alongWith(
+                new ActionCommand(driveToIntakeThirdSpecimen).alongWith(
                         new SequentialCommandGroup(
                                 ScoreFromTheSide(),
                                 PrepareSpecimenIntakeFront()
@@ -230,10 +230,10 @@ public class Red_Left_6 extends MMOpMode {
 
                 IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
                         new WaitCommand(100).andThen(
-                                new ActionCommand(driveToScoreThirdSpecimen.build()))),
+                                new ActionCommand(driveToScoreThirdSpecimen))),
 
                 //Forth
-                new ActionCommand(driveToIntakeForthSpecimen.build()).alongWith(
+                new ActionCommand(driveToIntakeForthSpecimen).alongWith(
                         new SequentialCommandGroup(
                                 ScoreFromTheSide(),
                                 PrepareSpecimenIntakeFront()
@@ -242,11 +242,11 @@ public class Red_Left_6 extends MMOpMode {
 
                 IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
                         new WaitCommand(100).andThen(
-                                new ActionCommand(driveToScoreForthSpecimen.build()))),
+                                new ActionCommand(driveToScoreForthSpecimen))),
 
                 //fifth
 
-                new ActionCommand(driveToIntakeFifthSpecimen.build()).alongWith(
+                new ActionCommand(driveToIntakeFifthSpecimen).alongWith(
                         new SequentialCommandGroup(
                                 ScoreFromTheSide(),
                                 PrepareSpecimenIntakeFront()
@@ -254,13 +254,13 @@ public class Red_Left_6 extends MMOpMode {
                 ),
                 IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
                         new WaitCommand(100).andThen(
-                                new ActionCommand(driveToScoreFifthSpecimen.build()))),
+                                new ActionCommand(driveToScoreFifthSpecimen))),
 
                 //park
                 new ParallelCommandGroup(
                         ScoreFromTheSide().andThen(IntakeSampleCommand.prepareSampleIntakeWithoutButton()),
                         new WaitCommand(50).andThen(
-                                new ActionCommand(driveToPark.build())
+                                new ActionCommand(driveToPark)
                         )
                 )
         ).schedule();

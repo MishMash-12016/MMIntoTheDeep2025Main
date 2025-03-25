@@ -37,7 +37,7 @@ public class limelightGetter {
         return new rotateToSample();
     }
 
-    public static Command strafeToSample(HardwareMap hardwareMap) {
-        return new strafeToSample(hardwareMap);
+    public static Command strafeToSample() {
+        return new strafeToSample();
     }
 }

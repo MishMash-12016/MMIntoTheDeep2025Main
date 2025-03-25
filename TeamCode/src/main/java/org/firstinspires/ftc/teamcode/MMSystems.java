@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -31,6 +32,8 @@ import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+
 
 /**
  * this class should contain all ur robot's attributes and systems
@@ -70,7 +73,7 @@ public class MMSystems {
     public Wisher wisher;
 
     public Vision vision;
-
+    public TrajectoryActionBuilder currentTrajectory;
 
 
 
@@ -116,6 +119,9 @@ public class MMSystems {
         //roadRunner 90 is what we agree as 0 so reset it to 0
         localizer.setPosition(new Pose2d(0,0,localizer.getHeading()-Math.toRadians(90)));
         driveTrain = new PinpointDrive(hardwareMap, currentPose);
+    }
+
+    public void teleop(){
         driveTrain.setDefaultCommand(
                 MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
                         ()-> Math.pow(gamepadEx1.getLeftX(),3),
@@ -123,6 +129,9 @@ public class MMSystems {
                         () -> Math.pow(gamepadEx1.getRightX(),3)));
     }
 
+    public void auto(){
+        driveTrain.setDefaultCommand(new InstantCommand(()->{}));
+    }
 
     public MMSystems(OpModeType type, HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
         this.opModeType = type;
@@ -145,7 +154,7 @@ public class MMSystems {
             localizer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
             localizer.setPosition(new Pose2d(0,0,Math.toRadians(90)));
         }
-        currentPose = new Pose2d(5.5, -61.23, Math.toRadians(270));
+        currentPose = new Pose2d(0, 0, Math.toRadians(0));
 
 
         CommandScheduler.getInstance().reset(); //reset the scheduler
