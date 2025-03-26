@@ -32,6 +32,7 @@ public class Vision extends SubsystemBase {
     public static double CAMERA_HEIGHT = 424;
     public static double CAMERA_ANGLE = -45.0;
     public static double TARGET_HEIGHT = 39;
+    public static double SPECIMEN_HEIGHT = 247.5;
 
     public static double strafeConversionFactor = 1/2.54;
     public static double cameraStrafeToBot = 0.0;
@@ -99,6 +100,17 @@ public class Vision extends SubsystemBase {
         double angleToGoalDegrees = CAMERA_ANGLE + ty;
         double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
         double distanceMM = (TARGET_HEIGHT - CAMERA_HEIGHT) / Math.tan(angleToGoalRadians);
+        return Math.abs(distanceMM) - sampleToRobotDistance - 10;
+    }
+
+    public Double getDistanceSpecimen() {
+        double ty = getTy(0.0);
+        if (ty == 0){
+            return null;
+        }
+        double angleToGoalDegrees = CAMERA_ANGLE + ty;
+        double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
+        double distanceMM = (SPECIMEN_HEIGHT - CAMERA_HEIGHT) / Math.tan(angleToGoalRadians);
         return Math.abs(distanceMM) - sampleToRobotDistance - 10;
     }
 
