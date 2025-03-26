@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Autonomous.ActionCommand;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleDigital;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
@@ -73,7 +74,6 @@ public class MMSystems {
     public Wisher wisher;
 
     public Vision vision;
-    public TrajectoryActionBuilder currentTrajectory;
 
 
 
@@ -95,6 +95,7 @@ public class MMSystems {
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)
 //        );
+
     }
     public void initRobotSystemsTeleOp() {
         this.scoringClawEndUnit = new ScoringClawEndUnit();

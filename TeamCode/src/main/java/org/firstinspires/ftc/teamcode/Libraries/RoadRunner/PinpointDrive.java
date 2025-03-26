@@ -7,10 +7,10 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.ftc.FlightRecorder;
-import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
 import com.acmerobotics.roadrunner.ftc.LazyImu;
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -134,7 +134,11 @@ public class PinpointDrive extends MecanumDrive {
         pinpoint.setPosition(new Pose2d(pinpoint.getPositionRR().component1(), 0));
     }
 
-    public boolean isJoystickPressed(){
+    public Command temp(){
+        return new InstantCommand(()->{}, this);
+    }
+
+    public boolean joystickMoved(){
         return (MMRobot.getInstance().mmSystems.gamepadEx1.getLeftX() > 0.1 || MMRobot.getInstance().mmSystems.gamepadEx1.getRightX() > 0.1 || MMRobot.getInstance().mmSystems.gamepadEx1.getLeftY() > 0.1) || (MMRobot.getInstance().mmSystems.gamepadEx1.getLeftX() < 0.1 || MMRobot.getInstance().mmSystems.gamepadEx1.getRightX() < 0.1 || MMRobot.getInstance().mmSystems.gamepadEx1.getLeftY() < 0.1);
     }
 }

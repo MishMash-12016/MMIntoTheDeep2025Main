@@ -69,9 +69,10 @@ public class ManualDrive_RED extends MMOpMode {
 
 //                 LIMELIGHT HAS RETURNED...
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                IntakeSampleCommand.limeLightIntake_TeleOp(hardwareMap).alongWith(
-                        new InstantCommand(() -> SpecimenIntake = false)
-                )
+//                        new InstantCommand(()->MMRobot.getInstance().mmSystems.auto(), MMRobot.getInstance().mmSystems.driveTrain),
+                        IntakeSampleCommand.limeLightIntake_TeleOp(hardwareMap).alongWith(
+                                new InstantCommand(() -> SpecimenIntake = false)
+                        )
         );
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
                 new ParallelCommandGroup(
@@ -150,9 +151,7 @@ public class ManualDrive_RED extends MMOpMode {
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new SequentialCommandGroup(
-                        new InstantCommand(()->MMRobot.getInstance().mmSystems.auto()),
                         ScoringSampleCommand.PrepareHighSampleEran()
-
                 )
         );
 
@@ -230,12 +229,15 @@ public class ManualDrive_RED extends MMOpMode {
 
 //        new ConditionalCommand(
 //                new SequentialCommandGroup(
-//                        new InstantCommand(()->MMRobot.getInstance().mmSystems.teleop()),
-//                        new ActionCommand(
-//                        MMRobot.getInstance().mmSystems.currentTrajectory.endTrajectory()))
+//                    new InstantCommand(()->MMRobot.getInstance().mmSystems.teleop()),
+//                    new InstantCommand(()->MMRobot.getInstance().mmSystems.driveTrain.stopMotion())
+//                )
+//            ,
+//                new SequentialCommandGroup(
+//                    new InstantCommand(()->MMRobot.getInstance().mmSystems.auto())
+//                )
 //                ,
-//                new InstantCommand(()->MMRobot.getInstance().mmSystems.auto()),
-//                ()-> MMRobot.getInstance().mmSystems.driveTrain.isJoystickPressed()
+//            ()->MMRobot.getInstance().mmSystems.driveTrain.isJoystickPressed()
 //        ).schedule();
 
 
