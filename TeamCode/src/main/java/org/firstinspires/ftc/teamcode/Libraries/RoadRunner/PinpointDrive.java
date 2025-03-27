@@ -51,7 +51,6 @@ public class PinpointDrive extends MecanumDrive {
     public GoBildaPinpointDriverRR pinpoint;
     private Pose2d lastPinpointPose = new Pose2d(0,0,0);
     public static Pose2d currentTrajPose = new Pose2d(0,0,0);
-    public boolean disableUpdate =false;
 
     private static Pose2d teleportPose;
 

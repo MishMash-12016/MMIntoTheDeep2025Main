@@ -96,9 +96,12 @@ public class MecanumDrive extends SubsystemBase {
         public double axialVelGain = 0;
         public double lateralVelGain = 0;
         public double headingVelGain = 0;// shared with turn
+
     }
 
     public static Params PARAMS = new Params();
+
+    public boolean disableUpdate =false;
 
     public final MecanumKinematics kinematics = new MecanumKinematics(
             PARAMS.inPerTick * PARAMS.trackWidthTicks, PARAMS.inPerTick / PARAMS.lateralInPerTick);
@@ -494,6 +497,10 @@ public class MecanumDrive extends SubsystemBase {
     }
 
     public PoseVelocity2d updatePoseEstimate() {
+        if (disableUpdate) {
+            // When disabled, return a zero velocity and leave pose unchanged.
+            return new PoseVelocity2d(new Vector2d(0.0, 0.0), 0.0);
+        }
         Twist2dDual<Time> twist = localizer.update();
         pose = pose.plus(twist.value());
 

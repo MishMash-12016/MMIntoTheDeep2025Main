@@ -58,21 +58,20 @@ public class g extends MMOpMode {
         MMRobot.getInstance().mmSystems.vision.auto();
         MMRobot.getInstance().mmSystems.vision.trackRed();
 
-        Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
+        Pose2d currentPose = (new Pose2d(0, 0, Math.toRadians(90)));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
 
         TrajectoryActionBuilder driveToScorePreload = drive.actionBuilder(currentPose)
-                .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(5.5, 60), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 0.5));
+                .lineToY(-60);
         new SequentialCommandGroup(
                 new InstantCommand(),
                 new ActionCommand(driveToScorePreload.build()).alongWith(
-                        new WaitCommand(400).andThen(
-                                new InstantCommand(()->drive.slash_tp(new Pose2d(new Vector2d(5.5, 60), Math.toRadians(90)))).andThen(new WaitCommand(10).andThen(new InstantCommand(()->drive.disableUpdate= true)).
-                                        andThen(new InstantCommand(drive::tp_end))).andThen(new InstantCommand(()->drive.disableUpdate= false))
+                        new SequentialCommandGroup(
+                             new WaitCommand(400),
+                                new InstantCommand(()->drive.slash_tp(new Pose2d(new Vector2d(0, -60), Math.toRadians(90))))
                         )
                 )
         ).schedule();
