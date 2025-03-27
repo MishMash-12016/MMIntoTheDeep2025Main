@@ -59,7 +59,6 @@ public class MMSystems {
     public static GoBildaPinpointDriverRR localizer;
     static boolean hasImuBeenReset = false;
     public Pose2d currentPose;
-
     //Subsystems
     public PinpointDrive driveTrain;
     public LinearIntake linearIntake;

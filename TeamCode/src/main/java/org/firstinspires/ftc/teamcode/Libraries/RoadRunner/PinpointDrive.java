@@ -12,9 +12,11 @@ import com.acmerobotics.roadrunner.ftc.LazyImu;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -47,7 +49,11 @@ public class PinpointDrive extends MecanumDrive {
 
     public static Params PARAMS = new Params();
     public GoBildaPinpointDriverRR pinpoint;
-    private Pose2d lastPinpointPose = pose;
+    private Pose2d lastPinpointPose = new Pose2d(0,0,0);
+    public static Pose2d currentTrajPose = new Pose2d(0,0,0);
+    public boolean disableUpdate =false;
+
+    private static Pose2d teleportPose;
 
     public PinpointDrive(HardwareMap hardwareMap, Pose2d pose) {
         super(hardwareMap, pose);
@@ -68,7 +74,7 @@ public class PinpointDrive extends MecanumDrive {
         pose = new Pose2d(pose.position.x, pose.position.y, pose.heading.toDouble());
 
         pinpoint.setPosition(pose);
-
+        teleportPose = pose;
     }
 
     @Override
@@ -83,7 +89,9 @@ public class PinpointDrive extends MecanumDrive {
             // Potential alternate solution: timestamp the pose set and backtrack it based on speed?
             pinpoint.setPosition(pose);
         }
-        pinpoint.update();
+        if (!disableUpdate){
+            pinpoint.update();
+        }
         pose = pinpoint.getPositionRR();
         pose = new Pose2d(pose.position.x, pose.position.y, pose.heading.toDouble());
         lastPinpointPose = pose;
@@ -120,9 +128,10 @@ public class PinpointDrive extends MecanumDrive {
     public Command fieldOrientedDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier yaw) {
         return new RunCommand(
                 () -> {
-                    localizer.update();
-                    pinpoint.update();
-                    Vector2d joystickDirection = new Vector2d(x.getAsDouble(), y.getAsDouble());
+                    if (!disableUpdate){
+                        localizer.update();
+                        pinpoint.update();
+                    }                    Vector2d joystickDirection = new Vector2d(x.getAsDouble(), y.getAsDouble());
                     Vector2d fieldOrientedVector = joystickDirection.rotateBy(Math.toDegrees(-pinpoint.getHeading()));
                     setPowerManually(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());
 
@@ -136,6 +145,14 @@ public class PinpointDrive extends MecanumDrive {
 
     public Command temp(){
         return new InstantCommand(()->{}, this);
+    }
+
+    public void slash_tp(Pose2d desiredPose){
+        teleportPose = pinpoint.getPositionRR();
+        pinpoint.setPosition(desiredPose);
+    }
+    public void tp_end(){
+        pinpoint.setPosition(teleportPose);
     }
 
     public boolean joystickMoved(){

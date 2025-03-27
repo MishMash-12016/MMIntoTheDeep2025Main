@@ -227,18 +227,18 @@ public class ManualDrive_RED extends MMOpMode {
 
 
 
-//        new ConditionalCommand(
-//                new SequentialCommandGroup(
-//                    new InstantCommand(()->MMRobot.getInstance().mmSystems.teleop()),
-//                    new InstantCommand(()->MMRobot.getInstance().mmSystems.driveTrain.stopMotion())
-//                )
-//            ,
-//                new SequentialCommandGroup(
-//                    new InstantCommand(()->MMRobot.getInstance().mmSystems.auto())
-//                )
-//                ,
-//            ()->MMRobot.getInstance().mmSystems.driveTrain.isJoystickPressed()
-//        ).schedule();
+        new ConditionalCommand(
+                new SequentialCommandGroup(
+                    new InstantCommand(()->MMRobot.getInstance().mmSystems.teleop()),
+                    new InstantCommand(()->MMRobot.getInstance().mmSystems.driveTrain.slash_tp(MMRobot.getInstance().mmSystems.driveTrain.currentTrajPose))
+                )
+            ,
+                new SequentialCommandGroup(
+                    new InstantCommand(()->MMRobot.getInstance().mmSystems.auto())
+                )
+                ,
+            ()->MMRobot.getInstance().mmSystems.driveTrain.joystickMoved()
+        ).schedule();
 
 
 

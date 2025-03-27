@@ -7,6 +7,8 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.arcrobotics.ftclib.command.WaitCommand;
+import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.teamcode.Autonomous.ActionCommand;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -29,10 +31,12 @@ public class strafeToSample extends CommandBase {
         double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset();
         if (distanceX != 0) {
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
+            Vector2d strafePose = new Vector2d(currentPose.component1().x + Math.cos(currentPose.heading.toDouble() + Math.toRadians(90)) * distanceX ,currentPose.component1().y + Math.sin(currentPose.heading.toDouble() + Math.toRadians(90)) * distanceX);
+            Pose2d currentTrajPose = new Pose2d(strafePose, currentPose.heading);
             TrajectoryActionBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.actionBuilder(currentPose)
-                    .strafeTo(new Vector2d(currentPose.component1().x + Math.cos(currentPose.heading.toDouble() + Math.toRadians(90)) * distanceX ,currentPose.component1().y + Math.sin(currentPose.heading.toDouble() + Math.toRadians(90)) * distanceX));
+                    .strafeTo(strafePose);
             ActionCommand driveCommand = new ActionCommand(strafe.build());
-//            driveCommand.interruptOn(()->false);
+            MMRobot.getInstance().mmSystems.driveTrain.currentTrajPose = currentTrajPose;
             driveCommand.schedule();
         }
         FtcDashboard.getInstance().getTelemetry().update();
