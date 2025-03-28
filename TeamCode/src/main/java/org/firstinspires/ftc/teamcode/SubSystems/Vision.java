@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -13,6 +14,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.utils.MathTools;
+
+import java.util.List;
 
 @Config
 public class Vision extends SubsystemBase {
@@ -25,7 +29,6 @@ public class Vision extends SubsystemBase {
 
 
     @Getter private boolean isDataOld = false;
-    @Getter @Setter private SampleColor detectionColor = SampleColor.YELLOW;
     @Getter private LLResult result;
 
 
@@ -40,6 +43,12 @@ public class Vision extends SubsystemBase {
     public static double sampleToRobotDistance = 105;
 
     public static double opModeType = 0;
+    public static int currentPipeline;
+    public static double pipelineSwitchFail = 0;
+    public static double length = -1;
+    public static double height = -1;
+    public static double x = -1;
+    public static double y = -1;
 
 
     Telemetry telemetry;
@@ -50,6 +59,7 @@ public class Vision extends SubsystemBase {
 //        led = hardwareMap.get(Servo.class, "LED");
         this.telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         initializeCamera();
+        currentPipeline =0;
     }
 
 //    public void setLEDPWM() {
@@ -62,14 +72,7 @@ public class Vision extends SubsystemBase {
     }
 
 
-    @RequiredArgsConstructor
-    public enum SampleColor {
-        RED(0.0),
-        BLUE(1.0),
-        YELLOW(2.0);
 
-        private final double colorVal;
-    }
 
     public double getTx(double defaultValue) {
         if (result == null) {
@@ -123,6 +126,11 @@ public class Vision extends SubsystemBase {
         return 0;
     }
 
+    public double getStrafeOffsetPixels(){
+        double strafeOffset = getStrafeOffset();
+        return strafeOffset / (TARGET_HEIGHT - CAMERA_HEIGHT);
+    }
+
     public Double getTurnServoDegree() {
         if (result == null) {
             return null;
@@ -139,15 +147,33 @@ public class Vision extends SubsystemBase {
     }
 
     public void trackYellow(){
-        camera.pipelineSwitch(0);
+        currentPipeline = 0;
+        if (!camera.pipelineSwitch(currentPipeline)){
+            telemetry.addData("failed to switch to yellow", 0);
+            pipelineSwitchFail += 1;
+        }
     }
 
     public void trackRed(){
-        camera.pipelineSwitch(1);
+        currentPipeline = 1;
+        if (!camera.pipelineSwitch(currentPipeline)){
+            telemetry.addData("failed to switch to red", 0);
+            pipelineSwitchFail += 1;
+        }
     }
 
     public void trackBlue(){
-        camera.pipelineSwitch(2);
+        currentPipeline = 2;
+        if (!camera.pipelineSwitch(currentPipeline)){
+            telemetry.addData("failed to switch to blue", 0);
+            pipelineSwitchFail += 1;
+        }    }
+
+    public void reset(){
+        height = -1;
+        length = -1;
+        x = -1;
+        y = -1;
     }
 
     public void auto(){opModeType = 1;}
@@ -156,23 +182,51 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
-        //updating the python endlessly
-        camera.updatePythonInputs(
-                new double[] {detectionColor.colorVal, 1, opModeType, 0.0, 0.0, 0.0, 0.0, 0.0});
+        if (currentPipeline != 0){
+            //updating the python endlessly
+            camera.updatePythonInputs(
+                    new double[] {0.0 , 1, opModeType, length, height, x, y, 0.0});
+        }
         result = camera.getLatestResult();
 
         if (result != null) { //if it detects something
+            if (currentPipeline == 0){
+                List<LLResultTypes.DetectorResult> detectorResults =result.getDetectorResults();
+                if (!detectorResults.isEmpty()){
+                    LLResultTypes.DetectorResult sample = detectorResults.get(0);
+                    List<List<Double>> corners = sample.getTargetCorners();
+                    List<Double> leftUp = corners.get(0);
+                    List<Double> rightUp = corners.get(1);
+                    List<Double> rightDown = corners.get(2);
+                    List<Double> leftDown = corners.get(3);
+                    length = MathTools.distance(leftUp, rightUp);
+                    height = MathTools.distance(rightDown, rightUp);
+                    telemetry.addData("leftUp ->", leftUp);
+                    telemetry.addData("rightUp ->", rightUp);
+                    telemetry.addData("rightDown ->", rightDown);
+                    telemetry.addData("leftDown ->", leftDown);
+                    telemetry.addData("length ->", length);
+                    telemetry.addData("height ->", height);
+                }
+                else {
+                    telemetry.addData("not found anything", -1);
+                }
+
+            }
+            else {
+                telemetry.addData("Strafe Offset", getStrafeOffset());
+                telemetry.addData("Distance", getDistance());
+                telemetry.addData("Turn Servo Degrees", getTurnServoDegree());
+            }
             long staleness = result.getStaleness();
+
             // Less than 100 milliseconds old
             isDataOld = staleness >= 100;
-            telemetry.addData("Strafe Offset", getStrafeOffset());
-            telemetry.addData("Distance", getDistance());
-            telemetry.addData("Turn Servo Degrees", getTurnServoDegree());
 
-                  telemetry.addData("Tx", result.getTx());
-                  telemetry.addData("Ty", result.getTy());
-                  telemetry.addData("Ta", result.getTa());
-//             telemetry.update();
+            telemetry.addData("Tx", result.getTx());
+            telemetry.addData("Ty", result.getTy());
+            telemetry.addData("Ta", result.getTa());
         }
+//        telemetry.update();
     }
 }

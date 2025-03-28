@@ -97,17 +97,6 @@ public class MMSystems {
 
     }
     public void initRobotSystemsTeleOp() {
-        this.scoringClawEndUnit = new ScoringClawEndUnit();
-        this.elevator = new Elevator(elevatorSwitch);
-        this.linearIntake = new LinearIntake();
-        this.intakEndUnit = new IntakEndUnit();
-        this.intakeArm = new IntakeArm(false);
-        this.scoringArm = new ScoringArm();
-        this.intakeEndUnitRotator = new IntakeEndUnitRotator();
-        this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
-        this.scoringEndUnitRotator = new ScoringEndUnitRotator();
-        this.scoringEndUnitElbow = new ScoringEndUnitElbow();
-        this.wisher = new Wisher();
         vision = new Vision(hardwareMap, telemetry);
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)
@@ -144,16 +133,16 @@ public class MMSystems {
         this.gamepadEx2 = new GamepadEx(gamepad2);
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
-        this.intakeDistSensor = new MMDistSensor(hardwareMap);
-        if(!hasImuBeenReset){
-            hasImuBeenReset = true;
-            localizer = hardwareMap.get(GoBildaPinpointDriverRR.class,"imu");
-            localizer.resetPosAndIMU();
-            localizer.setOffsets(-99, 9);
-            localizer.setEncoderResolution(GoBildaPinpointDriverRR.goBILDA_4_BAR_POD);
-            localizer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
-            localizer.setPosition(new Pose2d(0,0,Math.toRadians(90)));
-        }
+//        this.intakeDistSensor = new MMDistSensor(hardwareMap);
+//        if(!hasImuBeenReset){
+//            hasImuBeenReset = true;
+//            localizer = hardwareMap.get(GoBildaPinpointDriverRR.class,"imu");
+//            localizer.resetPosAndIMU();
+//            localizer.setOffsets(-99, 9);
+//            localizer.setEncoderResolution(GoBildaPinpointDriverRR.goBILDA_4_BAR_POD);
+//            localizer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+//            localizer.setPosition(new Pose2d(0,0,Math.toRadians(90)));
+//        }
         currentPose = new Pose2d(0, 0, Math.toRadians(0));
 
 
