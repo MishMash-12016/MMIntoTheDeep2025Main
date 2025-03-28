@@ -31,7 +31,8 @@ public class goToSpecimen extends CommandBase {
         if (distanceX != 0 && distanceToSpecimen != 0) {
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
             TrajectoryActionBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.actionBuilder(currentPose)
-                    .strafeToLinearHeading(new Vector2d(currentPose.component1().x +  distanceX ,currentPose.component1().y + distanceToSpecimen), Math.toRadians(90));
+                    .strafeToLinearHeading(new Vector2d(currentPose.component1().x +  distanceX ,currentPose.component1().y + distanceToSpecimen), MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getHeading())
+                    .turnTo(Math.toRadians(90));
             ActionCommand driveCommand = new ActionCommand(strafe.build());
             driveCommand.schedule();
         }
