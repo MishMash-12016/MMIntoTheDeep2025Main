@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -11,7 +10,6 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Autonomous.ActionCommand;
 import org.firstinspires.ftc.teamcode.Autonomous.Red_Right_6;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
@@ -156,11 +154,11 @@ public class ManualDrive_RED extends MMOpMode {
         );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                ()-> MMRobot.getInstance().mmSystems.vision.trackRed()
+                ()-> MMRobot.getInstance().mmSystems.vision.trackRedPython()
         );
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                ()-> MMRobot.getInstance().mmSystems.vision.trackYellow()
+                ()-> MMRobot.getInstance().mmSystems.vision.trackYellowPython()
         );
 
 

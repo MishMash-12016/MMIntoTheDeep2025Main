@@ -1,32 +1,17 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.roadrunner.AngularVelConstraint;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
-import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
-import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @Autonomous
@@ -56,7 +41,7 @@ public class g extends MMOpMode {
         robotInstance.mmSystems.initRobotSystems();
 //        MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.auto();
-        MMRobot.getInstance().mmSystems.vision.trackRed();
+        MMRobot.getInstance().mmSystems.vision.trackRedPython();
 
         Pose2d currentPose = (new Pose2d(0, 0, Math.toRadians(90)));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);

@@ -93,6 +93,8 @@ public class IntakeSampleCommand {
                 ),
 
                 limelightGetter.strafeToSample(),
+                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.findRightmost()),
+                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedPython()),
                 limelightGetter.getRotateToSample(),
                 limelightGetter.getOpenLinearToSample(),
 

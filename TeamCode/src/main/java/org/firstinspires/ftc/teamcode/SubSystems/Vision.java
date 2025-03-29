@@ -8,14 +8,14 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
+
 import edu.wpi.first.math.MathUtil;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.utils.MathTools;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Config
@@ -49,6 +49,10 @@ public class Vision extends SubsystemBase {
     public static double height = -1;
     public static double x = -1;
     public static double y = -1;
+    public static List<Double> targetLeftUp;
+    public static double linearPointX = 200;
+
+
 
 
     Telemetry telemetry;
@@ -60,6 +64,9 @@ public class Vision extends SubsystemBase {
         this.telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         initializeCamera();
         currentPipeline =0;
+        targetLeftUp = new ArrayList<>();
+        targetLeftUp.add(0,0.0);
+        targetLeftUp.add(0,0.0);
     }
 
 //    public void setLEDPWM() {
@@ -126,11 +133,6 @@ public class Vision extends SubsystemBase {
         return 0;
     }
 
-    public double getStrafeOffsetPixels(){
-        double strafeOffset = getStrafeOffset();
-        return strafeOffset / (TARGET_HEIGHT - CAMERA_HEIGHT);
-    }
-
     public Double getTurnServoDegree() {
         if (result == null) {
             return null;
@@ -146,7 +148,32 @@ public class Vision extends SubsystemBase {
         trackSample = 0;
     }
 
-    public void trackYellow(){
+    public void trackYellowPython(){
+        currentPipeline = 5;
+        if (!camera.pipelineSwitch(currentPipeline)){
+            telemetry.addData("failed to switch to yellow", 0);
+            pipelineSwitchFail += 1;
+        }
+    }
+
+    public void trackRedPython(){
+        currentPipeline = 4;
+        if (!camera.pipelineSwitch(currentPipeline)){
+            telemetry.addData("failed to switch to red", 0);
+            pipelineSwitchFail += 1;
+        }
+    }
+
+    public void trackBluePython(){
+        currentPipeline = 3;
+        if (!camera.pipelineSwitch(currentPipeline)){
+            telemetry.addData("failed to switch to blue", 0);
+            pipelineSwitchFail += 1;
+        }
+    }
+
+
+    public void trackYellowDetector(){
         currentPipeline = 0;
         if (!camera.pipelineSwitch(currentPipeline)){
             telemetry.addData("failed to switch to yellow", 0);
@@ -154,7 +181,7 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    public void trackRed(){
+    public void trackRedDetector(){
         currentPipeline = 1;
         if (!camera.pipelineSwitch(currentPipeline)){
             telemetry.addData("failed to switch to red", 0);
@@ -162,13 +189,13 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    public void trackBlue(){
+    public void trackBlueDetector(){
         currentPipeline = 2;
         if (!camera.pipelineSwitch(currentPipeline)){
             telemetry.addData("failed to switch to blue", 0);
             pipelineSwitchFail += 1;
-        }    }
-
+        }
+    }
     public void reset(){
         height = -1;
         length = -1;
@@ -178,6 +205,24 @@ public class Vision extends SubsystemBase {
 
     public void auto(){opModeType = 1;}
     public void teleOp(){opModeType = 0;}
+
+    public void findRightmost(){
+        List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
+        for (LLResultTypes.DetectorResult dr : detectorResults) {
+            List<List<Double>> corners = dr.getTargetCorners();
+            List<Double> leftUp = corners.get(0);
+            List<Double> rightUp = corners.get(1);
+            List<Double> rightDown = corners.get(2);
+            List<Double> leftDown = corners.get(3);
+            if (Math.abs(linearPointX - (leftUp.get(0) + length / 2)) < Math.abs(linearPointX - (targetLeftUp.get(0) + length / 2))){
+                length = MathTools.distance(leftUp, rightUp);
+                height = MathTools.distance(rightDown, rightUp);
+                targetLeftUp = leftUp;
+                x = targetLeftUp.get(0);
+                y = targetLeftUp.get(1);
+            }
+        }
+    }
 
 
     @Override

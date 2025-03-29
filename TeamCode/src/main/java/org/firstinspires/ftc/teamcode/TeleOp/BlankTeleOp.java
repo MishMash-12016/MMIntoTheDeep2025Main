@@ -32,16 +32,16 @@ public class BlankTeleOp extends MMOpMode {
         robotInstance.mmSystems.initRobotSystemsTeleOp();
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                () -> MMRobot.getInstance().mmSystems.vision.trackYellow()
+                () -> MMRobot.getInstance().mmSystems.vision.trackYellowPython()
         );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                () -> MMRobot.getInstance().mmSystems.vision.trackRed()
+                () -> MMRobot.getInstance().mmSystems.vision.trackRedPython()
         );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new SequentialCommandGroup(
-                    new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackYellow()),
+                    new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackYellowPython()),
                         new InstantCommand(() -> strafeOffset =MMRobot.getInstance().mmSystems.vision.getStrafeOffset() ),
-                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRed()),
+                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedPython()),
                         new InstantCommand(() ->distance =MMRobot.getInstance().mmSystems.vision.getDistance() ),
                         new InstantCommand(() ->angle =MMRobot.getInstance().mmSystems.vision.getTurnServoDegree() )
                         )
