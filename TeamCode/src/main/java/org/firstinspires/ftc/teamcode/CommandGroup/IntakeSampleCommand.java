@@ -92,13 +92,16 @@ public class IntakeSampleCommand {
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 ),
 
-                limelightGetter.strafeToSample(),
-                limelightGetter.getRotateToSample(),
-                limelightGetter.getOpenLinearToSample(),
+                new SequentialCommandGroup(
+                limelightGetter.strafeToSample()
+                ,
+//                limelightGetter.getRotateToSample(),
+//                limelightGetter.getOpenLinearToSample(),
 
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new WaitCommand(500),
-                SampleIntakeLowExit()
+                SampleIntakeLowExit()).interruptOn(
+                        ()->MMRobot.getInstance().mmSystems.driveTrain.joystickMoved())
         );
     }
 

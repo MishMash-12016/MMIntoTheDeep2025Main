@@ -126,7 +126,7 @@ public class PinpointDrive extends MecanumDrive {
                     Vector2d fieldOrientedVector = joystickDirection.rotateBy(Math.toDegrees(-pinpoint.getHeading()));
                     setPowerManually(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());
 
-                },this
+                }, this
         );
     }
 
@@ -134,11 +134,15 @@ public class PinpointDrive extends MecanumDrive {
         pinpoint.setPosition(new Pose2d(pinpoint.getPositionRR().component1(), 0));
     }
 
-    public Command temp(){
-        return new InstantCommand(()->{}, this);
+    public Command temp() {
+        return new InstantCommand(() -> {
+        }, this);
     }
 
-    public boolean joystickMoved(){
-        return (MMRobot.getInstance().mmSystems.gamepadEx1.getLeftX() > 0.1 || MMRobot.getInstance().mmSystems.gamepadEx1.getRightX() > 0.1 || MMRobot.getInstance().mmSystems.gamepadEx1.getLeftY() > 0.1) || (MMRobot.getInstance().mmSystems.gamepadEx1.getLeftX() < 0.1 || MMRobot.getInstance().mmSystems.gamepadEx1.getRightX() < 0.1 || MMRobot.getInstance().mmSystems.gamepadEx1.getLeftY() < 0.1);
+    public boolean joystickMoved() {
+        return Math.abs(MMRobot.getInstance().mmSystems.gamepadEx1.getLeftX()) > 0.05 ||
+                Math.abs(MMRobot.getInstance().mmSystems.gamepadEx1.getRightX()) > 0.05 ||
+                Math.abs(MMRobot.getInstance().mmSystems.gamepadEx1.getLeftY()) > 0.05 ||
+                Math.abs(MMRobot.getInstance().mmSystems.gamepadEx1.getRightY()) > 0.05;
     }
 }

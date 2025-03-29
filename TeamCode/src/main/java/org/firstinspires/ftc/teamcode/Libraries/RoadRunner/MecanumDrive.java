@@ -524,6 +524,33 @@ public class MecanumDrive extends SubsystemBase {
         c.strokePolyline(xPoints, yPoints);
     }
 
+    public CancelableFollowTrajectoryAction getCancelableFollowTrajectoryAction(Trajectory t){
+        return new CancelableFollowTrajectoryAction(t);
+    }
+
+    public class CancelableFollowTrajectoryAction implements Action {
+        private final FollowTrajectoryAction action;
+        private boolean cancelled = false;
+
+        public CancelableFollowTrajectoryAction(Trajectory t) {
+            action = new FollowTrajectoryAction(new TimeTrajectory(t));
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if (cancelled) {
+                setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
+                return false;
+            }
+
+            return action.run(telemetryPacket);
+        }
+
+        public void cancelAbruptly() {
+            cancelled = true;
+        }
+    }
+
     public TrajectoryActionBuilder actionBuilder(Pose2d beginPose) {
         return new TrajectoryActionBuilder(
                 TurnAction::new,
@@ -536,6 +563,19 @@ public class MecanumDrive extends SubsystemBase {
                 ),
                 beginPose, 0.0,
                 defaultTurnConstraints,
+                defaultVelConstraint, defaultAccelConstraint
+        );
+    }
+
+    public TrajectoryBuilder trajectoryBuilder(Pose2d beginPose) {
+        return new TrajectoryBuilder(
+                new TrajectoryBuilderParams(
+                        1e-6,
+                        new ProfileParams(
+                                0.25, 0.1, 1e-2
+                        )
+                ),
+                beginPose, 0.0,
                 defaultVelConstraint, defaultAccelConstraint
         );
     }
