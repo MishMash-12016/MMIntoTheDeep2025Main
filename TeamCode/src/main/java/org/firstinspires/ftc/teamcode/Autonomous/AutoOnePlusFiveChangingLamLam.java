@@ -55,7 +55,7 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
 
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
-        MMRobot.getInstance().mmSystems.vision.trackRed();
+        MMRobot.getInstance().mmSystems.vision.trackRedPython();
 
         Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);

@@ -56,7 +56,7 @@ public class Red_Right_6 extends MMOpMode {
         robotInstance.mmSystems.initRobotSystems();
 //        MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.auto();
-        MMRobot.getInstance().mmSystems.vision.trackRed();
+        MMRobot.getInstance().mmSystems.vision.trackRedPython();
 
         Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);

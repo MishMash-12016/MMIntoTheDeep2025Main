@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake.LinearIntakeState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm.ScoringArmState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
+import org.firstinspires.ftc.teamcode.utils.FixedSequentialCommandGroup;
 
 import java.util.function.BooleanSupplier;
 
@@ -86,21 +87,24 @@ public class IntakeSampleCommand {
 
 
     public static Command limeLightIntake_TeleOp(HardwareMap hardwareMap){
-        return new SequentialCommandGroup(
+        return new FixedSequentialCommandGroup(
+                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 ),
 
-                new SequentialCommandGroup(
-                limelightGetter.strafeToSample()
-                ,
+                new FixedSequentialCommandGroup(
+                limelightGetter.strafeToSample(),
+                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.findClosestPython()),
+                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedPython()),
 //                limelightGetter.getRotateToSample(),
 //                limelightGetter.getOpenLinearToSample(),
 
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new WaitCommand(500),
-                SampleIntakeLowExit()).interruptOn(
+                SampleIntakeLowExit()
+                ).interruptOn(
                         ()->MMRobot.getInstance().mmSystems.driveTrain.joystickMoved())
         );
     }

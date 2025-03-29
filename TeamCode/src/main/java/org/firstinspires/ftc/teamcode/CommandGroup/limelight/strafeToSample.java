@@ -11,6 +11,10 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.utils.geometry.Translation2d;
+import org.firstinspires.ftc.teamcode.utils.geometry.Rotation2d;
+
+
 
 @Config
 public class strafeToSample extends CommandBase {
@@ -27,11 +31,15 @@ public class strafeToSample extends CommandBase {
     public void initialize() {
         MMRobot.getInstance().mmSystems.vision.startTracking();
 
-        double distanceX = -MMRobot.getInstance().mmSystems.vision.getStrafeOffset();
+        double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset();
         if (distanceX != 0) {
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
+
+            Translation2d thfg = new Translation2d(distanceX,new Rotation2d(currentPose.heading.toDouble() +Math.toRadians(90)));
+            Translation2d endPoint = new Translation2d(currentPose.position.x, currentPose.position.y).plus(thfg);
+
             TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
-                    .strafeTo(new Vector2d(currentPose.component1().x + Math.cos(currentPose.heading.toDouble() + Math.toRadians(90)) * distanceX ,currentPose.component1().y + Math.sin(currentPose.heading.toDouble() + Math.toRadians(90)) * distanceX));
+                    .strafeTo(new Vector2d(endPoint.getX(), endPoint.getY()));
 
             strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
         }
