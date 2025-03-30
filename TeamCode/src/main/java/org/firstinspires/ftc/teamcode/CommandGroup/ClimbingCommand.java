@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
@@ -19,9 +20,9 @@ public class ClimbingCommand {
 
     public static Command ClimbToThird() {
         return new SequentialCommandGroup(
-                new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.8)),
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() < Elevator.ElevatorState.ELEVATOR_CLIMB.position.get()),
-                new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0))
+                new RunCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-0.8), MMRobot.getInstance().mmSystems.elevator)
+                        .interruptOn(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() < Elevator.ElevatorState.ELEVATOR_CLIMB.position.get()),
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0), MMRobot.getInstance().mmSystems.elevator)
         );
     }
 }

@@ -122,7 +122,7 @@ public class TuningTest extends MMOpMode {
                             posArm += changeBy;
                             ScoringArm.scoringArmInitPose = posArm;
                         }),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE)
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE)
                 )
         );
 
@@ -132,7 +132,7 @@ public class TuningTest extends MMOpMode {
                             posArm -= changeBy;
                             ScoringArm.scoringArmInitPose = posArm;
                         }),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE)
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE)
                 )
         );
 
@@ -177,6 +177,9 @@ public class TuningTest extends MMOpMode {
 
         telemetry.addData("intake arm", posIntakeArm);
 
+        telemetry.addData("height", MMRobot.getInstance().mmSystems.elevator.getHeight());
+
+        telemetry.addData("f", MMRobot.getInstance().mmSystems.elevator.getHeight() < Elevator.ElevatorState.ELEVATOR_CLIMB.position.get());
         telemetry.update();
 
     }
