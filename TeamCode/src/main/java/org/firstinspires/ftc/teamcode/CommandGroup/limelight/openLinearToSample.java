@@ -2,9 +2,13 @@ package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
 
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
 
 import org.firstinspires.ftc.teamcode.Libraries.exterpolation.ExterpolationMap;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.utils.MathTools;
+
+import java.util.List;
 
 public class openLinearToSample extends CommandBase {
 
@@ -53,7 +57,7 @@ public class openLinearToSample extends CommandBase {
 
     @Override
     public void execute() {
-        Double distance = MMRobot.getInstance().mmSystems.vision.getDistance();
+        Double distance = MMRobot.getInstance().mmSystems.vision.getDistance(MMRobot.getInstance().mmSystems.vision.findClosestForDetector());
         if (distance != null) {
             distance += correctionDist;
             double distanceInServoDegrees = exterpolationMap.exterpolate(distance);

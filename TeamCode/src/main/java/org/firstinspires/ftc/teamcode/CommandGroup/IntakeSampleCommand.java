@@ -99,6 +99,7 @@ public class IntakeSampleCommand {
                 new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.findClosestForPython()),
                 new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedPython()),
                 limelightGetter.getRotateToSample(),
+                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
                 limelightGetter.getOpenLinearToSample(),
 
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),

@@ -11,7 +11,6 @@ import java.util.function.BooleanSupplier;
 
 
 public class limelightGetter {
-    public static double correctionDist = 20;
     static openLinearToSample instance;
     public static Command getOpenLinearToSample() {
         instance = new openLinearToSample();

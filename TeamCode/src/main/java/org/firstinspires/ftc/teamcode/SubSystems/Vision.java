@@ -32,14 +32,14 @@ public class Vision extends SubsystemBase {
     @Getter private LLResult result;
 
 
-    public static double CAMERA_HEIGHT = 424;
-    public static double CAMERA_ANGLE = -35.0;
+    public static double CAMERA_HEIGHT = 445;
+    public static double CAMERA_ANGLE = 90-35.0;
     public static double TARGET_HEIGHT = 39;
     public static double SPECIMEN_HEIGHT = 247.5;
     public static double strafeConversionFactor = 1;
-    public static double cameraStrafeToBot = 3.3;
+    public static double cameraStrafeToBot = 0;
 
-    public static double sampleToRobotDistance = 105;
+    public static double armLength = 105;
 
     public static double opModeType = 0;
     public static int currentPipeline;
@@ -49,6 +49,14 @@ public class Vision extends SubsystemBase {
     public static double x = -1;
     public static double y = -1;
     public static List<Double> targetLeftUp;
+
+
+    public static double lengthForDetector = -1;
+    public static double heightForDetector = -1;
+    public static double xForDetector = -1;
+    public static double yForDetector = -1;
+    public static List<Double> targetLeftUpForDetector;
+    public static LLResultTypes.DetectorResult detectorResultForDetector;
     public static double linearPointX = 226;
     Telemetry telemetry;
 
@@ -91,6 +99,13 @@ public class Vision extends SubsystemBase {
         return result.getTy();
     }
 
+    public double getTy(LLResultTypes.DetectorResult dr, double defaultValue) {
+        if (result == null) {
+            return defaultValue;
+        }
+        return dr.getTargetYDegrees();
+    }
+
     public boolean isTargetVisible() {
         if (result == null) {
             return false;
@@ -103,10 +118,21 @@ public class Vision extends SubsystemBase {
         if (ty == 0){
             return null;
         }
-        double angleToGoalDegrees = CAMERA_ANGLE + ty;
+        double angleToGoalDegrees = CAMERA_ANGLE - ty;
         double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
         double distanceMM = (TARGET_HEIGHT - CAMERA_HEIGHT) / Math.tan(angleToGoalRadians);
-        return Math.abs(distanceMM) - sampleToRobotDistance - 10;
+        return Math.abs(distanceMM) - armLength;
+    }
+
+    public Double getDistance(LLResultTypes.DetectorResult dr) {
+        double ty = getTy(dr,0.0);
+        if (ty == 0){
+            return null;
+        }
+        double angleToGoalDegrees = CAMERA_ANGLE - ty;
+        double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
+        double distanceMM = (TARGET_HEIGHT - CAMERA_HEIGHT) / Math.tan(angleToGoalRadians);
+        return Math.abs(distanceMM) - armLength;
     }
 
     public Double getDistanceSpecimen() {
@@ -114,10 +140,10 @@ public class Vision extends SubsystemBase {
         if (ty == 0){
             return null;
         }
-        double angleToGoalDegrees = CAMERA_ANGLE + ty;
+        double angleToGoalDegrees = CAMERA_ANGLE - ty;
         double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
         double distanceMM = (SPECIMEN_HEIGHT - CAMERA_HEIGHT) / Math.tan(angleToGoalRadians);
-        return Math.abs(distanceMM) - sampleToRobotDistance - 10;
+        return Math.abs(distanceMM) - armLength;
     }
 
     // Get the strafe
@@ -209,6 +235,26 @@ public class Vision extends SubsystemBase {
         }
     }
 
+    public LLResultTypes.DetectorResult findClosestForDetector(){
+        List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
+        for (LLResultTypes.DetectorResult dr : detectorResults) {
+            List<List<Double>> corners = dr.getTargetCorners();
+            List<Double> leftUp = corners.get(0);
+            List<Double> rightUp = corners.get(1);
+            List<Double> rightDown = corners.get(2);
+            if (Math.abs(linearPointX - (leftUp.get(0) + MathTools.distance(leftUp, rightUp) / 2)) < Math.abs(linearPointX - (xForDetector + lengthForDetector / 2)))
+            {
+                lengthForDetector = MathTools.distance(leftUp, rightUp);
+                heightForDetector = MathTools.distance(rightDown, rightUp);
+                targetLeftUpForDetector = leftUp;
+                xForDetector = targetLeftUpForDetector.get(0);
+                yForDetector = targetLeftUpForDetector.get(1);
+                detectorResultForDetector = dr;
+            }
+        }
+        return detectorResultForDetector;
+    }
+
 
     @Override
     public void periodic() {
@@ -254,6 +300,7 @@ public class Vision extends SubsystemBase {
             telemetry.addData("Ty", result.getTy());
             telemetry.addData("Ta", result.getTa());
             telemetry.addData("strafe offcet", getStrafeOffset());
+            telemetry.addData("distance", getDistance());
         }
 //        telemetry.update();
     }
