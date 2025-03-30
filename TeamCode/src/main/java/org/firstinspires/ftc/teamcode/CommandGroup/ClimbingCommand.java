@@ -19,8 +19,9 @@ public class ClimbingCommand {
 
     public static Command ClimbToThird() {
         return new SequentialCommandGroup(
-                new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0)),
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() < Elevator.ElevatorState.ELEVATOR_CLIMB.position.get())
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.8)),
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() < Elevator.ElevatorState.ELEVATOR_CLIMB.position.get()),
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0))
         );
     }
 }

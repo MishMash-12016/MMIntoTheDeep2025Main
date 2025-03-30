@@ -146,11 +146,11 @@ public class TuningTest extends MMOpMode {
 
 
 
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
                 ClimbingCommand.PrepareClimbToThird()
         );
 
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
                 ClimbingCommand.ClimbToThird()
         );
         /*
