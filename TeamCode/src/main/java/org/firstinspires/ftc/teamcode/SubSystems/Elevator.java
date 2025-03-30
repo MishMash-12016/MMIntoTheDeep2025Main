@@ -26,6 +26,7 @@ import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+
 @Config
 public class Elevator extends MMPIDSubsystem {
 
@@ -39,17 +40,17 @@ public class Elevator extends MMPIDSubsystem {
 
 
     //constants:
-    final double TICKS_PER_REV = 537.7;
-    final double GEAR_RATIO = 48.0/60.0;
-    final double LEVELS = 4;
-    final double SPROCKET_PERIMETER = 6.56592;
+    final double TICKS_PER_REV = 384.5;
+    final double GEAR_RATIO = 0.55 * 1.25;
+    final double LEVELS = 1;
+    final double SPROCKET_PERIMETER = 3.82;
 
     //PID:
-    public static double kP = 0.12;
-    public static double kI = 0.0;
-    public static double kD = 0.002;
+    public static double kP = 0;
+    public static double kI = 0;
+    public static double kD = 0;
 
-    public static double TOLERANCE = 2;
+    public static double TOLERANCE = .2;
     public static double kG = 0.1;
 
     public double ticksOffset = 0;
@@ -57,10 +58,14 @@ public class Elevator extends MMPIDSubsystem {
 
     public static double elevatorHighBasket = 73;
     public static double elevatorDown = 1;
+    public static double elevatorClimbLow = 10;
+
     public enum ElevatorState {
 
 
-        HIGH_BASKET(()-> elevatorHighBasket), ELEVATOR_DOWN(()-> elevatorDown); //58
+        HIGH_BASKET(() -> elevatorHighBasket),
+        ELEVATOR_DOWN(() -> elevatorDown),
+        ELEVATOR_LOW_BAR(() -> elevatorClimbLow); //58
 
         public Supplier<Double> position;
 
@@ -69,12 +74,10 @@ public class Elevator extends MMPIDSubsystem {
         }
     }
 
-
     public double targetPose = 0;
 
-    public Elevator(CuttleDigital elevatorSwitch1) {
+    public Elevator() {
         super(kP, kI, kD, TOLERANCE);
-
 
         register();
 
@@ -84,7 +87,6 @@ public class Elevator extends MMPIDSubsystem {
         motor4 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR4);
 
         elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
-
 
         this.motor1.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motor2.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -106,25 +108,12 @@ public class Elevator extends MMPIDSubsystem {
     }
 
     public Command moveToPose(ElevatorState state) {
-        return new MMPIDCommand(this, state.position.get())
-                .alongWith(new InstantCommand(() -> targetPose = state.position.get()));
-    }
-
-    public Command setPowerByJoystick(DoubleSupplier power) {
-        return new RunCommand(
-                () -> setPower(power.getAsDouble())
-                , this);
+        return moveToPose(state.position.get());
     }
 
     public boolean getElevatorSwitchState() {
         return !elevatorSwitch.getState();
     }
-
-//    public Command ElevatorGetToZero() {
-//        return new SequentialCommandGroup(
-//                moveToPose(ElevatorState.ELEVATOR_DOWN)
-//        );
-//    }
 
     public Command ElevatorGetToZeroSensor() {
         return new SequentialCommandGroup(
@@ -139,20 +128,19 @@ public class Elevator extends MMPIDSubsystem {
 
     @Override
     public void setPower(Double power) {
+        //TODO: change this
         if (targetPose == ElevatorState.ELEVATOR_DOWN.position.get() && power > 0.4) {
             power = 0.4;
         }
 
-        if(getHeight() > 105 && targetPose != ElevatorState.ELEVATOR_DOWN.position.get()){
+        if (getHeight() > 105 && targetPose != ElevatorState.ELEVATOR_DOWN.position.get()) {
             power = 0.0;
         }
         motor1.setPower(power);
         motor2.setPower(power);
         motor3.setPower(power);
         motor4.setPower(power);
-
     }
-
 
 
     public double getTicks() {
@@ -175,7 +163,7 @@ public class Elevator extends MMPIDSubsystem {
         //getTicks-> current ticks value(current position of the encoder)
         //SPROCKET_PERIMETER -> gear diameter
         //LEVELS -> how many elevator levels there is
-        return 1 * ((getTicks() / TICKS_PER_REV) * SPROCKET_PERIMETER * LEVELS / GEAR_RATIO);
+        return (getTicks() / TICKS_PER_REV) / GEAR_RATIO * SPROCKET_PERIMETER * LEVELS;
     }
 
     @Override
@@ -199,8 +187,6 @@ public class Elevator extends MMPIDSubsystem {
     }
 
     public void updateToDashboard() {
-//        FtcDashboard.getInstance().getTelemetry().addData("motorLeftPower", motorLeft.getPower());
-//        FtcDashboard.getInstance().getTelemetry().addData("motorRightPower",motorRight.getPower());
         FtcDashboard.getInstance().getTelemetry().addData("height", getHeight());
         FtcDashboard.getInstance().getTelemetry().addData("target", getPidController().getSetPoint());
         FtcDashboard.getInstance().getTelemetry().addData("elevator power", motor1.getPower());
@@ -208,7 +194,8 @@ public class Elevator extends MMPIDSubsystem {
         FtcDashboard.getInstance().getTelemetry().update();
 
     }
-    public String getPower() {
-        return  String.format("1:%s\n2:%s\n3:%s",motor1.getPower(), motor2.getPower(), motor3.getPower(), motor4.getPower());
+
+    public double getPower() {
+        return motor1.getPower();
     }
 }

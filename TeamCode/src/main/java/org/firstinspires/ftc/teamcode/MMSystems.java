@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Autonomous.ActionCommand;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleDigital;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
@@ -26,14 +25,12 @@ import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.Vision;
-import org.firstinspires.ftc.teamcode.SubSystems.Wisher;
+import org.firstinspires.ftc.teamcode.SubSystems.Hook;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 
 
 /**
@@ -70,8 +67,7 @@ public class MMSystems {
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
     public Elevator elevator;
-    public ScoringEndUnitRotator scoringEndUnitRotator;
-    public Wisher wisher;
+    public Hook wisher;
 
     public Vision vision;
 
@@ -81,16 +77,15 @@ public class MMSystems {
     //creating and initiating all subsystems
     public void initRobotSystems() {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
-        this.elevator = new Elevator(elevatorSwitch);
+        this.elevator = new Elevator();
         this.linearIntake = new LinearIntake();
         this.intakEndUnit = new IntakEndUnit();
         this.intakeArm = new IntakeArm();
         this.scoringArm = new ScoringArm();
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
-        this.scoringEndUnitRotator = new ScoringEndUnitRotator();
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
-        this.wisher = new Wisher();
+        this.wisher = new Hook();
         vision = new Vision(hardwareMap, telemetry);
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)
@@ -99,16 +94,15 @@ public class MMSystems {
     }
     public void initRobotSystemsTeleOp() {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
-        this.elevator = new Elevator(elevatorSwitch);
+        this.elevator = new Elevator();
         this.linearIntake = new LinearIntake();
         this.intakEndUnit = new IntakEndUnit();
         this.intakeArm = new IntakeArm(false);
         this.scoringArm = new ScoringArm();
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
-        this.scoringEndUnitRotator = new ScoringEndUnitRotator();
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
-        this.wisher = new Wisher();
+        this.wisher = new Hook();
         vision = new Vision(hardwareMap, telemetry);
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)
