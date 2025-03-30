@@ -37,9 +37,8 @@ public class Vision extends SubsystemBase {
     public static double CAMERA_ANGLE = -45.0;
     public static double TARGET_HEIGHT = 39;
     public static double SPECIMEN_HEIGHT = 247.5;
-
     public static double strafeConversionFactor = 1;
-    public static double cameraStrafeToBot = 0.0;
+    public static double cameraStrafeToBot = 3.3;
 
     public static double sampleToRobotDistance = 105;
 
@@ -52,7 +51,6 @@ public class Vision extends SubsystemBase {
     public static double y = -1;
     public static List<Double> targetLeftUp;
     public static double linearPointX = 200;
-
 
 
 
@@ -129,7 +127,11 @@ public class Vision extends SubsystemBase {
     public double  getStrafeOffset() {
         double tx = getTx(0);
         if (tx != 0) {
-            return Math.tan(tx) * ((TARGET_HEIGHT - CAMERA_HEIGHT) * 2.54 * Math.tan(getDistance()* 2.54 )) - cameraStrafeToBot;
+            double tanTX = Math.tan(Math.toRadians(tx));
+            double height = CAMERA_HEIGHT - TARGET_HEIGHT;
+            double distanceY = getDistance();
+            double diagonalLength = Math.sqrt(height * height + distanceY * distanceY);
+            return tanTX * diagonalLength /2.54 / 10  - cameraStrafeToBot;
         }
         return 0;
     }
@@ -256,6 +258,7 @@ public class Vision extends SubsystemBase {
             telemetry.addData("Tx", result.getTx());
             telemetry.addData("Ty", result.getTy());
             telemetry.addData("Ta", result.getTa());
+            telemetry.addData("strafe offcet", getStrafeOffset());
         }
 //        telemetry.update();
     }
