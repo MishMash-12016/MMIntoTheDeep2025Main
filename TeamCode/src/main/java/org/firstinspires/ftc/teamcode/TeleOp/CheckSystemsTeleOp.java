@@ -34,7 +34,7 @@ public class CheckSystemsTeleOp extends MMOpMode {
                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.ROTATE_RIGHT_ANGLE),
                 new WaitCommand(500),
 
-                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.MID_POSE),
+                robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new WaitCommand(300),
                 robotInstance.mmSystems.intakeArm.setPosition(0.2),
                 new WaitCommand(500),
@@ -51,7 +51,7 @@ public class CheckSystemsTeleOp extends MMOpMode {
 
                         robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE),
                         new WaitCommand(300),
-                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.MID_POSE),
+                        robotInstance.mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE),
                         new WaitCommand(500),
 
                         robotInstance.mmSystems.scoringClawEndUnit.setPosition(ScoringClawEndUnit.ScoringClawState.CLOSE),

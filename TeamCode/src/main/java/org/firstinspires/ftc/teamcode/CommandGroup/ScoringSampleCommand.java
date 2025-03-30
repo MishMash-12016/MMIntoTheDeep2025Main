@@ -75,7 +75,7 @@ public class ScoringSampleCommand {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 new WaitCommand(200),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.REST_POSE),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORING_ARM_SCORE_POSE),
                 new WaitCommand(200),
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),

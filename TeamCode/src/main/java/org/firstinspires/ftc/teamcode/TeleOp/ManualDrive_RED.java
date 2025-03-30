@@ -158,8 +158,6 @@ public class ManualDrive_RED extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             elbowOffset -= 0.035;
-                            ScoringEndUnitElbow.ElbowMidPose += elbowOffset;
-                            ScoringEndUnitElbow.ElbowRestPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowTransferSamplePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowScoreSamplePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowInitPose += elbowOffset;
@@ -167,10 +165,6 @@ public class ManualDrive_RED extends MMOpMode {
                             ScoringEndUnitElbow.ElbowScoreSpecimenPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowIntakeFromFrontPose += elbowOffset;
                             ScoringEndUnitElbow.prepareSampleScorePose += elbowOffset;
-                            ScoringEndUnitElbow.afterSpecimenScore += elbowOffset;
-                            ScoringEndUnitElbow.scoringElbowScoreFromFrontSpecimenPose += elbowOffset;
-                            ScoringEndUnitElbow.scoringElbowAfterScoreFromFrontSpecimenPose += elbowOffset;
-                            ScoringEndUnitElbow.elbowSpecimenSideScore += elbowOffset;
                         })
                 )
         );
@@ -179,8 +173,6 @@ public class ManualDrive_RED extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             elbowOffset += 0.035;
-                            ScoringEndUnitElbow.ElbowMidPose += elbowOffset;
-                            ScoringEndUnitElbow.ElbowRestPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowTransferSamplePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowScoreSamplePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowInitPose += elbowOffset;
@@ -188,10 +180,6 @@ public class ManualDrive_RED extends MMOpMode {
                             ScoringEndUnitElbow.ElbowScoreSpecimenPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowIntakeFromFrontPose += elbowOffset;
                             ScoringEndUnitElbow.prepareSampleScorePose += elbowOffset;
-                            ScoringEndUnitElbow.afterSpecimenScore += elbowOffset;
-                            ScoringEndUnitElbow.scoringElbowScoreFromFrontSpecimenPose += elbowOffset;
-                            ScoringEndUnitElbow.scoringElbowAfterScoreFromFrontSpecimenPose += elbowOffset;
-                            ScoringEndUnitElbow.elbowSpecimenSideScore += elbowOffset;
                         })
                 )
         );

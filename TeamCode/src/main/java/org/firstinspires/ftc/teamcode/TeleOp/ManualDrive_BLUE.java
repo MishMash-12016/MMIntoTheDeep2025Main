@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.ScoreSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -108,12 +107,12 @@ public class ManualDrive_BLUE extends MMOpMode {
                 new ConditionalCommand(IntakeSpecimenCommand.SpecimenIntake(), IntakeSampleCommand.SampleIntake(), () -> SpecimenIntake)
         );
 
-        new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
-                .whenActive(
-                        new ConditionalCommand(
-                                ScoreSpecimenCommand.ScoreFromTheSide(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
-                        )
-                );
+//        new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+//                .whenActive(
+//                        new ConditionalCommand(
+//                                ScoreSpecimenCommand.ScoreFromTheSide(), ScoringSampleCommand.PrepareHighSample(), () -> SpecimenIntake
+//                        )
+//                );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 ScoringSampleCommand.ScoreHighSample()
         );

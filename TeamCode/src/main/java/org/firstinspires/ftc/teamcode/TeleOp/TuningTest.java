@@ -85,9 +85,9 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posElbow += changeBy;
-                            ScoringEndUnitElbow.elbowSpecimenSideScore = posElbow;
+                            ScoringEndUnitElbow.ElbowScoreSpecimenPose = posElbow;
                         }),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORING_SPECIMEN_SIDE_POSE)
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
                 )
         );
 
@@ -110,9 +110,9 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posElbow -= changeBy;
-                            ScoringEndUnitElbow.elbowSpecimenSideScore = posElbow;
+                            ScoringEndUnitElbow.ElbowScoreSpecimenPose = posElbow;
                         }),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORING_SPECIMEN_SIDE_POSE)
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
                 )
         );
 
@@ -122,7 +122,7 @@ public class TuningTest extends MMOpMode {
                             posArm += changeBy;
                             ScoringArm.scoringArmSpecimenSideScore = posArm;
                         }),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_SPECIMEN_SIDE_POSE)
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE)
                 )
         );
 
@@ -132,7 +132,7 @@ public class TuningTest extends MMOpMode {
                             posArm -= changeBy;
                             ScoringArm.scoringArmSpecimenSideScore = posArm;
                         }),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_SPECIMEN_SIDE_POSE)
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE)
                 )
         );
 

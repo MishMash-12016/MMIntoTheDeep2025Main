@@ -142,9 +142,9 @@ public class Red_Right_6 extends MMOpMode {
                 IntakeSampleCommand.limeLightIntake_Auto(hardwareMap, drive).alongWith(
                         new SequentialCommandGroup(
                                 new WaitCommand(100),
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.AFTER_SCORING_FRONT_SPECIMEN_POSE),
+                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE),
                                 new WaitCommand(50),
-                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.AFTER_SCORING_FRONT_SPECIMEN_POSE),
+                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INIT_POSE),
                                 new WaitCommand(200),
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())
                 ),
