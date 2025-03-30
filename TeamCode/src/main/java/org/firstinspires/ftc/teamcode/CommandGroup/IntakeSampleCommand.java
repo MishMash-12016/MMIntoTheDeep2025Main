@@ -96,10 +96,10 @@ public class IntakeSampleCommand {
 
                 new FixedSequentialCommandGroup(
                 limelightGetter.strafeToSample(),
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.findClosestPython()),
+                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.findClosestForPython()),
                 new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedPython()),
-//                limelightGetter.getRotateToSample(),
-//                limelightGetter.getOpenLinearToSample(),
+                limelightGetter.getRotateToSample(),
+                limelightGetter.getOpenLinearToSample(),
 
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new WaitCommand(500),

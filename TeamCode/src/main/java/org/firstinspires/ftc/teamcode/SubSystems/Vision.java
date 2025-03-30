@@ -14,7 +14,6 @@ import lombok.Getter;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.utils.MathTools;
-import org.opencv.core.Mat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class Vision extends SubsystemBase {
 
 
     public static double CAMERA_HEIGHT = 424;
-    public static double CAMERA_ANGLE = -45.0;
+    public static double CAMERA_ANGLE = -35.0;
     public static double TARGET_HEIGHT = 39;
     public static double SPECIMEN_HEIGHT = 247.5;
     public static double strafeConversionFactor = 1;
@@ -50,11 +49,9 @@ public class Vision extends SubsystemBase {
     public static double x = -1;
     public static double y = -1;
     public static List<Double> targetLeftUp;
-    public static double linearPointX = 200;
-
-
-
+    public static double linearPointX = 226;
     Telemetry telemetry;
+
 
     public Vision(final HardwareMap hardwareMap, Telemetry telemetry) {
         camera = hardwareMap.get(Limelight3A.class, "limelight");
@@ -192,7 +189,7 @@ public class Vision extends SubsystemBase {
     public void auto(){opModeType = 1;}
     public void teleOp(){opModeType = 0;}
 
-    public void findClosestPython()
+    public void findClosestForPython()
     {
         List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
         for (LLResultTypes.DetectorResult dr : detectorResults) {
@@ -201,7 +198,8 @@ public class Vision extends SubsystemBase {
             List<Double> rightUp = corners.get(1);
             List<Double> rightDown = corners.get(2);
             List<Double> leftDown = corners.get(3);
-            if (Math.abs(linearPointX - (leftUp.get(0) + length / 2)) < Math.abs(linearPointX - (targetLeftUp.get(0) + length / 2))){
+            if (Math.abs(linearPointX - (leftUp.get(0) + MathTools.distance(leftUp, rightUp) / 2)) < Math.abs(linearPointX - (x + length / 2)))
+            {
                 length = MathTools.distance(leftUp, rightUp);
                 height = MathTools.distance(rightDown, rightUp);
                 targetLeftUp = leftUp;
@@ -231,19 +229,16 @@ public class Vision extends SubsystemBase {
                     List<Double> rightUp = corners.get(1);
                     List<Double> rightDown = corners.get(2);
                     List<Double> leftDown = corners.get(3);
-                    length = MathTools.distance(leftUp, rightUp);
-                    height = MathTools.distance(rightDown, rightUp);
                     telemetry.addData("leftUp ->", leftUp);
                     telemetry.addData("rightUp ->", rightUp);
                     telemetry.addData("rightDown ->", rightDown);
                     telemetry.addData("leftDown ->", leftDown);
-                    telemetry.addData("length ->", length);
-                    telemetry.addData("height ->", height);
+                    telemetry.addData("length ->", MathTools.distance(leftUp, rightUp));
+                    telemetry.addData("height ->", MathTools.distance(rightDown, rightUp));
                 }
                 else {
                     telemetry.addData("not found anything", -1);
                 }
-
             }
             else {
                 telemetry.addData("Strafe Offset", getStrafeOffset());
