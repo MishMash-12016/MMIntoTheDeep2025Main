@@ -108,7 +108,7 @@ public class ManualDrive_RED extends MMOpMode {
 
         //sample/specimen intake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new ConditionalCommand(IntakeSpecimenCommand.IntakeFromFrontToSideForEyal(), IntakeSampleCommand.SampleIntake(), () -> SpecimenIntake)
+                new ConditionalCommand(IntakeSpecimenCommand.SpecimenIntake(), IntakeSampleCommand.SampleIntake(), () -> SpecimenIntake)
         );
 
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
@@ -160,7 +160,6 @@ public class ManualDrive_RED extends MMOpMode {
                             elbowOffset -= 0.035;
                             ScoringEndUnitElbow.ElbowMidPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowRestPose += elbowOffset;
-                            ScoringEndUnitElbow.ElbowTransferSpecimenPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowTransferSamplePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowScoreSamplePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowInitPose += elbowOffset;
@@ -182,7 +181,6 @@ public class ManualDrive_RED extends MMOpMode {
                             elbowOffset += 0.035;
                             ScoringEndUnitElbow.ElbowMidPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowRestPose += elbowOffset;
-                            ScoringEndUnitElbow.ElbowTransferSpecimenPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowTransferSamplePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowScoreSamplePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowInitPose += elbowOffset;

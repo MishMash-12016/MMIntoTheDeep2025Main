@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
-@Autonomous
+//@Autonomous
 public class AutoSample7 extends MMOpMode {
     static MMRobot robotInstance;
     final Pose2d scorePose = new Pose2d(-58, -49, Math.toRadians(-115));

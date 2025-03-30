@@ -4,27 +4,20 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
-import com.arcrobotics.ftclib.command.ParallelRaceGroup;
-import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.roboctopi.cuttlefish.utils.Direction;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleDigital;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleEncoder;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleMotor;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDCommand;
-import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDCommandForever;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDSubsystem;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
-import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 @Config
@@ -65,7 +58,7 @@ public class Elevator extends MMPIDSubsystem {
 
         HIGH_BASKET(() -> elevatorHighBasket),
         ELEVATOR_DOWN(() -> elevatorDown),
-        ELEVATOR_LOW_BAR(() -> elevatorClimbLow); //58
+        ELEVATOR_LOW_CHAMBER(() -> elevatorClimbLow); //58
 
         public Supplier<Double> position;
 

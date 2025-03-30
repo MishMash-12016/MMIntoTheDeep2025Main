@@ -9,16 +9,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 
 public class ScoreSpecimenCommand {
-    public static Command ScoreSpecimenAuto() {
-        return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SPECIMEN_TRANSFER_POSE),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SPECIMEN_POSE)
-                )
-        );
-    }
-
     public static Command ScoreSpecimen() {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.MID_POSE),

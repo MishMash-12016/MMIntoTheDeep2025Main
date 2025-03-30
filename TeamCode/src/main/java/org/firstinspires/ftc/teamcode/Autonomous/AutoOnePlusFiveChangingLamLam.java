@@ -182,9 +182,10 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
                 ),
                 //First
                 new ActionCommand(driveToIntakeFirstSpecimen.build()),
-                IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
+               IntakeSpecimenCommand.PrepareSpecimenIntakeFront().alongWith(
+                (
                         new WaitCommand(50).andThen(
-                                new ActionCommand(driveToScoreFirstSpecimen.build()))),
+                                new ActionCommand(driveToScoreFirstSpecimen.build())))),
 
 
                 //Second
@@ -196,7 +197,7 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
                         )
                 ),
 
-                IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
+               IntakeSpecimenCommand.PrepareSpecimenIntakeFront().alongWith(
                         new WaitCommand(50).andThen(
                                 new ActionCommand(driveToScoreSecondSpecimen.build()))),
 
@@ -209,7 +210,7 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
                         )
                 ),
 
-                IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
+                IntakeSpecimenCommand.PrepareSpecimenIntakeFront().alongWith(
                         new WaitCommand(50).andThen(
                                 new ActionCommand(driveToScoreThirdSpecimen.build()))),
 
@@ -222,7 +223,7 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
                         )
                 ),
 
-                IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
+              IntakeSpecimenCommand.PrepareSpecimenIntakeFront().alongWith(
                         new WaitCommand(50).andThen(
                                 new ActionCommand(driveToScoreForthSpecimen.build()))),
 
@@ -235,7 +236,8 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
                                 IntakeSpecimenCommand.PrepareSpecimenIntakeFront()
                         )
                 ),
-                        IntakeSpecimenCommand.IntakeFromFrontToSide().alongWith(
+                        IntakeSpecimenCommand.PrepareSpecimenIntakeFront().alongWith(
+                                (
                                 new WaitCommand(50).andThen(
                                         new ActionCommand(driveToScoreFifthSpecimen.build()))),
 
@@ -258,7 +260,10 @@ public class AutoOnePlusFiveChangingLamLam extends MMOpMode {
                         new ActionCommand(driveToScoreYellowSample.build()).alongWith(
                                 new WaitCommand(300).andThen(ScoringSampleCommand.PrepareHighSample())
                         ),
-                        ScoringSampleCommand.ScoreHighSample())
+                        ScoringSampleCommand.ScoreHighSample())),
+
+
+                        new InstantCommand()//TODO: replace with right command
                         ,()-> RedSample)
 
                 //fifth

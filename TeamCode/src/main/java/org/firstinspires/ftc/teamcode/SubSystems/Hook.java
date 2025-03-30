@@ -9,29 +9,37 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 public class Hook extends SubsystemBase {
-    CuttleServo wisherServo;
-    public enum WisherState {
-        OUT_POSE(1), IN_POSE(0);
+    CuttleServo rightHookServo;
+    CuttleServo leftHookServo;
+    public enum HookState {
+        OPEN(0.5), CLOSE(0);
         public final double position;
-        WisherState(double position){
+        HookState(double position){
             this.position = position;
         }}
 
     public Hook() {
-        wisherServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.WISHER);
-        wisherServo.setPosition(WisherState.IN_POSE.position);
+        rightHookServo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.RIGHT_HOOK);
+        leftHookServo= new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.LEFT_HOOK);
+
+        rightHookServo.setPosition(HookState.CLOSE.position);
+        leftHookServo.setPosition(1-HookState.CLOSE.position);
     }
-    public Command HookOut() {
-        return new InstantCommand(() -> wisherServo.setPosition(WisherState.OUT_POSE.position), this);
+    public Command OpenHook(){
+        return setPosition(HookState.OPEN.position);
     }
-    public Command HookIn() {
-        return new InstantCommand(() -> wisherServo.setPosition(WisherState.IN_POSE.position), this);
+    public Command CloseHook(){
+        return setPosition(HookState.CLOSE.position);
     }
 
     public Command setPosition(double pose) {
-        return new InstantCommand(() -> wisherServo.setPosition(pose), this);
+        return new InstantCommand(() -> {
+            leftHookServo.setPosition(1-pose);
+            rightHookServo.setPosition(pose);
+        },
+                this);
     }
-    public Command setPosition(WisherState state){
+    public Command setPosition(HookState state){
         return setPosition(state.position);
     }
 }

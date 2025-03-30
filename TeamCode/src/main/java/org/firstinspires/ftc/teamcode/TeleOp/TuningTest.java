@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
@@ -55,9 +56,9 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posIntakeArm += changeBy;
-                            IntakeArm.intakeArmPrepareIntakeSamplePose = posIntakeArm;
+                            IntakEndUnit.IntakeClawOpenPos = posIntakeArm;
                         }),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 )
         );
 
@@ -65,9 +66,9 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posIntakeArm -= changeBy;
-                            IntakeArm.intakeArmPrepareIntakeSamplePose = posIntakeArm;
+                            IntakEndUnit.IntakeClawOpenPos = posIntakeArm;
                         }),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 )
         );
 

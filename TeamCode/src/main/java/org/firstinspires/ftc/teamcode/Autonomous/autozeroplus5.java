@@ -146,7 +146,7 @@ public class autozeroplus5 extends MMOpMode {
                                 new SequentialCommandGroup(
                                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                                         new ParallelCommandGroup(
-                                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SPECIMEN_TRANSFER_POSE),
+                                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
                                                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER)
                                         )
                                 ),

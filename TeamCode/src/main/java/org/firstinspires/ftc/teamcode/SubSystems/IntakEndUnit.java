@@ -12,8 +12,8 @@ import java.util.function.Supplier;
 
 @Config
 public class IntakEndUnit extends SubsystemBase {
-    public static double IntakeClawClosePos = 0.15;
-    public static double IntakeClawOpenPos = 0.57;
+    public static double IntakeClawClosePos = 0.28;
+    public static double IntakeClawOpenPos = 0.76;
 
 
     Servo clawIntakeServo;

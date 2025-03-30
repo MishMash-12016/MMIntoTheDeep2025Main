@@ -21,6 +21,15 @@ public class AutoSpecimensCommand {
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
         ); }
+    public static Command SpecimenPrepareScorePreLoad() {
+        return new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PREPARE_SCORE_FROM_FRONT_SPECIMEN_POSE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.ELBOW_PREPARE_SCORE_FROM_FRONT_SPECIMEN)
+                ),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+        ); }
         public static Command SpecimenScoreFront () {
             return new SequentialCommandGroup(
                     MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),

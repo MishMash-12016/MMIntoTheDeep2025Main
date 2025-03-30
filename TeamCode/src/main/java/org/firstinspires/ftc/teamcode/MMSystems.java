@@ -67,7 +67,7 @@ public class MMSystems {
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
     public Elevator elevator;
-    public Hook wisher;
+    public Hook hook;
 
     public Vision vision;
 
@@ -85,7 +85,7 @@ public class MMSystems {
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
-        this.wisher = new Hook();
+        this.hook = new Hook();
         vision = new Vision(hardwareMap, telemetry);
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)
@@ -102,7 +102,7 @@ public class MMSystems {
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
-        this.wisher = new Hook();
+        this.hook = new Hook();
         vision = new Vision(hardwareMap, telemetry);
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)

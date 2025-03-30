@@ -51,13 +51,15 @@ public class Configuration {
     public static final int INTAKE_ARM_SERVO_RIGHT = 4;
     public static final int INTAKE_ARM_SERVO_LEFT = 1;
 
-    public static final int WISHER = 0;
+
 
 
     //EXPANSION HUB
      public static final int SCORING_CLAW_SERVO = 0;
     //Scoring arm:
     public static final int SCORING_ROTATOR =  2;
+    public static final int RIGHT_HOOK =  1;
+    public static final int LEFT_HOOK =  5;
     //public static final int SERVO_RIGHT_SCORING_ARM = 5;
 
     //public static final int SERVO_LEFT_SCORING_ARM = 4;
