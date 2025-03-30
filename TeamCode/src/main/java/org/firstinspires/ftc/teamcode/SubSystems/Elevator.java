@@ -52,14 +52,16 @@ public class Elevator extends MMPIDSubsystem {
 
     public static double elevatorHighBasket = 40;
     public static double elevatorDown = 0;
-    public static double elevatorClimbLow = 0;
+    public static double elevatorClimbLow = 0; //TODO: find pose
+    public static double elevatorClimb = 5; //TODO: find pose
 
     public enum ElevatorState {
 
 
         HIGH_BASKET(() -> elevatorHighBasket),
         ELEVATOR_DOWN(() -> elevatorDown),
-        ELEVATOR_LOW_CHAMBER(() -> elevatorClimbLow); //58
+        ELEVATOR_LOW_CHAMBER(() -> elevatorClimbLow),
+        ELEVATOR_CLIMB(() -> elevatorClimb);
 
         public Supplier<Double> position;
 

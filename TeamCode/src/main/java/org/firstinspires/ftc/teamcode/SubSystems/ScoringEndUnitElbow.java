@@ -12,14 +12,16 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringEndUnitElbow extends SubsystemBase {
-    public static double ElbowInitPose = 0.4+0.035;
-    public static double ElbowTransferSamplePose = 0.19+0.035;
-    public static double ElbowPrepareSampleTransferPose = 0.075;
+    public static double ElbowInitPose = 0.43;
+
+    //TODO: find poses
+            public static double ElbowTransferSamplePose = 0.43;
+            public static double ElbowPrepareSampleTransferPose = 0.43;
+
+            public static double prepareSampleScorePose = 0.43;
+            public static double ElbowScoreSamplePose = 0.43;
 
 
-
-    public static double prepareSampleScorePose = 0.38+0.035;
-    public static double ElbowScoreSamplePose = 0.48+0.035;
     public static double ElbowScoreSpecimenPose = 0.83;
     public static double ElbowIntakeFromFrontPose = 0.43;
     public static double scoringElbowScoreFromFrontPose = 0.72;

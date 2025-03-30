@@ -36,8 +36,6 @@ public class IntakeSpecimenCommand {
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
                         )
                 )
-
-
         );
     }
 
@@ -53,8 +51,6 @@ public class IntakeSpecimenCommand {
                 new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
-
         );
     }
-
 }

@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.CommandGroup.ClimbingCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
@@ -119,7 +120,7 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posArm += changeBy;
-                            ScoringArm.scoringArmSpecimenSideScore = posArm;
+                            ScoringArm.scoringArmInitPose = posArm;
                         }),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE)
                 )
@@ -129,7 +130,7 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posArm -= changeBy;
-                            ScoringArm.scoringArmSpecimenSideScore = posArm;
+                            ScoringArm.scoringArmInitPose = posArm;
                         }),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE)
                 )
@@ -143,6 +144,15 @@ public class TuningTest extends MMOpMode {
         );
 
 
+
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                ClimbingCommand.PrepareClimbToThird()
+        );
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+                ClimbingCommand.ClimbToThird()
+        );
         /*
         DPAD_LEFT + elbow
         DPAD_RIGHT - elbow
