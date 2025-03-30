@@ -12,7 +12,7 @@ public class Hook extends SubsystemBase {
     CuttleServo rightHookServo;
     CuttleServo leftHookServo;
     public enum HookState {
-        OPEN(0.5), CLOSE(0);
+        OPEN(0.3), CLOSE(0);
         public final double position;
         HookState(double position){
             this.position = position;
@@ -22,8 +22,9 @@ public class Hook extends SubsystemBase {
         rightHookServo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.RIGHT_HOOK);
         leftHookServo= new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.LEFT_HOOK);
 
-        rightHookServo.setPosition(HookState.CLOSE.position);
-        leftHookServo.setPosition(1-HookState.CLOSE.position);
+        leftHookServo.reverse();
+
+        CloseHook();
     }
     public Command OpenHook(){
         return setPosition(HookState.OPEN.position);
@@ -34,7 +35,7 @@ public class Hook extends SubsystemBase {
 
     public Command setPosition(double pose) {
         return new InstantCommand(() -> {
-            leftHookServo.setPosition(1-pose);
+            leftHookServo.setPosition(pose);
             rightHookServo.setPosition(pose);
         },
                 this);
