@@ -167,14 +167,11 @@ public class ManualDrive_RED extends MMOpMode {
                             ScoringEndUnitElbow.ElbowPrepareSampleTransferPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowScoreSpecimenPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowIntakeFromFrontPose += elbowOffset;
-                            ScoringEndUnitElbow.scoringElbowMidToFront += elbowOffset;
                             ScoringEndUnitElbow.prepareSampleScorePose += elbowOffset;
                             ScoringEndUnitElbow.afterSpecimenScore += elbowOffset;
                             ScoringEndUnitElbow.scoringElbowScoreFromFrontSpecimenPose += elbowOffset;
                             ScoringEndUnitElbow.scoringElbowAfterScoreFromFrontSpecimenPose += elbowOffset;
                             ScoringEndUnitElbow.elbowSpecimenSideScore += elbowOffset;
-                            ScoringEndUnitElbow.scoringElbowAfterScoreFromSideSpecimenPose += elbowOffset;
-                            ScoringEndUnitElbow.ElbowTelOpInitPose += elbowOffset;
                         })
                 )
         );
@@ -192,14 +189,11 @@ public class ManualDrive_RED extends MMOpMode {
                             ScoringEndUnitElbow.ElbowPrepareSampleTransferPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowScoreSpecimenPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowIntakeFromFrontPose += elbowOffset;
-                            ScoringEndUnitElbow.scoringElbowMidToFront += elbowOffset;
                             ScoringEndUnitElbow.prepareSampleScorePose += elbowOffset;
                             ScoringEndUnitElbow.afterSpecimenScore += elbowOffset;
                             ScoringEndUnitElbow.scoringElbowScoreFromFrontSpecimenPose += elbowOffset;
                             ScoringEndUnitElbow.scoringElbowAfterScoreFromFrontSpecimenPose += elbowOffset;
                             ScoringEndUnitElbow.elbowSpecimenSideScore += elbowOffset;
-                            ScoringEndUnitElbow.scoringElbowAfterScoreFromSideSpecimenPose += elbowOffset;
-                            ScoringEndUnitElbow.ElbowTelOpInitPose += elbowOffset;
                         })
                 )
         );
