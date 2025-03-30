@@ -9,18 +9,24 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 
+
+//8.5
+
+//3.8
+//20
 public class ClimbingCommand {
     public static Command PrepareClimbToThird() {
         return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_LOW_CHAMBER)
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_LOW_CHAMBER),
+                MMRobot.getInstance().mmSystems.hook.OpenHook()
         );
     }
 
     public static Command ClimbToThird() {
         return new SequentialCommandGroup(
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0)),
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() < 5),
-                MMRobot.getInstance().mmSystems.hook.OpenHook()
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() < 3.8)
+
         );
     }
 }

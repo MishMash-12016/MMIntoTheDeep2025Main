@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleEncoder;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleMotor;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDCommand;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDCommandForever;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.PID.MMPIDSubsystem;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
@@ -33,25 +34,25 @@ public class Elevator extends MMPIDSubsystem {
 
 
     //constants:
-    final double TICKS_PER_REV = 384.5;
-    final double GEAR_RATIO = 0.55 * 1.25;
+    final double TICKS_PER_REV = 145.1;
+    final double GEAR_RATIO = 1.25 * 40/22;
     final double LEVELS = 1;
-    final double SPROCKET_PERIMETER = 3.82;
+    final double SPROCKET_PERIMETER = Math.PI*3.82;
 
     //PID:
-    public static double kP = 0.05;
+    public static double kP = 0.4;
     public static double kI = 0;
-    public static double kD = 0;
+    public static double kD = 0.005;
 
-    public static double TOLERANCE = .2;
-    public static double kG = 0.1;
+    public static double TOLERANCE = .02;
+    public static double kG = 0.0;
 
     public double ticksOffset = 0;
 
 
-    public static double elevatorHighBasket = 80;
-    public static double elevatorDown = 1;
-    public static double elevatorClimbLow = 10;
+    public static double elevatorHighBasket = 40;
+    public static double elevatorDown = 0;
+    public static double elevatorClimbLow = 0;
 
     public enum ElevatorState {
 
@@ -93,6 +94,8 @@ public class Elevator extends MMPIDSubsystem {
 
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
         resetTicks();
+
+        setDefaultCommand(new MMPIDCommandForever(this, ()->targetPose));
     }
 
     public Command moveToPose(double setPoint) {

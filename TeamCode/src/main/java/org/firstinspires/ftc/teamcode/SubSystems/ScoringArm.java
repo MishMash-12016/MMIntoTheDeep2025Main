@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringArm extends SubsystemBase {
-    public static double scoringArmInitPose = 0.4- 0.28;
+    public static double scoringArmInitPose = 0.55;
     public static double scoringArmSampleTransferPose = 0.3;
     public static double scoringArmPrepareSampleTransferPose = 0.65;
     public static double scoringArmScorePose = 0.9;
@@ -43,13 +43,13 @@ public class ScoringArm extends SubsystemBase {
     public ScoringArm() {
         servoLeft = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "L outake arm ");//1
         servoRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "R outake arm");//4
-        servoLeft.setPosition(ScoringArmState.INIT_POSE.position.get()+0.01);
+        servoLeft.setPosition(ScoringArmState.INIT_POSE.position.get()+0.015);
         servoRight.setPosition(1 - ScoringArmState.INIT_POSE.position.get());
     }
 
     //Tell arm to get to position
     public Command setPosition(double newPos) {
-        estimatedPose = newPos+0.01;
+        estimatedPose = newPos;
         return new InstantCommand(() -> {
             servoLeft.setPosition(newPos+0.015);
             servoRight.setDirection(Servo.Direction.REVERSE);
@@ -59,11 +59,6 @@ public class ScoringArm extends SubsystemBase {
 
 
     public Command setPosition(ScoringArmState state) {
-        estimatedPose = state.position.get()+0.01;
-        return new InstantCommand(() -> {
-            servoLeft.setPosition(state.position.get()+0.01);
-            servoRight.setPosition(1 - state.position.get());
-        },
-                this);
+        return new InstantCommand(() -> setPosition(state.position.get()));
     }
 }
