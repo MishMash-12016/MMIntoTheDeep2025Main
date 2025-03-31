@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
@@ -190,9 +191,7 @@ public class ManualDrive_RED extends MMOpMode {
         FtcDashboard.getInstance().getTelemetry().addData("speed ANG", MMSystems.localizer.getVelocityRR().angVel);
 
         FtcDashboard.getInstance().getTelemetry().update();
-//        telemetry.addData("target pose", mmSystems.elevator.targetPose);
-//        telemetry.addData("ticks", mmSystems.elevator.getTicks());
-//        telemetry.addData("height", mmSystems.elevator.getHeight());
+        telemetry.addData("ele", mmSystems.elevator.getPower());
         //telemetry.addData("rizz", MMRobot.getInstance().mmSystems.intakeArm.estimatedPose >= IntakeArm.IntakeArmState.SPECIMEN_INTAKE.position.get());
 //        telemetry.addData("estimatedPose", MMRobot.getInstance().mmSystems.intakeArm.estimatedPose);
 //        telemetry.addData("getPose", MMRobot.getInstance().mmSystems.intakeArm.getPosition());

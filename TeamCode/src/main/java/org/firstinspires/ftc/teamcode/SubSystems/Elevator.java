@@ -45,7 +45,7 @@ public class Elevator extends MMPIDSubsystem {
     public static double kD = 0.005;
 
     public static double TOLERANCE = .02;
-    public static double kG = 0.0;
+    public static double kG = 0.1;
 
     public double ticksOffset = 0;
 
@@ -97,8 +97,8 @@ public class Elevator extends MMPIDSubsystem {
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
         resetTicks();
 
-        PID = new MMPIDCommandForever(this);
-        setDefaultCommand(PID);
+//        PID = new MMPIDCommandForever(this);
+//        setDefaultCommand(PID);
     }
 
     public Command moveToPose(double setPoint) {
@@ -107,7 +107,8 @@ public class Elevator extends MMPIDSubsystem {
     }
 
     public Command moveToPose(ElevatorState state) {
-        return moveToPose(state.position.get());
+        return new MMPIDCommand(this, state.position.get())
+                .alongWith(new InstantCommand(() -> targetPose = state.position.get()));
     }
 
     public boolean getElevatorSwitchState() {
