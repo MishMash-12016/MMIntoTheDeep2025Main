@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -34,25 +35,41 @@ public class IntakeSpecimenCommand {
     }
 
     public static Command PrepareSpecimenIntakeFront() {
-        if (MMRobot.getInstance().mmSystems.intakeArm.estimatedPose >= IntakeArmState.SPECIMEN_INTAKE.position.get()) {
-            return new SequentialCommandGroup(
-                    new ParallelCommandGroup(
-                            MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                            MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.INIT_POSE),
-                            MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.INIT_POSE)
-                    ),
-                    new WaitCommand(200),
-                    new ParallelCommandGroup(
-                            MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
-                            MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
-                            MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
-                    )
-            );
-        }
-        return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
-                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+        return new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.INIT_POSE),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.INIT_POSE)
+                ),
+                new WaitCommand(200),
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
+                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                )
         );
+
+
+//        return new ConditionalCommand(
+//                new SequentialCommandGroup(
+//                        new ParallelCommandGroup(
+//                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+//                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeRotatorState.INIT_POSE),
+//                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.INIT_POSE)
+//                        ),
+//                        new WaitCommand(200),
+//                        new ParallelCommandGroup(
+//                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
+//                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
+//                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+//                        )
+//                ),
+//                new ParallelCommandGroup(
+//                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
+//                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
+//                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+//                ),
+//                () -> MMRobot.getInstance().mmSystems.intakeArm.estimatedPose >= IntakeArmState.SPECIMEN_INTAKE.position.get()
+//        );
     }
 }

@@ -18,7 +18,7 @@ public class IntakeArm extends SubsystemBase {
     public static double intakeArmSpecimenIntakePose = 0.3;
     public static double intakeArmTransferSamplePose = 0.05;
     public static double intakeArmInitPose = 0.05;
-    public double estimatedPose = intakeArmInitPose;
+    public double estimatedPose;
     CuttleServo servoLeft;
     CuttleServo servoRight;
 
@@ -39,17 +39,20 @@ public class IntakeArm extends SubsystemBase {
     public IntakeArm() {
         servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_LEFT);
         servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_RIGHT);
+
+        estimatedPose = IntakeArmState.INIT_POSE.position.get();
         servoLeft.setPosition(IntakeArmState.INIT_POSE.position.get());
         servoRight.setPosition(1 - IntakeArmState.INIT_POSE.position.get()+0.015);
     }
     public IntakeArm(boolean Void) {
         servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_LEFT);
         servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_RIGHT);
+
+        estimatedPose = IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get();
         servoLeft.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get());
         servoRight.setPosition(1 - IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get()+0.015);
     }
 
-    //tell servo intake to get to down position
     public Command setPosition(double newPos) {
         estimatedPose = newPos;
         return new InstantCommand(() -> {
@@ -69,7 +72,12 @@ public class IntakeArm extends SubsystemBase {
     }
 
     public void setPositionVoid(double newPos) {
+        estimatedPose = newPos;
         servoLeft.setPosition(newPos);
         servoRight.setPosition(1 - newPos+0.015);
+    }
+
+    public double getPosition() {
+        return estimatedPose;
     }
 }

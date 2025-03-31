@@ -148,13 +148,30 @@ public class TuningTest extends MMOpMode {
 
 
 
-        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                ClimbingCommand.PrepareClimbToThird()
-        );
+//        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+//                ClimbingCommand.PrepareClimbToThird()
+//        );
+//
+//        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+//                ClimbingCommand.ClimbToThird()
+//        );
+//
+//        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+//                new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.disablePID())
+//        );
+//
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+//                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0)); //left trigger
+//
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+//                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
+//
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+//                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0)); //right trigger
+//
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+//                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
 
-        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
-                ClimbingCommand.ClimbToThird()
-        );
         /*
         DPAD_LEFT + elbow
         DPAD_RIGHT - elbow

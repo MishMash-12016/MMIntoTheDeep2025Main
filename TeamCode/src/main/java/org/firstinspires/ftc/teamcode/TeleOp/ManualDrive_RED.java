@@ -184,51 +184,19 @@ public class ManualDrive_RED extends MMOpMode {
     @Override
     public void run() {
         super.run();
-//        //FOR CONFIG EXTREPULATION:
-//      MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(LinearIntake.config);
-//    MMRobot.getInstance().mmSystems.intakeArm.setPositionVoid(0.52);
-
 
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
 
-
-
-//        new ConditionalCommand(
-//                new SequentialCommandGroup(
-//                    new InstantCommand(()->MMRobot.getInstance().mmSystems.teleop()),
-//                    new InstantCommand(()->MMRobot.getInstance().mmSystems.driveTrain.stopMotion())
-//                )
-//            ,
-//                new SequentialCommandGroup(
-//                    new InstantCommand(()->MMRobot.getInstance().mmSystems.auto())
-//                )
-//                ,
-//            ()->MMRobot.getInstance().mmSystems.driveTrain.isJoystickPressed()
-//        ).schedule();
-
-
-
-
-
-//        MMRobot.getInstance().mmSystems.elevator.updateToDashboard();
-//        mmSystems.driveTrain.updateTelemetry();
-//        FtcDashboard.getInstance().getTelemetry().addData("speed X",MMSystems.localizer.getVelocityRR().linearVel.x);
-//        FtcDashboard.getInstance().getTelemetry().addData("speed Y",MMSystems.localizer.getVelocityRR().linearVel.y);
         FtcDashboard.getInstance().getTelemetry().addData("speed ANG", MMSystems.localizer.getVelocityRR().angVel);
-//        FtcDashboard.getInstance().getTelemetry().addData("time",elapsedTime.milliseconds());
 
         FtcDashboard.getInstance().getTelemetry().update();
 //        telemetry.addData("target pose", mmSystems.elevator.targetPose);
 //        telemetry.addData("ticks", mmSystems.elevator.getTicks());
 //        telemetry.addData("height", mmSystems.elevator.getHeight());
-//        telemetry.addData("power", MMRobot.getInstance().mmSystems.elevator.getPower());
-//        telemetry.addData("1", update1);
-//        telemetry.addData("2", update2);
-//        telemetry.addData("true pos", robotInstance.mmSystems.linearIntake.getPosition());
-//        telemetry.addData("max", LinearIntake.LinearIntakeState.MAX_OPENING.position);
-//        telemetry.addData("opened1", (robotInstance.mmSystems.linearIntake.pose == LinearIntake.LinearIntakeState.MAX_OPENING.position));
-//        telemetry.addData("opened2", (robotInstance.mmSystems.linearIntake.pose == 0.6));
-        telemetry.addData("a", MMRobot.getInstance().mmSystems.intakeArm.estimatedPose >= IntakeArm.IntakeArmState.SPECIMEN_INTAKE.position.get());
+        //telemetry.addData("rizz", MMRobot.getInstance().mmSystems.intakeArm.estimatedPose >= IntakeArm.IntakeArmState.SPECIMEN_INTAKE.position.get());
+//        telemetry.addData("estimatedPose", MMRobot.getInstance().mmSystems.intakeArm.estimatedPose);
+//        telemetry.addData("getPose", MMRobot.getInstance().mmSystems.intakeArm.getPosition());
+//        telemetry.addData("SPECIMEN_INTAKE", IntakeArm.IntakeArmState.SPECIMEN_INTAKE.position.get());
         telemetry.update();
     }
 }
