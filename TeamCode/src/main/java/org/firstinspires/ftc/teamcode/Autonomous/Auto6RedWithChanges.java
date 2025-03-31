@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @Autonomous
-public class Red_Right_6 extends MMOpMode {
+public class Auto6RedWithChanges extends MMOpMode {
     static MMRobot robotInstance;
     static final double halfOpenClaw = 0.6;
     static final double rotator = 0;
@@ -41,7 +41,7 @@ public class Red_Right_6 extends MMOpMode {
     final Pose2d intakePose = new Pose2d(40, -65.5, Math.toRadians(90));
     static final Pose2d scorePose = new Pose2d(6, -31.8, Math.toRadians(120));
 
-    public Red_Right_6() {
+    public Auto6RedWithChanges() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
@@ -53,7 +53,7 @@ public class Red_Right_6 extends MMOpMode {
         robotInstance.mmSystems.initRobotSystems();
 //        MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.auto();
-        MMRobot.getInstance().mmSystems.vision.trackRedPython();
+        MMRobot.getInstance().mmSystems.vision.trackRed();
 
         Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
@@ -180,7 +180,7 @@ public class Red_Right_6 extends MMOpMode {
                                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
                                 robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)
                         )
-                        ),
+                ),
 
                 //push third
                 new ActionCommand(turnRobot3.build()).alongWith(

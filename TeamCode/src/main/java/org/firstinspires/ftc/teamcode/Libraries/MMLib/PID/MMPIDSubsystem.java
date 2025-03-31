@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.SubsystemStructure.MMPowerSubsystem;
 
 public abstract class MMPIDSubsystem extends MMPowerSubsystem<Double> {
+    public boolean doPid = true;
 
     private final PIDController pidController;
 

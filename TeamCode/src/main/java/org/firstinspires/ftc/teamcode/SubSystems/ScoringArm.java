@@ -12,44 +12,24 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringArm extends SubsystemBase {
-
-    public static double scoringArmMidePose = 0.77 - 0.28+0.12-0.12;
-    public static double scoringArmRestPose = 0.46- 0.28+0.12-0.12;
-    public static double scoringArmSpecimenTransferPose = 0.62- 0.28+0.12-0.12;
-    public static double scoringArmSampleTransferPose = 0.3;
-    public static double scoringArmInitPose = 0.4- 0.28;
-    public static double scoringArmSpecimenScorePose = 0.63-0.12;
-    public static double scoringArmSampleScorePose = 0.48;
-    public static double scoringArmSamplePrepareScorePose = 0.33- 0.28+ 0.12-0.12;
-    public static double scoringArmIntakeFromFrontPose = 0.19; //0.21
-    public static double scoringArmAfterScoreSpecimenPose = 0.55;
-    public static double scoringArmSpecimenSideScore = 0.725;
-    public static double scoringArmScoreFromFrontSpecimenPose = 0.51-0.12;
-
-    public static double scoringArmAfterScoreFromFrontSpecimenPose = 0.17;
-    public static double scoringArmAfterScoreFromSideSpecimenPose = 0.53;
-    public static double scoringArmMidToFront = 0.4-0.12;
+    public static double scoringArmInitPose = 0.52;
+    public static double scoringArmSampleTransferPose = 0.55;
+    public static double scoringArmPrepareSampleTransferPose = 0.48;
+    public static double scoringArmScorePose = 0.24;
+    public static double scoringArmIntakeFromFrontPose = 0.55;
+    public static double scoringArmScoreFromFrontSpecimenPose = 0.6;
 
     public double estimatedPose = scoringArmInitPose;
 
     public enum ScoringArmState {
-        MID_TO_FRONT(() -> scoringArmMidToFront),
-        MID_POSE(() -> scoringArmMidePose),
-        REST_POSE(() -> scoringArmRestPose),
-        SPECIMEN_TRANSFER_POSE(() -> scoringArmSpecimenTransferPose),
-        SAMPLE_TRANSFER_POSE(() -> scoringArmSampleTransferPose),
         INIT_POSE(() -> scoringArmInitPose),
-        SCORE_SPECIMEN(() -> scoringArmSpecimenScorePose),
-        SCORE_SAMPLE(() -> scoringArmSampleScorePose),
+        SAMPLE_TRANSFER_POSE(() -> scoringArmSampleTransferPose),
         SCORE_FROM_FRONT(()-> scoringArmScoreFromFrontSpecimenPose),
-        PREPARE_SCORE_SAMPLE(() -> scoringArmSamplePrepareScorePose),
-        AFTER_SCORE_POSE(()-> scoringArmAfterScoreSpecimenPose),
-        INTAKE_FROM_FRONT_POSE(()-> scoringArmIntakeFromFrontPose),
-        SCORING_SPECIMEN_SIDE_POSE(() -> scoringArmSpecimenSideScore),
-        AFTER_SCORING_FRONT_SPECIMEN_POSE(() -> scoringArmAfterScoreFromFrontSpecimenPose),
-        AFTER_SCORING_SIDE_SPECIMEN_POSE(() -> scoringArmAfterScoreFromSideSpecimenPose);
+        SCORING_ARM_SCORE_POSE(()-> scoringArmScorePose),
+        ARM_PREPARE_SAMPLE_TRANSFER_POSE(()-> scoringArmPrepareSampleTransferPose),
+        INTAKE_FROM_FRONT_POSE(()-> scoringArmIntakeFromFrontPose);
 
-        public Supplier<Double> position;
+        public final Supplier<Double> position;
 
         ScoringArmState(Supplier<Double> position) {
             this.position = position;
@@ -62,15 +42,16 @@ public class ScoringArm extends SubsystemBase {
     public ScoringArm() {
         servoLeft = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "L outake arm ");//1
         servoRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "R outake arm");//4
-        servoLeft.setPosition(ScoringArmState.INIT_POSE.position.get()+0.01);
+
+
+        servoLeft.setPosition(ScoringArmState.INIT_POSE.position.get()+0.015);
         servoRight.setPosition(1 - ScoringArmState.INIT_POSE.position.get());
     }
 
-    //Tell arm to get to position
     public Command setPosition(double newPos) {
-        estimatedPose = newPos+0.01;
+        estimatedPose = newPos;
         return new InstantCommand(() -> {
-            servoLeft.setPosition(newPos+0.01);
+            servoLeft.setPosition(newPos+0.015);
             servoRight.setPosition(1 - newPos);
         },
                 this);
@@ -78,9 +59,9 @@ public class ScoringArm extends SubsystemBase {
 
 
     public Command setPosition(ScoringArmState state) {
-        estimatedPose = state.position.get()+0.01;
+        estimatedPose = state.position.get();
         return new InstantCommand(() -> {
-            servoLeft.setPosition(state.position.get()+0.01);
+            servoLeft.setPosition(state.position.get()+0.015);
             servoRight.setPosition(1 - state.position.get());
         },
                 this);

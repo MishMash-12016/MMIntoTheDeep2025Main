@@ -15,9 +15,6 @@ import java.util.function.DoubleSupplier;
 
 @Config
 public class LinearIntake extends SubsystemBase {
-
-    private final MMRobot robotInstance = MMRobot.getInstance();
-
     private final Servo servoLeft;
     private final Servo servoRight;
     public double pose = 0;

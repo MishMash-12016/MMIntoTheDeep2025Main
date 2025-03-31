@@ -15,6 +15,8 @@ public class CuttleServo implements Servo {
     public int port;
     boolean enabled = false;
     final boolean FTCServo;
+
+    boolean isReverse = false;
     /**
      * Array of preset positions.
      * */
@@ -53,7 +55,7 @@ public class CuttleServo implements Servo {
      * */
     @Override
     public void setPosition(double position) {
-        pos = position;
+        pos = isReverse? 1 - position : position;
         if(!FTCServo)
         {
             hub.setServoPosition(port,pos);
@@ -124,5 +126,9 @@ public class CuttleServo implements Servo {
     @Override
     public double getPosition() {
         return pos;
+    }
+
+    public void reverse() {
+        isReverse = !isReverse;
     }
 }

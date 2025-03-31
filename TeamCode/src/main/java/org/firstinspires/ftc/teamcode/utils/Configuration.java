@@ -27,40 +27,20 @@ public class Configuration {
     public static final int DRIVE_TRAIN_BACK_LEFT = 3;
 
 
-
-//    public static final String AUTO_DRIVE_TRAIN_FRONT_LEFT = "leftFront"; //
-//    public static final String AUTO_DRIVE_TRAIN_BACK_LEFT = "leftBack"; //
-//    public static final String AUTO_DRIVE_TRAIN_FRONT_RIGHT = "rightFront"; //
-//    public static final String AUTO_DRIVE_TRAIN_BACK_RIGHT = "rightBack"; //
-//
-//
-//    public static final String PERPENDICULAR = AUTO_DRIVE_TRAIN_BACK_LEFT; // 1
-//    public static final String PARALLEL = AUTO_DRIVE_TRAIN_BACK_RIGHT; //0
-
-
     //CONTROL HUB
-    //Linear Intake
-//    public static final int LEFT_LINEAR_INTAKE = 2;
-//
-//    public static final int RIGHT_LINEAR_INTAKE = 3;
-
-    //Linear Intake End Unit Rotator:
     public static final int INTAKE_ROTATOR = 3;
 
     //Linear Intake Arm:
-    public static final int INTAKE_ARM_SERVO_RIGHT = 4;
+    public static final int INTAKE_ARM_SERVO_RIGHT = 5;
     public static final int INTAKE_ARM_SERVO_LEFT = 1;
 
-    public static final int WISHER = 0;
+
 
 
     //EXPANSION HUB
      public static final int SCORING_CLAW_SERVO = 0;
-    //Scoring arm:
-    public static final int SCORING_ROTATOR =  2;
-    //public static final int SERVO_RIGHT_SCORING_ARM = 5;
-
-    //public static final int SERVO_LEFT_SCORING_ARM = 4;
+    public static final int RIGHT_HOOK =  2;
+    public static final int LEFT_HOOK =  5;
 
 
 
@@ -70,7 +50,7 @@ public class Configuration {
     public static final int ELEVATOR3 = 2;
     public static final int ELEVATOR4 = 3;
 
-    public static final int ELEVATOR_ENCODER = 1;
+    public static final int ELEVATOR_ENCODER = 0;
 
 
 

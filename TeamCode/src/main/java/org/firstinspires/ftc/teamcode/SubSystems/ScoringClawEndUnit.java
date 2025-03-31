@@ -18,12 +18,10 @@ import java.util.function.Supplier;
 public class ScoringClawEndUnit extends SubsystemBase {
     public static double scoringClawOpenPos = 0.35;
     public static double scoringClawClosePos = 0;
-    public static double scoringClawEntirelyOpenPos = 0.5;
     CuttleServo clawScoringServo;
     public enum ScoringClawState {
         OPEN(()-> scoringClawOpenPos),
-        CLOSE(()-> scoringClawClosePos),
-        COMPLETELYOPEN(()-> scoringClawEntirelyOpenPos);//0.16
+        CLOSE(()-> scoringClawClosePos);
         public Supplier<Double> position;
 
         ScoringClawState(Supplier<Double> position) {
@@ -33,7 +31,6 @@ public class ScoringClawEndUnit extends SubsystemBase {
 
     public ScoringClawEndUnit() {
         clawScoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_CLAW_SERVO);
-        //clawScoringServo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "Outake claw");
         clawScoringServo.setPosition(ScoringClawState.CLOSE.position.get());
     }
 
