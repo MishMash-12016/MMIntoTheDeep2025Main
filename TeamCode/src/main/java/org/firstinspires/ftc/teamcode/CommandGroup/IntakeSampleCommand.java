@@ -91,6 +91,7 @@ public class IntakeSampleCommand {
                 new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.findClosestForPython()),
                 new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedPython()),
                 limelightGetter.getRotateToSample(),
+                new WaitCommand(150),
                 new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
                 limelightGetter.getOpenLinearToSample(),
 
@@ -98,7 +99,8 @@ public class IntakeSampleCommand {
                 new WaitCommand(500),
                 SampleIntakeLowExit()
                 ).interruptOn(
-                        ()->MMRobot.getInstance().mmSystems.driveTrain.joystickMoved())
+                        ()->MMRobot.getInstance().mmSystems.driveTrain.joystickMoved()),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
         );
     }
 

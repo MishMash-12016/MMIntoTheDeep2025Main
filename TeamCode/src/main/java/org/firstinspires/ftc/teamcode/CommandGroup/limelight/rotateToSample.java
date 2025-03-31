@@ -36,7 +36,6 @@ public class rotateToSample extends CommandBase {
     public void execute() {
         Double angle = MMRobot.getInstance().mmSystems.vision.getTurnServoDegree();
         if (angle != null) {
-            angle = MMRobot.getInstance().mmSystems.vision.getTurnServoDegree();
             if (angle>=0 && angle<= 90){
                 angle /= 270;
                 angle = IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get() - angle;
@@ -46,9 +45,6 @@ public class rotateToSample extends CommandBase {
                 angle /= 270;
                 angle = IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get() + angle;
             }
-//            angle += 90;
-//            double angleInServoDegrees = angle / 270;
-//        MMRobot.getInstance().mmSystems.telemetry.addData("found the stupid sample", 0);
             MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angle);
             MMRobot.getInstance().mmSystems.telemetry.update();
             finished = true;

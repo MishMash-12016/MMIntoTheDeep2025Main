@@ -101,7 +101,7 @@ public class Vision extends SubsystemBase {
     }
 
     public double getTy(LLResultTypes.DetectorResult dr, double defaultValue) {
-        if (result == null) {
+        if (dr == null) {
             return defaultValue;
         }
         return dr.getTargetYDegrees();
@@ -259,16 +259,16 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (currentPipeline != 0){
-            //updating the python endlessly
-            camera.updatePythonInputs(
-                    new double[] {0.0 , 1, opModeType, length, height, x, y, 0.0});
-        }
+        //updating the python endlessly
+        camera.updatePythonInputs(
+                new double[] {0.0 , 1, opModeType, 0, height, x, y, 0.0}
+        );
+
         result = camera.getLatestResult();
 
         if (result != null) { //if it detects something
             if (currentPipeline == 0){
-                List<LLResultTypes.DetectorResult> detectorResults =result.getDetectorResults();
+                List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
                 if (!detectorResults.isEmpty()){
                     LLResultTypes.DetectorResult sample = detectorResults.get(0);
                     List<List<Double>> corners = sample.getTargetCorners();
@@ -287,9 +287,8 @@ public class Vision extends SubsystemBase {
                     telemetry.addData("not found anything", -1);
                 }
             }
-            else {
-                telemetry.addData("Strafe Offset", getStrafeOffset());
-                telemetry.addData("Distance", getDistance());
+            else
+            {
                 telemetry.addData("Turn Servo Degrees", getTurnServoDegree());
             }
             long staleness = result.getStaleness();
@@ -297,12 +296,17 @@ public class Vision extends SubsystemBase {
             // Less than 100 milliseconds old
             isDataOld = staleness >= 100;
 
+            telemetry.addData("width", length);
+            telemetry.addData("height", height);
+            telemetry.addData("x", x);
+            telemetry.addData("y", y);
             telemetry.addData("Tx", result.getTx());
             telemetry.addData("Ty", result.getTy());
             telemetry.addData("Ta", result.getTa());
-            telemetry.addData("strafe offset", getStrafeOffset());
-            telemetry.addData("distance", getDistance());
+            telemetry.addData("Strafe Offset", getStrafeOffset());
+            telemetry.addData("Distance", getDistance());
             telemetry.addData("angle fail", angleFail);
+            telemetry.addData("pipeline fail", pipelineSwitchFail);
         }
     }
 }
