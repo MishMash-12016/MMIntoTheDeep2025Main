@@ -53,7 +53,7 @@ public class Elevator extends MMPIDSubsystem {
     public static double elevatorHighBasket = 40;
     public static double elevatorDown = 0;
     public static double elevatorClimbLow = 23; //TODO: find pose
-    public static double elevatorClimb = 9; //TODO: find pose
+    public static double elevatorClimb = 12.5; //TODO: find pose
 
     public enum ElevatorState {
 
@@ -71,7 +71,7 @@ public class Elevator extends MMPIDSubsystem {
     }
 
     public double targetPose = 0;
-
+    MMPIDCommandForever PID;
     public Elevator() {
         super(kP, kI, kD, TOLERANCE);
 
@@ -97,7 +97,8 @@ public class Elevator extends MMPIDSubsystem {
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
         resetTicks();
 
-        setDefaultCommand(new MMPIDCommandForever(this));
+        PID = new MMPIDCommandForever(this);
+        setDefaultCommand(PID);
     }
 
     public Command moveToPose(double setPoint) {
@@ -195,5 +196,9 @@ public class Elevator extends MMPIDSubsystem {
 
     public double getPower() {
         return motor1.getPower();
+    }
+
+    public void disablePID() {
+        PID.subsystem.doPid = false;
     }
 }

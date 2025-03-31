@@ -7,9 +7,10 @@ import java.util.function.DoubleSupplier;
 
 public class MMPIDCommandForever extends CommandBase {
 
-    private final MMPIDSubsystem subsystem;
+    public final MMPIDSubsystem subsystem;
     private final PIDController pidController;
     double setPoint = 0;
+
 
     public MMPIDCommandForever(MMPIDSubsystem subsystem) {
         this.subsystem = subsystem;
@@ -24,6 +25,8 @@ public class MMPIDCommandForever extends CommandBase {
 
     @Override
     public void execute() {
+        if (!subsystem.doPid) return;
+
         pidController.setSetPoint(setPoint);
         subsystem.setPower(pidController.calculate(subsystem.getCurrentValue()) + subsystem.getFeedForwardPower());
     }

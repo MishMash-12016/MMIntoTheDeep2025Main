@@ -40,13 +40,13 @@ public class IntakeArm extends SubsystemBase {
         servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_LEFT);
         servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_RIGHT);
         servoLeft.setPosition(IntakeArmState.INIT_POSE.position.get());
-        servoRight.setPosition(1 - IntakeArmState.INIT_POSE.position.get());
+        servoRight.setPosition(1 - IntakeArmState.INIT_POSE.position.get()+0.015);
     }
     public IntakeArm(boolean Void) {
         servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_LEFT);
         servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_RIGHT);
         servoLeft.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get());
-        servoRight.setPosition(1 - IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get());
+        servoRight.setPosition(1 - IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get()+0.015);
     }
 
     //tell servo intake to get to down position
@@ -54,7 +54,7 @@ public class IntakeArm extends SubsystemBase {
         estimatedPose = newPos;
         return new InstantCommand(() -> {
             servoLeft.setPosition(newPos);
-            servoRight.setPosition(1 - newPos);
+            servoRight.setPosition(1 - newPos+0.015);
         },
                 this);
     }
@@ -63,13 +63,13 @@ public class IntakeArm extends SubsystemBase {
         estimatedPose = state.position.get();
         return new InstantCommand(() -> {
             servoLeft.setPosition(state.position.get());
-            servoRight.setPosition(1 - state.position.get());
+            servoRight.setPosition(1 - state.position.get()+0.015);
         },
                 this);
     }
 
     public void setPositionVoid(double newPos) {
         servoLeft.setPosition(newPos);
-        servoRight.setPosition(1 - newPos);
+        servoRight.setPosition(1 - newPos+0.015);
     }
 }
