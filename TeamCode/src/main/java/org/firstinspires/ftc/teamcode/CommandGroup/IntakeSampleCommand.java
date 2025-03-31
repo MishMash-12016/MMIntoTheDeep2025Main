@@ -78,7 +78,7 @@ public class IntakeSampleCommand {
     }
 
 
-    public static Command limeLightIntake_TeleOp(HardwareMap hardwareMap){
+    public static Command limeLightIntake_TeleOp(){
         return new FixedSequentialCommandGroup(
                 new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
                 new ParallelCommandGroup(
@@ -102,17 +102,23 @@ public class IntakeSampleCommand {
         );
     }
 
-    public static Command limeLightIntake_Auto(HardwareMap hardwareMap, PinpointDrive drive){
+    public static Command limeLightIntake_Auto(){
         return new SequentialCommandGroup(
+                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 ),
 
                 //Lamlam side:
-                limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(750),
-                limelightGetter.getRotateToSample(),
-                limelightGetter.getOpenLinearToSample(),
+                new FixedSequentialCommandGroup(
+                        limelightGetter.strafeToSample(),
+                        new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.findClosestForPython()),
+                        new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedPython()),
+                        limelightGetter.getRotateToSample(),
+                        new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                        limelightGetter.getOpenLinearToSample()
+                ),
 
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),

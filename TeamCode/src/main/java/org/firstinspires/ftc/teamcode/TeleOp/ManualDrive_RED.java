@@ -67,7 +67,7 @@ public class ManualDrive_RED extends MMOpMode {
 //                 LIMELIGHT HAS RETURNED...
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
 //                        new InstantCommand(()->MMRobot.getInstance().mmSystems.auto(), MMRobot.getInstance().mmSystems.driveTrain),
-                        IntakeSampleCommand.limeLightIntake_TeleOp(hardwareMap).alongWith(
+                        IntakeSampleCommand.limeLightIntake_TeleOp().alongWith(
                                 new InstantCommand(() -> SpecimenIntake = false)
                         )
         );

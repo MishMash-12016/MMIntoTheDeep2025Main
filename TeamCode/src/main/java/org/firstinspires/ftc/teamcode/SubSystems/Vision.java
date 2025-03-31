@@ -44,6 +44,7 @@ public class Vision extends SubsystemBase {
     public static double opModeType = 0;
     public static int currentPipeline;
     public static double pipelineSwitchFail = 0;
+    public static double angleFail = 0;
     public static double length = -1;
     public static double height = -1;
     public static double x = -1;
@@ -154,13 +155,14 @@ public class Vision extends SubsystemBase {
             double height = CAMERA_HEIGHT - TARGET_HEIGHT;
             double distanceY = getDistance();
             double diagonalLength = Math.sqrt(height * height + distanceY * distanceY);
-            return tanTX * diagonalLength /2.54 / 10  - cameraStrafeToBot;
+            return tanTX * diagonalLength / 2.54 / 10  - cameraStrafeToBot;
         }
         return 0;
     }
 
     public Double getTurnServoDegree() {
         if (result == null) {
+            angleFail += 1;
             return null;
         }
         return result.getPythonOutput()[3];
@@ -223,7 +225,6 @@ public class Vision extends SubsystemBase {
             List<Double> leftUp = corners.get(0);
             List<Double> rightUp = corners.get(1);
             List<Double> rightDown = corners.get(2);
-            List<Double> leftDown = corners.get(3);
             if (Math.abs(linearPointX - (leftUp.get(0) + MathTools.distance(leftUp, rightUp) / 2)) < Math.abs(linearPointX - (x + length / 2)))
             {
                 length = MathTools.distance(leftUp, rightUp);
@@ -299,9 +300,9 @@ public class Vision extends SubsystemBase {
             telemetry.addData("Tx", result.getTx());
             telemetry.addData("Ty", result.getTy());
             telemetry.addData("Ta", result.getTa());
-            telemetry.addData("strafe offcet", getStrafeOffset());
+            telemetry.addData("strafe offset", getStrafeOffset());
             telemetry.addData("distance", getDistance());
+            telemetry.addData("angle fail", angleFail);
         }
-//        telemetry.update();
     }
 }

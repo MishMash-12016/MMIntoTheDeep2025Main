@@ -137,7 +137,7 @@ public class Red_Right_6 extends MMOpMode {
                         AutoSpecimensCommand.SpecimenScorePreLoad()
                 ),
 
-                IntakeSampleCommand.limeLightIntake_Auto(hardwareMap, drive).alongWith(
+                IntakeSampleCommand.limeLightIntake_Auto().alongWith(
                         new SequentialCommandGroup(
                                 new WaitCommand(100),
                                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE),

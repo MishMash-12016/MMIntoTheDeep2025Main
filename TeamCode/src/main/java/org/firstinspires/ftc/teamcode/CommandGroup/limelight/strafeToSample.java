@@ -21,6 +21,8 @@ public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
     Boolean finished = true;
+
+    Boolean found = false;
     public strafeToSample() {
         addRequirements(
                 MMRobot.getInstance().mmSystems.driveTrain);
@@ -35,30 +37,39 @@ public class strafeToSample extends CommandBase {
         if (distanceX != 0) {
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
 
-            Translation2d thfg = new Translation2d(distanceX,new Rotation2d(currentPose.heading.toDouble() +Math.toRadians(90)));
+            Translation2d thfg = new Translation2d(distanceX,new Rotation2d(currentPose.heading.toDouble() + Math.toRadians(90)));
             Translation2d endPoint = new Translation2d(currentPose.position.x, currentPose.position.y).plus(thfg);
 
             TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
                     .strafeTo(new Vector2d(endPoint.getX(), endPoint.getY()));
 
             strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
+            found = true;
+        }
+        else {
+            found = false;
+            finished = true;
         }
     }
 
     @Override
     public void execute() {
-        TelemetryPacket packet = new TelemetryPacket();
-        finished = !strafeTrajectory.run(packet);
-        FtcDashboard.getInstance().sendTelemetryPacket(packet);
+        if (found){
+            TelemetryPacket packet = new TelemetryPacket();
+            finished = !strafeTrajectory.run(packet);
+            FtcDashboard.getInstance().sendTelemetryPacket(packet);
+        }
         FtcDashboard.getInstance().getTelemetry().update();
     }
 
     @Override
     public void end(boolean interrupted) {
         MMRobot.getInstance().mmSystems.vision.stopTracking();
-        strafeTrajectory.cancelAbruptly();
-        TelemetryPacket packet = new TelemetryPacket();
-        strafeTrajectory.run(packet);
+        if (found){
+            strafeTrajectory.cancelAbruptly();
+            TelemetryPacket packet = new TelemetryPacket();
+            strafeTrajectory.run(packet);
+        }
     }
 
     @Override

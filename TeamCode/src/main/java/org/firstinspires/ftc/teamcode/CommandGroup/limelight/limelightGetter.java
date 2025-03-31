@@ -12,24 +12,14 @@ import java.util.function.BooleanSupplier;
 
 public class limelightGetter {
     static openLinearToSample instance;
+
     public static Command getOpenLinearToSample() {
         instance = new openLinearToSample();
         return instance;
     }
+
     public static BooleanSupplier getIsLockedInLinear() {
         return () -> instance.finished;
-    }
-
-    public static Command getAlignToSample(HardwareMap hardwareMap) {
-        return new alignToSample(hardwareMap);
-    }
-
-    public static Command getAlignToSampleAuto(HardwareMap hardwareMap, PinpointDrive drive) {
-        return new alignToSampleAuto(hardwareMap,drive);
-    }
-
-    public static Command strafeToSampleAuto(PinpointDrive drive) {
-        return new strafeToSampleAuto(drive);
     }
 
     public static Command getRotateToSample() {
