@@ -74,11 +74,13 @@ public class TuningTest extends MMOpMode {
         );
 
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05).whenActive(
-                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+//                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+                MMRobot.getInstance().mmSystems.hook.OpenHook()
         );
 
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05).whenActive(
-                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
+//                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
+                MMRobot.getInstance().mmSystems.hook.CloseHook()
         );
 
 //        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
@@ -120,9 +122,9 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posArm += changeBy;
-                            ScoringArm.scoringArmInitPose = posArm;
+                            ScoringArm.scoringArmScorePose = posArm;
                         }),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE)
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE)
                 )
         );
 
@@ -130,9 +132,9 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posArm -= changeBy;
-                            ScoringArm.scoringArmInitPose = posArm;
+                            ScoringArm.scoringArmScorePose = posArm;
                         }),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE)
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE)
                 )
         );
 
@@ -184,3 +186,7 @@ public class TuningTest extends MMOpMode {
 
     }
 }
+
+
+
+//if linear and intake arm are opened wait some time before prepare specimen intake
