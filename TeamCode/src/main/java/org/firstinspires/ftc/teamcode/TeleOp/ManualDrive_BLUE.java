@@ -57,11 +57,11 @@ public class ManualDrive_BLUE extends MMOpMode {
         );
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                ()->MMRobot.getInstance().mmSystems.vision.trackYellow()
+                ()->MMRobot.getInstance().mmSystems.vision.trackYellowPython()
         );
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-                ()->MMRobot.getInstance().mmSystems.vision.trackRed()
+                ()->MMRobot.getInstance().mmSystems.vision.trackRedPython()
         );
 
 
