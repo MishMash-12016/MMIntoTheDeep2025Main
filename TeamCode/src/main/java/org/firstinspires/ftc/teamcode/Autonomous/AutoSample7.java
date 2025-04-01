@@ -52,20 +52,20 @@ public class AutoSample7 extends MMOpMode {
 
 
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
-                .strafeToLinearHeading(new Vector2d(-62.9, -48.5), Math.toRadians(266));
+                .strafeToLinearHeading(new Vector2d(-65, -49.7), Math.toRadians(264.5));
 
         TrajectoryActionBuilder driveToIntakeFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-58.9, -46.8), Math.toRadians(250));
+                .strafeToLinearHeading(new Vector2d(-58.7, -48), Math.toRadians(245));
 
         TrajectoryActionBuilder driveToScoreFirstSample = driveToIntakeFirstSample.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-59.1, -52), Math.toRadians(247.7));
 
-
         TrajectoryActionBuilder driveToIntakeThird = driveToScoreFirstSample.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-61, -47.28), Math.toRadians(295));
+                .strafeToLinearHeading(new Vector2d(-58.7, -48.2), Math.toRadians(307)
+                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*0.7));
 
         TrajectoryActionBuilder driveToScoreThird = driveToIntakeThird.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-64.9, -49), Math.toRadians(259.33));
+                .strafeToLinearHeading(new Vector2d(-64.9, -47.5), Math.toRadians(259.33));
 
         TrajectoryActionBuilder driveToIntakeForth = driveToScoreThird.endTrajectory().fresh()
                 .strafeToLinearHeading(intakePose.component1(), intakePose.component2()
@@ -98,7 +98,8 @@ public class AutoSample7 extends MMOpMode {
         new SequentialCommandGroup(
                 new InstantCommand(),
                 //1
-                new ActionCommand(driveToScorePreloadSample.build()).alongWith(
+                new ActionCommand(driveToScorePreloadSample.build())
+                        .alongWith(
                         scorePreLoadSample()
                 ),
 
@@ -138,17 +139,18 @@ public class AutoSample7 extends MMOpMode {
 
                 IntakeSampleCommand.prepareSampleIntakeWithoutButton().alongWith(
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.25)
-                ),
-                new WaitCommand(400),//lamlam
-                IntakeSampleCommand.SampleIntake(),
-
-                new ActionCommand(driveToScoreThird.build()).alongWith(
-                        ScoringSampleCommand.PrepareHighSample()
-                ),
-                new WaitCommand(200),
-                new ActionCommand(driveToIntakeForth.build()).alongWith(
-                        ScoringSampleCommand.ScoreHighSample()
                 )
+//                ,
+//                new WaitCommand(400),//lamlam
+//                IntakeSampleCommand.SampleIntake(),
+//
+//                new ActionCommand(driveToScoreThird.build()).alongWith(
+//                        ScoringSampleCommand.PrepareHighSample()
+//                ),
+//                new WaitCommand(200),
+//                new ActionCommand(driveToIntakeForth.build()).alongWith(
+//                        ScoringSampleCommand.ScoreHighSample()
+//                )
 //                ,
 //
 //                //5
@@ -243,7 +245,7 @@ public class AutoSample7 extends MMOpMode {
     }
     public static Command prepareSampleIntakeWithoutButtonAndScoring() {
         return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(0.51),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new WaitCommand(70).andThen(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
