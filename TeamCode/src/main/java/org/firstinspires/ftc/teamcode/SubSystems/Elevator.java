@@ -4,6 +4,9 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
@@ -44,16 +47,17 @@ public class Elevator extends MMPIDSubsystem {
     public static double kI = 0;
     public static double kD = 0.005;
 
-    public static double TOLERANCE = .02;
-    public static double kG = 0.1;
+    public static double TOLERANCE = .2;
+    public static double kG = 0.0;
 
     public double ticksOffset = 0;
 
+    private static final double maxHeight = 105; //TODO:find new max height
 
-    public static double elevatorHighBasket = 40;
+    public static double elevatorHighBasket = 43;
     public static double elevatorDown = 0;
-    public static double elevatorClimbLow = 23; //TODO: find pose
-    public static double elevatorClimb = 12; //TODO: find pose
+    public static double elevatorClimbLow = 23;
+    public static double elevatorClimb = 12;
 
     public enum ElevatorState {
 
@@ -97,8 +101,8 @@ public class Elevator extends MMPIDSubsystem {
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
         resetTicks();
 
-//        PID = new MMPIDCommandForever(this);
-//        setDefaultCommand(PID);
+        PID = new MMPIDCommandForever(this);
+        setDefaultCommand(PID);
     }
 
     public Command moveToPose(double setPoint) {
@@ -117,23 +121,24 @@ public class Elevator extends MMPIDSubsystem {
 
     public Command ElevatorGetToZeroSensor() {
         return new SequentialCommandGroup(
-                moveToPose(ElevatorState.ELEVATOR_DOWN),
-                new InstantCommand(() -> setPower(-0.3)).withTimeout(1500),
-                new WaitUntilCommand(this::getElevatorSwitchState),
+                new ParallelDeadlineGroup(
+                        new WaitUntilCommand(this::getElevatorSwitchState),
+                        new SequentialCommandGroup(
+                                moveToPose(ElevatorState.ELEVATOR_DOWN),
+                                new RunCommand(() -> setPower(-0.3))
+                        )
+
+                ).withTimeout(3000),
+
                 new WaitCommand(200),
-                new InstantCommand(() -> setTicks(1)),
+                new InstantCommand(() -> setTicks(0)),
                 new InstantCommand(() -> setPower(0.0))
         );
     }
 
     @Override
     public void setPower(Double power) {
-        //TODO: change this
-        if (targetPose == ElevatorState.ELEVATOR_DOWN.position.get() && power > 0.4) {
-            power = 0.4;
-        }
-
-        if (getHeight() > 105 && targetPose != ElevatorState.ELEVATOR_DOWN.position.get()) {
+        if (targetPose > maxHeight) {
             power = 0.0;
         }
         motor1.setPower(power);

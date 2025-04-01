@@ -192,6 +192,7 @@ public class ManualDrive_RED extends MMOpMode {
 
         FtcDashboard.getInstance().getTelemetry().update();
         telemetry.addData("ele", mmSystems.elevator.getPower());
+        telemetry.addData("height", mmSystems.elevator.getHeight());
         //telemetry.addData("rizz", MMRobot.getInstance().mmSystems.intakeArm.estimatedPose >= IntakeArm.IntakeArmState.SPECIMEN_INTAKE.position.get());
 //        telemetry.addData("estimatedPose", MMRobot.getInstance().mmSystems.intakeArm.estimatedPose);
 //        telemetry.addData("getPose", MMRobot.getInstance().mmSystems.intakeArm.getPosition());
