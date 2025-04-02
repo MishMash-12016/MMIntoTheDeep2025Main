@@ -71,6 +71,8 @@ public class MMSystems {
 
     public Vision vision;
 
+    public double servoDegrees = 0;
+
 
 
 

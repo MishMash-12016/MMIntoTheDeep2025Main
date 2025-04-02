@@ -23,11 +23,6 @@ public class alignToSample extends CommandBase {
 
 
     @Override
-    public void initialize() {
-        MMRobot.getInstance().mmSystems.vision.startTracking();
-    }
-
-    @Override
     public void execute() {
         double distanceX = MMRobot.getInstance().mmSystems.vision.getTx(0);
         if (distanceX != 0){
@@ -35,11 +30,6 @@ public class alignToSample extends CommandBase {
                     turnTo(distanceX).
                     build();
         }
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        MMRobot.getInstance().mmSystems.vision.stopTracking();
     }
 
     @Override

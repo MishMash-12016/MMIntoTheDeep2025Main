@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
@@ -13,9 +14,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import java.util.List;
 
 public class rotateToSample extends CommandBase {
-    public double oldAngle;
     boolean finished = false;
     double noResultCounter;
+    Double angle;
 
     public rotateToSample() {
         addRequirements(
@@ -25,16 +26,14 @@ public class rotateToSample extends CommandBase {
 
     @Override
     public void initialize() {
-        oldAngle = 0;
         noResultCounter = 0;
         finished = false;
-        MMRobot.getInstance().mmSystems.vision.startTracking();
     }
 
 
     @Override
     public void execute() {
-        Double angle = MMRobot.getInstance().mmSystems.vision.getTurnServoDegree();
+        angle = MMRobot.getInstance().mmSystems.vision.getTurnServoDegree();
         if (angle != null) {
             if (angle>=0 && angle<= 90){
                 angle /= 270;
@@ -46,7 +45,7 @@ public class rotateToSample extends CommandBase {
                 angle = IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get() + angle;
             }
             MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionVoid(angle);
-            MMRobot.getInstance().mmSystems.telemetry.update();
+//            MMRobot.getInstance().mmSystems.telemetry.update();
             finished = true;
         } else
             noResultCounter++;
@@ -54,11 +53,14 @@ public class rotateToSample extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        MMRobot.getInstance().mmSystems.vision.stopTracking();
+        FtcDashboard.getInstance().getTelemetry().addData("noResult = ",noResultCounter);
+        FtcDashboard.getInstance().getTelemetry().addData("angle rotate = ",angle);
+        FtcDashboard.getInstance().getTelemetry().update();
     }
 
     @Override
     public boolean isFinished() {
-        return finished || noResultCounter == 5;
+//        return finished || noResultCounter == 5;
+        return true;
     }
 }

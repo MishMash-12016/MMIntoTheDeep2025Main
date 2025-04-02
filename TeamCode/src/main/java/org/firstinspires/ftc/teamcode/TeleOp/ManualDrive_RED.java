@@ -145,10 +145,6 @@ public class ManualDrive_RED extends MMOpMode {
                 ()-> MMRobot.getInstance().mmSystems.vision.trackRedPython()
         );
 
-        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                ()-> MMRobot.getInstance().mmSystems.vision.trackYellowPython()
-        );
-
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whileHeld(
                 new SequentialCommandGroup(
@@ -228,7 +224,8 @@ public class ManualDrive_RED extends MMOpMode {
 //        telemetry.addData("max", LinearIntake.LinearIntakeState.MAX_OPENING.position);
 //        telemetry.addData("opened1", (robotInstance.mmSystems.linearIntake.pose == LinearIntake.LinearIntakeState.MAX_OPENING.position));
 //        telemetry.addData("opened2", (robotInstance.mmSystems.linearIntake.pose == 0.6));
-        telemetry.addData("a", MMRobot.getInstance().mmSystems.intakeArm.estimatedPose >= IntakeArm.IntakeArmState.SPECIMEN_INTAKE.position.get());
+//        telemetry.addData("a", MMRobot.getInstance().mmSystems.intakeArm.estimatedPose >= IntakeArm.IntakeArmState.SPECIMEN_INTAKE.position.get());
+        telemetry.addData("servo degress",MMRobot.getInstance().mmSystems.servoDegrees);
         telemetry.update();
     }
 }

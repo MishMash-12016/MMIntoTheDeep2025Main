@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 //import org.firstinspires.ftc.teamcode.Autonomous.AutoOnePlusFiveRightRed;
@@ -80,33 +81,40 @@ public class IntakeSampleCommand {
 
     public static Command limeLightIntake_TeleOp(){
         return new FixedSequentialCommandGroup(
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
+
                 new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 ),
 
+                //Lamlam side:
                 new FixedSequentialCommandGroup(
-                limelightGetter.strafeToSample(),
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.findClosestForPython()),
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedPython()),
-                limelightGetter.getRotateToSample(),
-                new WaitCommand(150),
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
-                limelightGetter.getOpenLinearToSample(),
+                        MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
+                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
+                        limelightGetter.strafeToSample(),
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING)
 
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                new WaitCommand(500),
-                SampleIntakeLowExit()
+//                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+//                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
+//
+//                        limelightGetter.getOpenLinearToSample()
                 ).interruptOn(
                         ()->MMRobot.getInstance().mmSystems.driveTrain.joystickMoved()),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                new WaitCommand(500),
+                FirstSampleIntake(),
+                new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
         );
     }
 
     public static Command limeLightIntake_Auto(){
         return new SequentialCommandGroup(
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
+
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
@@ -115,22 +123,17 @@ public class IntakeSampleCommand {
                 //Lamlam side:
                 new FixedSequentialCommandGroup(
                         limelightGetter.strafeToSample(),
-                        new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.findClosestForPython()),
-                        new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedPython()),
-                        limelightGetter.getRotateToSample(),
-                        new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                        MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
+                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
                         limelightGetter.getOpenLinearToSample()
                 ),
-
-                new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new WaitCommand(200),
-                FirstSampleIntake(),
-                new InstantCommand(()->
-                        MMRobot.getInstance().mmSystems.vision.stopTracking()
-                )
+                FirstSampleIntake()
         );
     }
+
 
     private static Command FirstSampleIntake() {
         return new SequentialCommandGroup(

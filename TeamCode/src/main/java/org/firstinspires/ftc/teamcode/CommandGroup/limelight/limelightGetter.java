@@ -11,16 +11,11 @@ import java.util.function.BooleanSupplier;
 
 
 public class limelightGetter {
-    static openLinearToSample instance;
 
     public static Command getOpenLinearToSample() {
-        instance = new openLinearToSample();
-        return instance;
+        return new openLinearToSample();
     }
 
-    public static BooleanSupplier getIsLockedInLinear() {
-        return () -> instance.finished;
-    }
 
     public static Command getRotateToSample() {
         return new rotateToSample();
