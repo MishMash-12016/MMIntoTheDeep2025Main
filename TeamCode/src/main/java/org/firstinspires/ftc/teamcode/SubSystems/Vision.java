@@ -198,7 +198,9 @@ public class Vision extends SubsystemBase {
     }
 
     public Double getTurnServoDegree() {
-
+        camera.updatePythonInputs(
+                new double[]{0.0, 0.0, 0.0, length, height, x, y, 0.0}
+        );
         result = camera.getLatestResult();
 
         if (result == null) {
@@ -254,7 +256,32 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    public double getPipelineIndex(){
+    public LLResultTypes.DetectorResult findClosestForDetector() {
+        result = camera.getLatestResult();
+        lengthForDetector = 0;
+        heightForDetector = 0;
+        xForDetector = 1000000;
+        yForDetector = 1000000;
+
+        List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
+        for (LLResultTypes.DetectorResult dr : detectorResults) {
+            List<List<Double>> corners = dr.getTargetCorners();
+            List<Double> leftUp = corners.get(0);
+            List<Double> rightUp = corners.get(1);
+            List<Double> rightDown = corners.get(2);
+            if (Math.abs(linearPointX - (leftUp.get(0) + MathTools.distance(leftUp, rightUp) / 2)) < Math.abs(linearPointX - (xForDetector + lengthForDetector / 2))) {
+                lengthForDetector = MathTools.distance(leftUp, rightUp);
+                heightForDetector = MathTools.distance(rightDown, rightUp);
+                targetLeftUpForDetector = leftUp;
+                xForDetector = targetLeftUpForDetector.get(0);
+                yForDetector = targetLeftUpForDetector.get(1);
+                detectorResultForDetector = dr;
+            }
+        }
+        return detectorResultForDetector;
+    }
+
+    public double getPipelineIndex() {
         return camera.getStatus().getPipelineIndex();
     }
 
@@ -264,15 +291,15 @@ public class Vision extends SubsystemBase {
                 new InstantCommand(() -> trackRedPython()),
                 new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == 1),
                 new InstantCommand(() -> camera.updatePythonInputs(new double[]{0.0, 0, 0, length, height, x, y, 0.0})),
-                new WaitUntilCommand(()->camera.getLatestResult().getPythonOutput()[0]!=0),
+                new WaitUntilCommand(() -> camera.getLatestResult().getPythonOutput()[0] != 0),
                 limelightGetter.getRotateToSample());
     }
 
-    public void setPreviousResult(){
+    public void setPreviousResult() {
         previousResult = camera.getLatestResult();
     }
 
-    public LLResult getPreviousResult(){
+    public LLResult getPreviousResult() {
         return previousResult;
     }
 
@@ -281,7 +308,7 @@ public class Vision extends SubsystemBase {
     public void periodic() {
         //updating the python endlessly
         camera.updatePythonInputs(
-                new double[] { 0.0, 0.0, 0.0, length, height, x, y, 0.0 }
+                new double[]{0.0, 0.0, 0.0, length, height, x, y, 0.0}
         );
 
         result = camera.getLatestResult();
