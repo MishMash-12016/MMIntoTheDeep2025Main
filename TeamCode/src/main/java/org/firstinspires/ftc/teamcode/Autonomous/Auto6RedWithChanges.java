@@ -136,7 +136,7 @@ public class Auto6RedWithChanges extends MMOpMode {
                         AutoSpecimensCommand.SpecimenScorePreLoad()
                 ),
 
-                IntakeSampleCommand.limeLightIntake_Auto().alongWith(
+                IntakeSampleCommand.doLimelightIntake_Auto().alongWith(
                         new SequentialCommandGroup(
                                 new WaitCommand(100),
                                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE),

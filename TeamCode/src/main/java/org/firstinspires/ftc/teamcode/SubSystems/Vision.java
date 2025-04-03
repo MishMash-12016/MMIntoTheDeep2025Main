@@ -198,7 +198,9 @@ public class Vision extends SubsystemBase {
     }
 
     public Double getTurnServoDegree() {
-
+        camera.updatePythonInputs(
+                new double[]{0.0, 0.0, 0.0, length, height, x, y, 0.0}
+        );
         result = camera.getLatestResult();
 
         if (result == null) {
@@ -279,7 +281,7 @@ public class Vision extends SubsystemBase {
         return detectorResultForDetector;
     }
 
-    public double getPipelineIndex(){
+    public double getPipelineIndex() {
         return camera.getStatus().getPipelineIndex();
     }
 
@@ -289,15 +291,15 @@ public class Vision extends SubsystemBase {
                 new InstantCommand(() -> trackRedPython()),
                 new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == 1),
                 new InstantCommand(() -> camera.updatePythonInputs(new double[]{0.0, 0, 0, length, height, x, y, 0.0})),
-                new WaitUntilCommand(()->camera.getLatestResult().getPythonOutput()[0]!=0),
+                new WaitUntilCommand(() -> camera.getLatestResult().getPythonOutput()[0] != 0),
                 limelightGetter.getRotateToSample());
     }
 
-    public void setPreviousResult(){
+    public void setPreviousResult() {
         previousResult = camera.getLatestResult();
     }
 
-    public LLResult getPreviousResult(){
+    public LLResult getPreviousResult() {
         return previousResult;
     }
 
@@ -306,7 +308,7 @@ public class Vision extends SubsystemBase {
     public void periodic() {
         //updating the python endlessly
         camera.updatePythonInputs(
-                new double[] { 0.0, 0.0, 0.0, length, height, x, y, 0.0 }
+                new double[]{0.0, 0.0, 0.0, length, height, x, y, 0.0}
         );
 
         result = camera.getLatestResult();

@@ -1,14 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import androidx.annotation.NonNull;
-
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.roadrunner.AccelConstraint;
-import com.acmerobotics.roadrunner.Arclength;
-import com.acmerobotics.roadrunner.MinMax;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Pose2dDual;
-import com.acmerobotics.roadrunner.PosePath;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
@@ -20,7 +13,6 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
@@ -29,7 +21,6 @@ import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
-import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -160,7 +151,7 @@ public class AutoSample7 extends MMOpMode {
                 ),
 
                 //5
-                IntakeSampleCommand.limeLightIntake_Auto(),
+                IntakeSampleCommand.doLimelightIntake_Auto(),
 
                 new ActionCommand(driveToScoreForth.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample()
@@ -183,7 +174,7 @@ public class AutoSample7 extends MMOpMode {
                 ),
 
                 //7
-                IntakeSampleCommand.limeLightIntake_Auto(),
+                IntakeSampleCommand.doLimelightIntake_Auto(),
 
                 new ActionCommand(driveToScoreSixth.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample()

@@ -138,7 +138,7 @@ public class Red_Right_6 extends MMOpMode {
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
                 ),
 
-                IntakeSampleCommand.limeLightIntake_Auto(),
+                IntakeSampleCommand.doLimelightIntake_Auto(),
 
                 new ActionCommand(driveToEject.build()).alongWith(
                         new SequentialCommandGroup(
