@@ -32,6 +32,8 @@ public class Vision extends SubsystemBase {
     @Getter
     private LLResult result;
 
+    private LLResult previousResult;
+
 
     public static double CAMERA_HEIGHT = 445;
     public static double CAMERA_ANGLE = 90 - 35.0;
@@ -91,11 +93,25 @@ public class Vision extends SubsystemBase {
         return result.getTx();
     }
 
+    public double getTx(LLResult lastResult) {
+        if (lastResult == null) {
+            return 0;
+        }
+        return lastResult.getTx();
+    }
+
     public double getTy(double defaultValue) {
         if (result == null) {
             return defaultValue;
         }
         return result.getTy();
+    }
+
+    public double getTy(LLResult lastResult) {
+        if (lastResult == null) {
+            return 0;
+        }
+        return lastResult.getTy();
     }
 
     public double getTy(LLResultTypes.DetectorResult dr, double defaultValue) {
@@ -114,6 +130,17 @@ public class Vision extends SubsystemBase {
 
     public Double getDistance() {
         double ty = getTy(0.0);
+        if (ty == 0) {
+            return 0.0;
+        }
+        double angleToGoalDegrees = CAMERA_ANGLE - ty;
+        double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
+        double distanceMM = (TARGET_HEIGHT - CAMERA_HEIGHT) / Math.tan(angleToGoalRadians);
+        return Math.abs(distanceMM);
+    }
+
+    public Double getDistance(LLResult lastResult) {
+        double ty = getTy(lastResult);
         if (ty == 0) {
             return 0.0;
         }
@@ -158,6 +185,18 @@ public class Vision extends SubsystemBase {
         return 0;
     }
 
+    public double getStrafeOffset(LLResult lastResult) {
+        double tx = lastResult.getTx();
+        if (tx != 0) {
+            double tanTX = Math.tan(Math.toRadians(tx));
+            double height = CAMERA_HEIGHT - TARGET_HEIGHT;
+            double distanceY = getDistance(lastResult);
+            double diagonalLength = Math.sqrt(height * height + distanceY * distanceY);
+            return tanTX * diagonalLength / 2.54 / 10;
+        }
+        return 0;
+    }
+
     public Double getTurnServoDegree() {
 
         result = camera.getLatestResult();
@@ -190,13 +229,12 @@ public class Vision extends SubsystemBase {
     }
 
     public void findClosestForPython() {
-        result = camera.getLatestResult();
         length = 0;
         height = 0;
         x = 1000000;
         y = 1000000;
-        if (result != null) {
-            List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
+        if (previousResult != null) {
+            List<LLResultTypes.DetectorResult> detectorResults = previousResult.getDetectorResults();
             for (LLResultTypes.DetectorResult dr : detectorResults) {
                 List<List<Double>> corners = dr.getTargetCorners();
                 List<Double> leftUp = corners.get(0);
@@ -250,6 +288,14 @@ public class Vision extends SubsystemBase {
                 new InstantCommand(() -> camera.updatePythonInputs(new double[]{0.0, 0, 0, length, height, x, y, 0.0})),
                 new WaitUntilCommand(()->camera.getLatestResult().getPythonOutput()[0]!=0),
                 limelightGetter.getRotateToSample());
+    }
+
+    public void setPreviousResult(){
+        previousResult = camera.getLatestResult();
+    }
+
+    public LLResult getPreviousResult(){
+        return previousResult;
     }
 
 

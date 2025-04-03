@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -44,5 +45,10 @@ public class IntakEndUnit extends SubsystemBase {
 
     public Command setPose(double pose) {
         return new InstantCommand(() -> clawIntakeServo.setPosition(pose), this);
+    }
+
+    @Override
+    public void periodic() {
+        FtcDashboard.getInstance().getTelemetry().addData("clawPose", clawIntakeServo.getPosition());
     }
 }

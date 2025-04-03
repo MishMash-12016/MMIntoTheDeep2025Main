@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.TrajectoryBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.qualcomm.hardware.limelightvision.LLResult;
 
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -23,6 +24,7 @@ public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
     public static double maxDistanceY = 470;
+    public static double plusDistanceX = 1.5;
     Boolean finished = true;
 
     Boolean found = false;
@@ -34,8 +36,9 @@ public class strafeToSample extends CommandBase {
 
     @Override
     public void initialize() {
-        double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset();
-        double distanceY = (maxDistanceY - MMRobot.getInstance().mmSystems.vision.getDistance()) / 25.4;
+        LLResult lastResult = MMRobot.getInstance().mmSystems.vision.getPreviousResult();
+        double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset(lastResult) + plusDistanceX;
+        double distanceY = (maxDistanceY - MMRobot.getInstance().mmSystems.vision.getDistance(lastResult)) / 25.4;
 
         if (distanceX != 0) {
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();

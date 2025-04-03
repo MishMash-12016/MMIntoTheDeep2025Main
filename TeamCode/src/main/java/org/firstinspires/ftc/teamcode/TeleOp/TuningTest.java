@@ -75,12 +75,12 @@ public class TuningTest extends MMOpMode {
 
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05).whenActive(
 //                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-                MMRobot.getInstance().mmSystems.hook.OpenHook()
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
         );
 
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05).whenActive(
 //                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
-                MMRobot.getInstance().mmSystems.hook.CloseHook()
+                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
         );
 
 //        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(

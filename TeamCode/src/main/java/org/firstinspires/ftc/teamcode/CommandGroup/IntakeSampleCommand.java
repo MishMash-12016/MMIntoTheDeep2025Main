@@ -83,21 +83,14 @@ public class IntakeSampleCommand {
         return new FixedSequentialCommandGroup(
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.findClosestForPython()),
 
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-                ),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
 
                 //Lamlam side:
                 new FixedSequentialCommandGroup(
-                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedPython()),
-                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 1),
-
+                        new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
                         MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
 
-                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
-                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
                         limelightGetter.strafeToSample(),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING)
 
@@ -140,7 +133,7 @@ public class IntakeSampleCommand {
     private static Command FirstSampleIntake() {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
-                new WaitCommand(200),
+                new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(200),
                 new ParallelCommandGroup(
