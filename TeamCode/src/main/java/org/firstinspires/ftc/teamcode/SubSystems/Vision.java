@@ -6,7 +6,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
@@ -18,7 +17,6 @@ import lombok.Getter;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
-import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.MathTools;
 
 import java.util.ArrayList;
@@ -268,7 +266,17 @@ public class Vision extends SubsystemBase {
                 limelightGetter.getRotateToSample());
     }
 
-    public void setPreviousResult(){
+    public SequentialCommandGroup prepareAngle() {
+        return new SequentialCommandGroup(
+                new InstantCommand(() -> findClosestForPython()),
+                new InstantCommand(() -> trackRedPython()),
+                new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == 1),
+                new InstantCommand(() -> camera.updatePythonInputs(new double[]{0.0, 0, 0, length, height, x, y, 0.0})),
+                new WaitUntilCommand(() -> camera.getLatestResult().getPythonOutput()[0] != 0)
+        );
+    }
+
+    public void setPreviousResult() {
         previousResult = camera.getLatestResult();
     }
 

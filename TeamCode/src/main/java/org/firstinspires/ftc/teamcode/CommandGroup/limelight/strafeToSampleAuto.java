@@ -1,60 +1,65 @@
 package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.ProfileAccelConstraint;
+import com.acmerobotics.roadrunner.TrajectoryBuilder;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.controller.PIDController;
-import com.arcrobotics.ftclib.controller.PIDFController;
-import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
 import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.FTCTimer;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.Vision;
-import org.firstinspires.ftc.teamcode.utils.SQPIDController;
+import org.firstinspires.ftc.teamcode.utils.geometry.Translation2d;
+import org.firstinspires.ftc.teamcode.utils.geometry.Rotation2d;
 
-import java.util.List;
+
+
 @Config
 public class strafeToSampleAuto extends CommandBase {
-    public static  double Kp = 0.01;
-    public static  double Ki = 0.0;
-    public static  double Kd = 0.0;
-    public static  double tolerance = 5;
-    SQPIDController pidController;
-    PinpointDrive drive;
+    MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
-    public strafeToSampleAuto(PinpointDrive drive) {
-        this.drive = drive;
+    public static double maxDistanceY = 470;
+    public static double plusDistanceX = 1.5;
+    Boolean finished = true;
+
+    Boolean found = false;
+    public strafeToSampleAuto( MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory) {
         addRequirements(
                 MMRobot.getInstance().mmSystems.driveTrain);
+
+        this.strafeTrajectory = strafeTrajectory;
     }
 
 
     @Override
-    public void initialize() {
-        pidController = new SQPIDController(Kp, Ki,Kd);
-        pidController.setSetpoint(0);
-        pidController.setTolerance(tolerance);
-    }
+    public void initialize() {}
 
     @Override
     public void execute() {
-        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,-pidController.calculate(-MMRobot.getInstance().mmSystems.vision.getStrafeOffset())) , 0));
+        if (found){
+            TelemetryPacket packet = new TelemetryPacket();
+            finished = !strafeTrajectory.run(packet);
+            FtcDashboard.getInstance().sendTelemetryPacket(packet);
+        }
+        FtcDashboard.getInstance().getTelemetry().update();
     }
 
     @Override
     public void end(boolean interrupted) {
-        drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0) , 0));
+        if (found){
+            strafeTrajectory.cancelAbruptly();
+            TelemetryPacket packet = new TelemetryPacket();
+            strafeTrajectory.run(packet);
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return pidController.atSetpoint();
+        return finished;
     }
 }
