@@ -91,8 +91,8 @@ public class IntakeSampleCommand {
                         new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
                         MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
 
-                        limelightGetter.strafeToSample(),
-                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING)
+                        limelightGetter.strafeToSample().alongWith(
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING))
 
 //                        limelightGetter.getOpenLinearToSample()
                 ).interruptOn(
@@ -106,7 +106,7 @@ public class IntakeSampleCommand {
     }
 
     public static Command limeLightIntake_Auto(){
-        return new SequentialCommandGroup(
+        return new FixedSequentialCommandGroup(
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
 
@@ -117,15 +117,22 @@ public class IntakeSampleCommand {
 
                 //Lamlam side:
                 new FixedSequentialCommandGroup(
-                        limelightGetter.strafeToSample(),
+                        new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
                         MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
-                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
-                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
-                        limelightGetter.getOpenLinearToSample()
+
+                        new ParallelCommandGroup(
+                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
+                                limelightGetter.strafeToSample()
+                        )
+
+//                        limelightGetter.getOpenLinearToSample()
                 ),
+
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                new WaitCommand(200),
-                FirstSampleIntake()
+                new WaitCommand(500),
+                FirstSampleIntake(),
+                new WaitCommand(300),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
         );
     }
 

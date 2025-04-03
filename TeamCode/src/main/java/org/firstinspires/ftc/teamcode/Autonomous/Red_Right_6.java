@@ -55,6 +55,7 @@ public class Red_Right_6 extends MMOpMode {
         MMRobot.getInstance().mmSystems.vision.trackRedPython();
 
         Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
+        robotInstance.mmSystems.initDriveTrain(currentPose);
         PinpointDrive drive = MMRobot.getInstance().mmSystems.driveTrain;
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
@@ -136,15 +137,7 @@ public class Red_Right_6 extends MMOpMode {
                         AutoSpecimensCommand.SpecimenScorePreLoad()
                 ),
 
-                IntakeSampleCommand.limeLightIntake_Auto().alongWith(
-                        new SequentialCommandGroup(
-                                new WaitCommand(100),
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE),
-                                new WaitCommand(50),
-                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INIT_POSE),
-                                new WaitCommand(200),
-                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())
-                ),
+                IntakeSampleCommand.limeLightIntake_Auto(),
 
                 new ActionCommand(driveToEject.build()).alongWith(
                         new SequentialCommandGroup(

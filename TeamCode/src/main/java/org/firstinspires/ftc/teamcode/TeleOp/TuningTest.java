@@ -33,7 +33,7 @@ public class TuningTest extends MMOpMode {
     HashMap<String, Double> poses = new HashMap<>();
 
 
-    private static final double changeBy = 0.01;
+    private static final double changeBy = 0.03;
     public TuningTest() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
@@ -100,9 +100,9 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posElbow += changeBy;
-                            ScoringEndUnitElbow.ElbowScoreSpecimenPose = posElbow;
+                            IntakEndUnit.IntakeClawOpenPos = posElbow;
                         }),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(IntakEndUnit.IntakeClawState.OPEN.position.get())
                 )
         );
 
@@ -112,9 +112,9 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posElbow -= changeBy;
-                            ScoringEndUnitElbow.ElbowScoreSpecimenPose = posElbow;
+                            IntakEndUnit.IntakeClawOpenPos = posElbow;
                         }),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(IntakEndUnit.IntakeClawState.OPEN.position.get())
                 )
         );
 
