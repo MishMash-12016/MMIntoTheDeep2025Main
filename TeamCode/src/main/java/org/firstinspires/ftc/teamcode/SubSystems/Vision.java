@@ -220,12 +220,15 @@ public class Vision extends SubsystemBase {
         return true;
     }
 
-    public void trackRedDetector() {
+    public boolean trackRedDetector() {
+        FtcDashboard.getInstance().getTelemetry().addData("time sinceupdate",camera.getTimeSinceLastUpdate());
         currentPipeline = 0;
         if (!camera.pipelineSwitch(currentPipeline)) {
             telemetry.addData("failed to switch to red", 0);
             pipelineSwitchFail += 1;
+            return false;
         }
+        return true;
     }
 
     public void findClosestForPython() {

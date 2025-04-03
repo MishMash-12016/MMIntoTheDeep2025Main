@@ -52,7 +52,7 @@ public class Red_Right_6 extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
 //        MMRobot.getInstance().mmSystems.vision.trackRed();
-        MMRobot.getInstance().mmSystems.vision.trackRedPython();
+        MMRobot.getInstance().mmSystems.vision.trackRedDetector();
 
         Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
         robotInstance.mmSystems.initDriveTrain(currentPose);
@@ -134,7 +134,8 @@ public class Red_Right_6 extends MMOpMode {
                 new InstantCommand(),
                 new ParallelCommandGroup(
                         new ActionCommand(driveToScorePreload.build()),
-                        AutoSpecimensCommand.SpecimenScorePreLoad()
+                        AutoSpecimensCommand.SpecimenScorePreLoad(),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
                 ),
 
                 IntakeSampleCommand.limeLightIntake_Auto(),

@@ -51,7 +51,7 @@ public class strafeToSample extends CommandBase {
 
             TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
                     .strafeTo(new Vector2d(endPoint.getX(), endPoint.getY()),
-                            new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 0.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.5,MecanumDrive.PARAMS.maxProfileAccel * 0.5) );
+                            new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel *0.65,MecanumDrive.PARAMS.maxProfileAccel *0.65) );
 
             strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
             found = true;
