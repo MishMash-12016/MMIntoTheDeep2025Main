@@ -52,7 +52,6 @@ public class Auto6RedWithChanges extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
 //        MMRobot.getInstance().mmSystems.vision.trackRed();
-        MMRobot.getInstance().mmSystems.vision.auto();
         MMRobot.getInstance().mmSystems.vision.trackRedDetector();
 
         Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
@@ -137,12 +136,12 @@ public class Auto6RedWithChanges extends MMOpMode {
                         AutoSpecimensCommand.SpecimenScorePreLoad()
                 ),
 
-                IntakeSampleCommand.limeLightIntake_Auto(hardwareMap, drive).alongWith(
+                IntakeSampleCommand.limeLightIntake_Auto().alongWith(
                         new SequentialCommandGroup(
                                 new WaitCommand(100),
                                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE),
                                 new WaitCommand(50),
-                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INIT_POSE),
+                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
                                 new WaitCommand(200),
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())
                 ),

@@ -52,11 +52,11 @@ public class Red_Right_6 extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
 //        MMRobot.getInstance().mmSystems.vision.trackRed();
-        MMRobot.getInstance().mmSystems.vision.auto();
-        MMRobot.getInstance().mmSystems.vision.trackRedPython();
+        MMRobot.getInstance().mmSystems.vision.trackRedDetector();
 
         Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
-        PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
+        robotInstance.mmSystems.initDriveTrain(currentPose);
+        PinpointDrive drive = MMRobot.getInstance().mmSystems.driveTrain;
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
@@ -134,18 +134,11 @@ public class Red_Right_6 extends MMOpMode {
                 new InstantCommand(),
                 new ParallelCommandGroup(
                         new ActionCommand(driveToScorePreload.build()),
-                        AutoSpecimensCommand.SpecimenScorePreLoad()
+                        AutoSpecimensCommand.SpecimenScorePreLoad(),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
                 ),
 
-                IntakeSampleCommand.limeLightIntake_Auto(hardwareMap, drive).alongWith(
-                        new SequentialCommandGroup(
-                                new WaitCommand(100),
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE),
-                                new WaitCommand(50),
-                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INIT_POSE),
-                                new WaitCommand(200),
-                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw())
-                ),
+                IntakeSampleCommand.limeLightIntake_Auto(),
 
                 new ActionCommand(driveToEject.build()).alongWith(
                         new SequentialCommandGroup(

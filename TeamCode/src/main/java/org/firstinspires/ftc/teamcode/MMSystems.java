@@ -71,6 +71,8 @@ public class MMSystems {
 
     public Vision vision;
 
+    public double servoDegrees = 0;
+
 
 
 
@@ -109,6 +111,12 @@ public class MMSystems {
 //        );
     }
 
+
+    public void initDriveTrain(Pose2d currentPose) {
+        //roadRunner 90 is what we agree as 0 so reset it to 0
+        localizer.setPosition(new Pose2d(0,0,localizer.getHeading()-Math.toRadians(90)));
+        driveTrain = new PinpointDrive(hardwareMap, currentPose);
+    }
 
     public void initDriveTrain() {
         //roadRunner 90 is what we agree as 0 so reset it to 0

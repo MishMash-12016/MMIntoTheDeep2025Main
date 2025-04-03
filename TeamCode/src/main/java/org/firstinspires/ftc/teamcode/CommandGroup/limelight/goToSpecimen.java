@@ -19,10 +19,6 @@ public class goToSpecimen extends CommandBase {
     }
 
 
-    @Override
-    public void initialize() {
-        MMRobot.getInstance().mmSystems.vision.startTracking();
-    }
 
     @Override
     public void execute() {
@@ -39,11 +35,6 @@ public class goToSpecimen extends CommandBase {
         FtcDashboard.getInstance().getTelemetry().update();
     }
 
-
-    @Override
-    public void end(boolean interrupted) {
-        MMRobot.getInstance().mmSystems.vision.stopTracking();
-    }
 
     @Override
     public boolean isFinished() {

@@ -127,7 +127,7 @@ public class PinpointDrive extends MecanumDrive {
                     setPowerManually(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());
 
                 }, this
-        );
+        ).whenFinished(()->setPowerManually(0,0,0));
     }
 
     public void resetRotation() {

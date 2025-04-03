@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 //import org.firstinspires.ftc.teamcode.Autonomous.AutoOnePlusFiveRightRed;
@@ -78,56 +80,89 @@ public class IntakeSampleCommand {
     }
 
 
-    public static Command limeLightIntake_TeleOp(HardwareMap hardwareMap){
+    public static Command limeLightIntake_TeleOp(){
         return new FixedSequentialCommandGroup(
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-                ),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd","enderd")),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd2","not enderd")),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd3","not enderd")),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd4","not enderd")),
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd2","enderd")),
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd3","enderd")),
 
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+
+                //Lamlam side:
                 new FixedSequentialCommandGroup(
-                limelightGetter.strafeToSample(),
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.findClosestForPython()),
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedPython()),
-                limelightGetter.getRotateToSample(),
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
-                limelightGetter.getOpenLinearToSample(),
+                        new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
+                        MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
 
+                        limelightGetter.strafeToSample().alongWith(
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING))
+
+//                        limelightGetter.getOpenLinearToSample()
+                ).interruptOn(
+                        ()->MMRobot.getInstance().mmSystems.driveTrain.joystickMoved()),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new WaitCommand(500),
-                SampleIntakeLowExit()
-                ).interruptOn(
-                        ()->MMRobot.getInstance().mmSystems.driveTrain.joystickMoved())
+                FirstSampleIntake(),
+                new WaitCommand(300),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
         );
     }
 
-    public static Command limeLightIntake_Auto(HardwareMap hardwareMap, PinpointDrive drive){
+    public static Command limeLightIntake_Auto(){
         return new SequentialCommandGroup(
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd","enderd")),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd2","not enderd")),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd3","not enderd")),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd4","not enderd")),
+
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd2","enderd")),
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd3","enderd")),
+
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 ),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("enderd4","enderd")),
 
                 //Lamlam side:
-                limelightGetter.getAlignToSampleAuto(hardwareMap, drive).withTimeout(750),
-                limelightGetter.getRotateToSample(),
-                limelightGetter.getOpenLinearToSample(),
+                new SequentialCommandGroup(
 
-                new WaitCommand(300),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                new WaitCommand(200),
-                FirstSampleIntake(),
-                new InstantCommand(()->
-                        MMRobot.getInstance().mmSystems.vision.stopTracking()
+                        new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
+                        MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
+
+                        new ParallelCommandGroup(
+                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
+                                limelightGetter.strafeToSample()
+                        )
+
+//                        limelightGetter.getOpenLinearToSample()
+                ),
+//                FirstSampleIntake(),
+                new SequentialCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
+                        new WaitCommand(150),
+                        MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+                        new WaitCommand(200),
+                        new ParallelCommandGroup(
+                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
+                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
+                        )
                 )
         );
     }
 
+
     private static Command FirstSampleIntake() {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
-                new WaitCommand(200),
+                new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(200),
                 new ParallelCommandGroup(
