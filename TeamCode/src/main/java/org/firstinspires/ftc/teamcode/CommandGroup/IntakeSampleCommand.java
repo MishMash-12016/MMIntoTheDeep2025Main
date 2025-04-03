@@ -83,6 +83,7 @@ public class IntakeSampleCommand {
         return new FixedSequentialCommandGroup(
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
+                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.findClosestForPython()),
 
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
@@ -90,15 +91,16 @@ public class IntakeSampleCommand {
 
                 //Lamlam side:
                 new FixedSequentialCommandGroup(
+                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedPython()),
+                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 1),
+
                         MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
+
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
                         new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
                         limelightGetter.strafeToSample(),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING)
 
-//                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
-//                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
-//
 //                        limelightGetter.getOpenLinearToSample()
                 ).interruptOn(
                         ()->MMRobot.getInstance().mmSystems.driveTrain.joystickMoved()),

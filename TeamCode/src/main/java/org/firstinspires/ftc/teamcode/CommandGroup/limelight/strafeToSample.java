@@ -22,8 +22,7 @@ import org.firstinspires.ftc.teamcode.utils.geometry.Rotation2d;
 public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
-    public static double maxDistanceY = 440;
-    public static double xOffset = 0;
+    public static double maxDistanceY = 470;
     Boolean finished = true;
 
     Boolean found = false;
@@ -35,8 +34,8 @@ public class strafeToSample extends CommandBase {
 
     @Override
     public void initialize() {
-        double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset() + xOffset;
-        double distanceY = (maxDistanceY - MMRobot.getInstance().mmSystems.vision.getDistance())/25.4;
+        double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset();
+        double distanceY = (maxDistanceY - MMRobot.getInstance().mmSystems.vision.getDistance()) / 25.4;
 
         if (distanceX != 0) {
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
