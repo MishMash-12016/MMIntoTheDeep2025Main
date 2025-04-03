@@ -1,7 +1,15 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import androidx.annotation.NonNull;
+
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.roadrunner.AccelConstraint;
+import com.acmerobotics.roadrunner.Arclength;
+import com.acmerobotics.roadrunner.MinMax;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Pose2dDual;
+import com.acmerobotics.roadrunner.PosePath;
+import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -50,7 +58,6 @@ public class AutoSample7 extends MMOpMode {
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
 
 
-
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
                 .strafeToLinearHeading(new Vector2d(-65, -49.7), Math.toRadians(264.5));
 
@@ -62,46 +69,47 @@ public class AutoSample7 extends MMOpMode {
 
         TrajectoryActionBuilder driveToIntakeThird = driveToScoreFirstSample.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-58.7, -48.2), Math.toRadians(307)
-                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*0.7));
+                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 0.7)
+                        , new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.7, MecanumDrive.PARAMS.maxProfileAccel * 0.7));
 
         TrajectoryActionBuilder driveToScoreThird = driveToIntakeThird.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-64.9, -47.5), Math.toRadians(259.33));
 
         TrajectoryActionBuilder driveToIntakeForth = driveToScoreThird.endTrajectory().fresh()
                 .strafeToLinearHeading(intakePose.component1(), intakePose.component2()
-                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.4));
+                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.4));
 
         TrajectoryActionBuilder driveToScoreForth = driveToIntakeForth.endTrajectory().fresh()
-                .strafeToLinearHeading(scorePose.component1(),scorePose.component2()
-                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2));
+                .strafeToLinearHeading(scorePose.component1(), scorePose.component2()
+                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2));
 
         TrajectoryActionBuilder driveToIntakeFifth = driveToScoreForth.endTrajectory().fresh()
                 .strafeToLinearHeading(intakePose.component1(), intakePose.component2()
-                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.4));
+                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.4));
 
         TrajectoryActionBuilder driveToScoreFifth = driveToIntakeFifth.endTrajectory().fresh()
-                .strafeToLinearHeading(scorePose.component1(),scorePose.component2()
-                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2));
+                .strafeToLinearHeading(scorePose.component1(), scorePose.component2()
+                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2));
 
         TrajectoryActionBuilder driveToIntakeSixth = driveToScoreFifth.endTrajectory().fresh()
                 .strafeToLinearHeading(intakePose.component1(), intakePose.component2()
-                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.4));
+                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.4));
 
         TrajectoryActionBuilder driveToScoreSixth = driveToIntakeSixth.endTrajectory().fresh()
-                .strafeToLinearHeading(scorePose.component1(),scorePose.component2()
-                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2));
+                .strafeToLinearHeading(scorePose.component1(), scorePose.component2()
+                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2));
 
         TrajectoryActionBuilder driveToPark = driveToScoreSixth.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-20, -8), intakePose.component2()
-                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.5));
+                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5));
 
         new SequentialCommandGroup(
                 new InstantCommand(),
                 //1
                 new ActionCommand(driveToScorePreloadSample.build())
                         .alongWith(
-                        scorePreLoadSample()
-                ),
+                                scorePreLoadSample()
+                        ),
 
                 new ParallelCommandGroup(
                         ScoreHighSampleWithoutIntake(),
@@ -113,9 +121,9 @@ public class AutoSample7 extends MMOpMode {
                 new WaitCommand(400),//lamlam
 
                 //TODO:can be joined
-                    IntakeSampleCommand.SampleIntake(),
+                IntakeSampleCommand.SampleIntake(),
 
-                    ScoringSampleCommand.PrepareHighSample(),
+                ScoringSampleCommand.PrepareHighSample(),
 
                 new WaitCommand(200),
 
@@ -139,18 +147,17 @@ public class AutoSample7 extends MMOpMode {
 
                 IntakeSampleCommand.prepareSampleIntakeWithoutButton().alongWith(
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.25)
+                ),
+                new WaitCommand(400),//lamlam
+                IntakeSampleCommand.SampleIntake(),
+
+                new ActionCommand(driveToScoreThird.build()).alongWith(
+                        ScoringSampleCommand.PrepareHighSample()
+                ),
+                new WaitCommand(200),
+                new ActionCommand(driveToIntakeForth.build()).alongWith(
+                        ScoringSampleCommand.ScoreHighSample()
                 )
-//                ,
-//                new WaitCommand(400),//lamlam
-//                IntakeSampleCommand.SampleIntake(),
-//
-//                new ActionCommand(driveToScoreThird.build()).alongWith(
-//                        ScoringSampleCommand.PrepareHighSample()
-//                ),
-//                new WaitCommand(200),
-//                new ActionCommand(driveToIntakeForth.build()).alongWith(
-//                        ScoringSampleCommand.ScoreHighSample()
-//                )
 //                ,
 //
 //                //5
@@ -243,6 +250,7 @@ public class AutoSample7 extends MMOpMode {
                 )
         );
     }
+
     public static Command prepareSampleIntakeWithoutButtonAndScoring() {
         return new ParallelCommandGroup(
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(0.51),
