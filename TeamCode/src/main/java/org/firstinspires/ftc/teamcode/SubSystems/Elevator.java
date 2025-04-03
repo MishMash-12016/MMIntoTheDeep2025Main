@@ -43,11 +43,11 @@ public class Elevator extends MMPIDSubsystem {
     final double SPROCKET_PERIMETER = Math.PI*3.82;
 
     //PID:
-    public static double kP = 0.37;
+    public static double kP = 0.19;
     public static double kI = 0;
-    public static double kD = 0.008;
+    public static double kD = 0.0001;
 
-    public static double TOLERANCE = .2;
+    public static double TOLERANCE = .3;
     public static double kG = 0.0;
 
     public double ticksOffset = 0;
@@ -122,7 +122,7 @@ public class Elevator extends MMPIDSubsystem {
     public Command ElevatorGetToZeroSensor() {
         return new SequentialCommandGroup(
                 new ParallelDeadlineGroup(
-                        new WaitUntilCommand(this::getElevatorSwitchState),
+                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getElevatorSwitchState()),
                         new SequentialCommandGroup(
                                 moveToPose(ElevatorState.ELEVATOR_DOWN),
                                 new RunCommand(() -> setPower(-0.3))

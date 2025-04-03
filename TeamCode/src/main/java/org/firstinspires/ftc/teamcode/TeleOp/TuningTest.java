@@ -86,17 +86,17 @@ public class TuningTest extends MMOpMode {
 //                MMRobot.getInstance().mmSystems.hook.CloseHook()
 //        );
 //
-////        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-////                new SequentialCommandGroup(
-////                       mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET)
-////                )
-////        );
-////
-////        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-////                new SequentialCommandGroup(
-////                        mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_DOWN)
-////                )
-////        );
+        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+                new SequentialCommandGroup(
+                       mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET)
+                )
+        );
+
+        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                new SequentialCommandGroup(
+                        mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_DOWN)
+                )
+        );
 //
 //
 //        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(

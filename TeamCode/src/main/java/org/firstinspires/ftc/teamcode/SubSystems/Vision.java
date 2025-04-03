@@ -254,31 +254,6 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    public LLResultTypes.DetectorResult findClosestForDetector() {
-        result = camera.getLatestResult();
-        lengthForDetector = 0;
-        heightForDetector = 0;
-        xForDetector = 1000000;
-        yForDetector = 1000000;
-
-        List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
-        for (LLResultTypes.DetectorResult dr : detectorResults) {
-            List<List<Double>> corners = dr.getTargetCorners();
-            List<Double> leftUp = corners.get(0);
-            List<Double> rightUp = corners.get(1);
-            List<Double> rightDown = corners.get(2);
-            if (Math.abs(linearPointX - (leftUp.get(0) + MathTools.distance(leftUp, rightUp) / 2)) < Math.abs(linearPointX - (xForDetector + lengthForDetector / 2))) {
-                lengthForDetector = MathTools.distance(leftUp, rightUp);
-                heightForDetector = MathTools.distance(rightDown, rightUp);
-                targetLeftUpForDetector = leftUp;
-                xForDetector = targetLeftUpForDetector.get(0);
-                yForDetector = targetLeftUpForDetector.get(1);
-                detectorResultForDetector = dr;
-            }
-        }
-        return detectorResultForDetector;
-    }
-
     public double getPipelineIndex(){
         return camera.getStatus().getPipelineIndex();
     }

@@ -12,9 +12,9 @@ import java.util.function.BooleanSupplier;
 
 public class limelightGetter {
 
-    public static Command getOpenLinearToSample() {
-        return new openLinearToSample();
-    }
+//    public static Command getOpenLinearToSample() {
+//        return new openLinearToSample();
+//    }
 
 
     public static Command getRotateToSample() {
