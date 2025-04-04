@@ -32,6 +32,8 @@ public class Vision extends SubsystemBase {
 
     private LLResult previousResult;
 
+    public static int color;
+
 
     public static double CAMERA_HEIGHT = 445;
     public static double CAMERA_ANGLE = 90 - 35.0;
@@ -211,21 +213,33 @@ public class Vision extends SubsystemBase {
         return lastAngle;
     }
 
-    public boolean trackRedPython() {
-        currentPipeline = 1;
+    public void trackRed(){
+        color = 0;
+    }
+
+    public void trackYellow(){
+        color = 1;
+    }
+
+    public void trackBlue(){
+        color = 2;
+    }
+
+    public boolean switchToPython() {
+        currentPipeline = color + 3;
         if (!camera.pipelineSwitch(currentPipeline)) {
-            telemetry.addData("failed to switch to red", 0);
+            telemetry.addData("failed to switch to python", color);
             pipelineSwitchFail += 1;
             return false;
         }
         return true;
     }
 
-    public boolean trackRedDetector() {
+    public boolean switchToDetector() {
         FtcDashboard.getInstance().getTelemetry().addData("time sinceupdate",camera.getTimeSinceLastUpdate());
-        currentPipeline = 0;
+        currentPipeline = color;
         if (!camera.pipelineSwitch(currentPipeline)) {
-            telemetry.addData("failed to switch to red", 0);
+            telemetry.addData("failed to switch to detector", 0);
             pipelineSwitchFail += 1;
             return false;
         }
@@ -292,7 +306,7 @@ public class Vision extends SubsystemBase {
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered4", "not enderd")),
                 new InstantCommand(() -> findClosestForPython()),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered2", "enderd")),
-                new WaitUntilCommand(() -> trackRedPython()),
+                new WaitUntilCommand(() -> switchToPython()),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered3", "enderd")),
                 new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == 1),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered4", "enderd")),
@@ -304,7 +318,7 @@ public class Vision extends SubsystemBase {
     public SequentialCommandGroup prepareAngle() {
         return new SequentialCommandGroup(
                 new InstantCommand(() -> findClosestForPython()),
-                new InstantCommand(() -> trackRedPython()),
+                new InstantCommand(() -> switchToPython()),
                 new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == 1),
                 new InstantCommand(() -> camera.updatePythonInputs(new double[]{0.0, 0, 0, length, height, x, y, 0.0})),
                 new WaitUntilCommand(() -> camera.getLatestResult().getPythonOutput()[0] != 0)

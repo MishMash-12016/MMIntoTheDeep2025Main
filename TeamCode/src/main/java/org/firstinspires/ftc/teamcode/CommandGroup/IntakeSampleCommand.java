@@ -1,22 +1,18 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.ProfileAccelConstraint;
-import com.acmerobotics.roadrunner.TrajectoryBuilder;
-import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
-import com.qualcomm.hardware.limelightvision.LLResult;
 
 //import org.firstinspires.ftc.teamcode.Autonomous.AutoOnePlusFiveRightRed;
+import org.firstinspires.ftc.teamcode.Autonomous.ActionCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
-import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm.IntakeArmState;
@@ -26,8 +22,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake.LinearIntakeState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm.ScoringArmState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.FixedSequentialCommandGroup;
-import org.firstinspires.ftc.teamcode.utils.geometry.Rotation2d;
-import org.firstinspires.ftc.teamcode.utils.geometry.Translation2d;
 
 import java.util.function.BooleanSupplier;
 
@@ -89,7 +83,7 @@ public class IntakeSampleCommand {
 
     public static Command limeLightIntake_TeleOp() {
         return new FixedSequentialCommandGroup(
-                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
 
                 new ParallelCommandGroup(
@@ -127,7 +121,7 @@ public class IntakeSampleCommand {
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered3", "not enderd")),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered4", "not enderd")),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered5", "not enderd")),
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered2", "enderd")),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered3", "enderd")),
@@ -173,10 +167,21 @@ public class IntakeSampleCommand {
         );
     }
 
-    public static Command doLimelightIntake_Auto(double angle) {
+    public static ActionCommand driveRight(){
+        return new ActionCommand(
+                MMRobot.getInstance().mmSystems.driveTrain.actionBuilder(MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR())
+                        .strafeTo(new Vector2d(MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().position.x,MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().position.y + 5 ))
+                        .build());
+    }
 
+    public static Command doLimelightIntake_Auto(double angle) {
         return new FixedSequentialCommandGroup(
-                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.trackRedDetector()),
+                new ConditionalCommand(
+                                driveRight(),
+                        new InstantCommand(()->{}),
+                        ()->MMRobot.getInstance().mmSystems.vision.isTargetVisible()
+                ),
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
 
                 new ParallelCommandGroup(

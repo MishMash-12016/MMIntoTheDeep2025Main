@@ -23,9 +23,7 @@ import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
@@ -46,8 +44,9 @@ public class AutoSample7 extends MMOpMode {
 
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
+        robotInstance.mmSystems.vision.trackRed();
 
-        MMRobot.getInstance().mmSystems.vision.trackRedDetector();
+        MMRobot.getInstance().mmSystems.vision.switchToDetector();
 
         Pose2d currentPose = new Pose2d(-41, -61.23, Math.toRadians(270));
         robotInstance.mmSystems.initDriveTrain(currentPose);
