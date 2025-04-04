@@ -7,6 +7,8 @@ import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -109,8 +111,22 @@ public class MMSystems {
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)
 //        );
+        testPipelines();
+        if (Vision.pipelineSwitchFail > 0){
+            telemetry.addData("!!!!!!!!!!!!!!!!!!!!!RESTART THE FUCKING ROBOT!!!!!!!!!!!!!!!!!!!!!", "please? the limelight is kinda bad");
+        }
     }
 
+    public void  testPipelines(){
+        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector());
+        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0);
+        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToPython());
+        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 1);
+        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector());
+        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0);
+        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToPython());
+        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 1);
+    }
 
     public void initDriveTrain(Pose2d currentPose) {
         //roadRunner 90 is what we agree as 0 so reset it to 0

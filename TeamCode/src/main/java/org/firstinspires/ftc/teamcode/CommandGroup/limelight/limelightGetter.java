@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.CommandGroup.limelight;
 
+import com.acmerobotics.roadrunner.AccelConstraint;
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.VelConstraint;
 import com.arcrobotics.ftclib.command.Command;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -13,13 +16,12 @@ import java.util.function.BooleanSupplier;
 
 public class limelightGetter {
 
-//    public static Command getOpenLinearToSample() {
-//        return new openLinearToSample();
-//    }
-
 
     public static Command getRotateToSample() {
         return new rotateToSample();
+    }
+    public static Command goToSpecimen(Pose2d pose2d, double tangent, VelConstraint velConstraint, AccelConstraint accelConstraint , Double setTangent) {
+        return new goToSpecimen(pose2d, tangent, velConstraint, accelConstraint, setTangent);
     }
 
     public static Command strafeToSample() {
