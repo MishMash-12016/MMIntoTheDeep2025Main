@@ -3,11 +3,13 @@ package org.firstinspires.ftc.teamcode.Libraries.MMLib.PID;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDController;
 
+import org.firstinspires.ftc.teamcode.utils.SQPIDController;
+
 public class MMPIDCommand extends CommandBase {
 
     private final MMPIDSubsystem subsystem;
     private final double setPoint;
-    private final PIDController pidController;
+    private final SQPIDController pidController;
 
     public MMPIDCommand(MMPIDSubsystem subsystem, double setPoint) {
         this.subsystem = subsystem;
@@ -18,7 +20,7 @@ public class MMPIDCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        pidController.setSetPoint(setPoint);
+        pidController.setSetpoint(setPoint);
     }
 
     @Override
@@ -29,7 +31,7 @@ public class MMPIDCommand extends CommandBase {
     @Override
     public boolean isFinished() {
 //        return false;
-        return pidController.atSetPoint();
+        return pidController.atSetpoint();
     }
 
     @Override

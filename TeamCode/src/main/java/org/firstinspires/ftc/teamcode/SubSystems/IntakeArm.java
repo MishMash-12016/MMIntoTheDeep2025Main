@@ -16,7 +16,7 @@ public class IntakeArm extends SubsystemBase {
     public static double intakeArmIntakeSamplePos = 0.57;
     public static double intakeArmPrepareIntakeSamplePose = 0.5;
     public static double intakeArmSpecimenIntakePose = 0.3;
-    public static double intakeArmTransferSamplePose = 0.05;
+    public static double intakeArmTransferSamplePose = 0.08;
     public static double intakeArmInitPose = 0.05;
     public double estimatedPose;
     CuttleServo servoLeft;

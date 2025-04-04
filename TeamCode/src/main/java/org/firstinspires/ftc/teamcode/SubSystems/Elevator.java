@@ -193,7 +193,7 @@ public class Elevator extends MMPIDSubsystem {
 
     public void updateToDashboard() {
         FtcDashboard.getInstance().getTelemetry().addData("height", getHeight());
-        FtcDashboard.getInstance().getTelemetry().addData("target", getPidController().getSetPoint());
+        FtcDashboard.getInstance().getTelemetry().addData("target", getPidController().atSetpoint());
         FtcDashboard.getInstance().getTelemetry().addData("elevator power", motor1.getPower());
 
         FtcDashboard.getInstance().getTelemetry().update();

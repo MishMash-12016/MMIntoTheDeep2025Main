@@ -58,7 +58,7 @@ public class Vision extends SubsystemBase {
     public static double yForDetector = -1;
     public static List<Double> targetLeftUpForDetector;
     public static LLResultTypes.DetectorResult detectorResultForDetector;
-    public static double linearPointX = 226;
+    public static double linearPointX = 215 ;
     Telemetry telemetry;
 
 
@@ -184,6 +184,7 @@ public class Vision extends SubsystemBase {
     }
 
     public double getStrafeOffset(LLResult lastResult) {
+        if(lastResult != null){}//TODO make it not crash
         double tx = lastResult.getTx();
         if (tx != 0) {
             double tanTX = Math.tan(Math.toRadians(tx));
@@ -285,9 +286,16 @@ public class Vision extends SubsystemBase {
 
     public SequentialCommandGroup onlyAngleChange() {
         return new SequentialCommandGroup(
+                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered", "enderd")),
+                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered2", "not enderd")),
+                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered3", "not enderd")),
+                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered4", "not enderd")),
                 new InstantCommand(() -> findClosestForPython()),
-                new InstantCommand(() -> trackRedPython()),
+                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered2", "enderd")),
+                new WaitUntilCommand(() -> trackRedPython()),
+                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered3", "enderd")),
                 new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == 1),
+                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered4", "enderd")),
                 new InstantCommand(() -> camera.updatePythonInputs(new double[]{0.0, 0, 0, length, height, x, y, 0.0})),
                 new WaitUntilCommand(() -> camera.getLatestResult().getPythonOutput()[0] != 0),
                 limelightGetter.getRotateToSample());

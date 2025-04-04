@@ -3,11 +3,12 @@ package org.firstinspires.ftc.teamcode.Libraries.MMLib.PID;
 import com.arcrobotics.ftclib.controller.PIDController;
 
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.SubsystemStructure.MMPowerSubsystem;
+import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 
 public abstract class MMPIDSubsystem extends MMPowerSubsystem<Double> {
     public boolean doPid = true;
 
-    private final PIDController pidController;
+    private final SQPIDController pidController;
 
     /**
      * default constructor to create the {@link PIDController} object
@@ -17,7 +18,7 @@ public abstract class MMPIDSubsystem extends MMPowerSubsystem<Double> {
      * @param tolerance the controller's tolerance (what is "at point")
      */
     public MMPIDSubsystem(double kP, double kI, double kD, double tolerance) {
-        pidController = new PIDController(kP, kI, kD);
+        pidController = new SQPIDController(kP, kI, kD);
         pidController.setTolerance(tolerance);
     }
 
@@ -25,11 +26,11 @@ public abstract class MMPIDSubsystem extends MMPowerSubsystem<Double> {
      * this constructor can be used in case u want to insert ur own pid controller
      * @param pidController ur pid controller object
      */
-    public MMPIDSubsystem(PIDController pidController) {
+    public MMPIDSubsystem(SQPIDController pidController) {
         this.pidController = pidController;
     }
 
-    public PIDController getPidController() {
+    public SQPIDController getPidController() {
         return pidController;
     }
 

@@ -26,7 +26,4 @@ public class limelightGetter {
         return new strafeToSample();
     }
 
-    public static Command strafeToSampleAuto( MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory) {
-        return new strafeToSampleAuto(strafeTrajectory);
-    }
 }
