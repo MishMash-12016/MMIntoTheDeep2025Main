@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringEndUnitElbow extends SubsystemBase {
-    public static double prepareSampleScorePose = 0.46;
+    public static double prepareSampleScorePose = 0.42;
     public static double ElbowScoreSamplePose = 0.78;
     public static double ElbowInitPose = 0.32;
     public static double ElbowTransferSamplePose = 0.08;
