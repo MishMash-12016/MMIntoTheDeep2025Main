@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
@@ -45,19 +47,15 @@ public class ScoringSampleCommand {
 
     public static Command PrepareHighSample(){
         return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
-                new WaitCommand(100),
                 new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_TRANSFER_POSE)
-                ),
-                new WaitCommand(200),
-                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_TRANSFER_POSE),
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SAMPLE_POSE)
                 ),
-                new WaitCommand(50),
+                new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SAMPLE_TRANSFER_POSE),
                 new WaitCommand(50),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
@@ -67,16 +65,18 @@ public class ScoringSampleCommand {
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORING_ARM_SCORE_POSE),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_SCORE),
                 new WaitCommand(100),
-                new ParallelCommandGroup(
+                new ParallelDeadlineGroup(
+                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() > 43),
                         MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET).alongWith(
                                 new WaitCommand(200).andThen(
                                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
                                 )
                         ),
-                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() > 39).andThen(
+                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() > 37).andThen(
                                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE)
                         )
-                )
+                ),
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0), MMRobot.getInstance().mmSystems.elevator)
         );
     }
 
