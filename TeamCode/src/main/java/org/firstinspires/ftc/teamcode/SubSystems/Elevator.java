@@ -45,9 +45,9 @@ public class Elevator extends MMPIDSubsystem {
     final double SPROCKET_PERIMETER = Math.PI*3.82;
 
     //PID:
-    public static double kP = 0.19 * 13;
-    public static double kI = 0;
-    public static double kD = 0.0001 * 13;
+    public static double kP = 0.19;
+    public static double kI = 0.001;
+    public static double kD = 0.0001;
 
     public static double TOLERANCE = .3;
     public static double kG = 0.0;
@@ -56,12 +56,15 @@ public class Elevator extends MMPIDSubsystem {
 
     private final VoltageSensor voltageSensor;
 
-    private static final double maxHeight = 105; //TODO:find new max height
+    private static final double maxHeight = 70; //TODO:find new max height
 
     public static double elevatorHighBasket = 43;
     public static double elevatorDown = 0;
     public static double elevatorClimbLow = 23;
     public static double elevatorClimb = 12;
+
+
+    private static boolean isAuto = false;
 
     public enum ElevatorState {
 
@@ -109,6 +112,41 @@ public class Elevator extends MMPIDSubsystem {
         setDefaultCommand(PID);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
+
+        isAuto = false;
+    }
+
+    public Elevator(HardwareMap hardwareMap, boolean Void) {
+        super(kP, kI, kD, TOLERANCE);
+
+        register();
+
+        motor1 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR1);
+        motor2 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR2);
+        motor3 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR3);
+        motor4 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR4);
+
+        elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
+
+        this.motor1.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motor2.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motor3.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motor4.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        motor1.setDirection(Direction.REVERSE);
+        motor2.setDirection(Direction.REVERSE);
+        motor3.setDirection(Direction.REVERSE);
+        motor4.setDirection(Direction.REVERSE);
+
+        motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
+        resetTicks();
+
+        PID = new MMPIDCommandForever(this);
+        setDefaultCommand(PID);
+
+        voltageSensor = hardwareMap.voltageSensor.iterator().next();
+
+        isAuto = true;
     }
 
     public Command moveToPose(double setPoint) {
@@ -147,7 +185,11 @@ public class Elevator extends MMPIDSubsystem {
         if (targetPose > maxHeight) {
             power = 0.0;
         }
-        power = power / voltageSensor.getVoltage();
+        power = power / voltageSensor.getVoltage()*13;
+
+        if (isAuto && power < -0.5) {
+            power = -0.5;
+        }
 
         motor1.setPower(power);
         motor2.setPower(power);

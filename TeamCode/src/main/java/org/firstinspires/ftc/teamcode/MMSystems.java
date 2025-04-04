@@ -79,7 +79,7 @@ public class MMSystems {
     //creating and initiating all subsystems
     public void initRobotSystems() {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
-        this.elevator = new Elevator();
+        this.elevator = new Elevator(hardwareMap, false);
         this.linearIntake = new LinearIntake();
         this.intakEndUnit = new IntakEndUnit();
         this.intakeArm = new IntakeArm();
@@ -96,7 +96,7 @@ public class MMSystems {
     }
     public void initRobotSystemsTeleOp() {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
-        this.elevator = new Elevator();
+        this.elevator = new Elevator(hardwareMap);
         this.linearIntake = new LinearIntake();
         this.intakEndUnit = new IntakEndUnit();
         this.intakeArm = new IntakeArm(false);
