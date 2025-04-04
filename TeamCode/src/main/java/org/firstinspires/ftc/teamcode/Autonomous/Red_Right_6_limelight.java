@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
@@ -29,7 +30,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 @Autonomous
-public class Red_Right_6 extends MMOpMode {
+public class Red_Right_6_limelight extends MMOpMode {
     static MMRobot robotInstance;
     static final double halfOpenClaw = 0.6;
     static final double rotator = 0;
@@ -41,7 +42,7 @@ public class Red_Right_6 extends MMOpMode {
     final Pose2d intakePose = new Pose2d(40, -65.5, Math.toRadians(90));
     static final Pose2d scorePose = new Pose2d(6, -31.8, Math.toRadians(120));
 
-    public Red_Right_6() {
+    public Red_Right_6_limelight() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
 
@@ -51,7 +52,7 @@ public class Red_Right_6 extends MMOpMode {
 
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
-//        MMRobot.getInstance().mmSystems.vision.trackRed();
+        MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.switchToDetector();
 
         Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
@@ -80,6 +81,7 @@ public class Red_Right_6 extends MMOpMode {
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
                 .splineToLinearHeading(new Pose2d(38, -37, Math.toRadians(235)), Math.toRadians(70), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(300))
                 .splineToLinearHeading(new Pose2d(45.8, -51, Math.toRadians(140)), Math.toRadians(260), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
@@ -87,33 +89,34 @@ public class Red_Right_6 extends MMOpMode {
         TrajectoryActionBuilder driveToPush3 = turnRobot2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
                 .splineToLinearHeading(new Pose2d(51, -38, Math.toRadians(235)), Math.toRadians(80), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+
         TrajectoryActionBuilder turnRobot3 = driveToPush3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(51, -53, Math.toRadians(90)), Math.toRadians(270), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
-        TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(51, -68, Math.toRadians(90)), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
-        TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToIntakeFirstSpecimen.endTrajectory().fresh()
+        Command driveToIntakeFirstSpecimen = limelightGetter.goToSpecimen(new Pose2d(51, -68, Math.toRadians(90)), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel), null);
+
+        TrajectoryActionBuilder driveToScoreFirstSpecimen = drive.actionBuilder(MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR())
                 .setTangent(Math.toRadians(140 + 5))
                 .splineToLinearHeading(new Pose2d(2, -34.5, Math.toRadians(112.5)), Math.toRadians(tangentsToScoreSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
 
-        TrajectoryActionBuilder driveToIntakeSecondSpecimen = driveToScoreFirstSpecimen.endTrajectory().fresh()
-                .setTangent(Math.toRadians(310))
-                .splineToLinearHeading(new Pose2d(40, -66.5, Math.toRadians(90)), Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
-        TrajectoryActionBuilder driveToScoreSecondSpecimen = driveToIntakeSecondSpecimen.endTrajectory().fresh()
+        Command driveToIntakeSecondSpecimen = limelightGetter.goToSpecimen(new Pose2d(40, -66.5, Math.toRadians(90)), Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2), Math.toRadians(310));
+
+        TrajectoryActionBuilder driveToScoreSecondSpecimen = drive.actionBuilder(MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR())
                 .setTangent(Math.toRadians(140))
                 .splineToSplineHeading(scorePose, Math.toRadians(tangentsToScoreSpecimen));
 
-        TrajectoryActionBuilder driveToIntakeThirdSpecimen = driveToScoreSecondSpecimen.endTrajectory().fresh()
-                .setTangent(Math.toRadians(310))
-                .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
-        TrajectoryActionBuilder driveToScoreThirdSpecimen = driveToIntakeThirdSpecimen.endTrajectory().fresh()
+        Command driveToIntakeThirdSpecimen = limelightGetter.goToSpecimen(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2), Math.toRadians(310));
+
+
+        TrajectoryActionBuilder driveToScoreThirdSpecimen = drive.actionBuilder(MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR())
                 .setTangent(Math.toRadians(140))
                 .splineToSplineHeading(scorePose, Math.toRadians(tangentsToScoreSpecimen));
 
         TrajectoryActionBuilder driveToIntakeForthSpecimen = driveToScoreThirdSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))
                 .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+
         TrajectoryActionBuilder driveToScoreForthSpecimen = driveToIntakeForthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(140))
                 .splineToSplineHeading(scorePose, Math.toRadians(tangentsToScoreSpecimen));
@@ -121,6 +124,7 @@ public class Red_Right_6 extends MMOpMode {
         TrajectoryActionBuilder driveToIntakeFifthSpecimen = driveToScoreForthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))
                 .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+
         TrajectoryActionBuilder driveToScoreFifthSpecimen = driveToIntakeFifthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(140+10))
                 .splineToSplineHeading(new Pose2d(7, scorePose.position.y, scorePose.heading.toDouble()), Math.toRadians(tangentsToScoreSpecimen-10));
@@ -173,7 +177,7 @@ public class Red_Right_6 extends MMOpMode {
                                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
                                 robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)
                         )
-                        ),
+                ),
 
                 //push third
                 new ActionCommand(turnRobot3.build()).alongWith(
@@ -194,7 +198,7 @@ public class Red_Right_6 extends MMOpMode {
                         )
                 ),
                 //First
-                new ActionCommand(driveToIntakeFirstSpecimen.build()).alongWith(
+                driveToIntakeFirstSpecimen.alongWith(
                 ),
                 IntakeSpecimenCommand.PrepareSpecimenIntakeFront().alongWith(
                         new WaitCommand(100).andThen(
@@ -202,7 +206,7 @@ public class Red_Right_6 extends MMOpMode {
 
 
                 //Second
-                new ActionCommand(driveToIntakeSecondSpecimen.build()).alongWith(
+                driveToIntakeSecondSpecimen.alongWith(
                         IntakeSpecimenCommand.SpecimenIntake()
                 ),
 
@@ -211,7 +215,7 @@ public class Red_Right_6 extends MMOpMode {
                                 new ActionCommand(driveToScoreSecondSpecimen.build()))),
 
                 //Third
-                new ActionCommand(driveToIntakeThirdSpecimen.build()).alongWith(
+                driveToIntakeThirdSpecimen.alongWith(
                         IntakeSpecimenCommand.SpecimenIntake()
                 ),
 

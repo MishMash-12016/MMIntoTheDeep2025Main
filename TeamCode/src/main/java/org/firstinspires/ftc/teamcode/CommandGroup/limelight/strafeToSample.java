@@ -39,6 +39,10 @@ public class strafeToSample extends CommandBase {
         LLResult lastResult = MMRobot.getInstance().mmSystems.vision.getPreviousResult();
         double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset(lastResult) + plusDistanceX;
         double distanceY = (maxDistanceY - MMRobot.getInstance().mmSystems.vision.getDistance(lastResult)) / 25.4;
+        double accelerationMultiplier = 0.65;
+        if (distanceX > 12){
+            accelerationMultiplier = 0.4;
+        }
 
         if (distanceX != 0) {
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
@@ -51,7 +55,7 @@ public class strafeToSample extends CommandBase {
 
             TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
                     .strafeTo(new Vector2d(endPoint.getX(), endPoint.getY()),
-                            new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel *0.65,MecanumDrive.PARAMS.maxProfileAccel *0.65) );
+                            new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel *accelerationMultiplier,MecanumDrive.PARAMS.maxProfileAccel *accelerationMultiplier) );
 
             strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
             found = true;
