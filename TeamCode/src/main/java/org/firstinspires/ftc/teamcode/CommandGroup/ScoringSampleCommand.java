@@ -82,7 +82,7 @@ public class ScoringSampleCommand {
 
     public static Command PrepareHighSample_Auto(){
         return new SequentialCommandGroup(
-                new WaitCommand(100),
+//                new WaitCommand(100),
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),

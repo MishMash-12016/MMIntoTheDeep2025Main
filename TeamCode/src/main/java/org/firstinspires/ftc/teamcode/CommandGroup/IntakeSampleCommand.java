@@ -54,8 +54,20 @@ public class IntakeSampleCommand {
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 ));
     }
-
     public static Command SampleIntake() {
+        return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SAMPLE_INTAKE_POSE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),
+                new WaitCommand(200),
+                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+                new WaitCommand(200),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
+        );
+    }
+    public static Command SampleIntakeWithoutRequirments() {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArmState.SAMPLE_INTAKE_POSE),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPositionWithoutRequirments(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
@@ -64,7 +76,7 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.intakEndUnit.setPoseWithoutRequirments(IntakEndUnit.IntakeClawState.CLOSE.position.get()),
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArmState.SPECIMEN_INTAKE),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get()),
                 MMRobot.getInstance().mmSystems.linearIntake.setPositionWithoutRequirments(LinearIntakeState.CLOSED_POSE)
         );
     }
@@ -117,15 +129,15 @@ public class IntakeSampleCommand {
 
     public static Command limeLightIntake_Auto() {
         return new FixedSequentialCommandGroup(
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered", "enderd")),
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered2", "not enderd")),
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered3", "not enderd")),
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered4", "not enderd")),
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered5", "not enderd")),
+//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered", "enderd")),
+//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered2", "not enderd")),
+//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered3", "not enderd")),
+//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered4", "not enderd")),
+//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered5", "not enderd")),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered2", "enderd")),
+//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered2", "enderd")),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered3", "enderd")),
+//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered3", "enderd")),
 
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
@@ -134,12 +146,12 @@ public class IntakeSampleCommand {
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE)
                 ),
 
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered4", "enderd")),
+//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered4", "enderd")),
                 //Lamlam side:
                 new FixedSequentialCommandGroup(
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
                         MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
-                        new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered5", "enderd")),
+//                        new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered5", "enderd")),
 
                         limelightGetter.strafeToSample().alongWith(
                                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING))

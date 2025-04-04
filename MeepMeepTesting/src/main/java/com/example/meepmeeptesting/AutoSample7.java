@@ -12,8 +12,8 @@ import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 public class AutoSample7 {
     public static void main(String[] args) {
 
-        final Pose2d scorePose = new Pose2d(-58, -49, Math.toRadians(240));
-        final Pose2d intakePose = new Pose2d(-24, -12, Math.toRadians(180));
+        final Pose2d scorePose = new Pose2d(-59, -50, Math.toRadians(240));
+        final Pose2d intakePose = new Pose2d(-26, -12, Math.toRadians(180));
 
 
         MeepMeep meepMeep = new MeepMeep(600);
@@ -26,63 +26,55 @@ public class AutoSample7 {
 
                 .followTrajectorySequence(drive-> drive.trajectorySequenceBuilder(new Pose2d(-41, -61.23, Math.toRadians(270)))
 
+//                        TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
                                 .setTangent(Math.toRadians(135))
-                                .splineToLinearHeading(new Pose2d(-58.7, -52,Math.toRadians(245)),Math.toRadians(160))
+                                .splineToLinearHeading(new Pose2d(-58.7, -52,Math.toRadians(247.5)),Math.toRadians(160))
 
+//        TrajectoryActionBuilder driveToIntakeFirst = driveToScorePreloadSample.endTrajectory().fresh()
+                .lineToLinearHeading(new Pose2d(-59.4, -48, Math.toRadians(245)))
 
-                        .lineToLinearHeading(new Pose2d(-58.7, -48, Math.toRadians(245)))
+//        TrajectoryActionBuilder driveToScoreFirst = driveToIntakeFirst.endTrajectory().fresh()
+                .lineToLinearHeading(new Pose2d(-59.2, -51.8, Math.toRadians(257)))
 
-                        .lineToLinearHeading(new Pose2d(-58.7, -53, Math.toRadians(245)))
+//        TrajectoryActionBuilder driveToIntakeSecondSample = driveToScoreFirst.endTrajectory().fresh()
+                .lineToLinearHeading(new Pose2d(-59.9, -50, Math.toRadians(268)))
 
-                        .lineToLinearHeading(new Pose2d(-57.7, -48, Math.toRadians(270)))
+//        TrajectoryActionBuilder driveToScoreSecondSample = driveToIntakeSecondSample.endTrajectory().fresh()
+                .lineToLinearHeading(new Pose2d(-61.4, -51, Math.toRadians(250)))
 
-                        .lineToLinearHeading(new Pose2d(-61, -51, Math.toRadians(260)))
+//        TrajectoryActionBuilder driveToIntakeThird = driveToScoreSecondSample.endTrajectory().fresh()
+                .lineToLinearHeading(new Pose2d(-57.7, -49, Math.toRadians(300)))
 
-                        .lineToLinearHeading(new Pose2d(-58.7, -48.2, Math.toRadians(298)))
+//        TrajectoryActionBuilder driveToScoreThird = driveToIntakeThird.endTrajectory().fresh()
+                .lineToLinearHeading(new Pose2d(-61.2, -51.7, Math.toRadians(245)))
 
-                        .lineToLinearHeading(new Pose2d(-61, -51, Math.toRadians(260)))
+//        TrajectoryActionBuilder driveToIntakeForth = driveToScoreThird.endTrajectory().fresh()
+                .setTangent(Math.toRadians(62))
+                .splineToSplineHeading(intakePose,Math.toRadians(25))
 
-//
-////        TrajectoryActionBuilder driveToIntakeFirstSample = driveToScorePreloadSample.endTrajectory().fresh()
-//                .lineToLinearHeading(new Pose2d(-58.7, -48, Math.toRadians(245)))
-//
-////        TrajectoryActionBuilder driveToScoreFirstSample = driveToIntakeFirstSample.endTrajectory().fresh()
-//                .lineToLinearHeading(new Pose2d(-59.1, -52, Math.toRadians(247.7)))
-//
-////        TrajectoryActionBuilder driveToIntakeThird = driveToScoreFirstSample.endTrajectory().fresh()
-//                .lineToLinearHeading(new Pose2d(-58.7, -48.2, Math.toRadians(307)))
-//
-////        TrajectoryActionBuilder driveToScoreThird = driveToIntakeThird.endTrajectory().fresh()
-//                .lineToLinearHeading(new Pose2d(-64.9, -47.5, Math.toRadians(259.33)))
-//
-////        TrajectoryActionBuilder driveToIntakeForth = driveToScoreThird.endTrajectory().fresh()
-//                        .setTangent(Math.toRadians(62))
-//                        .splineToSplineHeading(intakePose,Math.toRadians(0))
-//
-////        TrajectoryActionBuilder driveToScoreForth = driveToIntakeForth.endTrajectory().fresh()
-//                        .setTangent(Math.toRadians(190))
-//                        .splineToSplineHeading(scorePose,Math.toRadians(240))
-//
-////        TrajectoryActionBuilder driveToIntakeFifth = driveToScoreForth.endTrajectory().fresh()
-//                        .setTangent(Math.toRadians(62))
-//                        .splineTo(new Vector2d(intakePose.component1(),intakePose.component2()),Math.toRadians(0))
-//
-////        TrajectoryActionBuilder driveToScoreFifth = driveToIntakeFifth.endTrajectory().fresh()
-//                        .setTangent(Math.toRadians(190))
-//                        .splineTo(new Vector2d(scorePose.component1(),scorePose.component2()),Math.toRadians(240))
-//
-////        TrajectoryActionBuilder driveToIntakeSixth = driveToScoreFifth.endTrajectory().fresh()
-//                        .setTangent(Math.toRadians(62))
-//                        .splineTo(new Vector2d(intakePose.component1(),intakePose.component2()),Math.toRadians(0))
-//
-////        TrajectoryActionBuilder driveToScoreSixth = driveToIntakeSixth.endTrajectory().fresh()
-//                        .setTangent(Math.toRadians(190))
-//                        .splineTo(new Vector2d(scorePose.component1(),scorePose.component2()),Math.toRadians(240))
-//
-////        TrajectoryActionBuilder driveToPark = driveToScoreSixth.endTrajectory().fresh()
-//                        .setTangent(Math.toRadians(62))
-//                        .splineTo(new Vector2d(intakePose.component1(),intakePose.component2()),Math.toRadians(0))
-                //.lineToLinearHeading(intakePose)
+//        TrajectoryActionBuilder driveToScoreForth = driveToIntakeForth.endTrajectory().fresh()
+                .setTangent(Math.toRadians(200))
+                .splineToSplineHeading(scorePose,Math.toRadians(240))
+
+//        TrajectoryActionBuilder driveToIntakeFifth = driveToScoreForth.endTrajectory().fresh()
+                .setTangent(Math.toRadians(62))
+                .splineToSplineHeading(intakePose,Math.toRadians(15))
+
+//        TrajectoryActionBuilder driveToScoreFifth = driveToIntakeFifth.endTrajectory().fresh()
+                .setTangent(Math.toRadians(200))
+                .splineToSplineHeading(scorePose,Math.toRadians(240))
+
+//        TrajectoryActionBuilder driveToIntakeSixth = driveToScoreFifth.endTrajectory().fresh()
+                .setTangent(Math.toRadians(62))
+                .splineToSplineHeading(intakePose,Math.toRadians(15))
+
+//        TrajectoryActionBuilder driveToScoreSixth = driveToIntakeSixth.endTrajectory().fresh()
+                .setTangent(Math.toRadians(200))
+                .splineToSplineHeading(scorePose,Math.toRadians(240))
+
+//        TrajectoryActionBuilder driveToPark = driveToScoreSixth.endTrajectory().fresh()
+                .setTangent(Math.toRadians(62))
+                .splineToSplineHeading(intakePose,Math.toRadians(15))
                         .build());
 
 
