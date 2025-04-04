@@ -11,6 +11,8 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.roboctopi.cuttlefish.utils.Direction;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleDigital;
@@ -43,14 +45,16 @@ public class Elevator extends MMPIDSubsystem {
     final double SPROCKET_PERIMETER = Math.PI*3.82;
 
     //PID:
-    public static double kP = 0.19;
+    public static double kP = 0.19 * 13;
     public static double kI = 0;
-    public static double kD = 0.0001;
+    public static double kD = 0.0001 * 13;
 
     public static double TOLERANCE = .3;
     public static double kG = 0.0;
 
     public double ticksOffset = 0;
+
+    private final VoltageSensor voltageSensor;
 
     private static final double maxHeight = 105; //TODO:find new max height
 
@@ -76,7 +80,7 @@ public class Elevator extends MMPIDSubsystem {
 
     public double targetPose = 0;
     MMPIDCommandForever PID;
-    public Elevator() {
+    public Elevator(HardwareMap hardwareMap) {
         super(kP, kI, kD, TOLERANCE);
 
         register();
@@ -103,6 +107,8 @@ public class Elevator extends MMPIDSubsystem {
 
         PID = new MMPIDCommandForever(this);
         setDefaultCommand(PID);
+
+        voltageSensor = hardwareMap.voltageSensor.iterator().next();
     }
 
     public Command moveToPose(double setPoint) {
@@ -141,6 +147,8 @@ public class Elevator extends MMPIDSubsystem {
         if (targetPose > maxHeight) {
             power = 0.0;
         }
+        power = power / voltageSensor.getVoltage();
+
         motor1.setPower(power);
         motor2.setPower(power);
         motor3.setPower(power);
