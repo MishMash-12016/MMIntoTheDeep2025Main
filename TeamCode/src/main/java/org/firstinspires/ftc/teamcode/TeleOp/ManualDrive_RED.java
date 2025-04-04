@@ -48,6 +48,7 @@ public class ManualDrive_RED extends MMOpMode {
         robotInstance.mmSystems.initRobotSystemsTeleOp();
         robotInstance.mmSystems.initDriveTrain();
         robotInstance.mmSystems.teleop();
+        robotInstance.mmSystems.vision.trackYellow();
 
         //drive
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05).whileActiveContinuous(

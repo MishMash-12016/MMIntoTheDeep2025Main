@@ -57,4 +57,7 @@ public class ScoringEndUnitElbow extends SubsystemBase {
         return new InstantCommand(() -> servo.setPosition(state.position.get()),
                 this);
     }
+    public Command setPositionWithoutRequirments(ScoringElbowState state) {
+        return new InstantCommand(() -> servo.setPosition(state.position.get()));
+    }
 }

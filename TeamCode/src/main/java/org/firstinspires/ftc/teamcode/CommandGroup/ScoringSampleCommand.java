@@ -112,9 +112,7 @@ public class ScoringSampleCommand {
     public static Command ScoreHighSample(){
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                new WaitCommand(200),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORING_ARM_SCORE_POSE),
-                new WaitCommand(200),
+                new WaitCommand(150),
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),

@@ -14,6 +14,7 @@ import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import org.firstinspires.ftc.teamcode.Autonomous.ActionCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm.IntakeArmState;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
@@ -56,15 +57,15 @@ public class IntakeSampleCommand {
 
     public static Command SampleIntake() {
         return new SequentialCommandGroup(
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SAMPLE_INTAKE_POSE),
-                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),
+                MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArmState.SAMPLE_INTAKE_POSE),
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPositionWithoutRequirments(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
+                MMRobot.getInstance().mmSystems.scoringArm.setPositionWithoutRequirments(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),
                 new WaitCommand(200),
-                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+                MMRobot.getInstance().mmSystems.intakEndUnit.setPoseWithoutRequirments(IntakEndUnit.IntakeClawState.CLOSE.position.get()),
                 new WaitCommand(200),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
+                MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArmState.SPECIMEN_INTAKE),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                MMRobot.getInstance().mmSystems.linearIntake.setPositionWithoutRequirments(LinearIntakeState.CLOSED_POSE)
         );
     }
 

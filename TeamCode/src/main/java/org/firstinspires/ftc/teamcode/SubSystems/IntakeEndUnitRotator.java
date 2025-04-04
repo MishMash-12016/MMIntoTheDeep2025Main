@@ -61,6 +61,12 @@ public class IntakeEndUnitRotator extends SubsystemBase {
         },
                 this);
     }
+    public Command setPositionWithoutRequirments(IntakeRotatorState state) {
+        return new InstantCommand(() -> {
+            servo.setPosition(state.position.get());
+        });
+    }
+
 
     public Command rotateByButton(BooleanSupplier rotateLeftButton,BooleanSupplier rotateRightButton) {
         return new RunCommand(() -> {

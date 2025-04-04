@@ -63,6 +63,14 @@ public class LinearIntake extends SubsystemBase {
                 this);
     }
 
+    public Command setPositionWithoutRequirments(LinearIntakeState state){
+        return new InstantCommand(()-> {
+            servoLeft.setPosition(state.position);
+            servoRight.setPosition(1-state.position);
+            pose = state.position;});
+    }
+
+
     public void setPositionVoid(double newPos){
         servoLeft.setPosition(newPos);
         servoRight.setPosition(1-newPos);

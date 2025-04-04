@@ -66,4 +66,12 @@ public class ScoringArm extends SubsystemBase {
         },
                 this);
     }
+
+    public Command setPositionWithoutRequirments(ScoringArmState state) {
+        estimatedPose = state.position.get();
+        return new InstantCommand(() -> {
+            servoLeft.setPosition(state.position.get()+0.015);
+            servoRight.setPosition(1 - state.position.get());
+        });
+    }
 }

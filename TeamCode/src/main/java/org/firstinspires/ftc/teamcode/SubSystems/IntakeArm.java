@@ -71,6 +71,14 @@ public class IntakeArm extends SubsystemBase {
                 this);
     }
 
+    public Command setPositionWithoutRequirments(IntakeArmState state) {
+        estimatedPose = state.position.get();
+        return new InstantCommand(() -> {
+            servoLeft.setPosition(state.position.get());
+            servoRight.setPosition(1 - state.position.get()+0.015);
+        });
+    }
+
     public void setPositionVoid(double newPos) {
         estimatedPose = newPos;
         servoLeft.setPosition(newPos);

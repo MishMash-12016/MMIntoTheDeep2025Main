@@ -47,6 +47,10 @@ public class IntakEndUnit extends SubsystemBase {
         return new InstantCommand(() -> clawIntakeServo.setPosition(pose), this);
     }
 
+    public Command setPoseWithoutRequirments(double pose) {
+        return new InstantCommand(() -> clawIntakeServo.setPosition(pose));
+    }
+
     @Override
     public void periodic() {
         FtcDashboard.getInstance().getTelemetry().addData("clawPose", clawIntakeServo.getPosition());

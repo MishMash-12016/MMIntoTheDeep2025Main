@@ -23,8 +23,12 @@ import org.firstinspires.ftc.teamcode.utils.geometry.Rotation2d;
 public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
-    public static double maxDistanceY = 470;
+    public static double maxDistanceY = 450;
     public static double plusDistanceX = 1.5;
+
+    public static double accelerationMultiplierShort = 1;
+    public static double limit = 10;
+    public static double accelerationMultiplierLong = 1;
     Boolean finished = true;
 
     Boolean found = false;
@@ -39,9 +43,9 @@ public class strafeToSample extends CommandBase {
         LLResult lastResult = MMRobot.getInstance().mmSystems.vision.getPreviousResult();
         double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset(lastResult) + plusDistanceX;
         double distanceY = (maxDistanceY - MMRobot.getInstance().mmSystems.vision.getDistance(lastResult)) / 25.4;
-        double accelerationMultiplier = 0.65;
-        if (distanceX > 12){
-            accelerationMultiplier = 0.4;
+        double accelerationMultiplier = accelerationMultiplierShort;
+        if (distanceX > limit){
+            accelerationMultiplier = accelerationMultiplierLong;
         }
 
         if (distanceX != 0) {
@@ -55,7 +59,7 @@ public class strafeToSample extends CommandBase {
 
             TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
                     .strafeTo(new Vector2d(endPoint.getX(), endPoint.getY()),
-                            new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel *accelerationMultiplier,MecanumDrive.PARAMS.maxProfileAccel *accelerationMultiplier) );
+                            new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel + 5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel *accelerationMultiplier,MecanumDrive.PARAMS.maxProfileAccel *accelerationMultiplier) );
 
             strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
             found = true;
