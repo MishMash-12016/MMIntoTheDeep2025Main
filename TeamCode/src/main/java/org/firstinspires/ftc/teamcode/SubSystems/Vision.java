@@ -169,7 +169,7 @@ public class Vision extends SubsystemBase {
         double angleToGoalDegrees = CAMERA_ANGLE - ty;
         double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
         double distanceMM = (SPECIMEN_HEIGHT - CAMERA_HEIGHT) / Math.tan(angleToGoalRadians);
-        return Math.abs(distanceMM) - armLength;
+        return Math.abs(distanceMM);
     }
 
     // Get the strafe
@@ -223,6 +223,16 @@ public class Vision extends SubsystemBase {
 
     public void trackBlue(){
         color = 2;
+    }
+
+    public boolean trackSpecimen() {
+        currentPipeline = color + 5;
+        if (!camera.pipelineSwitch(currentPipeline)) {
+            telemetry.addData("failed to switch to python", color);
+            pipelineSwitchFail += 1;
+            return false;
+        }
+        return true;
     }
 
     public boolean switchToPython() {
@@ -308,21 +318,11 @@ public class Vision extends SubsystemBase {
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered2", "enderd")),
                 new WaitUntilCommand(() -> switchToPython()),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered3", "enderd")),
-                new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == 1),
+                new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == Vision.currentPipeline),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered4", "enderd")),
                 new InstantCommand(() -> camera.updatePythonInputs(new double[]{0.0, 0, 0, length, height, x, y, 0.0})),
                 new WaitUntilCommand(() -> camera.getLatestResult().getPythonOutput()[0] != 0),
                 limelightGetter.getRotateToSample());
-    }
-
-    public SequentialCommandGroup prepareAngle() {
-        return new SequentialCommandGroup(
-                new InstantCommand(() -> findClosestForPython()),
-                new InstantCommand(() -> switchToPython()),
-                new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == 1),
-                new InstantCommand(() -> camera.updatePythonInputs(new double[]{0.0, 0, 0, length, height, x, y, 0.0})),
-                new WaitUntilCommand(() -> camera.getLatestResult().getPythonOutput()[0] != 0)
-        );
     }
 
     public void setPreviousResult() {

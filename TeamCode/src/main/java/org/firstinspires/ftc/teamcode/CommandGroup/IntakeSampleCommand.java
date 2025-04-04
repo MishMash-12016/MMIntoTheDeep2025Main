@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake.LinearIntakeState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm.ScoringArmState;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
+import org.firstinspires.ftc.teamcode.SubSystems.Vision;
 import org.firstinspires.ftc.teamcode.utils.FixedSequentialCommandGroup;
 
 import java.util.function.BooleanSupplier;
@@ -84,11 +85,10 @@ public class IntakeSampleCommand {
     public static Command limeLightIntake_TeleOp() {
         return new FixedSequentialCommandGroup(
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
 
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE)
@@ -123,7 +123,7 @@ public class IntakeSampleCommand {
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered5", "not enderd")),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered2", "enderd")),
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered3", "enderd")),
 
                 new ParallelCommandGroup(
@@ -182,7 +182,7 @@ public class IntakeSampleCommand {
                         ()->MMRobot.getInstance().mmSystems.vision.isTargetVisible()
                 ),
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0),
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
 
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
