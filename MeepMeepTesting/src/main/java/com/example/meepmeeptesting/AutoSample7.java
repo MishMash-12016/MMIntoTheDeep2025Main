@@ -24,11 +24,10 @@ public class AutoSample7 {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(70, 70, Math.toRadians(180), Math.toRadians(180), 15)
 
-                .followTrajectorySequence(drive-> drive.trajectorySequenceBuilder(new Pose2d(-41, -61.23, Math.toRadians(270)))
+                .followTrajectorySequence(drive-> drive.trajectorySequenceBuilder(new Pose2d(-41+3.77, -65, Math.toRadians(180)))
 
 //                        TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
-                                .setTangent(Math.toRadians(135))
-                                .splineToLinearHeading(new Pose2d(-58.7, -52,Math.toRadians(247.5)),Math.toRadians(160))
+                                .lineToLinearHeading(new Pose2d(-58.7, -52,Math.toRadians(247.5)))
 
 //        TrajectoryActionBuilder driveToIntakeFirst = driveToScorePreloadSample.endTrajectory().fresh()
                 .lineToLinearHeading(new Pose2d(-59.4, -48, Math.toRadians(245)))

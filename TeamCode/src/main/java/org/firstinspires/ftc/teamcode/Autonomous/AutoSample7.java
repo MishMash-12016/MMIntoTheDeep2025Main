@@ -34,7 +34,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 import org.firstinspires.ftc.teamcode.utils.ParallelCommandGroupNoCheck;
 
 import java.util.function.BooleanSupplier;
-
+//TODO:rot
 @Autonomous
 public class AutoSample7 extends MMOpMode {
     static MMRobot robotInstance;
@@ -54,7 +54,7 @@ public class AutoSample7 extends MMOpMode {
         MMRobot.getInstance().mmSystems.vision.trackYellow();
         MMRobot.getInstance().mmSystems.vision.switchToDetector();
 
-        Pose2d currentPose = new Pose2d(-41, -61.23, Math.toRadians(270));
+        Pose2d currentPose = new Pose2d(-38.23, -65, Math.toRadians(180));
         robotInstance.mmSystems.initDriveTrain(currentPose);
         PinpointDrive drive = MMRobot.getInstance().mmSystems.driveTrain;
 
@@ -62,8 +62,7 @@ public class AutoSample7 extends MMOpMode {
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
 
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
-                .setTangent(Math.toRadians(135))
-                .splineToLinearHeading(new Pose2d(-58.7, -52,Math.toRadians(247.5)),Math.toRadians(160));
+                .strafeToLinearHeading(new Vector2d(-58.7, -52),Math.toRadians(247.5));
 
         TrajectoryActionBuilder driveToIntakeFirst = driveToScorePreloadSample.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-59.4, -48.2), Math.toRadians(245));
@@ -188,17 +187,52 @@ public class AutoSample7 extends MMOpMode {
                         )
                 ),
                 //3
-                ScoreHighSampleWithoutIntake().alongWith(
-                        prepareSampleIntakeWithoutButtonAndScoring(),
-                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
-                        new WaitCommand(1000).andThen(
-                                new ActionCommand(driveToIntakeSecondSample.build())
-                )),
-                SampleIntake(),
 
-                new ActionCommand(driveToScoreSecondSample.build()).alongWith(
-                        ScoringSampleCommand.PrepareHighSample()
+                new ParallelCommandGroupNoCheck(
+                        new SequentialCommandGroup(
+                                ScoreHighSampleWithoutIntake(),
+                                new WaitUntilCommand(() -> flag),
+                                new SequentialCommandGroup(
+                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE),
+                                        new WaitCommand(200),
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                                        new WaitCommand(100),
+                                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                                        new WaitCommand(100),
+                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE),
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_SCORE),
+                                        new WaitCommand(100),
+                                        new ParallelCommandGroup(
+                                                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET).alongWith(
+                                                        new WaitCommand(200).andThen(
+                                                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
+                                                        )
+                                                ),
+                                                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() > 35).andThen(
+                                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE)
+                                                )
+                                        )
+                                )
+                        ),
+                        new ParallelCommandGroup(
+                                new ActionCommand(driveToIntakeSecondSample.build()),
+                                prepareSampleIntakeWithoutButtonAndScoring(),
+                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(0.37)
+                        ).andThen(
+                                new WaitCommand(300),
+                                MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
+                                new WaitCommand(200),
+                                MMRobot.getInstance().mmSystems.intakEndUnit.setPoseWithoutRequirments(IntakEndUnit.IntakeClawState.CLOSE.position.get()),
+                                new WaitCommand(200),
+                                new ParallelCommandGroup(
+                                        MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArm.IntakeArmState.SAMPLE_TRANSFER_POSE),
+                                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get()),
+                                        MMRobot.getInstance().mmSystems.linearIntake.setPositionWithoutRequirments(LinearIntake.LinearIntakeState.CLOSED_POSE)
+                                ), new InstantCommand(() -> flag = true),
+                                new ActionCommand(driveToScoreSecondSample.build())
+                        )
                 ),
+
                 new WaitCommand(200),
                 new InstantCommand(() -> flag = false),
                 new ParallelCommandGroupNoCheck(
@@ -230,7 +264,7 @@ public class AutoSample7 extends MMOpMode {
                         new ParallelCommandGroup(
                                 new ActionCommand(driveToIntakeThird.build()),
                                 prepareSampleIntakeWithoutButtonAndScoring(),
-                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(0.37)
+                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(0.26)
                         ).andThen(
                                 new WaitCommand(300),
                                 MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
