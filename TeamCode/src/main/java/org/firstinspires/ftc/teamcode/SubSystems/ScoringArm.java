@@ -17,7 +17,8 @@ public class ScoringArm extends SubsystemBase {
     public static double scoringArmPrepareSampleTransferPose = 0.45;
     public static double scoringArmScorePose = 0.22;
     public static double scoringArmIntakeFromFrontPose = 0.545;
-    public static double scoringArmScoreFromFrontSpecimenPose = 0.6;
+    public static double scoringArmScoreFromFrontSpecimenPose = 0.4;
+    public static double afterScoreFromFrontSpecimenPose = 0.3;
 
     public double estimatedPose = scoringArmInitPose;
 
@@ -27,7 +28,8 @@ public class ScoringArm extends SubsystemBase {
         SCORE_FROM_FRONT(()-> scoringArmScoreFromFrontSpecimenPose),
         SCORING_ARM_SCORE_POSE(()-> scoringArmScorePose),
         ARM_PREPARE_SAMPLE_TRANSFER_POSE(()-> scoringArmPrepareSampleTransferPose),
-        INTAKE_FROM_FRONT_POSE(()-> scoringArmIntakeFromFrontPose);
+        INTAKE_FROM_FRONT_POSE(()-> scoringArmIntakeFromFrontPose),
+        AFTER_SCORE_FROM_FRONT(() -> afterScoreFromFrontSpecimenPose);
 
         public final Supplier<Double> position;
 

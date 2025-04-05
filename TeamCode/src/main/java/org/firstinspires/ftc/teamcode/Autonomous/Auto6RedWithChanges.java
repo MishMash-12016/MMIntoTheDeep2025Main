@@ -133,7 +133,7 @@ public class Auto6RedWithChanges extends MMOpMode {
                 new InstantCommand(),
                 new ParallelCommandGroup(
                         new ActionCommand(driveToScorePreload.build()),
-                        AutoSpecimensCommand.SpecimenScorePreLoad()
+                        AutoSpecimensCommand.PrepareSpecimenScorePreLoad()
                 ),
 
                 IntakeSampleCommand.limeLightIntake_Auto().alongWith(

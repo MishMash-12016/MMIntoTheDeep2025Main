@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
@@ -39,7 +40,7 @@ public class Red_Right_6 extends MMOpMode {
     private static final double tangentsToScoreSpecimen = 135;
     private static final double tangentsToIntakeSpecimen = 310;
     final Pose2d intakePose = new Pose2d(40, -65.5, Math.toRadians(90));
-    static final Pose2d scorePose = new Pose2d(6, -31.8, Math.toRadians(120));
+    static final Pose2d scorePose = new Pose2d(6, -31.8, Math.toRadians(100));
 
     public Red_Right_6() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
@@ -51,7 +52,7 @@ public class Red_Right_6 extends MMOpMode {
 
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems();
-//        MMRobot.getInstance().mmSystems.vision.trackRed();
+        MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.switchToDetector();
 
         Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
@@ -63,39 +64,39 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToScorePreload = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(2, -28), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                .splineToConstantHeading(new Vector2d(5.5, -28), Math.toRadians(90), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.4));
 
         TrajectoryActionBuilder driveToEject = driveToScorePreload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(260))
-                .splineToLinearHeading(new Pose2d(25, -45, Math.toRadians(140)), Math.toRadians(0), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+                .splineToLinearHeading(new Pose2d(25, -45, Math.toRadians(140)), Math.toRadians(0), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
 
         TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(26.5, -34, Math.toRadians(210)), Math.toRadians(50), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+                .splineToLinearHeading(new Pose2d(26, -34, Math.toRadians(210)), Math.toRadians(50), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
 
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(290))
-                .splineToLinearHeading(new Pose2d(35.8, -51, Math.toRadians(150)), Math.toRadians(250), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                .splineToLinearHeading(new Pose2d(35.3, -51, Math.toRadians(150)), Math.toRadians(250), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(38, -37, Math.toRadians(235)), Math.toRadians(70), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+                .splineToLinearHeading(new Pose2d(37.5, -37, Math.toRadians(235)), Math.toRadians(70), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(300))
-                .splineToLinearHeading(new Pose2d(45.8, -51, Math.toRadians(140)), Math.toRadians(260), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                .splineToLinearHeading(new Pose2d(45.3, -51, Math.toRadians(140)), Math.toRadians(260), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         TrajectoryActionBuilder driveToPush3 = turnRobot2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(51, -38, Math.toRadians(235)), Math.toRadians(80), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+                .splineToLinearHeading(new Pose2d(50.5, -38, Math.toRadians(235)), Math.toRadians(80), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
         TrajectoryActionBuilder turnRobot3 = driveToPush3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(51, -53, Math.toRadians(90)), Math.toRadians(270), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                .splineToLinearHeading(new Pose2d(50.5, -53, Math.toRadians(90)), Math.toRadians(270), new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(51, -68, Math.toRadians(90)), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
+                .splineToLinearHeading(new Pose2d(50.5, -68, Math.toRadians(90)), Math.toRadians(270), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
         TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToIntakeFirstSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(140 + 5))
-                .splineToLinearHeading(new Pose2d(2, -34.5, Math.toRadians(112.5)), Math.toRadians(tangentsToScoreSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
+                .splineToLinearHeading(new Pose2d(2, -34.5, Math.toRadians(100)), Math.toRadians(tangentsToScoreSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
 
         TrajectoryActionBuilder driveToIntakeSecondSpecimen = driveToScoreFirstSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))
@@ -122,23 +123,33 @@ public class Red_Right_6 extends MMOpMode {
                 .setTangent(Math.toRadians(310))
                 .splineToLinearHeading(intakePose, Math.toRadians(tangentsToIntakeSpecimen), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.2), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
         TrajectoryActionBuilder driveToScoreFifthSpecimen = driveToIntakeFifthSpecimen.endTrajectory().fresh()
-                .setTangent(Math.toRadians(140+10))
-                .splineToSplineHeading(new Pose2d(7, scorePose.position.y, scorePose.heading.toDouble()), Math.toRadians(tangentsToScoreSpecimen-10));
+                .setTangent(Math.toRadians(140))
+                .splineToSplineHeading(new Pose2d(7, scorePose.position.y, scorePose.heading.toDouble()), Math.toRadians(tangentsToScoreSpecimen));
 
         TrajectoryActionBuilder driveToPark = driveToScoreFifthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))
-
                 .splineToLinearHeading(new Pose2d(28, -50, Math.toRadians(140)), Math.toRadians(140+180), new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5), new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         new SequentialCommandGroup(
                 new InstantCommand(),
                 new ParallelCommandGroup(
                         new ActionCommand(driveToScorePreload.build()),
-                        AutoSpecimensCommand.SpecimenScorePreLoad(),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
+                        AutoSpecimensCommand.PrepareSpecimenScorePreLoad(),
+                        new WaitCommand(300).andThen(
+                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
+                        )
                 ),
 
-                IntakeSampleCommand.limeLightIntake_Auto(),
+                IntakeSampleCommand.limeLightIntake_Auto_for_specimen().alongWith(
+                        new SequentialCommandGroup(
+                                new ParallelCommandGroup(
+                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.AFTER_SCORE_FROM_FRONT),
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.ELBOW_AFTER_SCORE_FROM_FRONT)
+                                ),
+                                new WaitCommand(200),
+                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.setPosition(0.3)
+                        )
+                ),
 
                 new ActionCommand(driveToEject.build()).alongWith(
                         new SequentialCommandGroup(

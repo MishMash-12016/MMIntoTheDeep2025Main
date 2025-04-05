@@ -138,7 +138,7 @@ public class Red_Right_6_limelight extends MMOpMode {
                 new InstantCommand(),
                 new ParallelCommandGroup(
                         new ActionCommand(driveToScorePreload.build()),
-                        AutoSpecimensCommand.SpecimenScorePreLoad(),
+                        AutoSpecimensCommand.PrepareSpecimenScorePreLoad(),
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
                 ),
 

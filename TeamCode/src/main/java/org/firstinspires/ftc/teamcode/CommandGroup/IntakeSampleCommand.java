@@ -179,7 +179,41 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
         );
     }
+    public static Command limeLightIntake_Auto_for_specimen() {
+        return new FixedSequentialCommandGroup(
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
 
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+
+                //Lamlam side:
+                new FixedSequentialCommandGroup(
+                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
+                        MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
+                        new ParallelCommandGroup(
+                                limelightGetter.strafeToSample(),
+                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
+                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE))
+                ),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                new WaitCommand(200),
+
+                new SequentialCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
+                        new WaitCommand(300),
+                        MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+                        new WaitCommand(200),
+                        new ParallelCommandGroup(
+                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
+                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
+                        )
+                ),
+
+                new WaitCommand(300),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
+        );
+    }
     public static ActionCommand driveRight(){
         return new ActionCommand(
                 MMRobot.getInstance().mmSystems.driveTrain.actionBuilder(MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR())

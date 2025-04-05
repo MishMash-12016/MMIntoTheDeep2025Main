@@ -19,13 +19,15 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     public static double ElbowPrepareSampleTransferPose = 0.05;
     public static double ElbowScoreSpecimenPose = 0.77;
     public static double ElbowIntakeFromFrontPose = 0.39;
-    public static double scoringElbowScoreFromFrontPose = 0.72;
+    public static double scoringElbowScoreFromFrontPose = 0.41;
+    public static double ElbowAfterScoreFromFront = 0.35;
 
 
     private final static MMRobot robotinstance = MMRobot.getInstance();
 
     public enum ScoringElbowState {
         ELBOW_SCORE_FROM_FRONT_POSE(()-> scoringElbowScoreFromFrontPose),
+        ELBOW_AFTER_SCORE_FROM_FRONT(() -> ElbowAfterScoreFromFront),
         PREPARE_SAMPLE_TRANSFER(() -> ElbowPrepareSampleTransferPose),
         TRANSFER_SAMPLE_POSE(() -> ElbowTransferSamplePose),
         SCORE_SAMPLE_POSE(() -> ElbowScoreSamplePose),
