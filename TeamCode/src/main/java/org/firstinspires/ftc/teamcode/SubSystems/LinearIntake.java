@@ -22,7 +22,7 @@ public class LinearIntake extends SubsystemBase {
     public static double config;
 
     public enum LinearIntakeState {
-        MAX_OPENING(0.6),CLOSED_POSE(0);
+        MAX_OPENING(0.5),CLOSED_POSE(0.25);
         public double position;
 
         LinearIntakeState(double position){

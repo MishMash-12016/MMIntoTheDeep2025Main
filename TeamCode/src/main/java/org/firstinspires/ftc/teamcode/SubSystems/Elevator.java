@@ -187,8 +187,8 @@ public class Elevator extends MMPIDSubsystem {
         }
         power = power / voltageSensor.getVoltage()*13;
 
-        if (isAuto && power < -0.5) {
-            power = -0.5;
+        if (isAuto && power < -0.8) {
+            power = -0.8;
         }
 
         motor1.setPower(power);
@@ -243,7 +243,8 @@ public class Elevator extends MMPIDSubsystem {
 
     public void updateToDashboard() {
         FtcDashboard.getInstance().getTelemetry().addData("height", getHeight());
-        FtcDashboard.getInstance().getTelemetry().addData("target", getPidController().atSetpoint());
+        FtcDashboard.getInstance().getTelemetry().addData("target", targetPose);
+        FtcDashboard.getInstance().getTelemetry().addData("elevator at setpoint", getPidController().atSetpoint());
         FtcDashboard.getInstance().getTelemetry().addData("elevator power", motor1.getPower());
 
         FtcDashboard.getInstance().getTelemetry().update();

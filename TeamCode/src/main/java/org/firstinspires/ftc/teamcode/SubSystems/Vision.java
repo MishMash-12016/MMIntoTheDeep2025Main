@@ -257,51 +257,21 @@ public class Vision extends SubsystemBase {
     }
 
     public void findClosestForPython() {
-        length = 0;
-        height = 0;
-        x = 1000000;
-        y = 1000000;
         if (previousResult != null) {
             List<LLResultTypes.DetectorResult> detectorResults = previousResult.getDetectorResults();
-            for (LLResultTypes.DetectorResult dr : detectorResults) {
+            if (!detectorResults.isEmpty()){
+                LLResultTypes.DetectorResult dr = detectorResults.get(0);
                 List<List<Double>> corners = dr.getTargetCorners();
                 List<Double> leftUp = corners.get(0);
                 List<Double> rightUp = corners.get(1);
                 List<Double> rightDown = corners.get(2);
-                if (Math.abs(linearPointX - (leftUp.get(0) + MathTools.distance(leftUp, rightUp) / 2)) < Math.abs(linearPointX - (x + length / 2))) {
-                    length = MathTools.distance(leftUp, rightUp);
-                    height = MathTools.distance(rightDown, rightUp);
-                    targetLeftUp = leftUp;
-                    x = targetLeftUp.get(0);
-                    y = targetLeftUp.get(1);
-                }
+                length = MathTools.distance(leftUp, rightUp);
+                height = MathTools.distance(rightDown, rightUp);
+                targetLeftUp = leftUp;
+                x = targetLeftUp.get(0);
+                y = targetLeftUp.get(1);
             }
         }
-    }
-
-    public LLResultTypes.DetectorResult findClosestForDetector() {
-        result = camera.getLatestResult();
-        lengthForDetector = 0;
-        heightForDetector = 0;
-        xForDetector = 1000000;
-        yForDetector = 1000000;
-
-        List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
-        for (LLResultTypes.DetectorResult dr : detectorResults) {
-            List<List<Double>> corners = dr.getTargetCorners();
-            List<Double> leftUp = corners.get(0);
-            List<Double> rightUp = corners.get(1);
-            List<Double> rightDown = corners.get(2);
-            if (Math.abs(linearPointX - (leftUp.get(0) + MathTools.distance(leftUp, rightUp) / 2)) < Math.abs(linearPointX - (xForDetector + lengthForDetector / 2))) {
-                lengthForDetector = MathTools.distance(leftUp, rightUp);
-                heightForDetector = MathTools.distance(rightDown, rightUp);
-                targetLeftUpForDetector = leftUp;
-                xForDetector = targetLeftUpForDetector.get(0);
-                yForDetector = targetLeftUpForDetector.get(1);
-                detectorResultForDetector = dr;
-            }
-        }
-        return detectorResultForDetector;
     }
 
     public double getPipelineIndex() {
@@ -347,18 +317,18 @@ public class Vision extends SubsystemBase {
             if (currentPipeline == 0) {
                 List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
                 if (!detectorResults.isEmpty()) {
-                    LLResultTypes.DetectorResult sample = detectorResults.get(0);
-                    List<List<Double>> corners = sample.getTargetCorners();
-                    List<Double> leftUp = corners.get(0);
-                    List<Double> rightUp = corners.get(1);
-                    List<Double> rightDown = corners.get(2);
-                    List<Double> leftDown = corners.get(3);
-                    telemetry.addData("leftUp ->", leftUp);
-                    telemetry.addData("rightUp ->", rightUp);
-                    telemetry.addData("rightDown ->", rightDown);
-                    telemetry.addData("leftDown ->", leftDown);
-                    telemetry.addData("length ->", MathTools.distance(leftUp, rightUp));
-                    telemetry.addData("height ->", MathTools.distance(rightDown, rightUp));
+//                    LLResultTypes.DetectorResult sample = detectorResults.get(0);
+//                    List<List<Double>> corners = sample.getTargetCorners();
+//                    List<Double> leftUp = corners.get(0);
+//                    List<Double> rightUp = corners.get(1);
+//                    List<Double> rightDown = corners.get(2);
+//                    List<Double> leftDown = corners.get(3);
+//                    telemetry.addData("leftUp ->", leftUp);
+//                    telemetry.addData("rightUp ->", rightUp);
+//                    telemetry.addData("rightDown ->", rightDown);
+//                    telemetry.addData("leftDown ->", leftDown);
+//                    telemetry.addData("length ->", MathTools.distance(leftUp, rightUp));
+//                    telemetry.addData("height ->", MathTools.distance(rightDown, rightUp));
                 } else {
                     telemetry.addData("not found anything", -1);
                 }
@@ -370,10 +340,10 @@ public class Vision extends SubsystemBase {
             // Less than 100 milliseconds old
             isDataOld = staleness >= 100;
 
-            telemetry.addData("width", length);
-            telemetry.addData("height", height);
-            telemetry.addData("x", x);
-            telemetry.addData("y", y);
+            telemetry.addData("last width", length);
+            telemetry.addData("last height", height);
+            telemetry.addData("last x", x);
+            telemetry.addData("last y", y);
             telemetry.addData("Tx", result.getTx());
             telemetry.addData("Ty", result.getTy());
             telemetry.addData("Ta", result.getTa());

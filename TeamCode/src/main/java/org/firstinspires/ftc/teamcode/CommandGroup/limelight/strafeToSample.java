@@ -14,6 +14,7 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.Vision;
 import org.firstinspires.ftc.teamcode.utils.geometry.Translation2d;
 import org.firstinspires.ftc.teamcode.utils.geometry.Rotation2d;
 
@@ -24,12 +25,15 @@ public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
     public static double maxDistanceY = 475;
-    public static double plusDistanceX = 1.5;
+    public static double plusDistanceX = 0;
 
     public static double accelerationMultiplierShort = 1;
     public static double limit = 10;
     public static double accelerationMultiplierLong = 1;
     Boolean finished = true;
+
+    public static double pixelX = 7;
+    public static double pixelY = 4;
 
     Boolean found = false;
     public strafeToSample() {
@@ -49,6 +53,9 @@ public class strafeToSample extends CommandBase {
         }
 
         if (distanceX != 0) {
+//            distanceX += (Vision.length/pixelX) / 2.54;
+//            distanceY -= (Vision.height/pixelY) / 2.54;
+
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
 
             Translation2d distanceXVector = new Translation2d(distanceX,new Rotation2d(currentPose.heading.toDouble() + Math.toRadians(90)));

@@ -82,19 +82,23 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posIntakeArm += changeBy;
-                            IntakeEndUnitRotator.defaultPose = posIntakeArm;
+                            IntakeArm.intakeArmInitPose = posIntakeArm;
                         }),
-                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE)
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.INIT_POSE)
                 )
+        );
+
+        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                    MMRobot.getInstance().mmSystems.linearIntake.setPosition(0.4)
         );
 
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posIntakeArm -= changeBy;
-                            IntakeEndUnitRotator.defaultPose = posIntakeArm;
+                            IntakeArm.intakeArmInitPose = posIntakeArm;
                         }),
-                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE)
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.INIT_POSE)
                 )
         );
 
@@ -185,31 +189,31 @@ public class TuningTest extends MMOpMode {
 //                new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.disablePID())
 //        );
 //
-        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
-                .whileActiveContinuous(
-                        new RunCommand(
-                            () -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0),
-                            MMRobot.getInstance().mmSystems.elevator
-                        )
-                ).whenInactive(
-                        new RunCommand(
-                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0),
-                                MMRobot.getInstance().mmSystems.elevator
-                        )
-                );
-
-        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-                .whileActiveContinuous(
-                        new RunCommand(
-                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0),
-                                MMRobot.getInstance().mmSystems.elevator
-                        )
-                ).whenInactive(
-                        new RunCommand(
-                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0),
-                                MMRobot.getInstance().mmSystems.elevator
-                        )
-                );
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+//                .whileActiveContinuous(
+//                        new RunCommand(
+//                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0),
+//                                MMRobot.getInstance().mmSystems.elevator
+//                        )
+//                ).whenInactive(
+//                        new RunCommand(
+//                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0),
+//                                MMRobot.getInstance().mmSystems.elevator
+//                        )
+//                );
+//
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+//                .whileActiveContinuous(
+//                        new RunCommand(
+//                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0),
+//                                MMRobot.getInstance().mmSystems.elevator
+//                        )
+//                ).whenInactive(
+//                        new RunCommand(
+//                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0),
+//                                MMRobot.getInstance().mmSystems.elevator
+//                        )
+//                );
 
         /*
         DPAD_LEFT + elbow
