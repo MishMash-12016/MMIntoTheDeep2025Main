@@ -62,16 +62,16 @@ public class AutoSample7 extends MMOpMode {
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
 
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
-                .strafeToLinearHeading(new Vector2d(-58.7, -52),Math.toRadians(247.5));
+                .strafeToLinearHeading(new Vector2d(-58.7, -52.3),Math.toRadians(246));
 
         TrajectoryActionBuilder driveToIntakeFirst = driveToScorePreloadSample.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-59.4, -48.2), Math.toRadians(245));
+                .strafeToLinearHeading(new Vector2d(-59.4, -48.2), Math.toRadians(246));
 
         TrajectoryActionBuilder driveToScoreFirst = driveToIntakeFirst.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-59.2, -51.8), Math.toRadians(257));
 
         TrajectoryActionBuilder driveToIntakeSecondSample = driveToScoreFirst.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-59.9, -50), Math.toRadians(268),
+                .strafeToLinearHeading(new Vector2d(-59.9, -50.5), Math.toRadians(268),
                           null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.45, MecanumDrive.PARAMS.maxProfileAccel*0.6));
 
         TrajectoryActionBuilder driveToScoreSecondSample = driveToIntakeSecondSample.endTrajectory().fresh()
@@ -79,11 +79,11 @@ public class AutoSample7 extends MMOpMode {
                         null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.7, MecanumDrive.PARAMS.maxProfileAccel));
 
         TrajectoryActionBuilder driveToIntakeThird = driveToScoreSecondSample.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-57.7, -49), Math.toRadians(300),
+                .strafeToLinearHeading(new Vector2d(-57.7, -48.7), Math.toRadians(298),
                         null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.7, MecanumDrive.PARAMS.maxProfileAccel));
 
         TrajectoryActionBuilder driveToScoreThird = driveToIntakeThird.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-61.2, -51.7), Math.toRadians(245),
+                .strafeToLinearHeading(new Vector2d(-61.2, -51.4), Math.toRadians(245),
                         null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.7, MecanumDrive.PARAMS.maxProfileAccel));
 
         TrajectoryActionBuilder driveToIntakeForth = driveToScoreThird.endTrajectory().fresh()
@@ -178,7 +178,6 @@ public class AutoSample7 extends MMOpMode {
                                 prepareSampleIntakeWithoutButtonAndScoring(),
                                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(0.37)
                         ).andThen(
-                                new WaitCommand(300),
                                 MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
                                 new WaitCommand(200),
                                 MMRobot.getInstance().mmSystems.intakEndUnit.setPoseWithoutRequirments(IntakEndUnit.IntakeClawState.CLOSE.position.get()),
@@ -298,8 +297,10 @@ public class AutoSample7 extends MMOpMode {
                         )
                 ),
 //                new WaitCommand(200),
-                new ActionCommand(driveToIntakeForth.build()).alongWith(
-                        ScoringSampleCommand.ScoreHighSample()
+                new ParallelCommandGroup(
+                        new ActionCommand(driveToIntakeForth.build()),
+                        ScoringSampleCommand.ScoreHighSample(),
+                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector())
                 ),
 
                 IntakeSampleCommand.limeLightIntake_Auto(),
@@ -308,8 +309,10 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.PrepareHighSample_Auto()
                 ),
 //                new WaitCommand(200),
-                new ActionCommand(driveToIntakeFifth.build()).alongWith(
-                        ScoringSampleCommand.ScoreHighSample()
+                new ParallelCommandGroup(
+                        new ActionCommand(driveToIntakeFifth.build()),
+                        ScoringSampleCommand.ScoreHighSample(),
+                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector())
                 ),
 
                 //6
@@ -319,8 +322,10 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.PrepareHighSample_Auto()
                 ),
 //                new WaitCommand(200),
-                new ActionCommand(driveToIntakeSixth.build()).alongWith(
-                        ScoringSampleCommand.ScoreHighSample()
+                new ParallelCommandGroup(
+                        new ActionCommand(driveToIntakeSixth.build()),
+                        ScoringSampleCommand.ScoreHighSample(),
+                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector())
                 ),
 
                 //7

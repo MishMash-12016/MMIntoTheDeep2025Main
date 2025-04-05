@@ -179,7 +179,7 @@ public class ManualDrive_RED extends MMOpMode {
     public void run() {
         super.run();
 //        //FOR CONFIG EXTREPULATION:
-      MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(LinearIntake.config);
+//      MMRobot.getInstance().mmSystems.linearIntake.setPositionVoid(LinearIntake.config);
 //    MMRobot.getInstance().mmSystems.intakeArm.setPositionVoid(0.52);
 
 

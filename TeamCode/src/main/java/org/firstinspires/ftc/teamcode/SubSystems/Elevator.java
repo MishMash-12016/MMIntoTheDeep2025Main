@@ -187,8 +187,8 @@ public class Elevator extends MMPIDSubsystem {
         }
         power = power / voltageSensor.getVoltage()*13;
 
-        if (isAuto && power < -0.8) {
-            power = -0.8;
+        if (isAuto && power < -1.0) {
+            power = -1.0;
         }
 
         motor1.setPower(power);

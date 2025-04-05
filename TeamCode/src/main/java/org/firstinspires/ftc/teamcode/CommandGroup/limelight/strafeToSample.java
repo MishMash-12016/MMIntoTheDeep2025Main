@@ -24,8 +24,8 @@ import org.firstinspires.ftc.teamcode.utils.geometry.Rotation2d;
 public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
-    public static double maxDistanceY = 475;
-    public static double plusDistanceX = 0;
+    public static double maxDistanceY = 470;
+    public static double plusDistanceX = 0.3;
 
     public static double accelerationMultiplierShort = 1;
     public static double limit = 10;
