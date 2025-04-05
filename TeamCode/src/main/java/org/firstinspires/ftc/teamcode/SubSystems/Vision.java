@@ -25,67 +25,56 @@ import java.util.List;
 @Config
 public class Vision extends SubsystemBase {
     private final Limelight3A camera;
-
-    private boolean isDataOld = false;
     @Getter
     private LLResult result;
 
     private LLResult previousResult;
 
-    public static int color;
+    public static int color; //current color need to be detected
+    public static int currentPipeline; // current color
 
 
+    //detection parameters for distance and strafe:
     public static double CAMERA_HEIGHT = 445;
     public static double CAMERA_ANGLE = 90 - 35.0;
     public static double TARGET_HEIGHT = 39;
     public static double SPECIMEN_HEIGHT = 247.5;
-    public static double cameraStrafeToBot = 5;
 
-    public static double armLength = 0;
-
+    //debug parameters:
     public static double lastAngle = 0;
-    public static int currentPipeline;
     public static double pipelineSwitchFail = 0;
     public static double angleFail = 0;
+    private boolean isDataOld = false;
+
+    //size and location of detected sample:
     public static double length = -1;
     public static double height = -1;
     public static double x = -1;
     public static double y = -1;
     public static List<Double> targetLeftUp;
 
-
-    public static double lengthForDetector = -1;
-    public static double heightForDetector = -1;
-    public static double xForDetector = -1;
-    public static double yForDetector = -1;
-    public static List<Double> targetLeftUpForDetector;
-    public static LLResultTypes.DetectorResult detectorResultForDetector;
-    public static double linearPointX = 215 ;
+    //telemtry idk man:
     Telemetry telemetry;
 
 
     public Vision(final HardwareMap hardwareMap, Telemetry telemetry) {
         camera = hardwareMap.get(Limelight3A.class, "limelight");
-        camera.pipelineSwitch(0);
-//        led = hardwareMap.get(Servo.class, "LED");
-        this.telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        camera.pipelineSwitch(1);
         initializeCamera();
+        this.telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
         currentPipeline = 0;
         targetLeftUp = new ArrayList<>();
         targetLeftUp.add(0, 0.0);
         targetLeftUp.add(0, 0.0);
     }
 
-//    public void setLEDPWM() {
-//        led.setPosition(ledPWM);
-//    }
-
     public void initializeCamera() {
         camera.setPollRateHz(100);
         camera.start();
     }
 
-
+    //Get degrees in X axis
     public double getTx(double defaultValue) {
         if (result == null) {
             return defaultValue;
@@ -93,6 +82,7 @@ public class Vision extends SubsystemBase {
         return result.getTx();
     }
 
+    //Get degrees in X axis getting result
     public double getTx(LLResult lastResult) {
         if (lastResult == null) {
             return 0;
@@ -100,6 +90,7 @@ public class Vision extends SubsystemBase {
         return lastResult.getTx();
     }
 
+    //Get degrees in Y axis
     public double getTy(double defaultValue) {
         if (result == null) {
             return defaultValue;
@@ -107,6 +98,7 @@ public class Vision extends SubsystemBase {
         return result.getTy();
     }
 
+    //Get degrees in Y axis getting result
     public double getTy(LLResult lastResult) {
         if (lastResult == null) {
             return 0;
@@ -114,13 +106,7 @@ public class Vision extends SubsystemBase {
         return lastResult.getTy();
     }
 
-    public double getTy(LLResultTypes.DetectorResult dr, double defaultValue) {
-        if (dr == null) {
-            return defaultValue;
-        }
-        return dr.getTargetYDegrees();
-    }
-
+    //Check if target is visible
     public boolean isTargetVisible() {
         if (result == null) {
             return false;
@@ -128,6 +114,7 @@ public class Vision extends SubsystemBase {
         return !MathUtil.isNear(0, result.getTa(), 0.0001);
     }
 
+    //Get distance in Y axis
     public Double getDistance() {
         double ty = getTy(0.0);
         if (ty == 0) {
@@ -139,6 +126,7 @@ public class Vision extends SubsystemBase {
         return Math.abs(distanceMM);
     }
 
+    //Get distance in Y axis with given result
     public Double getDistance(LLResult lastResult) {
         double ty = getTy(lastResult);
         if (ty == 0) {
@@ -150,17 +138,7 @@ public class Vision extends SubsystemBase {
         return Math.abs(distanceMM);
     }
 
-    public Double getDistance(LLResultTypes.DetectorResult dr) {
-        double ty = getTy(dr, 0.0);
-        if (ty == 0) {
-            return null;
-        }
-        double angleToGoalDegrees = CAMERA_ANGLE - ty;
-        double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
-        double distanceMM = (TARGET_HEIGHT - CAMERA_HEIGHT) / Math.tan(angleToGoalRadians);
-        return Math.abs(distanceMM) - armLength;
-    }
-
+    //Get distance in Y axis but for specimens
     public Double getDistanceSpecimen() {
         double ty = getTy(0.0);
         if (ty == 0) {
@@ -172,7 +150,7 @@ public class Vision extends SubsystemBase {
         return Math.abs(distanceMM);
     }
 
-    // Get the strafe
+    // Get the distance for the strafe
     public double getStrafeOffset() {
         double tx = getTx(0);
         if (tx != 0) {
@@ -185,6 +163,7 @@ public class Vision extends SubsystemBase {
         return 0;
     }
 
+    // Get the distance for the strafe with given result
     public double getStrafeOffset(LLResult lastResult) {
         if(lastResult != null){}//TODO make it not crash
         double tx = lastResult.getTx();
@@ -198,6 +177,7 @@ public class Vision extends SubsystemBase {
         return 0;
     }
 
+    //Get angle of a sample in servo degrees
     public Double getTurnServoDegree() {
         camera.updatePythonInputs(
                 new double[]{0.0, 0.0, 0.0, length, height, x, y, 0.0}
@@ -235,6 +215,7 @@ public class Vision extends SubsystemBase {
         return true;
     }
 
+    //Switch to python based detection pipepline
     public boolean switchToPython() {
         currentPipeline = color + 3;
         if (!camera.pipelineSwitch(currentPipeline)) {
@@ -245,6 +226,7 @@ public class Vision extends SubsystemBase {
         return true;
     }
 
+    //Switch to neural-detector based detection pipepline (AI omg ooga booga big words I love man)
     public boolean switchToDetector() {
         FtcDashboard.getInstance().getTelemetry().addData("time sinceupdate",camera.getTimeSinceLastUpdate());
         currentPipeline = color;
@@ -256,6 +238,7 @@ public class Vision extends SubsystemBase {
         return true;
     }
 
+    //find the closest sample to the middle of the robot
     public void findClosestForPython() {
         if (previousResult != null) {
             List<LLResultTypes.DetectorResult> detectorResults = previousResult.getDetectorResults();
@@ -274,36 +257,47 @@ public class Vision extends SubsystemBase {
         }
     }
 
+    //like it really means what it says. get the stupid index..
     public double getPipelineIndex() {
         return camera.getStatus().getPipelineIndex();
     }
 
-    public SequentialCommandGroup onlyAngleChange() {
+    //Only change the angle of the intake rotator
+    public SequentialCommandGroup angleChange() {
         return new SequentialCommandGroup(
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered", "enderd")),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered2", "not enderd")),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered3", "not enderd")),
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered4", "not enderd")),
+
                 new InstantCommand(() -> findClosestForPython()),
+
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered2", "enderd")),
+
                 new WaitUntilCommand(() -> switchToPython()),
+
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered3", "enderd")),
+
                 new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == Vision.currentPipeline),
+
                 new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered4", "enderd")),
+
                 new InstantCommand(() -> camera.updatePythonInputs(new double[]{0.0, 0, 0, length, height, x, y, 0.0})),
                 new WaitUntilCommand(() -> camera.getLatestResult().getPythonOutput()[0] != 0),
                 limelightGetter.getRotateToSample());
     }
 
+    //use this when you want to save the result instead of switching pipelines like stupid fuck
     public void setPreviousResult() {
         previousResult = camera.getLatestResult();
     }
 
+    //get the previous result
     public LLResult getPreviousResult() {
         return previousResult;
     }
 
-
+    //Doing every moment, it updates the python inputs, and then updates the result to the latest and freshest one. and telemtry, a lot of telemtry.
     @Override
     public void periodic() {
         //updating the python endlessly
@@ -352,6 +346,7 @@ public class Vision extends SubsystemBase {
             telemetry.addData("angle fail", angleFail);
             telemetry.addData("pipeline fail", pipelineSwitchFail);
             telemetry.addData("last Angle - ", lastAngle);
+            telemetry.addData("is data old - ", isDataOld);
             telemetry.addData("pipline", camera.getStatus().getPipelineIndex());
             telemetry.addData("pipline type", camera.getStatus().getPipelineType());
         }

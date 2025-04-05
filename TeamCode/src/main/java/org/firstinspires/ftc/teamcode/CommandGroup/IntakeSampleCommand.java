@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
@@ -109,7 +108,7 @@ public class IntakeSampleCommand {
 
                 //Lamlam side:
                     new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
-                    MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
+                    MMRobot.getInstance().mmSystems.vision.angleChange(),
                     limelightGetter.getRotateToSample(),
 
                     new ParallelCommandGroup(
@@ -149,7 +148,7 @@ public class IntakeSampleCommand {
                 //Lamlam side:
                 new FixedSequentialCommandGroup(
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
-                        MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
+                        MMRobot.getInstance().mmSystems.vision.angleChange(),
 //                        new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered5", "enderd")),
 //                        new WaitCommand(1000000),
                         new ParallelCommandGroup(
@@ -189,7 +188,7 @@ public class IntakeSampleCommand {
                 //Lamlam side:
                 new FixedSequentialCommandGroup(
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
-                        MMRobot.getInstance().mmSystems.vision.onlyAngleChange(),
+                        MMRobot.getInstance().mmSystems.vision.angleChange(),
                         new ParallelCommandGroup(
                                 limelightGetter.strafeToSample(),
                                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
