@@ -180,8 +180,6 @@ public class IntakeSampleCommand {
         );
     }
 
-    public static ElapsedTime elapsedTime = new ElapsedTime();
-    public static ElapsedTime elapsedTimeNoReset = new ElapsedTime();
     public static Command limeLightIntake_Auto_for_specimen() {
         return new FixedSequentialCommandGroup(
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),

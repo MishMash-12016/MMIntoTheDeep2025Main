@@ -13,6 +13,7 @@ import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
@@ -43,7 +44,7 @@ import org.firstinspires.ftc.teamcode.utils.OpModeType;
 public class MMSystems {
 
 
-    public  CuttleDigital elevatorSwitch;
+    public CuttleDigital elevatorSwitch;
     //Attributes & Hardware
     public OpModeType opModeType;
     public AllianceColor allianceColor;
@@ -78,8 +79,6 @@ public class MMSystems {
     public double servoDegrees = 0;
 
 
-
-
     //creating and initiating all subsystems
     public void initRobotSystems() {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
@@ -93,9 +92,12 @@ public class MMSystems {
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.hook = new Hook();
         vision = new Vision(hardwareMap, telemetry);
-        limelightInitFunc();
+        if (!limelightInitFunc()){
+            telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
+        }
 
     }
+
     public void initRobotSystemsTeleOp() {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.elevator = new Elevator(hardwareMap);
@@ -108,75 +110,106 @@ public class MMSystems {
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.hook = new Hook();
         vision = new Vision(hardwareMap, telemetry);
-        limelightInitFunc();
+        if (!limelightInitFunc()){
+            telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
+        }
     }
 
 
     public void initDriveTrain(Pose2d currentPose) {
         //roadRunner 90 is what we agree as 0 so reset it to 0
-        localizer.setPosition(new Pose2d(0,0,localizer.getHeading()-Math.toRadians(90)));
+        localizer.setPosition(new Pose2d(0, 0, localizer.getHeading() - Math.toRadians(90)));
         driveTrain = new PinpointDrive(hardwareMap, currentPose);
     }
 
     public void initDriveTrain() {
         //roadRunner 90 is what we agree as 0 so reset it to 0
-        localizer.setPosition(new Pose2d(0,0,localizer.getHeading()-Math.toRadians(90)));
+        localizer.setPosition(new Pose2d(0, 0, localizer.getHeading() - Math.toRadians(90)));
         driveTrain = new PinpointDrive(hardwareMap, currentPose);
     }
 
-    public void teleop(){
+    public void teleop() {
         driveTrain.setDefaultCommand(
                 MMRobot.getInstance().mmSystems.driveTrain.fieldOrientedDrive(
-                        ()-> Math.pow(gamepadEx1.getLeftX(),3),
-                        () -> Math.pow(gamepadEx1.getLeftY(),3),
-                        () -> Math.pow(gamepadEx1.getRightX(),3)));
+                        () -> Math.pow(gamepadEx1.getLeftX(), 3),
+                        () -> Math.pow(gamepadEx1.getLeftY(), 3),
+                        () -> Math.pow(gamepadEx1.getRightX(), 3)));
     }
 
 
-    public void limelightInitFunc(){
+    public boolean limelightInitFunc() {
+        ElapsedTime elapsedTime = new ElapsedTime();
+        ElapsedTime elapsedTimeAll = new ElapsedTime();
 
         while (!MMRobot.getInstance().mmSystems.vision.switchToDetector()) {
+            if (elapsedTimeAll.seconds() > 5) {
+                return false;
+            }
         }
         while (MMRobot.getInstance().mmSystems.vision.getPipelineIndex() != Vision.currentPipeline) {
+            if (elapsedTimeAll.seconds() > 5) {
+                return false;
+            }
         }
         MMRobot.getInstance().mmSystems.vision.setPreviousResult();
 
 
-        FtcDashboard.getInstance().getTelemetry().addData("started angle", IntakeSampleCommand.elapsedTime.milliseconds());
-        IntakeSampleCommand.elapsedTime.reset();
+        FtcDashboard.getInstance().getTelemetry().addData("started angle", elapsedTime.milliseconds());
+        elapsedTime.reset();
 
         vision.findClosestForPython();
-        FtcDashboard.getInstance().getTelemetry().addData("findClosestForPython", IntakeSampleCommand.elapsedTime.milliseconds());
-        IntakeSampleCommand.elapsedTime.reset();
+        FtcDashboard.getInstance().getTelemetry().addData("findClosestForPython", elapsedTime.milliseconds());
+        elapsedTime.reset();
 
 
-        while(! vision.switchToPython()){};
-        FtcDashboard.getInstance().getTelemetry().addData("switchToPython", IntakeSampleCommand.elapsedTime.milliseconds());
-        IntakeSampleCommand.elapsedTime.reset();
+        while (!vision.switchToPython()) {
+            if (elapsedTimeAll.seconds() > 5) {
+                return false;
+            }
+        }
+        FtcDashboard.getInstance().getTelemetry().addData("switchToPython", elapsedTime.milliseconds());
+        elapsedTime.reset();
 
 
-        while(vision.camera.getStatus().getPipelineIndex() != Vision.currentPipeline){};
-        FtcDashboard.getInstance().getTelemetry().addData("switched to python time", IntakeSampleCommand.elapsedTime.milliseconds());
-        IntakeSampleCommand.elapsedTime.reset();
+        while (vision.camera.getStatus().getPipelineIndex() != Vision.currentPipeline) {
+            if (elapsedTimeAll.seconds() > 5) {
+                return false;
+            }
+        }
+        FtcDashboard.getInstance().getTelemetry().addData("switched to python time", elapsedTime.milliseconds());
+        elapsedTime.reset();
 
 
         vision.camera.updatePythonInputs(new double[]{0.0, 0, 0, Vision.length, Vision.height, Vision.x, Vision.y, 0.0});
-        vision.camera.getLatestResult().getPythonOutput();
-//        while(vision.camera.getLatestResult().getPythonOutput()[0] == 0){};
-        FtcDashboard.getInstance().getTelemetry().addData("updated pyhton input", IntakeSampleCommand.elapsedTime.milliseconds());
-        IntakeSampleCommand.elapsedTime.reset();
+
+        FtcDashboard.getInstance().getTelemetry().addData("updated pyhton input", elapsedTime.milliseconds());
+        elapsedTime.reset();
         vision.getTurnServoDegree();
 //                limelightGetter.getRotateToSample(;
-        FtcDashboard.getInstance().getTelemetry().addData("finished angle", IntakeSampleCommand.elapsedTime.milliseconds());
+        FtcDashboard.getInstance().getTelemetry().addData("finished angle", elapsedTime.milliseconds());
         FtcDashboard.getInstance().getTelemetry().update();
 
-        while (!vision.switchToDetector()){}
-        while(! vision.switchToPython()){}
-        while (!vision.switchToDetector()){}
+        while (!vision.switchToDetector()) {
+            if (elapsedTimeAll.seconds() > 5) {
+                return false;
+            }
+        }
+        while (!vision.switchToPython()) {
+            if (elapsedTimeAll.seconds() > 5) {
+                return false;
+            }
+        }
+        while (!vision.switchToDetector()) {
+            if (elapsedTimeAll.seconds() > 5) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public void auto(){
-        driveTrain.setDefaultCommand(new InstantCommand(()->{}));
+    public void auto() {
+        driveTrain.setDefaultCommand(new InstantCommand(() -> {
+        }));
     }
 
     public MMSystems(OpModeType type, HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
@@ -191,14 +224,14 @@ public class MMSystems {
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
         this.intakeDistSensor = new MMDistSensor(hardwareMap);
-        if(!hasImuBeenReset){
+        if (!hasImuBeenReset) {
             hasImuBeenReset = true;
-            localizer = hardwareMap.get(GoBildaPinpointDriverRR.class,"imu");
+            localizer = hardwareMap.get(GoBildaPinpointDriverRR.class, "imu");
             localizer.resetPosAndIMU();
             localizer.setOffsets(-99, 9);
             localizer.setEncoderResolution(GoBildaPinpointDriverRR.goBILDA_4_BAR_POD);
             localizer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
-            localizer.setPosition(new Pose2d(0,0,Math.toRadians(90)));
+            localizer.setPosition(new Pose2d(0, 0, Math.toRadians(90)));
         }
         currentPose = new Pose2d(0, 0, Math.toRadians(0));
 
