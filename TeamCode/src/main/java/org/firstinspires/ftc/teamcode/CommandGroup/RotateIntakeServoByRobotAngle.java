@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.Libraries.exterpolation.ExterpolationMap;
@@ -7,22 +8,13 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
 
 public class RotateIntakeServoByRobotAngle extends CommandBase {
-    double startRobotAngle,
-            endRobotAngle,
-            startIntakeAngle,
-            endIntakeAngle;
-
     ExterpolationMap exterpolationMap;
     MMSystems mmSystems;
 
 
     public RotateIntakeServoByRobotAngle(double startRobotAngle, double endRobotAngle, double startIntakeAngle, double endIntakeAngle) {
-        this.startRobotAngle = startRobotAngle;
-        this.endRobotAngle = endRobotAngle;
-        this.startIntakeAngle = startIntakeAngle;
-        this.endIntakeAngle = endIntakeAngle;
 
-        exterpolationMap = new ExterpolationMap()
+        this.exterpolationMap = new ExterpolationMap()
                 .put(startRobotAngle, startIntakeAngle)
                 .put(endRobotAngle, endIntakeAngle);
 
@@ -36,8 +28,11 @@ public class RotateIntakeServoByRobotAngle extends CommandBase {
 
     @Override
     public void execute() {
-        mmSystems.intakeEndUnitRotator.setPositionVoid(
-                exterpolationMap.exterpolate(mmSystems.driveTrain.pinpoint.getHeading())
-        );
+        double rotatorAngle = exterpolationMap.exterpolate(Math.toDegrees(mmSystems.driveTrain.pose.heading.toDouble()));
+        mmSystems.intakeEndUnitRotator.setPositionVoid(rotatorAngle);
+
+        FtcDashboard.getInstance().getTelemetry().addData("robotAngle", Math.toDegrees(mmSystems.driveTrain.pose.heading.toDouble()));
+        FtcDashboard.getInstance().getTelemetry().addData("rotatorAngle", rotatorAngle);
     }
+
 }

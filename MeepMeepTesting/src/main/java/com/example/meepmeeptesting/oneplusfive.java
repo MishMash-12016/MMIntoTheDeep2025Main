@@ -40,7 +40,7 @@ public class oneplusfive {
 
 //        TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(26, -34, Math.toRadians(215)), Math.toRadians(50))
+                .splineToLinearHeading(new Pose2d(28, -37, Math.toRadians(215)), Math.toRadians(50))
 
                         .turn(Math.toRadians(-85))
 

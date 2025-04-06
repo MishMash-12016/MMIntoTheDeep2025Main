@@ -16,8 +16,8 @@ import java.util.function.Supplier;
 
 @Config
 public class ScoringClawEndUnit extends SubsystemBase {
-    public static double scoringClawOpenPos = 0.35;
-    public static double scoringClawClosePos = 0;
+    public static double scoringClawOpenPos = 0.8;
+    public static double scoringClawClosePos = 0.6;
     CuttleServo clawScoringServo;
     public enum ScoringClawState {
         OPEN(()-> scoringClawOpenPos),
