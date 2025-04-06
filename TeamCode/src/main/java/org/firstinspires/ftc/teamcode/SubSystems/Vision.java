@@ -11,11 +11,13 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import edu.wpi.first.math.MathUtil;
 import lombok.Getter;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.utils.MathTools;
 
@@ -165,7 +167,8 @@ public class Vision extends SubsystemBase {
 
     // Get the distance for the strafe with given result
     public double getStrafeOffset(LLResult lastResult) {
-        if(lastResult != null){}//TODO make it not crash
+        if (lastResult != null) {
+        }//TODO make it not crash
         double tx = lastResult.getTx();
         if (tx != 0) {
             double tanTX = Math.tan(Math.toRadians(tx));
@@ -179,9 +182,6 @@ public class Vision extends SubsystemBase {
 
     //Get angle of a sample in servo degrees
     public Double getTurnServoDegree() {
-        camera.updatePythonInputs(
-                new double[]{0.0, 0.0, 0.0, length, height, x, y, 0.0}
-        );
         result = camera.getLatestResult();
 
         if (result == null) {
@@ -193,15 +193,15 @@ public class Vision extends SubsystemBase {
         return lastAngle;
     }
 
-    public void trackRed(){
+    public void trackRed() {
         color = 0;
     }
 
-    public void trackYellow(){
+    public void trackYellow() {
         color = 1;
     }
 
-    public void trackBlue(){
+    public void trackBlue() {
         color = 2;
     }
 
@@ -228,7 +228,7 @@ public class Vision extends SubsystemBase {
 
     //Switch to neural-detector based detection pipepline (AI omg ooga booga big words I love man)
     public boolean switchToDetector() {
-        FtcDashboard.getInstance().getTelemetry().addData("time sinceupdate",camera.getTimeSinceLastUpdate());
+        FtcDashboard.getInstance().getTelemetry().addData("time sinceupdate", camera.getTimeSinceLastUpdate());
         currentPipeline = color;
         if (!camera.pipelineSwitch(currentPipeline)) {
             telemetry.addData("failed to switch to detector", 0);
@@ -242,7 +242,7 @@ public class Vision extends SubsystemBase {
     public void findClosestForPython() {
         if (previousResult != null) {
             List<LLResultTypes.DetectorResult> detectorResults = previousResult.getDetectorResults();
-            if (!detectorResults.isEmpty()){
+            if (!detectorResults.isEmpty()) {
                 LLResultTypes.DetectorResult dr = detectorResults.get(0);
                 List<List<Double>> corners = dr.getTargetCorners();
                 List<Double> leftUp = corners.get(0);
@@ -265,26 +265,31 @@ public class Vision extends SubsystemBase {
     //Only change the angle of the intake rotator
     public SequentialCommandGroup angleChange() {
         return new SequentialCommandGroup(
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered", "enderd")),
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered2", "not enderd")),
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered3", "not enderd")),
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered4", "not enderd")),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("started angle", IntakeSampleCommand.elapsedTime.milliseconds())),
+                new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
 
                 new InstantCommand(() -> findClosestForPython()),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("findClosestForPython", IntakeSampleCommand.elapsedTime.milliseconds())),
+                new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
 
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered2", "enderd")),
 
                 new WaitUntilCommand(() -> switchToPython()),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("switchToPython", IntakeSampleCommand.elapsedTime.milliseconds())),
+                new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
 
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered3", "enderd")),
 
                 new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == Vision.currentPipeline),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("switched to python time", IntakeSampleCommand.elapsedTime.milliseconds())),
+                new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
 
-                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("angle endered4", "enderd")),
 
                 new InstantCommand(() -> camera.updatePythonInputs(new double[]{0.0, 0, 0, length, height, x, y, 0.0})),
                 new WaitUntilCommand(() -> camera.getLatestResult().getPythonOutput()[0] != 0),
-                limelightGetter.getRotateToSample());
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("updated pyhton input", IntakeSampleCommand.elapsedTime.milliseconds())),
+                new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
+                limelightGetter.getRotateToSample(),
+                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("finished angle", IntakeSampleCommand.elapsedTime.milliseconds()))
+        );
     }
 
     //use this when you want to save the result instead of switching pipelines like stupid fuck

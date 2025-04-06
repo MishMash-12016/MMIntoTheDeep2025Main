@@ -17,7 +17,7 @@ public class ScoringArm extends SubsystemBase {
     public static double scoringArmPrepareSampleTransferPose = 0.45;
     public static double scoringArmScorePose = 0.22;
     public static double scoringArmIntakeFromFrontPose = 0.545;
-    public static double scoringArmScoreFromFrontSpecimenPose = 0.4;
+    public static double scoringArmScoreFromFrontSpecimenPose = 0.42;
     public static double afterScoreFromFrontSpecimenPose = 0.3;
 
     public double estimatedPose = scoringArmInitPose;
