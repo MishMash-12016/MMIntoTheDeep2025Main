@@ -16,7 +16,8 @@ public class RotateIntakeServoByRobotAngle extends CommandBase {
 
         this.exterpolationMap = new ExterpolationMap()
                 .put(startRobotAngle, startIntakeAngle)
-                .put(endRobotAngle, endIntakeAngle);
+                .put(180, endIntakeAngle)
+                .put(endRobotAngle, startRobotAngle);
 
         addRequirements(MMRobot.getInstance().mmSystems.intakeEndUnitRotator);
     }
@@ -28,7 +29,12 @@ public class RotateIntakeServoByRobotAngle extends CommandBase {
 
     @Override
     public void execute() {
-        double rotatorAngle = exterpolationMap.exterpolate(Math.toDegrees(mmSystems.driveTrain.pose.heading.toDouble()));
+        double robotAngel = Math.toDegrees(mmSystems.driveTrain.pose.heading.toDouble());
+        if(robotAngel < 0){
+            robotAngel += 360;
+        }
+
+        double rotatorAngle = exterpolationMap.exterpolate(robotAngel);
         mmSystems.intakeEndUnitRotator.setPositionVoid(rotatorAngle);
 
         FtcDashboard.getInstance().getTelemetry().addData("robotAngle", Math.toDegrees(mmSystems.driveTrain.pose.heading.toDouble()));
