@@ -161,7 +161,8 @@ public class MMSystems {
 
 
         vision.camera.updatePythonInputs(new double[]{0.0, 0, 0, Vision.length, Vision.height, Vision.x, Vision.y, 0.0});
-        while(vision.camera.getLatestResult().getPythonOutput()[0] == 0){};
+        vision.camera.getLatestResult().getPythonOutput();
+//        while(vision.camera.getLatestResult().getPythonOutput()[0] == 0){};
         FtcDashboard.getInstance().getTelemetry().addData("updated pyhton input", IntakeSampleCommand.elapsedTime.milliseconds());
         IntakeSampleCommand.elapsedTime.reset();
         vision.getTurnServoDegree();

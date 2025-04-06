@@ -87,35 +87,35 @@ public class Red_Right_6 extends MMOpMode {
         TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
                 .splineToLinearHeading(new Pose2d(26, -34, Math.toRadians(215)), Math.toRadians(50),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.3),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(290))
                 .splineToLinearHeading(new Pose2d(33, -51, Math.toRadians(150)), Math.toRadians(250),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.3),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
 
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
                 .splineToLinearHeading(new Pose2d(35.5, -34, Math.toRadians(215)), Math.toRadians(50),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.3),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(290))
                 .splineToLinearHeading(new Pose2d(43, -51, Math.toRadians(150)), Math.toRadians(250),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.3),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
 
         TrajectoryActionBuilder driveToPush3 = turnRobot2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(60))
                 .splineToLinearHeading(new Pose2d(46.5, -34, Math.toRadians(210)), Math.toRadians(50),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.3),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
         TrajectoryActionBuilder turnRobot3 = driveToPush3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(46.5, -51, Math.toRadians(90)), Math.toRadians(270),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.3),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
 
         TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(50.5, -68, Math.toRadians(90)), Math.toRadians(270),
@@ -188,9 +188,8 @@ public class Red_Right_6 extends MMOpMode {
 
 
                 new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
-//                        ,
-//                        IntakeSampleCommand.limeLightIntake_Auto_for_specimen().withTimeout(7000)
+                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                        IntakeSampleCommand.limeLightIntake_Auto_for_specimen().withTimeout(7000)
                 ),
 
 
@@ -204,30 +203,31 @@ public class Red_Right_6 extends MMOpMode {
                                 )
                         ),
                         new WaitCommand(700).andThen(
-                                ThrowSample()
+//                                ThrowSample()
                         )
                 ),
                 //push first
                 new ActionCommand(driveToPush1.build()).alongWith(
-                        new SequentialCommandGroup(
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-                                ),
-                                new WaitCommand(200).andThen(setupForPushing())
-                        )
+//                        new SequentialCommandGroup(
+//                                new ParallelCommandGroup(
+//                                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+//                                ),
+//                                new WaitCommand(200).andThen(setupForPushing())
+//                        )
                 ),
                 new ActionCommand(turnRobot.build()).alongWith(
-                        robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose)
+//                        robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose)
                 ),
                 new ActionCommand(driveToPush2.build()).alongWith(
-                        setupForPushing()),
+//                        setupForPushing()
+                        ),
 
                 //push second
                 new ActionCommand(turnRobot2.build()).alongWith(
-                        robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose)
+//                        robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose)
                 ),
                 new ActionCommand(driveToPush3.build()).alongWith(
-                        setupForPushing()
+//                        setupForPushing()
                 ),
 
                 //push third

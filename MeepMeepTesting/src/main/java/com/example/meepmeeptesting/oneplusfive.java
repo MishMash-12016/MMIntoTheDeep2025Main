@@ -17,7 +17,7 @@ public class oneplusfive {
         double maxProfileAccel = 70;
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
-                .setDimensions(11.02,40)//14.5
+                .setDimensions(11.02,14.5)//
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 70, Math.toRadians(180), Math.toRadians(180), 15)
 
