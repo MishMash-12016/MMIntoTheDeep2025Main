@@ -86,25 +86,29 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(26, -34, Math.toRadians(215)), Math.toRadians(50),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+                .splineToLinearHeading(new Pose2d(26, -34, Math.toRadians(215)), Math.toRadians(50)
+//                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
+//                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5)
+                );
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
-                .setTangent(Math.toRadians(290))
-                .splineToLinearHeading(new Pose2d(33, -51, Math.toRadians(150)), Math.toRadians(250),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+                .turn(Math.toRadians(-85));
+//                .setTangent(Math.toRadians(290))
+//                .splineToLinearHeading(new Pose2d(33, -51, Math.toRadians(150)), Math.toRadians(250),
+//                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
+//                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
 
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(35.5, -34, Math.toRadians(215)), Math.toRadians(50),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+                .splineToLinearHeading(new Pose2d(35.5, -34, Math.toRadians(215)), Math.toRadians(50)
+//                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
+//                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5)
+                );
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
-                .setTangent(Math.toRadians(290))
-                .splineToLinearHeading(new Pose2d(43, -51, Math.toRadians(150)), Math.toRadians(250),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+                .turn(Math.toRadians(-85));
+//                .setTangent(Math.toRadians(290))
+//                .splineToLinearHeading(new Pose2d(43, -51, Math.toRadians(150)), Math.toRadians(250),
+//                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
+//                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
 
         TrajectoryActionBuilder driveToPush3 = turnRobot2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(60))
