@@ -26,7 +26,7 @@ import java.util.List;
 
 @Config
 public class Vision extends SubsystemBase {
-    private final Limelight3A camera;
+    public final Limelight3A camera;
     @Getter
     private LLResult result;
 

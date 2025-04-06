@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
@@ -14,6 +15,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleDigital;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
@@ -91,13 +93,7 @@ public class MMSystems {
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.hook = new Hook();
         vision = new Vision(hardwareMap, telemetry);
-        testPipelines();
-        if (Vision.pipelineSwitchFail > 0){
-            telemetry.addData("!!!!!!!!!!!!!!!!!!!!!RESTART THE FUCKING ROBOT!!!!!!!!!!!!!!!!!!!!!", "please? the limelight is kinda bad");
-        }
-//        linearIntake.setDefaultCommand(
-//                linearIntake.defultCommand(0)
-//        );
+        limelightInitFunc();
 
     }
     public void initRobotSystemsTeleOp() {
@@ -112,24 +108,9 @@ public class MMSystems {
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.hook = new Hook();
         vision = new Vision(hardwareMap, telemetry);
-//        linearIntake.setDefaultCommand(
-//                linearIntake.defultCommand(0)
-//        );
-        testPipelines();
-        if (Vision.pipelineSwitchFail > 0){
-            telemetry.addData("!!!!!!!!!!!!!!!!!!!!!RESTART THE FUCKING ROBOT!!!!!!!!!!!!!!!!!!!!!", "please? the limelight is kinda bad");
-        }
+        limelightInitFunc();
     }
 
-    public void  testPipelines(){
-        MMRobot.getInstance().mmSystems.vision.switchToDetector();
-        MMRobot.getInstance().mmSystems.vision.switchToPython();
-        MMRobot.getInstance().mmSystems.vision.switchToDetector();
-        MMRobot.getInstance().mmSystems.vision.switchToPython();
-        MMRobot.getInstance().mmSystems.vision.switchToDetector();
-        MMRobot.getInstance().mmSystems.vision.switchToPython();
-        MMRobot.getInstance().mmSystems.vision.switchToDetector();
-    }
 
     public void initDriveTrain(Pose2d currentPose) {
         //roadRunner 90 is what we agree as 0 so reset it to 0
@@ -149,6 +130,48 @@ public class MMSystems {
                         ()-> Math.pow(gamepadEx1.getLeftX(),3),
                         () -> Math.pow(gamepadEx1.getLeftY(),3),
                         () -> Math.pow(gamepadEx1.getRightX(),3)));
+    }
+
+
+    public void limelightInitFunc(){
+
+        while (!MMRobot.getInstance().mmSystems.vision.switchToDetector()) {
+        }
+        while (MMRobot.getInstance().mmSystems.vision.getPipelineIndex() != Vision.currentPipeline) {
+        }
+        MMRobot.getInstance().mmSystems.vision.setPreviousResult();
+
+
+        FtcDashboard.getInstance().getTelemetry().addData("started angle", IntakeSampleCommand.elapsedTime.milliseconds());
+        IntakeSampleCommand.elapsedTime.reset();
+
+        vision.findClosestForPython();
+        FtcDashboard.getInstance().getTelemetry().addData("findClosestForPython", IntakeSampleCommand.elapsedTime.milliseconds());
+        IntakeSampleCommand.elapsedTime.reset();
+
+
+        while(! vision.switchToPython()){};
+        FtcDashboard.getInstance().getTelemetry().addData("switchToPython", IntakeSampleCommand.elapsedTime.milliseconds());
+        IntakeSampleCommand.elapsedTime.reset();
+
+
+        while(vision.camera.getStatus().getPipelineIndex() != Vision.currentPipeline){};
+        FtcDashboard.getInstance().getTelemetry().addData("switched to python time", IntakeSampleCommand.elapsedTime.milliseconds());
+        IntakeSampleCommand.elapsedTime.reset();
+
+
+        vision.camera.updatePythonInputs(new double[]{0.0, 0, 0, Vision.length, Vision.height, Vision.x, Vision.y, 0.0});
+        while(vision.camera.getLatestResult().getPythonOutput()[0] == 0){};
+        FtcDashboard.getInstance().getTelemetry().addData("updated pyhton input", IntakeSampleCommand.elapsedTime.milliseconds());
+        IntakeSampleCommand.elapsedTime.reset();
+        vision.getTurnServoDegree();
+//                limelightGetter.getRotateToSample(;
+        FtcDashboard.getInstance().getTelemetry().addData("finished angle", IntakeSampleCommand.elapsedTime.milliseconds());
+        FtcDashboard.getInstance().getTelemetry().update();
+
+        while (!vision.switchToDetector()){}
+        while(! vision.switchToPython()){}
+        while (!vision.switchToDetector()){}
     }
 
     public void auto(){
