@@ -85,7 +85,7 @@ public class MecanumDrive extends SubsystemBase {
         public double maxProfileAccel = 45;//70
 
         // turn profile parameters (in radians)
-        public double maxAngVel = 2 * Math.PI; // shared with path
+        public double maxAngVel = 2 ; // shared with path
         public double maxAngAccel = Math.PI ;
 
         // path controller gains
