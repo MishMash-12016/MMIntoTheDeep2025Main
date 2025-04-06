@@ -97,6 +97,8 @@ public class MecanumDrive extends SubsystemBase {
         public double lateralVelGain = 0;
         public double headingVelGain = 0;// shared with turn
     }
+    public double[] errorArr = new double[2];
+    public double[] lastErrorArr = new double[2];
 
     public static Params PARAMS = new Params();
 
@@ -387,6 +389,8 @@ public class MecanumDrive extends SubsystemBase {
             Pose2d error = txWorldTarget.value().minusExp(pose);
             p.put("xError", error.position.x);
             p.put("yError", error.position.y);
+            errorArr[0] = error.position.x;
+            errorArr[1] = error.position.y;
             p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));
 
             // only draw when active; only one drive action should be active at a time
