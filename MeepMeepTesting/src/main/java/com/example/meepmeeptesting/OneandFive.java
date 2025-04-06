@@ -30,7 +30,7 @@ public class OneandFive {
 
 //                        TrajectoryActionBuilder driveToScorePreload = drive.actionBuilder(currentPose)
                                 .setTangent(Math.toRadians(90))
-                                .splineToConstantHeading(new Vector2d(5.5, -25.5), Math.toRadians(90))
+                                .splineToConstantHeading(new Vector2d(5.5, -28), Math.toRadians(90))
 //                                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5),
 //                                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.4));
 

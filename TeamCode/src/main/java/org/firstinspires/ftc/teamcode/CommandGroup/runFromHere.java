@@ -53,7 +53,8 @@ public class runFromHere extends CommandBase {
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
 
             TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
-                    .strafeToLinearHeading(new Vector2d(25, -45),Math.toRadians(140),
+                    .setTangent(Math.toRadians(260))
+                    .splineToLinearHeading(new Pose2d(25, -45, Math.toRadians(140)), Math.toRadians(-10),
                             new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5),
                             new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
 

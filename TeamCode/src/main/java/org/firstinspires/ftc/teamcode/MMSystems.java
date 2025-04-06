@@ -91,6 +91,10 @@ public class MMSystems {
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.hook = new Hook();
         vision = new Vision(hardwareMap, telemetry);
+        testPipelines();
+        if (Vision.pipelineSwitchFail > 0){
+            telemetry.addData("!!!!!!!!!!!!!!!!!!!!!RESTART THE FUCKING ROBOT!!!!!!!!!!!!!!!!!!!!!", "please? the limelight is kinda bad");
+        }
 //        linearIntake.setDefaultCommand(
 //                linearIntake.defultCommand(0)
 //        );
@@ -118,14 +122,13 @@ public class MMSystems {
     }
 
     public void  testPipelines(){
-        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector());
-        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0);
-        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToPython());
-        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 1);
-        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector());
-        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 0);
-        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToPython());
-        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == 1);
+        MMRobot.getInstance().mmSystems.vision.switchToDetector();
+        MMRobot.getInstance().mmSystems.vision.switchToPython();
+        MMRobot.getInstance().mmSystems.vision.switchToDetector();
+        MMRobot.getInstance().mmSystems.vision.switchToPython();
+        MMRobot.getInstance().mmSystems.vision.switchToDetector();
+        MMRobot.getInstance().mmSystems.vision.switchToPython();
+        MMRobot.getInstance().mmSystems.vision.switchToDetector();
     }
 
     public void initDriveTrain(Pose2d currentPose) {

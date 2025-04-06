@@ -184,41 +184,36 @@ public class IntakeSampleCommand {
     public static ElapsedTime elapsedTimeNoReset = new ElapsedTime();
     public static Command limeLightIntake_Auto_for_specimen() {
         return new FixedSequentialCommandGroup(
-                new InstantCommand(()->elapsedTime.reset()),
-                new InstantCommand(()->elapsedTimeNoReset.reset()),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
-                new InstantCommand(()->FtcDashboard.getInstance().getTelemetry().addData("switchde to detector", elapsedTime.milliseconds())),
-                new InstantCommand(()->elapsedTime.reset()),
 
-                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE)
+                ),
 
                 //Lamlam side:
                 new FixedSequentialCommandGroup(
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
-                        new InstantCommand(()->FtcDashboard.getInstance().getTelemetry().addData("set Previues result", elapsedTime.milliseconds())),
-                        new InstantCommand(()->elapsedTime.reset()),
                         MMRobot.getInstance().mmSystems.vision.angleChange(),
-                        new InstantCommand(()->FtcDashboard.getInstance().getTelemetry().addData("angle change time", elapsedTime.milliseconds())),
-                        new InstantCommand(()->elapsedTime.reset()),
-                        new InstantCommand(()->FtcDashboard.getInstance().getTelemetry().addData("full detection time", elapsedTimeNoReset.milliseconds())),
                         new ParallelCommandGroup(
                                 limelightGetter.strafeToSample(),
                                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
                                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE))
                 ),
-                new InstantCommand(()->FtcDashboard.getInstance().getTelemetry().addData("finished strafe", elapsedTime.milliseconds())),
-                new InstantCommand(()->elapsedTime.reset()),
-//                new WaitCommand(200),
 
                 new SequentialCommandGroup(
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
-                        new WaitCommand(200),
+                        new WaitCommand(300),
                         MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
-                        new WaitCommand(200)
+                        new WaitCommand(200),
+                        new ParallelCommandGroup(
+                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
+                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
+                        )
                 ),
-
-                new InstantCommand(()->FtcDashboard.getInstance().getTelemetry().addData("finished all", elapsedTime.milliseconds())),
 
                 new WaitCommand(300),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)

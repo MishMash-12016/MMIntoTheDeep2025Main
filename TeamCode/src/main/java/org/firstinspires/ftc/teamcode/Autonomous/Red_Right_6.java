@@ -68,16 +68,18 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToScorePreload = drive.actionBuilder(currentPose)
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(5.5, -26.5), Math.toRadians(90),
+                .splineToConstantHeading(new Vector2d(5.5, -28), Math.toRadians(90),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.4));
 
 
         //there isn't driveToEject its all conspiracy
         TrajectoryActionBuilder driveToEject = drive.actionBuilder(new Pose2d(5.5, -29, Math.toRadians(270)))
-                .strafeToLinearHeading(new Vector2d(25, -45),Math.toRadians(140),
+                .setTangent(Math.toRadians(260))
+                .splineToLinearHeading(new Pose2d(25, -45, Math.toRadians(140)), Math.toRadians(0),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
+
 
         TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
@@ -92,12 +94,12 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(37, -34, Math.toRadians(210)), Math.toRadians(50),
+                .splineToLinearHeading(new Pose2d(36.5, -34, Math.toRadians(210)), Math.toRadians(50),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(290))
-                .splineToLinearHeading(new Pose2d(44, -51, Math.toRadians(150)), Math.toRadians(250),
+                .splineToLinearHeading(new Pose2d(43.5, -51, Math.toRadians(150)), Math.toRadians(250),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.5),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
 

@@ -228,7 +228,7 @@ public class Vision extends SubsystemBase {
 
     //Switch to neural-detector based detection pipepline (AI omg ooga booga big words I love man)
     public boolean switchToDetector() {
-        FtcDashboard.getInstance().getTelemetry().addData("time sinceupdate", camera.getTimeSinceLastUpdate());
+        telemetry.addData("time sinceupdate", camera.getTimeSinceLastUpdate());
         currentPipeline = color;
         if (!camera.pipelineSwitch(currentPipeline)) {
             telemetry.addData("failed to switch to detector", 0);
@@ -265,30 +265,30 @@ public class Vision extends SubsystemBase {
     //Only change the angle of the intake rotator
     public SequentialCommandGroup angleChange() {
         return new SequentialCommandGroup(
-                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("started angle", IntakeSampleCommand.elapsedTime.milliseconds())),
+                new InstantCommand(() -> telemetry.addData("started angle", IntakeSampleCommand.elapsedTime.milliseconds())),
                 new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
 
                 new InstantCommand(() -> findClosestForPython()),
-                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("findClosestForPython", IntakeSampleCommand.elapsedTime.milliseconds())),
+                new InstantCommand(() -> telemetry.addData("findClosestForPython", IntakeSampleCommand.elapsedTime.milliseconds())),
                 new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
 
 
                 new WaitUntilCommand(() -> switchToPython()),
-                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("switchToPython", IntakeSampleCommand.elapsedTime.milliseconds())),
+                new InstantCommand(() -> telemetry.addData("switchToPython", IntakeSampleCommand.elapsedTime.milliseconds())),
                 new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
 
 
                 new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == Vision.currentPipeline),
-                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("switched to python time", IntakeSampleCommand.elapsedTime.milliseconds())),
+                new InstantCommand(() -> telemetry.addData("switched to python time", IntakeSampleCommand.elapsedTime.milliseconds())),
                 new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
 
 
                 new InstantCommand(() -> camera.updatePythonInputs(new double[]{0.0, 0, 0, length, height, x, y, 0.0})),
                 new WaitUntilCommand(() -> camera.getLatestResult().getPythonOutput()[0] != 0),
-                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("updated pyhton input", IntakeSampleCommand.elapsedTime.milliseconds())),
+                new InstantCommand(() -> telemetry.addData("updated pyhton input", IntakeSampleCommand.elapsedTime.milliseconds())),
                 new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
                 limelightGetter.getRotateToSample(),
-                new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("finished angle", IntakeSampleCommand.elapsedTime.milliseconds()))
+                new InstantCommand(() -> telemetry.addData("finished angle", IntakeSampleCommand.elapsedTime.milliseconds()))
         );
     }
 
