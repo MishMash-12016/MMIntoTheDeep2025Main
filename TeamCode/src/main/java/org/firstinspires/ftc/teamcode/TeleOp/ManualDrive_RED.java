@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.RotateIntakeServoByRobotAngle;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -103,7 +104,9 @@ public class ManualDrive_RED extends MMOpMode {
                 )
 
         );
-
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new RotateIntakeServoByRobotAngle(225,140, 0,0.15)
+        );
         //sample/specimen intake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
                 new ConditionalCommand(IntakeSpecimenCommand.SpecimenIntake(), IntakeSampleCommand.SampleIntake(), () -> SpecimenIntake)
@@ -158,6 +161,7 @@ public class ManualDrive_RED extends MMOpMode {
                         })
                 )
         );
+
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whileHeld(
                 new SequentialCommandGroup(
