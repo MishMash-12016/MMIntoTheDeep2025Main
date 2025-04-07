@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.RotateIntakeServoByRobotAngle;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.touchSensors;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
@@ -119,17 +120,23 @@ public class ManualDrive_RED extends MMOpMode {
         );
 
 
-        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
-                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0)); //left trigger
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+//                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0)); //left trigger
+//
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+//                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
+//
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+//                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0)); //right trigger
+//
+//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+//                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
 
         new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
-                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
+                .whileActiveContinuous(MMRobot.getInstance().mmSystems.climber.setPower(-1.0)); //left trigger
 
         new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0)); //right trigger
-
-        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-                .whenInactive(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0));
+                .whileActiveContinuous(MMRobot.getInstance().mmSystems.climber.setPower(1.0)); //right trigger
 
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.START).whenPressed(
                 () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0)
@@ -227,6 +234,8 @@ public class ManualDrive_RED extends MMOpMode {
 //        telemetry.addData("opened2", (robotInstance.mmSystems.linearIntake.pose == 0.6));
 //        telemetry.addData("a", MMRobot.getInstance().mmSystems.intakeArm.estimatedPose >= IntakeArm.IntakeArmState.SPECIMEN_INTAKE.position.get());
         telemetry.addData("servo degress",MMRobot.getInstance().mmSystems.servoDegrees);
+        FtcDashboard.getInstance().getTelemetry().addData("touch sensor bumber", touchSensors.getStateBumper());
+        FtcDashboard.getInstance().getTelemetry().addData("touch sensor arm", touchSensors.getStateArm());
         telemetry.update();
     }
 }

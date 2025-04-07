@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMDistSensor;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
+import org.firstinspires.ftc.teamcode.SubSystems.Climber;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
@@ -75,6 +76,8 @@ public class MMSystems {
     public Vision vision;
     public DigitalChannel touchSensorBumper;
     public DigitalChannel touchSensorArm;
+    public Climber climber;
+
 
     public double servoDegrees = 0;
 
@@ -95,8 +98,9 @@ public class MMSystems {
         if (!limelightInitFunc()){
             telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
         }
-        this.touchSensorBumper = hardwareMap.get(DigitalChannel.class, "touch sensor back");
-        this.touchSensorArm = hardwareMap.get(DigitalChannel.class, "touch sensor front");
+        this.touchSensorBumper = hardwareMap.get(DigitalChannel.class, "tsBumper");
+        this.touchSensorArm = hardwareMap.get(DigitalChannel.class, "tsArm");
+        this.climber = new Climber();
     }
 
     public void initRobotSystemsTeleOp() {
@@ -114,6 +118,9 @@ public class MMSystems {
         if (!limelightInitFunc()){
             telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
         }
+        this.touchSensorBumper = hardwareMap.get(DigitalChannel.class, "tsBumper");
+        this.touchSensorArm = hardwareMap.get(DigitalChannel.class, "tsArm");
+        this.climber = new Climber();
     }
 
 

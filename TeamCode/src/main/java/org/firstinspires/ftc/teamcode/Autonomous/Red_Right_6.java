@@ -178,17 +178,7 @@ public class Red_Right_6 extends MMOpMode {
         new SequentialCommandGroup(
                 new InstantCommand(),
                 new ParallelCommandGroup(
-                        new ActionCommand(driveToScorePreload.build()){
-                            @Override
-                            public void end(boolean interrupted) {
-                                super.end(interrupted);
-                                if(interrupted) {
-                                    FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
-                                    new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive);
-                                }
-                            }
-                        }
-                        .interruptOn(()-> touchSensors.getStateBumper()),
+                        new ActionCommand(driveToScorePreload.build()),
                         AutoSpecimensCommand.PrepareSpecimenScorePreLoad(),
                         new WaitCommand(300).andThen(
                                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
@@ -267,14 +257,24 @@ public class Red_Right_6 extends MMOpMode {
                         super.end(interrupted);
                         if(interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
-                            new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive);
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
                         }
                     }
                 }
                         .interruptOn(()-> touchSensors.getStateArm())
                         .alongWith(IntakeSpecimenCommand.PrepareSpecimenIntakeFront()),
 
-                new driveToScoreFirstSpecimen().alongWith(
+                new driveToScoreFirstSpecimen(){
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if(interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                        }
+                    }
+                }
+                        .interruptOn(()-> touchSensors.getStateBumper()).alongWith(
                         IntakeSpecimenCommand.SpecimenIntake()
                 ),
                 //Second
@@ -284,7 +284,7 @@ public class Red_Right_6 extends MMOpMode {
                         super.end(interrupted);
                         if(interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
-                            new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive);
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
                         }
                     }
                 }
@@ -301,7 +301,17 @@ public class Red_Right_6 extends MMOpMode {
                         )
                 ),
 
-                new ActionCommand(driveToScoreSecondSpecimen.build()).alongWith(
+                new ActionCommand(driveToScoreSecondSpecimen.build()){
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if(interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                        }
+                    }
+                }
+                        .interruptOn(()-> touchSensors.getStateBumper()).alongWith(
                         IntakeSpecimenCommand.SpecimenIntake()
                 ),
 
@@ -312,7 +322,7 @@ public class Red_Right_6 extends MMOpMode {
                         super.end(interrupted);
                         if(interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
-                            new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive);
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
                         }
                     }
                 }
@@ -329,7 +339,17 @@ public class Red_Right_6 extends MMOpMode {
                         )
                 ),
 
-                new ActionCommand(driveToScoreThirdSpecimen.build()).alongWith(
+                new ActionCommand(driveToScoreThirdSpecimen.build()){
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if(interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                        }
+                    }
+                }
+                        .interruptOn(()-> touchSensors.getStateBumper()).alongWith(
                         IntakeSpecimenCommand.SpecimenIntake()
                 ),
 
@@ -340,7 +360,7 @@ public class Red_Right_6 extends MMOpMode {
                         super.end(interrupted);
                         if(interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
-                            new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive);
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
                         }
                     }
                 }
@@ -358,7 +378,17 @@ public class Red_Right_6 extends MMOpMode {
                 ),
 
 
-                new ActionCommand(driveToScoreForthSpecimen.build()).alongWith(
+                new ActionCommand(driveToScoreForthSpecimen.build()){
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if(interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                        }
+                    }
+                }
+                        .interruptOn(()-> touchSensors.getStateBumper()).alongWith(
                         IntakeSpecimenCommand.SpecimenIntake()
                 ),
 
@@ -369,7 +399,7 @@ public class Red_Right_6 extends MMOpMode {
                         super.end(interrupted);
                         if(interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
-                            new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive);
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
                         }
                     }
                 }
@@ -386,7 +416,17 @@ public class Red_Right_6 extends MMOpMode {
                         )
                 ),
 
-                new ActionCommand(driveToScoreFifthSpecimen.build()).alongWith(
+                new ActionCommand(driveToScoreFifthSpecimen.build()){
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if(interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                        }
+                    }
+                }
+                        .interruptOn(()-> touchSensors.getStateBumper()).alongWith(
                         IntakeSpecimenCommand.SpecimenIntake()
                 ),
 
