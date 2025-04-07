@@ -17,7 +17,8 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     public static double ElbowInitPose = 0.32;
     public static double ElbowTransferSamplePose = 0.1;
     public static double ElbowPrepareSampleTransferPose = 0.05;
-    public static double ElbowScoreSpecimenPose = 0.75;
+    public static double ElbowScoreSpecimenPose = 0.73;
+    public static double ElbowAfterScoreSpecimenPose = 0.64;
     public static double ElbowIntakeFromFrontPose = 0.39;
     public static double scoringElbowScoreFromFrontPose = 0.53;
     public static double ElbowAfterScoreFromFront = 0.35;
@@ -33,6 +34,7 @@ public class ScoringEndUnitElbow extends SubsystemBase {
         SCORE_SAMPLE_POSE(() -> ElbowScoreSamplePose),
         INIT_POSE(() -> ElbowInitPose),
         SCORE_SPECIMEN_POSE(() -> ElbowScoreSpecimenPose),
+        AFTER_SCORE_SPECIMEN_POSE(() -> ElbowAfterScoreSpecimenPose),
         INTAKE_FROM_FRONT_POSE(() -> ElbowIntakeFromFrontPose),
         PREPARE_SAMPLE_SCORE(() -> prepareSampleScorePose);
 

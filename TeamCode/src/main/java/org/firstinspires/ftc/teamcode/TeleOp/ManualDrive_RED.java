@@ -102,7 +102,6 @@ public class ManualDrive_RED extends MMOpMode {
                         ),
                         () -> (robotInstance.mmSystems.linearIntake.pose == LinearIntake.LinearIntakeState.MAX_OPENING.position)
                 )
-
         );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
                 new RotateIntakeServoByRobotAngle(225,140, 0,0.15)
