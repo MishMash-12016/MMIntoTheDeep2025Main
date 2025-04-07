@@ -184,11 +184,11 @@ public class Red_Right_6 extends MMOpMode {
                                 super.end(interrupted);
                                 if(interrupted) {
                                     FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
+                                    new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive);
                                 }
                             }
                         }
-                        .interruptOn(()-> touchSensors.getStateArm() || touchSensors.getStateBumper())
-                        .andThen(new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive)),
+                        .interruptOn(()-> touchSensors.getStateBumper()),
                         AutoSpecimensCommand.PrepareSpecimenScorePreLoad(),
                         new WaitCommand(300).andThen(
                                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
@@ -354,6 +354,8 @@ public class Red_Right_6 extends MMOpMode {
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
         FtcDashboard.getInstance().getTelemetry().addData("----------------------------", "");
         FtcDashboard.getInstance().getTelemetry().addData("linear", MMRobot.getInstance().mmSystems.linearIntake.getPosition());
+        FtcDashboard.getInstance().getTelemetry().addData("touch sensor bumber", touchSensors.getStateBumper());
+        FtcDashboard.getInstance().getTelemetry().addData("touch sensor arm", touchSensors.getStateArm());
         telemetry.update();
         FtcDashboard.getInstance().getTelemetry().update();
     }
