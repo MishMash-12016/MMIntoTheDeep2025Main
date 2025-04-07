@@ -261,14 +261,34 @@ public class Red_Right_6 extends MMOpMode {
                 )
                 ,
                 //First
-                new ActionCommand(driveToIntakeFirstSpecimen.build())
+                new ActionCommand(driveToIntakeFirstSpecimen.build()){
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if(interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
+                            new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive);
+                        }
+                    }
+                }
+                        .interruptOn(()-> touchSensors.getStateArm())
                         .alongWith(IntakeSpecimenCommand.PrepareSpecimenIntakeFront()),
 
                 new driveToScoreFirstSpecimen().alongWith(
                         IntakeSpecimenCommand.SpecimenIntake()
                 ),
                 //Second
-                new ActionCommand(driveToIntakeSecondSpecimen.build())
+                new ActionCommand(driveToIntakeSecondSpecimen.build()){
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if(interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
+                            new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive);
+                        }
+                    }
+                }
+                        .interruptOn(()-> touchSensors.getStateArm())
                         .alongWith(
                         new SequentialCommandGroup(
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
@@ -286,7 +306,17 @@ public class Red_Right_6 extends MMOpMode {
                 ),
 
                 //Third
-                new ActionCommand(driveToIntakeThirdSpecimen.build())
+                new ActionCommand(driveToIntakeThirdSpecimen.build()){
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if(interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
+                            new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive);
+                        }
+                    }
+                }
+                        .interruptOn(()-> touchSensors.getStateArm())
                         .alongWith(
                         new SequentialCommandGroup(
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
@@ -304,7 +334,17 @@ public class Red_Right_6 extends MMOpMode {
                 ),
 
                 //Forth
-                new ActionCommand(driveToIntakeForthSpecimen.build())
+                new ActionCommand(driveToIntakeForthSpecimen.build()){
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if(interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
+                            new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive);
+                        }
+                    }
+                }
+                        .interruptOn(()-> touchSensors.getStateArm())
                         .alongWith(
                         new SequentialCommandGroup(
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
@@ -323,7 +363,17 @@ public class Red_Right_6 extends MMOpMode {
                 ),
 
                 //fifth
-                new ActionCommand(driveToIntakeFifthSpecimen.build())
+                new ActionCommand(driveToIntakeFifthSpecimen.build()){
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if(interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the first");
+                            new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive);
+                        }
+                    }
+                }
+                        .interruptOn(()-> touchSensors.getStateArm())
                         .alongWith(
                         new SequentialCommandGroup(
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
