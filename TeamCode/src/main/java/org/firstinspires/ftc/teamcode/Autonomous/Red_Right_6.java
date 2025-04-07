@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.AngularVelConstraint;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
@@ -37,6 +38,7 @@ public class Red_Right_6 extends MMOpMode {
     static final double halfOpenClaw = 0.6;
     static final double rotator = 0;
     final double intakeArmPose = 0.59;
+    public boolean flagVel = false;
 
     //parking position
     private static final double tangentsToScoreSpecimen = 135;
@@ -174,7 +176,8 @@ public class Red_Right_6 extends MMOpMode {
         new SequentialCommandGroup(
                 new InstantCommand(),
                 new ParallelCommandGroup(
-                        new ActionCommand(driveToScorePreload.build()),
+                        new ActionCommand(driveToScorePreload.build()).interruptOn(()->flagVel && MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getVelocityRR().component1().y < 1)
+                                .andThen(new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive)),
                         AutoSpecimensCommand.PrepareSpecimenScorePreLoad(),
                         new WaitCommand(300).andThen(
                                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
@@ -336,6 +339,13 @@ public class Red_Right_6 extends MMOpMode {
         super.run();
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
         telemetry.addData("linear", MMRobot.getInstance().mmSystems.linearIntake.getPosition());
+
+        telemetry.addData("velocity Y - ", MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getVelocityRR().component1().y);
+        telemetry.addData("should stop - ", MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getVelocityRR().component1().y < 1 && flagVel);
+        if (MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getVelocityRR().component1().y > 1 && !flagVel){
+            flagVel = true;
+        }
+
         telemetry.update();
         FtcDashboard.getInstance().getTelemetry().update();
     }
