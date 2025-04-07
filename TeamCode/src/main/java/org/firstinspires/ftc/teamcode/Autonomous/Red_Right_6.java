@@ -15,13 +15,13 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.roadRunnewr.runFromHere;
 import org.firstinspires.ftc.teamcode.CommandGroup.roadRunnewr.driveToScoreFirstSpecimen;
+import org.firstinspires.ftc.teamcode.CommandGroup.touchSensors;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
@@ -41,10 +41,6 @@ public class Red_Right_6 extends MMOpMode {
     static final double halfOpenClaw = 0.6;
     static final double rotator = 0;
     final double intakeArmPose = 0.59;
-    public boolean flagVel = false;
-    public ElapsedTime elapsedTime = new ElapsedTime();
-    public static double velStopper = 1;
-    public static int timeForStop = 60;
 
     //parking position
     private static final double tangentsToScoreSpecimen = 135;
@@ -182,7 +178,6 @@ public class Red_Right_6 extends MMOpMode {
         new SequentialCommandGroup(
                 new InstantCommand(),
                 new ParallelCommandGroup(
-                        new InstantCommand(()-> flagVel = false),
                         new ActionCommand(driveToScorePreload.build()){
                             @Override
                             public void end(boolean interrupted) {
@@ -192,7 +187,7 @@ public class Red_Right_6 extends MMOpMode {
                                 }
                             }
                         }
-                        .interruptOn(()->flagVel && MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getVelocityRR().component1().y < 1)
+                        .interruptOn(()-> touchSensors.getStateArm() || touchSensors.getStateBumper())
                         .andThen(new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive)),
                         AutoSpecimensCommand.PrepareSpecimenScorePreLoad(),
                         new WaitCommand(300).andThen(
@@ -266,7 +261,6 @@ public class Red_Right_6 extends MMOpMode {
                 )
                 ,
                 //First
-                new InstantCommand(()-> flagVel = false),
                 new ActionCommand(driveToIntakeFirstSpecimen.build())
                         .alongWith(IntakeSpecimenCommand.PrepareSpecimenIntakeFront()),
 
@@ -274,7 +268,6 @@ public class Red_Right_6 extends MMOpMode {
                         IntakeSpecimenCommand.SpecimenIntake()
                 ),
                 //Second
-                new InstantCommand(()-> flagVel = false),
                 new ActionCommand(driveToIntakeSecondSpecimen.build())
                         .alongWith(
                         new SequentialCommandGroup(
@@ -293,7 +286,6 @@ public class Red_Right_6 extends MMOpMode {
                 ),
 
                 //Third
-                new InstantCommand(()-> flagVel = false),
                 new ActionCommand(driveToIntakeThirdSpecimen.build())
                         .alongWith(
                         new SequentialCommandGroup(
@@ -311,7 +303,6 @@ public class Red_Right_6 extends MMOpMode {
                         IntakeSpecimenCommand.SpecimenIntake()
                 ),
 
-                new InstantCommand(()-> flagVel = false),
                 //Forth
                 new ActionCommand(driveToIntakeForthSpecimen.build())
                         .alongWith(
@@ -332,20 +323,7 @@ public class Red_Right_6 extends MMOpMode {
                 ),
 
                 //fifth
-                new InstantCommand(()-> flagVel = false),
-                new ActionCommand(driveToIntakeFifthSpecimen.build()){
-                    @Override
-                    public void end(boolean interrupted) {
-                        super.end(interrupted);
-                        if(interrupted) {
-                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted driveToIntakeFifthSpecimen");
-                        }
-                    }
-                }
-                        .interruptOn(()->flagVel && elapsedTime.milliseconds() > timeForStop)
-
-                        .andThen(new InstantCommand(()->drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0)), drive))
-
+                new ActionCommand(driveToIntakeFifthSpecimen.build())
                         .alongWith(
                         new SequentialCommandGroup(
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
@@ -376,17 +354,6 @@ public class Red_Right_6 extends MMOpMode {
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
         FtcDashboard.getInstance().getTelemetry().addData("----------------------------", "");
         FtcDashboard.getInstance().getTelemetry().addData("linear", MMRobot.getInstance().mmSystems.linearIntake.getPosition());
-        if (Math.abs(MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getVelocityRR().component1().y) > velStopper && !flagVel){
-            flagVel = true;
-        }
-        if (Math.abs(MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getVelocityRR().component1().y) > velStopper){
-            elapsedTime.reset();
-        }
-        FtcDashboard.getInstance().getTelemetry().addData("flag", flagVel);
-        FtcDashboard.getInstance().getTelemetry().addData("elapsedTime", elapsedTime);
-        FtcDashboard.getInstance().getTelemetry().addData("velocity Y - ", MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getVelocityRR().component1().y);
-        FtcDashboard.getInstance().getTelemetry().addData("should stop - ", elapsedTime.milliseconds() > timeForStop && flagVel);
-
         telemetry.update();
         FtcDashboard.getInstance().getTelemetry().update();
     }

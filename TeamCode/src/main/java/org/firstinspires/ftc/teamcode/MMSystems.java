@@ -8,15 +8,13 @@ import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleDigital;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
@@ -75,6 +73,8 @@ public class MMSystems {
     public Hook hook;
 
     public Vision vision;
+    public DigitalChannel touchSensorBumper;
+    public DigitalChannel touchSensorArm;
 
     public double servoDegrees = 0;
 
@@ -95,7 +95,8 @@ public class MMSystems {
         if (!limelightInitFunc()){
             telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
         }
-
+        this.touchSensorBumper = hardwareMap.get(DigitalChannel.class, "touch sensor back");
+        this.touchSensorArm = hardwareMap.get(DigitalChannel.class, "touch sensor front");
     }
 
     public void initRobotSystemsTeleOp() {
