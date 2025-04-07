@@ -88,7 +88,7 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(30, -30, Math.toRadians(225)), Math.toRadians(50),
+                .splineToLinearHeading(new Pose2d(30, -37, Math.toRadians(225)), Math.toRadians(50),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2)
                 );
@@ -120,7 +120,7 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(46.5, -66.5, Math.toRadians(90)), Math.toRadians(270),
+                .splineToLinearHeading(new Pose2d(48.5, -75, Math.toRadians(90)), Math.toRadians(270),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
         TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToIntakeFirstSpecimen.endTrajectory().fresh()
