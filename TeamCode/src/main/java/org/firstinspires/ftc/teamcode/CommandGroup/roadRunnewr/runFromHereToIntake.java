@@ -15,11 +15,11 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 
 
 @Config
-public class runFromHereToScore extends CommandBase {
+public class runFromHereToIntake extends CommandBase {
 
     Boolean finished = true;
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
-    public runFromHereToScore() {
+    public runFromHereToIntake() {
         addRequirements(
                 MMRobot.getInstance().mmSystems.driveTrain);
     }
@@ -30,8 +30,10 @@ public class runFromHereToScore extends CommandBase {
         Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
 
         TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
-                .setTangent(Math.toRadians(140))
-                .splineToLinearHeading(Red_Right_6.scorePose, Math.toRadians(110));
+                .setTangent(Math.toRadians(310))
+                .strafeToConstantHeading(Red_Right_6.intakePose.component1(),
+                        null,
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.8, MecanumDrive.PARAMS.maxProfileAccel));
 
         strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
     }

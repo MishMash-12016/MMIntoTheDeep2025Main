@@ -21,6 +21,8 @@ import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.roadRunnewr.runFromHere;
 import org.firstinspires.ftc.teamcode.CommandGroup.roadRunnewr.driveToScoreFirstSpecimen;
+import org.firstinspires.ftc.teamcode.CommandGroup.roadRunnewr.runFromHereToIntake;
+import org.firstinspires.ftc.teamcode.CommandGroup.roadRunnewr.runFromHereToPark;
 import org.firstinspires.ftc.teamcode.CommandGroup.roadRunnewr.runFromHereToScore;
 import org.firstinspires.ftc.teamcode.CommandGroup.touchSensors;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
@@ -45,8 +47,8 @@ public class Red_Right_6 extends MMOpMode {
 
     //parking position
     public static final double tangentsToIntakeSpecimen = 310;
-    final Pose2d intakePose = new Pose2d(48, -75, Math.toRadians(90));
-    public static final Pose2d scorePose = new Pose2d(3, -30, Math.toRadians(90));
+    public static final Pose2d intakePose = new Pose2d(46, -75, Math.toRadians(90));
+    public static final Pose2d scorePose = new Pose2d(2, -24, Math.toRadians(90));
 
 
     public Red_Right_6() {
@@ -279,7 +281,7 @@ public class Red_Right_6 extends MMOpMode {
                 ),
 
                 //Second
-                new ActionCommand(driveToIntakeSecondSpecimen.build()){
+                new runFromHereToIntake() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
@@ -317,7 +319,7 @@ public class Red_Right_6 extends MMOpMode {
                 ),
 
                 //Third
-                new ActionCommand(driveToIntakeThirdSpecimen.build()){
+                new runFromHereToIntake() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
@@ -355,7 +357,7 @@ public class Red_Right_6 extends MMOpMode {
                 ),
 
                 //Forth
-                new ActionCommand(driveToIntakeForthSpecimen.build()){
+                new runFromHereToIntake() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
@@ -394,7 +396,7 @@ public class Red_Right_6 extends MMOpMode {
                 ),
 
                 //fifth
-                new ActionCommand(driveToIntakeFifthSpecimen.build()){
+                new runFromHereToIntake() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
@@ -432,7 +434,7 @@ public class Red_Right_6 extends MMOpMode {
                 ),
 
                 //park
-                new ActionCommand(driveToPark.build()).alongWith(
+                new runFromHereToPark().alongWith(
                         IntakeSampleCommand.prepareSampleIntakeWithoutButton()
                 )
         ).schedule();
