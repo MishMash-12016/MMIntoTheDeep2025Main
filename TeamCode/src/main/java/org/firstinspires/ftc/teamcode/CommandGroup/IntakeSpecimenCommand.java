@@ -34,6 +34,23 @@ public class IntakeSpecimenCommand {
         );
     }
 
+    public static Command SpecimenIntakeAuto() {
+        return new SequentialCommandGroup(
+//                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.intakeDistSensor.getDistance() < 4),
+                //intake
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                new WaitCommand(100),
+
+                //score
+                new ParallelCommandGroup(
+                        new ScoringArm_SpeedControll(900,ScoringArmState.SCORING_ARM_SCORE_POSE.position.get()),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
+                )
+        );
+    }
+
 
     public static Command PrepareSpecimenIntakeFront() {
         return new SequentialCommandGroup(

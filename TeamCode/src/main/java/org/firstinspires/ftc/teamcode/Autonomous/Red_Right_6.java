@@ -220,7 +220,7 @@ public class Red_Right_6 extends MMOpMode {
                 robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                 new ActionCommand(turnRobot.build()).alongWith(
                         new WaitCommand(300).andThen(
-                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.08)
+                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.15)
                         )
                 ),
                 new ActionCommand(driveToPush2.build()).alongWith(
@@ -241,7 +241,7 @@ public class Red_Right_6 extends MMOpMode {
                 new ParallelCommandGroupNoCheck(
                         new ActionCommand(turnRobot3.build()),
                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
-                        new WaitCommand(750).andThen(
+                        new WaitCommand(850).andThen(
                                 new ParallelCommandGroup(
 
                                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmPrepareSampleTransferPose),
@@ -263,7 +263,7 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateFront)
+                        .interruptOn(touchSensors::getStateArm)
                         .alongWith(IntakeSpecimenCommand.PrepareSpecimenIntakeFront()),
 
                 new driveToScoreFirstSpecimen(){
@@ -276,7 +276,7 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateBack).alongWith(
+                        .interruptOn(touchSensors::getStateBumper).alongWith(
                         IntakeSpecimenCommand.SpecimenIntake()
                 ),
 
@@ -291,7 +291,7 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateFront)
+                        .interruptOn(touchSensors::getStateArm)
                         .alongWith(
                         new SequentialCommandGroup(
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
@@ -314,8 +314,8 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateBack).alongWith(
-                        IntakeSpecimenCommand.SpecimenIntake()
+                        .interruptOn(touchSensors::getStateBumper).alongWith(
+                        IntakeSpecimenCommand.SpecimenIntakeAuto()
                 ),
 
                 //Third
@@ -329,7 +329,7 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateFront)
+                        .interruptOn(touchSensors::getStateArm)
                         .alongWith(
                         new SequentialCommandGroup(
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
@@ -352,8 +352,8 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateBack).alongWith(
-                        IntakeSpecimenCommand.SpecimenIntake()
+                        .interruptOn(touchSensors::getStateBumper).alongWith(
+                        IntakeSpecimenCommand.SpecimenIntakeAuto()
                 ),
 
                 //Forth
@@ -367,7 +367,7 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateFront)
+                        .interruptOn(touchSensors::getStateArm)
                         .alongWith(
                         new SequentialCommandGroup(
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
@@ -391,8 +391,8 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateBack).alongWith(
-                        IntakeSpecimenCommand.SpecimenIntake()
+                        .interruptOn(touchSensors::getStateBumper).alongWith(
+                        IntakeSpecimenCommand.SpecimenIntakeAuto()
                 ),
 
                 //fifth
@@ -406,7 +406,7 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateFront)
+                        .interruptOn(touchSensors::getStateArm)
                         .alongWith(
                         new SequentialCommandGroup(
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
@@ -429,8 +429,8 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateBack).alongWith(
-                        IntakeSpecimenCommand.SpecimenIntake()
+                        .interruptOn(touchSensors::getStateBumper).alongWith(
+                        IntakeSpecimenCommand.SpecimenIntakeAuto()
                 ),
 
                 //park
@@ -445,8 +445,8 @@ public class Red_Right_6 extends MMOpMode {
     public void run() {
         super.run();
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
-        FtcDashboard.getInstance().getTelemetry().addData("touch sensor back", touchSensors.getStateBack());
-        FtcDashboard.getInstance().getTelemetry().addData("touch sensor front", touchSensors.getStateFront());
+        FtcDashboard.getInstance().getTelemetry().addData("touch sensor back", touchSensors.getStateBumper());
+        FtcDashboard.getInstance().getTelemetry().addData("touch sensor front", touchSensors.getStateArm());
         telemetry.update();
         FtcDashboard.getInstance().getTelemetry().update();
     }

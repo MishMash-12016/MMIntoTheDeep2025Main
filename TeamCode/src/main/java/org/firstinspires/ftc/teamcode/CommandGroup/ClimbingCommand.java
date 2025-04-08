@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 public class ClimbingCommand {
     public static Command PrepareClimbToThird() {
         return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_LOW_CHAMBER),
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_HIGH_CHAMBER),
                 MMRobot.getInstance().mmSystems.hook.OpenHook()
         );
     }

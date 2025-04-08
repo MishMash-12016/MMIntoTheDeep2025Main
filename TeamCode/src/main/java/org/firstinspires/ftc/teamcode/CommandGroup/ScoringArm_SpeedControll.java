@@ -27,6 +27,7 @@ public class ScoringArm_SpeedControll extends CommandBase {
 
     @Override
     public void initialize() {
+        currentTimeMS.reset();
         startPose = MMRobot.getInstance().mmSystems.scoringArm.getPosition();
         diffrance = finalPose - MMRobot.getInstance().mmSystems.scoringArm.getPosition();
 

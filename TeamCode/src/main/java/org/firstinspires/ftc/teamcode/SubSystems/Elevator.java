@@ -60,7 +60,7 @@ public class Elevator extends MMPIDSubsystem {
 
     public static double elevatorHighBasket = 43;
     public static double elevatorDown = 0;
-    public static double elevatorClimbLow = 23;
+    public static double elevatorClimbHigh = 80; //TODO:find high bar height
     public static double elevatorClimb = 12;
 
 
@@ -71,7 +71,7 @@ public class Elevator extends MMPIDSubsystem {
 
         HIGH_BASKET(() -> elevatorHighBasket),
         ELEVATOR_DOWN(() -> elevatorDown),
-        ELEVATOR_LOW_CHAMBER(() -> elevatorClimbLow),
+        ELEVATOR_HIGH_CHAMBER(() -> elevatorClimbHigh),
         ELEVATOR_CLIMB(() -> elevatorClimb);
 
         public Supplier<Double> position;
@@ -172,7 +172,7 @@ public class Elevator extends MMPIDSubsystem {
                                 new RunCommand(() -> setPower(-0.3))
                         )
 
-                ).withTimeout(3000),//TODO:smaller number
+                ).withTimeout(3000),
 
                 new WaitCommand(200),
                 new InstantCommand(() -> setTicks(0)),
@@ -253,9 +253,5 @@ public class Elevator extends MMPIDSubsystem {
 
     public double getPower() {
         return motor1.getPower();
-    }
-
-    public void disablePID() {
-        PID.subsystem.doPid = false;
     }
 }

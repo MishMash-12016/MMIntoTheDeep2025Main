@@ -99,7 +99,7 @@ public class MMSystems {
             telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
         }
         this.touchSensorBumper = hardwareMap.get(DigitalChannel.class, "tsBumper");
-        this.touchSensorArm = hardwareMap.get(DigitalChannel.class, "tsArm");
+        this.touchSensorArm = hardwareMap.get(DigitalChannel.class, "tsBL");
         this.climber = new Climber();
     }
 
@@ -119,7 +119,7 @@ public class MMSystems {
             telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
         }
         this.touchSensorBumper = hardwareMap.get(DigitalChannel.class, "tsBumper");
-        this.touchSensorArm = hardwareMap.get(DigitalChannel.class, "tsArm");
+        this.touchSensorArm = hardwareMap.get(DigitalChannel.class, "tsBL");
         this.climber = new Climber();
     }
 
