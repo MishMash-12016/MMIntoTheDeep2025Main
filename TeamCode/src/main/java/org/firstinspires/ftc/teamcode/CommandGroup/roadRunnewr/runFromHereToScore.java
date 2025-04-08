@@ -19,7 +19,9 @@ public class runFromHereToScore extends CommandBase {
 
     Boolean finished = true;
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
-    public runFromHereToScore() {
+    Pose2d pose;
+    public runFromHereToScore(Pose2d pose) {
+        this.pose = pose;
         addRequirements(
                 MMRobot.getInstance().mmSystems.driveTrain);
     }
@@ -31,8 +33,9 @@ public class runFromHereToScore extends CommandBase {
 
         TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
                 .setTangent(Math.toRadians(140))
-                .splineToLinearHeading(Red_Right_6.scorePose, Math.toRadians(110),
-                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2));
+                .splineToLinearHeading(pose, Math.toRadians(110),
+                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel*1.2));
 
         strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
     }

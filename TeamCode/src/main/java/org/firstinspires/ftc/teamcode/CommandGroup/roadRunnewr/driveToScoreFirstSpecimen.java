@@ -39,8 +39,8 @@ public class driveToScoreFirstSpecimen extends CommandBase {
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
 
             TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
-                    .setTangent(Math.toRadians(170))
-                    .splineToConstantHeading(scorePose.component1(), scorePose.component2(),
+                    .setTangent(Math.toRadians(140))
+                    .splineToLinearHeading(scorePose, Math.toRadians(120),
                             new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * maxSpeedMult),
                             new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * minAccelMult, MecanumDrive.PARAMS.maxProfileAccel * maxAccelMult));
 

@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
+import com.acmerobotics.roadrunner.Twist2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -90,12 +91,12 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(28.5, -37, Math.toRadians(225)), Math.toRadians(50),
+                .splineToLinearHeading(new Pose2d(28, -37, Math.toRadians(225)), Math.toRadians(50),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2)
                 );
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(28.5, -45), Math.toRadians(140),
+                .strafeToLinearHeading(new Vector2d(28, -45), Math.toRadians(140),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 2),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.6));
 
@@ -116,8 +117,8 @@ public class Red_Right_6 extends MMOpMode {
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
         TrajectoryActionBuilder turnRobot3 = driveToPush3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .splineToSplineHeading(new Pose2d(48, -51, Math.toRadians(90)), Math.toRadians(270),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.2),
+                .splineToSplineHeading(new Pose2d(48, -45, Math.toRadians(90)), Math.toRadians(270),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel))
                 .splineToLinearHeading(new Pose2d(48, -75, Math.toRadians(90)), Math.toRadians(270),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.2),
@@ -180,7 +181,16 @@ public class Red_Right_6 extends MMOpMode {
         new SequentialCommandGroup(
                 new InstantCommand(),
                 new ParallelCommandGroup(
-                        new ActionCommand(driveToScorePreload.build()),
+                        new ActionCommand(driveToScorePreload.build()) {
+                            @Override
+                            public void end(boolean interrupted) {
+                                super.end(interrupted);
+                                if (interrupted) {
+                                    FtcDashboard.getInstance().getTelemetry().addLine("interrupted the preload");
+                                    drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
+                                }
+                            }
+                        }.interruptOn(touchSensors::getStateArm),
                         AutoSpecimensCommand.PrepareSpecimenScorePreLoad(),
                         new WaitCommand(300).andThen(
                                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
@@ -206,7 +216,7 @@ public class Red_Right_6 extends MMOpMode {
                 //push first
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                 new ActionCommand(driveToPush1.build()).alongWith(
-                        new WaitUntilCommand(() -> getAng() >= 200).andThen(
+                        new WaitUntilCommand(() -> getAng() >= 180).andThen(
                                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING)
                         ),
                         new SequentialCommandGroup(
@@ -222,7 +232,7 @@ public class Red_Right_6 extends MMOpMode {
                 ),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                 new ActionCommand(driveToPush2.build()).alongWith(
-                        new WaitUntilCommand(() -> getAng() >= 200).andThen(
+                        new WaitUntilCommand(() -> getAng() >= 180).andThen(
                                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING)
                         ),
                         setupForPushing()
@@ -237,7 +247,7 @@ public class Red_Right_6 extends MMOpMode {
                 ),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                 new ActionCommand(driveToPush3.build()).alongWith(
-                        new WaitUntilCommand(() -> getAng() >= 200).andThen(
+                        new WaitUntilCommand(() -> getAng() >= 180).andThen(
                                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING)
                         ),
                         setupForPushing()
@@ -309,7 +319,7 @@ public class Red_Right_6 extends MMOpMode {
                                 )
                         ),
 
-                new runFromHereToScore() {
+                new runFromHereToScore(scorePose.plus(new Twist2d(new Vector2d(1,0),0))) {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
@@ -347,7 +357,7 @@ public class Red_Right_6 extends MMOpMode {
                                 )
                         ),
 
-                new runFromHereToScore() {
+                new runFromHereToScore(scorePose.plus(new Twist2d(new Vector2d(2,0),0))) {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
@@ -386,7 +396,7 @@ public class Red_Right_6 extends MMOpMode {
                         ),
 
 
-                new runFromHereToScore() {
+                new runFromHereToScore(scorePose.plus(new Twist2d(new Vector2d(3,0),0))) {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
@@ -424,7 +434,7 @@ public class Red_Right_6 extends MMOpMode {
                                 )
                         ),
 
-                new runFromHereToScore() {
+                new runFromHereToScore(scorePose.plus(new Twist2d(new Vector2d(4,0),0))) {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);

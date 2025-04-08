@@ -60,8 +60,8 @@ public class oneplusfive {
 //                .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(46.5, -66.5, Math.toRadians(90)), Math.toRadians(270))
 //        TrajectoryActionBuilder driveToScoreFirstSpecimen
-                .setTangent(Math.toRadians(150))
-                .splineToLinearHeading(scorePose, Math.toRadians(100))
+                .setTangent(Math.toRadians(140))
+                .splineToLinearHeading(scorePose, Math.toRadians(120))
 //                .splineTo(new Vector2d(scorePose.component1(), scorePose.component2()),scorePose.component3())
 
 //        TrajectoryActionBuilder driveToIntakeSecondSpecimen
