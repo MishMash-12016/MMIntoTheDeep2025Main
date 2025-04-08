@@ -47,8 +47,8 @@ public class Red_Right_6 extends MMOpMode {
 
     //parking position
     public static final double tangentsToIntakeSpecimen = 310;
-    public static final Pose2d intakePose = new Pose2d(46, -75, Math.toRadians(90));
-    public static final Pose2d scorePose = new Pose2d(2, -24, Math.toRadians(90));
+    public static final Pose2d intakePose = new Pose2d(48, -75, Math.toRadians(90));
+    public static final Pose2d scorePose = new Pose2d(2, -30, Math.toRadians(90));//-24
 
 
     public Red_Right_6() {
