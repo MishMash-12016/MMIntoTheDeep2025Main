@@ -45,8 +45,8 @@ public class Red_Right_6 extends MMOpMode {
 
     //parking position
     public static final double tangentsToIntakeSpecimen = 310;
-    final Pose2d intakePose = new Pose2d(50, -75, Math.toRadians(90));
-    public static final Pose2d scorePose = new Pose2d(5, -31.5, Math.toRadians(90));
+    final Pose2d intakePose = new Pose2d(48, -75, Math.toRadians(90));
+    public static final Pose2d scorePose = new Pose2d(3, -30, Math.toRadians(90));
 
 
     public Red_Right_6() {
@@ -62,7 +62,7 @@ public class Red_Right_6 extends MMOpMode {
         MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.switchToDetector();
 
-        Pose2d currentPose = (new Pose2d(5.5, -60, Math.toRadians(270)));
+        Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
         robotInstance.mmSystems.initDriveTrain(currentPose);
         PinpointDrive drive = MMRobot.getInstance().mmSystems.driveTrain;
 
@@ -90,7 +90,7 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(28, -37, Math.toRadians(225)), Math.toRadians(50),
+                .splineToLinearHeading(new Pose2d(28.3, -37, Math.toRadians(225)), Math.toRadians(50),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2)
                 );
@@ -101,7 +101,7 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(38, -37, Math.toRadians(225)), Math.toRadians(50),
+                .splineToLinearHeading(new Pose2d(38.3, -37, Math.toRadians(225)), Math.toRadians(50),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
@@ -111,7 +111,7 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush3 = turnRobot2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(46.5, -34, Math.toRadians(210)), Math.toRadians(50),
+                .splineToLinearHeading(new Pose2d(47.3, -34, Math.toRadians(210)), Math.toRadians(50),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
         TrajectoryActionBuilder turnRobot3 = driveToPush3.endTrajectory().fresh()
@@ -122,7 +122,7 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .strafeToLinearHeading(new Vector2d(46.5, -66.6), Math.toRadians(90),
+                .strafeToLinearHeading(new Vector2d(46.5, -75), Math.toRadians(90),
                         null,
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.8, MecanumDrive.PARAMS.maxProfileAccel));
         TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToIntakeFirstSpecimen.endTrajectory().fresh()
@@ -188,7 +188,7 @@ public class Red_Right_6 extends MMOpMode {
 
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                        IntakeSampleCommand.limeLightIntake_Auto_for_specimen().withTimeout(2000)
+                        IntakeSampleCommand.limeLightIntake_Auto_for_specimen().withTimeout(4000)
                 ),
 
 

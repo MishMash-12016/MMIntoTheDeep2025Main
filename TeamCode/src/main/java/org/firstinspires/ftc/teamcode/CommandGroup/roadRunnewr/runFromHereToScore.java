@@ -31,7 +31,7 @@ public class runFromHereToScore extends CommandBase {
 
         TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
                 .setTangent(Math.toRadians(150))
-                .splineToLinearHeading(Red_Right_6.scorePose, Math.toRadians(100));
+                .strafeToConstantHeading(Red_Right_6.scorePose.component1());
 
         strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
     }
