@@ -16,7 +16,7 @@ public class oneplusfive {
         final double tangentsToScoreSpecimen = 135;
         final double tangentsToIntakeSpecimen = 310;
         final Pose2d intakePose = new Pose2d(40, -65.5, Math.toRadians(90));
-        final Pose2d scorePose = new Pose2d(6, -31.5, Math.toRadians(90));
+        final Pose2d scorePose = new Pose2d(2, -24, Math.toRadians(90));
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(11.02,16.2)//14.5
@@ -68,35 +68,35 @@ public class oneplusfive {
                 .setTangent(Math.toRadians(310))
                 .splineToLinearHeading(new Pose2d(40, -66.5, Math.toRadians(90)), Math.toRadians(tangentsToIntakeSpecimen))
 //        TrajectoryActionBuilder driveToScoreSecondSpecimen
-                        .setTangent(Math.toRadians(150))
-                        .splineToLinearHeading(scorePose, Math.toRadians(100))
+                        .setTangent(Math.toRadians(140))
+                        .splineToLinearHeading(scorePose, Math.toRadians(110))
 
-//        TrajectoryActionBuilder driveToIntakeThirdSpecime
-                .setTangent(Math.toRadians(310))
-                .splineToLinearHeading(new Pose2d(40, -66.5, Math.toRadians(90)), Math.toRadians(tangentsToIntakeSpecimen))
-//        TrajectoryActionBuilder driveToScoreThirdSpecimen
-                        .setTangent(Math.toRadians(150))
-                        .splineToLinearHeading(scorePose, Math.toRadians(100))
-
-//        TrajectoryActionBuilder driveToIntakeForthSpecimen
-                .setTangent(Math.toRadians(310))
-                .splineToLinearHeading(new Pose2d(40, -66.5, Math.toRadians(90)), Math.toRadians(tangentsToIntakeSpecimen))
-//        TrajectoryActionBuilder driveToScoreForthSpecimen
-                        .setTangent(Math.toRadians(150))
-                        .splineToLinearHeading(scorePose, Math.toRadians(100))
-
-//        TrajectoryActionBuilder driveToIntakeFifthSpecimen
-                .setTangent(Math.toRadians(310))
-                .splineToLinearHeading(new Pose2d(40, -66.5, Math.toRadians(90)), Math.toRadians(tangentsToIntakeSpecimen))
-//        TrajectoryActionBuilder driveToScoreFifthSpecimen
-                        .setTangent(Math.toRadians(150))
-                        .splineToLinearHeading(scorePose, Math.toRadians(100))
-
-//        TrajectoryActionBuilder driveToPark = driveToScoreFifthSpecimen.endTrajectory().fresh()
-                .setTangent(Math.toRadians(310))
-                .splineToLinearHeading(new Pose2d(28, -50, Math.toRadians(140)), Math.toRadians(140+180))
-//                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5),
-//                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.8, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+////        TrajectoryActionBuilder driveToIntakeThirdSpecime
+//                .setTangent(Math.toRadians(310))
+//                .splineToLinearHeading(new Pose2d(40, -66.5, Math.toRadians(90)), Math.toRadians(tangentsToIntakeSpecimen))
+////        TrajectoryActionBuilder driveToScoreThirdSpecimen
+//                        .setTangent(Math.toRadians(150))
+//                        .splineToLinearHeading(scorePose, Math.toRadians(100))
+//
+////        TrajectoryActionBuilder driveToIntakeForthSpecimen
+//                .setTangent(Math.toRadians(310))
+//                .splineToLinearHeading(new Pose2d(40, -66.5, Math.toRadians(90)), Math.toRadians(tangentsToIntakeSpecimen))
+////        TrajectoryActionBuilder driveToScoreForthSpecimen
+//                        .setTangent(Math.toRadians(150))
+//                        .splineToLinearHeading(scorePose, Math.toRadians(100))
+//
+////        TrajectoryActionBuilder driveToIntakeFifthSpecimen
+//                .setTangent(Math.toRadians(310))
+//                .splineToLinearHeading(new Pose2d(40, -66.5, Math.toRadians(90)), Math.toRadians(tangentsToIntakeSpecimen))
+////        TrajectoryActionBuilder driveToScoreFifthSpecimen
+//                        .setTangent(Math.toRadians(150))
+//                        .splineToLinearHeading(scorePose, Math.toRadians(100))
+//
+////        TrajectoryActionBuilder driveToPark = driveToScoreFifthSpecimen.endTrajectory().fresh()
+//                .setTangent(Math.toRadians(310))
+//                .splineToLinearHeading(new Pose2d(28, -50, Math.toRadians(140)), Math.toRadians(140+180))
+////                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5),
+////                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.8, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
                         .build());
 
