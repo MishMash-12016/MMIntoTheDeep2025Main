@@ -51,8 +51,8 @@ public class ScoringArm extends SubsystemBase {
     }
 
     public Command setPosition(double newPos) {
-        estimatedPose = newPos;
         return new InstantCommand(() -> {
+            estimatedPose = newPos;
             servoLeft.setPosition(newPos+0.015);
             servoRight.setPosition(1 - newPos);
         },
@@ -62,14 +62,14 @@ public class ScoringArm extends SubsystemBase {
 
     public void setPositionVoid(double newPos) {
         estimatedPose = newPos;
-            servoLeft.setPosition(newPos+0.015);
-            servoRight.setPosition(1 - newPos);
+        servoLeft.setPosition(newPos+0.015);
+        servoRight.setPosition(1 - newPos);
     }
 
 
     public Command setPosition(ScoringArmState state) {
-        estimatedPose = state.position.get();
         return new InstantCommand(() -> {
+            estimatedPose = state.position.get();
             servoLeft.setPosition(state.position.get()+0.015);
             servoRight.setPosition(1 - state.position.get());
         },
@@ -77,8 +77,8 @@ public class ScoringArm extends SubsystemBase {
     }
 
     public Command setPositionWithoutRequirments(ScoringArmState state) {
-        estimatedPose = state.position.get();
         return new InstantCommand(() -> {
+            estimatedPose = state.position.get();
             servoLeft.setPosition(state.position.get()+0.015);
             servoRight.setPosition(1 - state.position.get());
         });

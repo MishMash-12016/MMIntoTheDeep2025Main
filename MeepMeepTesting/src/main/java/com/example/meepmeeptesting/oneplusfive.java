@@ -51,13 +51,13 @@ public class oneplusfive {
 
 //        TrajectoryActionBuilder driveToPush3
                 .setTangent(Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(46.5, -34, Math.toRadians(210)), Math.toRadians(50))
+                .splineToSplineHeading(new Pose2d(46.5, -34, Math.toRadians(210)), Math.toRadians(50))
 //        TrajectoryActionBuilder turnRobot3
                 .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(46.5, -51, Math.toRadians(90)), Math.toRadians(270))
+                .splineToSplineHeading(new Pose2d(46.5, -51, Math.toRadians(90)), Math.toRadians(270))
 
 //        TrajectoryActionBuilder driveToIntakeFirstSpecimen
-                .setTangent(Math.toRadians(270))
+//                .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(46.5, -66.5, Math.toRadians(90)), Math.toRadians(270))
 //        TrajectoryActionBuilder driveToScoreFirstSpecimen
                 .setTangent(Math.toRadians(150))

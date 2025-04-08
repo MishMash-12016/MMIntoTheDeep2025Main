@@ -14,6 +14,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.AutoSpecimensCommand;
@@ -47,8 +48,8 @@ public class Red_Right_6 extends MMOpMode {
 
     //parking position
     public static final double tangentsToIntakeSpecimen = 310;
-    public static final Pose2d intakePose = new Pose2d(48, -75, Math.toRadians(90));
-    public static final Pose2d scorePose = new Pose2d(2, -30, Math.toRadians(90));//-24
+    public static final Pose2d intakePose = new Pose2d(44, -70, Math.toRadians(90));
+    public static final Pose2d scorePose = new Pose2d(2, -27, Math.toRadians(90));
 
 
     public Red_Right_6() {
@@ -64,15 +65,12 @@ public class Red_Right_6 extends MMOpMode {
         MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.switchToDetector();
 
-        Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
+        Pose2d currentPose = new Pose2d(5.5, -61.23, Math.toRadians(270));
         robotInstance.mmSystems.initDriveTrain(currentPose);
         PinpointDrive drive = MMRobot.getInstance().mmSystems.driveTrain;
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
-
-
-
 
 
         TrajectoryActionBuilder driveToScorePreload = drive.actionBuilder(currentPose)
@@ -92,42 +90,44 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(28.3, -37, Math.toRadians(225)), Math.toRadians(50),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
+                .splineToLinearHeading(new Pose2d(28.5, -37, Math.toRadians(225)), Math.toRadians(50),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2)
                 );
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(28, -45), Math.toRadians(140),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*2),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.5, MecanumDrive.PARAMS.maxProfileAccel*1.6));
+                .strafeToLinearHeading(new Vector2d(28.5, -45), Math.toRadians(140),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 2),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.6));
 
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(0)
                 .splineToLinearHeading(new Pose2d(38.3, -37, Math.toRadians(225)), Math.toRadians(50),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(38, -45), Math.toRadians(140),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*2),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.5, MecanumDrive.PARAMS.maxProfileAccel*1.6));
+                .strafeToLinearHeading(new Vector2d(38.3, -45), Math.toRadians(140),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 2),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.6));
 
         TrajectoryActionBuilder driveToPush3 = turnRobot2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(47.3, -34, Math.toRadians(210)), Math.toRadians(50),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.4),
+                .splineToLinearHeading(new Pose2d(48, -34, Math.toRadians(210)), Math.toRadians(50),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
         TrajectoryActionBuilder turnRobot3 = driveToPush3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .splineToSplineHeading(new Pose2d(46.5, -51, Math.toRadians(90)), Math.toRadians(270),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.2),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel ));
+                .splineToSplineHeading(new Pose2d(48, -51, Math.toRadians(90)), Math.toRadians(270),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.2),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel))
+                .splineToLinearHeading(new Pose2d(48, -75, Math.toRadians(90)), Math.toRadians(270),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.2),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel));
 
-        TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
-                .setTangent(Math.toRadians(270))
-                .strafeToLinearHeading(new Vector2d(46.5, -75), Math.toRadians(90),
-                        null,
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.8, MecanumDrive.PARAMS.maxProfileAccel));
-        TrajectoryActionBuilder driveToScoreFirstSpecimen = driveToIntakeFirstSpecimen.endTrajectory().fresh()
+//        TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
+//
+//                        null,
+//                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.8, MecanumDrive.PARAMS.maxProfileAccel));
+        TrajectoryActionBuilder driveToScoreFirstSpecimen = turnRobot3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(150))
                 .splineToLinearHeading(scorePose, Math.toRadians(100));
 
@@ -135,7 +135,7 @@ public class Red_Right_6 extends MMOpMode {
                 .setTangent(Math.toRadians(310))
                 .strafeToConstantHeading(intakePose.component1(),
                         null,
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.8, MecanumDrive.PARAMS.maxProfileAccel));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.8, MecanumDrive.PARAMS.maxProfileAccel));
         TrajectoryActionBuilder driveToScoreSecondSpecimen = driveToIntakeSecondSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(150))
                 .splineToLinearHeading(scorePose, Math.toRadians(100));
@@ -144,7 +144,7 @@ public class Red_Right_6 extends MMOpMode {
                 .setTangent(Math.toRadians(310))
                 .strafeToConstantHeading(intakePose.component1(),
                         null,
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.8, MecanumDrive.PARAMS.maxProfileAccel));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.8, MecanumDrive.PARAMS.maxProfileAccel));
         TrajectoryActionBuilder driveToScoreThirdSpecimen = driveToIntakeThirdSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(150))
                 .splineToLinearHeading(scorePose, Math.toRadians(100));
@@ -153,7 +153,7 @@ public class Red_Right_6 extends MMOpMode {
                 .setTangent(Math.toRadians(310))
                 .strafeToConstantHeading(intakePose.component1(),
                         null,
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.8, MecanumDrive.PARAMS.maxProfileAccel));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.8, MecanumDrive.PARAMS.maxProfileAccel));
         TrajectoryActionBuilder driveToScoreForthSpecimen = driveToIntakeForthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(150))
                 .splineToLinearHeading(scorePose, Math.toRadians(100));
@@ -162,16 +162,16 @@ public class Red_Right_6 extends MMOpMode {
                 .setTangent(Math.toRadians(310))
                 .strafeToConstantHeading(intakePose.component1(),
                         null,
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.8, MecanumDrive.PARAMS.maxProfileAccel));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.8, MecanumDrive.PARAMS.maxProfileAccel));
         TrajectoryActionBuilder driveToScoreFifthSpecimen = driveToIntakeFifthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(150))
                 .splineToLinearHeading(scorePose, Math.toRadians(100));
 
         TrajectoryActionBuilder driveToPark = driveToScoreFifthSpecimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(310))
-                .splineToLinearHeading(new Pose2d(28, -50, Math.toRadians(140)), Math.toRadians(140+180),
+                .splineToLinearHeading(new Pose2d(28, -50, Math.toRadians(140)), Math.toRadians(140 + 180),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.8, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.8, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         FtcDashboard.getInstance().getTelemetry().addData("rotatorAngle", 0);
         FtcDashboard.getInstance().getTelemetry().addData("robotAngle", 0);
@@ -196,242 +196,247 @@ public class Red_Right_6 extends MMOpMode {
 
                 new ParallelCommandGroupNoCheck(
                         new runFromHere(),
-                        new SequentialCommandGroup(
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.4),
-                                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
-                                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
-                                )
-                        ),
-                        new WaitCommand(900).andThen(
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.4),
+                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.toDouble() < Math.toRadians(-135)).andThen(
                                 ThrowSample()
                         )
                 ),
                 //push first
-                new ActionCommand(driveToPush1.build())
-                        .alongWith(
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+                new ActionCommand(driveToPush1.build()).alongWith(
+                        new WaitUntilCommand(() -> getAng() >= 200).andThen(
+                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING)
+                        ),
                         new SequentialCommandGroup(
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-                                ),
+                                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                                 new WaitCommand(200).andThen(setupForPushing())
                         )
                 ),
-                robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                 new ActionCommand(turnRobot.build()).alongWith(
+                        robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                         new WaitCommand(300).andThen(
                                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.15)
                         )
                 ),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                 new ActionCommand(driveToPush2.build()).alongWith(
-                        setupForPushing()
+                        new WaitUntilCommand(() -> getAng() >= 200).andThen(
+                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING)
                         ),
+                        setupForPushing()
+                ),
 
                 //push second
-                robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                 new ActionCommand(turnRobot2.build()).alongWith(
+                        robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                         new WaitCommand(300).andThen(
                                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.08)
                         )
                 ),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                 new ActionCommand(driveToPush3.build()).alongWith(
+                        new WaitUntilCommand(() -> getAng() >= 200).andThen(
+                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING)
+                        ),
                         setupForPushing()
                 ),
                 //push third
                 new ParallelCommandGroupNoCheck(
-                        new ActionCommand(turnRobot3.build()),
+                        new ActionCommand(turnRobot3.build()) {
+                            public void end(boolean interrupted) {
+                                super.end(interrupted);
+                                if (interrupted) {
+                                    FtcDashboard.getInstance().getTelemetry().addLine("interrupted the intake first");
+                                    drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
+                                }
+                            }
+                        },
                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
                         new WaitCommand(850).andThen(
                                 new ParallelCommandGroup(
-
                                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmPrepareSampleTransferPose),
                                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INIT_POSE),
                                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.INIT_POSE)
+                                ),
+                                new WaitCommand(300),
+                                new ParallelCommandGroup(
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
+                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                                 )
                         )
-                )
-                ,
-                //First
-                new ActionCommand(driveToIntakeFirstSpecimen.build()){
-                    @Override
-                    public void end(boolean interrupted) {
-                        super.end(interrupted);
-                        if(interrupted) {
-                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the intake first");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
-                        }
-                    }
-                }
-                        .interruptOn(touchSensors::getStateArm)
-                        .alongWith(IntakeSpecimenCommand.PrepareSpecimenIntakeFront()),
+                ).interruptOn(
+                        () -> (touchSensors.getStateArm() && MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.toDouble() > Math.toRadians(45))),
 
-                new driveToScoreFirstSpecimen(){
+                new driveToScoreFirstSpecimen() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
-                        if(interrupted) {
+                        if (interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the score first");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
                         }
                     }
                 }
                         .interruptOn(touchSensors::getStateBumper).alongWith(
-                        IntakeSpecimenCommand.SpecimenIntake()
-                ),
+                                IntakeSpecimenCommand.SpecimenIntake()
+                        ),
 
                 //Second
                 new runFromHereToIntake() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
-                        if(interrupted) {
+                        if (interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the intake second");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
                         }
                     }
                 }
                         .interruptOn(touchSensors::getStateArm)
                         .alongWith(
-                        new SequentialCommandGroup(
-                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                new WaitCommand(300),
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                                new SequentialCommandGroup(
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                                        new WaitCommand(300),
+                                        new ParallelCommandGroup(
+                                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
+                                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
+                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                                        )
                                 )
-                        )
-                ),
+                        ),
 
-               new runFromHereToScore() {
+                new runFromHereToScore() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
-                        if(interrupted) {
+                        if (interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the score second");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
                         }
                     }
                 }
                         .interruptOn(touchSensors::getStateBumper).alongWith(
-                        IntakeSpecimenCommand.SpecimenIntakeAuto()
-                ),
+                                IntakeSpecimenCommand.SpecimenIntakeAuto()
+                        ),
 
                 //Third
                 new runFromHereToIntake() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
-                        if(interrupted) {
+                        if (interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the intake third");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
                         }
                     }
                 }
                         .interruptOn(touchSensors::getStateArm)
                         .alongWith(
-                        new SequentialCommandGroup(
-                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                new WaitCommand(100),
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                                new SequentialCommandGroup(
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                                        new WaitCommand(100),
+                                        new ParallelCommandGroup(
+                                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
+                                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
+                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                                        )
                                 )
-                        )
-                ),
+                        ),
 
                 new runFromHereToScore() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
-                        if(interrupted) {
+                        if (interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the score third");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
                         }
                     }
                 }
                         .interruptOn(touchSensors::getStateBumper).alongWith(
-                        IntakeSpecimenCommand.SpecimenIntakeAuto()
-                ),
+                                IntakeSpecimenCommand.SpecimenIntakeAuto()
+                        ),
 
                 //Forth
                 new runFromHereToIntake() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
-                        if(interrupted) {
+                        if (interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the intake forth");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
                         }
                     }
                 }
                         .interruptOn(touchSensors::getStateArm)
                         .alongWith(
-                        new SequentialCommandGroup(
-                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                new WaitCommand(300),
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                                new SequentialCommandGroup(
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                                        new WaitCommand(300),
+                                        new ParallelCommandGroup(
+                                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
+                                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
+                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                                        )
                                 )
-                        )
-                ),
+                        ),
 
 
                 new runFromHereToScore() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
-                        if(interrupted) {
+                        if (interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the score forth");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
                         }
                     }
                 }
                         .interruptOn(touchSensors::getStateBumper).alongWith(
-                        IntakeSpecimenCommand.SpecimenIntakeAuto()
-                ),
+                                IntakeSpecimenCommand.SpecimenIntakeAuto()
+                        ),
 
                 //fifth
                 new runFromHereToIntake() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
-                        if(interrupted) {
+                        if (interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the intake fifth");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
                         }
                     }
                 }
                         .interruptOn(touchSensors::getStateArm)
                         .alongWith(
-                        new SequentialCommandGroup(
-                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                new WaitCommand(300),
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                                new SequentialCommandGroup(
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                                        new WaitCommand(300),
+                                        new ParallelCommandGroup(
+                                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
+                                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
+                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                                        )
                                 )
-                        )
-                ),
+                        ),
 
                 new runFromHereToScore() {
                     @Override
                     public void end(boolean interrupted) {
                         super.end(interrupted);
-                        if(interrupted) {
+                        if (interrupted) {
                             FtcDashboard.getInstance().getTelemetry().addLine("interrupted the score fifth");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
                         }
                     }
                 }
                         .interruptOn(touchSensors::getStateBumper).alongWith(
-                        IntakeSpecimenCommand.SpecimenIntakeAuto()
-                ),
+                                IntakeSpecimenCommand.SpecimenIntakeAuto()
+                        ),
 
                 //park
                 new runFromHereToPark().alongWith(
@@ -447,14 +452,17 @@ public class Red_Right_6 extends MMOpMode {
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
         FtcDashboard.getInstance().getTelemetry().addData("touch sensor back", touchSensors.getStateBumper());
         FtcDashboard.getInstance().getTelemetry().addData("touch sensor front", touchSensors.getStateArm());
+        FtcDashboard.getInstance().getTelemetry().addData("ang of the big robot for ori", getAng());
+        FtcDashboard.getInstance().getTelemetry().addData("a", getAng() >= Math.toRadians(200));
+
         telemetry.update();
         FtcDashboard.getInstance().getTelemetry().update();
     }
 
     private static Command setupForPushing() {
         return new ParallelCommandGroup(
-                robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
-                robotInstance.mmSystems.intakeArm.setPosition(0.54),
+                //MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+                robotInstance.mmSystems.intakeArm.setPosition(0.5),
                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
                 robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)
         );
@@ -469,5 +477,11 @@ public class Red_Right_6 extends MMOpMode {
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE)
         );
+    }
+
+    public static double getAng() {
+        double ang = Math.toDegrees(MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.toDouble());
+        ang = ang < 0 ? ang + 360 : ang;
+        return ang;
     }
 }

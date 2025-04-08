@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -10,6 +12,7 @@ import org.firstinspires.ftc.teamcode.CommandGroup.touchSensors;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
@@ -26,12 +29,12 @@ public class TuningTest extends MMOpMode {
     private static double posElbow = ScoringEndUnitElbow.ScoringElbowState.INIT_POSE.position.get();
     private static double posArm = ScoringArm.ScoringArmState.INIT_POSE.position.get();
     private static double posIntakeArm = IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get();
-    public static double time = 300;
+    public static double time = 900;
 
     HashMap<String, Double> poses = new HashMap<>();
 
 
-    private static final double changeBy = 0.01;
+    private static final double changeBy = 0.1;
     public TuningTest() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
@@ -78,30 +81,27 @@ public class TuningTest extends MMOpMode {
 //
 //
 //
-//        ///claw
-////        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-////                new SequentialCommandGroup(
-////                        new InstantCommand(() -> {
-////                            posIntakeArm += changeBy;
-////                            IntakEndUnit.IntakeClawOpenPos = posIntakeArm;
-////                        }),
-////                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-////                )
-////        );
-////
-////        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-////                MMRobot.getInstance().mmSystems.linearIntake.setPosition(0.4)
-////        );
-////
-////        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-////                new SequentialCommandGroup(
-////                        new InstantCommand(() -> {
-////                            posIntakeArm -= changeBy;
-////                            IntakEndUnit.IntakeClawOpenPos = posIntakeArm;
-////                        }),
-////                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
-////                )
-////        );
+        //claw
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            posIntakeArm += changeBy;
+                            IntakEndUnit.IntakeClawOpenPos = posIntakeArm;
+                        }),
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+                )
+        );
+
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            posIntakeArm -= changeBy;
+                            IntakEndUnit.IntakeClawOpenPos = posIntakeArm;
+                        }),
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+                )
+        );
 //
 //
 //        ///intake rot
@@ -290,7 +290,9 @@ public class TuningTest extends MMOpMode {
 //                MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor()
 //        );
 
-
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE)
+        );
                 MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                         new ScoringArm_SpeedControll(time,0.19)
                 );
@@ -305,7 +307,7 @@ public class TuningTest extends MMOpMode {
         MMRobot.getInstance().mmSystems.telemetry.addData("elbow", posElbow);
         MMRobot.getInstance().mmSystems.telemetry.addData("ScoringArm", posArm);
         MMRobot.getInstance().mmSystems.telemetry.addData("intakeArm", posIntakeArm);
-
+        MMRobot.getInstance().mmSystems.telemetry.addData("ScoringArm2", MMRobot.getInstance().mmSystems.scoringArm.getPosition());
 
         FtcDashboard.getInstance().getTelemetry().addData("touch sensor back", touchSensors.getStateBumper());
         FtcDashboard.getInstance().getTelemetry().addData("touch sensor front", touchSensors.getStateArm());
