@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -19,8 +20,7 @@ public class ScoringArm extends SubsystemBase {
     public static double scoringArmIntakeFromFrontPose = 0.545;
     public static double scoringArmScoreFromFrontSpecimenPose = 0.42;
     public static double afterScoreFromFrontSpecimenPose = 0.3;
-
-    public double estimatedPose = scoringArmInitPose;
+    public static double estimatedPose = scoringArmInitPose;
 
     public enum ScoringArmState {
         INIT_POSE(() -> scoringArmInitPose),
@@ -60,6 +60,13 @@ public class ScoringArm extends SubsystemBase {
     }
 
 
+    public void setPositionVoid(double newPos) {
+        estimatedPose = newPos;
+            servoLeft.setPosition(newPos+0.015);
+            servoRight.setPosition(1 - newPos);
+    }
+
+
     public Command setPosition(ScoringArmState state) {
         estimatedPose = state.position.get();
         return new InstantCommand(() -> {
@@ -76,4 +83,9 @@ public class ScoringArm extends SubsystemBase {
             servoRight.setPosition(1 - state.position.get());
         });
     }
+
+    public double getPosition(){
+        return estimatedPose;
+    }
+
 }
