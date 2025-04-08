@@ -1,25 +1,17 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.teamcode.CommandGroup.ClimbingCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
-import org.firstinspires.ftc.teamcode.R;
-import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
-import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
@@ -29,7 +21,6 @@ import java.util.HashMap;
 public class TuningTest extends MMOpMode {
     MMRobot robotInstance;
     MMSystems mmSystems;
-    boolean Specimenintake = true;
 
     private static double posElbow = ScoringEndUnitElbow.ScoringElbowState.INIT_POSE.position.get();
     private static double posArm = ScoringArm.ScoringArmState.INIT_POSE.position.get();
@@ -296,10 +287,6 @@ public class TuningTest extends MMOpMode {
 //        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
 //                MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor()
 //        );
-    }
-    private <T extends SubsystemBase> void changeByButton(T subsystem, double change, java.util.function.Consumer<Double> setPositionMethod) {
-        poses.merge(subsystem.getClass().getSimpleName(), change, Double::sum);
-        setPositionMethod.accept(poses.get(subsystem.getClass().getSimpleName()));
     }
 
     @Override

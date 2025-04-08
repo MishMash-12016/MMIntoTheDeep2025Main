@@ -16,14 +16,14 @@ public class oneplusfive {
         final double tangentsToScoreSpecimen = 135;
         final double tangentsToIntakeSpecimen = 310;
         final Pose2d intakePose = new Pose2d(40, -65.5, Math.toRadians(90));
-        final Pose2d scorePose = new Pose2d(6, -31.8, Math.toRadians(90));
+        final Pose2d scorePose = new Pose2d(6, -31.5, Math.toRadians(90));
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
-                .setDimensions(11.02,14.5)//14.5
+                .setDimensions(11.02,16.2)//14.5
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 70, Math.toRadians(180), Math.toRadians(180), 15)
 
-                .followTrajectorySequence(drive-> drive.trajectorySequenceBuilder(new Pose2d(5.5, -62.73, Math.toRadians(90.00)))
+                .followTrajectorySequence(drive-> drive.trajectorySequenceBuilder(new Pose2d(5.5, -60, Math.toRadians(90.00)))
 
 
 
