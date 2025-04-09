@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Libraries.MMLib.PID;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDController;
 
@@ -7,11 +8,13 @@ import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 
 import java.util.function.DoubleSupplier;
 
+@Config
 public class MMPIDCommandForever extends CommandBase {
 
     public final MMPIDSubsystem subsystem;
     private final SQPIDController pidController;
     double setPoint = 0;
+
 
 
     public MMPIDCommandForever(MMPIDSubsystem subsystem) {
@@ -22,14 +25,18 @@ public class MMPIDCommandForever extends CommandBase {
 
     @Override
     public void initialize() {
-        setPoint = subsystem.getCurrentValue();
+        pidController.reset();
+        pidController.setSetpoint(setPoint);
     }
 
     @Override
     public void execute() {
 
-        pidController.setSetpoint(setPoint);
-        subsystem.setPower(pidController.calculate(subsystem.getCurrentValue()) + subsystem.getFeedForwardPower());
+        if (pidController.atSetpoint()){
+            subsystem.setPower(0.0);
+        }else {
+            subsystem.setPower(pidController.calculate(subsystem.getCurrentValue()) + subsystem.getFeedForwardPower());
+        }
     }
 
     @Override

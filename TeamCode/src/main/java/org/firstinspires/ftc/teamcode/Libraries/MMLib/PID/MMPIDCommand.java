@@ -20,6 +20,7 @@ public class MMPIDCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        pidController.reset();
         pidController.setSetpoint(setPoint);
     }
 

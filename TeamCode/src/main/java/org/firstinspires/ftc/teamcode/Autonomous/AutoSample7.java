@@ -17,6 +17,7 @@ import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.ScoringArm_SpeedControll;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
@@ -31,9 +32,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
-import org.firstinspires.ftc.teamcode.utils.ParallelCommandGroupNoCheck;
 
 import java.util.function.BooleanSupplier;
+
 //TODO:rot
 @Autonomous
 public class AutoSample7 extends MMOpMode {
@@ -42,6 +43,7 @@ public class AutoSample7 extends MMOpMode {
     final Pose2d intakePose = new Pose2d(-26, -12, Math.toRadians(180));
 
     boolean flag = false;
+
     public AutoSample7() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
@@ -62,7 +64,7 @@ public class AutoSample7 extends MMOpMode {
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
 
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
-                .strafeToLinearHeading(new Vector2d(-58.7, -52.3),Math.toRadians(246));
+                .strafeToLinearHeading(new Vector2d(-58.7, -52.3), Math.toRadians(246));
 
         TrajectoryActionBuilder driveToIntakeFirst = driveToScorePreloadSample.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-59.4, -46.2), Math.toRadians(246));
@@ -72,234 +74,126 @@ public class AutoSample7 extends MMOpMode {
 
         TrajectoryActionBuilder driveToIntakeSecondSample = driveToScoreFirst.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-59.9, -48.5), Math.toRadians(268),
-                          null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.45, MecanumDrive.PARAMS.maxProfileAccel*0.6));
+                        null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.45, MecanumDrive.PARAMS.maxProfileAccel * 0.6));
 
         TrajectoryActionBuilder driveToScoreSecondSample = driveToIntakeSecondSample.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-61.4, -51), Math.toRadians(250),
-                        null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.7, MecanumDrive.PARAMS.maxProfileAccel));
+                        null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.7, MecanumDrive.PARAMS.maxProfileAccel));
 
         TrajectoryActionBuilder driveToIntakeThird = driveToScoreSecondSample.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-57.7, -46.7), Math.toRadians(298),
-                        null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.7, MecanumDrive.PARAMS.maxProfileAccel));
+                        null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.7, MecanumDrive.PARAMS.maxProfileAccel));
 
         TrajectoryActionBuilder driveToScoreThird = driveToIntakeThird.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-61.2, -51.4), Math.toRadians(245),
-                        null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.7, MecanumDrive.PARAMS.maxProfileAccel));
+                        null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.7, MecanumDrive.PARAMS.maxProfileAccel));
 
         TrajectoryActionBuilder driveToIntakeForth = driveToScoreThird.endTrajectory().fresh()
                 .setTangent(Math.toRadians(62))
-                .splineToSplineHeading(intakePose,Math.toRadians(15)
+                .splineToSplineHeading(intakePose, Math.toRadians(15)
                         , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.1),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2,MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         TrajectoryActionBuilder driveToScoreForth = driveToIntakeForth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(200))
-                .splineToSplineHeading(scorePose,Math.toRadians(240)
+                .splineToSplineHeading(scorePose, Math.toRadians(240)
                         , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.1),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2,MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         TrajectoryActionBuilder driveToIntakeFifth = driveToScoreForth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(62))
-                .splineToSplineHeading(intakePose,Math.toRadians(15)
+                .splineToSplineHeading(intakePose, Math.toRadians(15)
                         , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.1),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2,MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         TrajectoryActionBuilder driveToScoreFifth = driveToIntakeFifth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(200))
-                .splineToSplineHeading(scorePose,Math.toRadians(240)
+                .splineToSplineHeading(scorePose, Math.toRadians(240)
                         , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.1),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2,MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         TrajectoryActionBuilder driveToIntakeSixth = driveToScoreFifth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(62))
-                .splineToSplineHeading(intakePose,Math.toRadians(15)
+                .splineToSplineHeading(intakePose, Math.toRadians(15)
                         , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.1),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2,MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         TrajectoryActionBuilder driveToScoreSixth = driveToIntakeSixth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(200))
-                .splineToSplineHeading(scorePose,Math.toRadians(240)
+                .splineToSplineHeading(scorePose, Math.toRadians(240)
                         , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.1),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2,MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         TrajectoryActionBuilder driveToPark = driveToScoreSixth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(62))
-                .splineToSplineHeading(intakePose,Math.toRadians(15)
+                .splineToSplineHeading(intakePose, Math.toRadians(15)
                         , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.1),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2,MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
 
         new SequentialCommandGroup(
                 new InstantCommand(),
-                //1
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_SCORE)
-                ),
-                new WaitCommand(100),
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE),
 
                 new ActionCommand(driveToScorePreloadSample.build()).alongWith(
-                        scorePreLoadSample()
+                        scorePreLoadSample(),
+                        new ScoringArm_SpeedControll(500, ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE.position.get())
                 ),
                 new WaitCommand(100),
 
-                new InstantCommand(() -> flag = false),
-                new ParallelCommandGroupNoCheck(
-                        new SequentialCommandGroup(
+                new SequentialCommandGroup(
+                        new ParallelCommandGroup(
                                 ScoreHighSampleWithoutIntake(),
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),
-                                new WaitUntilCommand(() -> flag),
                                 new SequentialCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE),
-                                        new WaitCommand(200),
-                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
-                                        new WaitCommand(100),
-                                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                                        new WaitCommand(100),
-                                        new ParallelCommandGroup(
-
+                                        new ActionCommand(driveToIntakeFirst.build()).alongWith(
+                                                prepareSampleIntakeWithoutButtonAndScoring()
                                         ),
-                                        new ParallelCommandGroupNoCheck(
-                                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE),
-                                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_SCORE),
-                                                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET).alongWith(
-                                                        new WaitCommand(200).andThen(
-                                                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
-                                                        )
-                                                ),
-                                                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() > 35).andThen(
-                                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE),
-                                                        new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("ele1","1"))
-                                                )
-                                        )
+                                        SampleIntake()
                                 )
                         ),
-                        new ParallelCommandGroup(
-                                new ActionCommand(driveToIntakeFirst.build()),
-                                prepareSampleIntakeWithoutButtonAndScoring(),
-                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(0.37)
-                        ).andThen(
-                                MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
-                                new WaitCommand(200),
-                                MMRobot.getInstance().mmSystems.intakEndUnit.setPoseWithoutRequirments(IntakEndUnit.IntakeClawState.CLOSE.position.get()),
-                                new WaitCommand(200),
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArm.IntakeArmState.SAMPLE_TRANSFER_POSE),
-                                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get()),
-                                        MMRobot.getInstance().mmSystems.linearIntake.setPositionWithoutRequirments(LinearIntake.LinearIntakeState.CLOSED_POSE)
-                                ),
-                                new WaitCommand(300),
-                                new InstantCommand(() -> flag = true),
-                                new ActionCommand(driveToScoreFirst.build())
-                        )
-                ),
-                //3
-
-                new InstantCommand(() -> flag = false),
-                new ParallelCommandGroupNoCheck(
-                        new SequentialCommandGroup(
-                                ScoreHighSampleWithoutIntake(),
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),
-                                new WaitUntilCommand(() -> flag),
-                                new SequentialCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE),
-                                        new WaitCommand(200),
-                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
-                                        new WaitCommand(100),
-                                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                                        new WaitCommand(100),
-                                        new ParallelCommandGroup(
-
-                                        ),
-                                        new ParallelCommandGroupNoCheck(
-                                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE),
-                                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_SCORE),
-                                                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET).alongWith(
-                                                        new WaitCommand(200).andThen(
-                                                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
-                                                        )
-                                                ),
-                                                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() > 35).andThen(
-                                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE),
-                                                        new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("ele2","2"))
-                                                )
-                                        )
+                        new ActionCommand(driveToScoreFirst.build()).alongWith(
+                                new WaitCommand(200).andThen(
+                                        prepareHighWithOutIntake()
                                 )
-                        ),
-                        new ParallelCommandGroup(
-                                new ActionCommand(driveToIntakeSecondSample.build()),
-                                prepareSampleIntakeWithoutButtonAndScoring(),
-                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get())
-                        ).andThen(
-                                new WaitCommand(300),
-                                MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
-                                new WaitCommand(200),
-                                MMRobot.getInstance().mmSystems.intakEndUnit.setPoseWithoutRequirments(IntakEndUnit.IntakeClawState.CLOSE.position.get()),
-                                new WaitCommand(200),
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArm.IntakeArmState.SAMPLE_TRANSFER_POSE),
-                                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get()),
-                                        MMRobot.getInstance().mmSystems.linearIntake.setPositionWithoutRequirments(LinearIntake.LinearIntakeState.CLOSED_POSE)
-                                ),
-                                new WaitCommand(300),
-                                new InstantCommand(() -> flag = true),
-                                new ActionCommand(driveToScoreSecondSample.build())
                         )
+
                 ),
 
                 new WaitCommand(200),
-                new InstantCommand(() -> flag = false),
-                new ParallelCommandGroupNoCheck(
-                        new SequentialCommandGroup(
+                new SequentialCommandGroup(
+                        new ParallelCommandGroup(
                                 ScoreHighSampleWithoutIntake(),
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),
-                                new WaitUntilCommand(() -> flag),
                                 new SequentialCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE),
-                                        new WaitCommand(200),
-                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
-                                        new WaitCommand(100),
-                                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                                        new WaitCommand(100),
-                                        new ParallelCommandGroup(
-
+                                        new ActionCommand(driveToIntakeSecondSample.build()).alongWith(
+                                                prepareSampleIntakeWithoutButtonAndScoring()
                                         ),
-                                        new ParallelCommandGroupNoCheck(
-                                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE),
-                                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_SCORE),
-                                                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET).alongWith(
-                                                        new WaitCommand(200).andThen(
-                                                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
-                                                        )
-                                                ),
-                                                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() > 35).andThen(
-                                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE),
-                                                        new InstantCommand(() -> FtcDashboard.getInstance().getTelemetry().addData("ele3","3"))
-                                                )
-                                        )
+                                        SampleIntake()
                                 )
                         ),
+                        new ActionCommand(driveToScoreSecondSample.build()).alongWith(
+                                new WaitCommand(200).andThen(
+                                        prepareHighWithOutIntake()
+                                )
+                        )
+
+                ),
+
+                new WaitCommand(200),
+                new SequentialCommandGroup(
                         new ParallelCommandGroup(
-                                new ActionCommand(driveToIntakeThird.build()),
-                                prepareSampleIntakeWithoutButtonAndScoring(),
-                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(0.26)
-                        ).andThen(
-                                new WaitCommand(300),
-                                MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
-                                new WaitCommand(200),
-                                MMRobot.getInstance().mmSystems.intakEndUnit.setPoseWithoutRequirments(IntakEndUnit.IntakeClawState.CLOSE.position.get()),
-                                new WaitCommand(200),
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.intakeArm.setPositionWithoutRequirments(IntakeArm.IntakeArmState.SAMPLE_TRANSFER_POSE),
-                                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPositionWithoutRequirments(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE.position.get()),
-                                        MMRobot.getInstance().mmSystems.linearIntake.setPositionWithoutRequirments(LinearIntake.LinearIntakeState.CLOSED_POSE)
-                                ),
-                                new WaitCommand(300),
-                                new InstantCommand(() -> flag = true),
-                                new ActionCommand(driveToScoreThird.build())
+                                ScoreHighSampleWithoutIntake(),
+                                new SequentialCommandGroup(
+                                        new ActionCommand(driveToIntakeThird.build()).alongWith(
+                                                prepareSampleIntakeWithoutButtonAndScoring()
+                                        ),
+                                        SampleIntake()
+                                )
+                        ),
+                        new ActionCommand(driveToScoreThird.build()).alongWith(
+                                new WaitCommand(200).andThen(
+                                        prepareHighWithOutIntake()
+                                )
                         )
                 ),
-//                new WaitCommand(200),
+
                 new ParallelCommandGroup(
                         new ActionCommand(driveToIntakeForth.build()),
                         ScoringSampleCommand.ScoreHighSample(),
@@ -311,39 +205,35 @@ public class AutoSample7 extends MMOpMode {
                 new ActionCommand(driveToScoreForth.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
                 ),
-//                new WaitCommand(200),
+
                 new ParallelCommandGroup(
                         new ActionCommand(driveToIntakeFifth.build()),
                         ScoringSampleCommand.ScoreHighSample(),
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector())
                 ),
 
-                //6
                 IntakeSampleCommand.limeLightIntake_Auto(),
 
                 new ActionCommand(driveToScoreFifth.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
                 ),
-//                new WaitCommand(200),
                 new ParallelCommandGroup(
                         new ActionCommand(driveToIntakeSixth.build()),
                         ScoringSampleCommand.ScoreHighSample(),
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector())
                 ),
 
-                //7
                 IntakeSampleCommand.limeLightIntake_Auto(),
 
                 new ActionCommand(driveToScoreSixth.build()).alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
                 ),
-//                new WaitCommand(200),
                 new ActionCommand(driveToPark.build()).alongWith(
                         //basically scoring
                         new SequentialCommandGroup(
                                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                                 new WaitCommand(200),
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE),
+                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_ARM_SCORE_SAMPLE),
                                 new WaitCommand(200),
                                 new ParallelCommandGroup(
                                         MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
@@ -369,8 +259,8 @@ public class AutoSample7 extends MMOpMode {
     public Command scorePreLoadSample() {
         return new SequentialCommandGroup(
                 new WaitCommand(200),
-                new RunCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.6), MMRobot.getInstance().mmSystems.elevator)
-                        .interruptOn(()->MMRobot.getInstance().mmSystems.elevator.getHeight() > 43),
+                new RunCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.8), MMRobot.getInstance().mmSystems.elevator)
+                        .interruptOn(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() > 43),
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0), MMRobot.getInstance().mmSystems.elevator),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
@@ -383,7 +273,10 @@ public class AutoSample7 extends MMOpMode {
                 new WaitCommand(200),
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SAMPLE_POSE)
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SAMPLE_POSE),
+                        new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() < 10).andThen(
+                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE)
+                        )
                 )
         );
     }
@@ -406,6 +299,28 @@ public class AutoSample7 extends MMOpMode {
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_TRANSFER_POSE),
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
+        );
+    }
+
+    public static Command prepareHighWithOutIntake() {
+        return new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SAMPLE_POSE),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE)
+                ),
+                new WaitCommand(150),
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                new WaitCommand(100),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                new WaitCommand(100),
+
+                new WaitCommand(100),
+                new ParallelCommandGroup(
+                        new ScoringArm_SpeedControll(500, ScoringArm.ScoringArmState.SCORE_ARM_SCORE_SAMPLE.position.get()),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_SCORE),
+                        MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET)
+                ),
+                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE)
         );
     }
 }

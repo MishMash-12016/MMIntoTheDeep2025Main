@@ -45,12 +45,12 @@ public class Elevator extends MMPIDSubsystem {
     final double SPROCKET_PERIMETER = Math.PI*3.82;
 
     //PID:
-    public static double kP = 0.055;
-    public static double kI = 0.0;
+    public static double kP = 0.056;
+    public static double kI = 0.12;
     public static double kD = 0.0;
+    public static double kG = 0.1005;
 
     public static double TOLERANCE = .3;
-    public static double kG = 0.1;
 
     public double ticksOffset = 0;
 
@@ -58,7 +58,7 @@ public class Elevator extends MMPIDSubsystem {
 
     private static final double maxHeight = 70; //TODO:find new max height
 
-    public static double elevatorHighBasket = 43;
+    public static double elevatorHighBasket = 46;
     public static double elevatorDown = 0;
     public static double elevatorClimbHigh = 80; //TODO:find high bar height
     public static double elevatorClimb = 12;
@@ -84,7 +84,7 @@ public class Elevator extends MMPIDSubsystem {
     public double targetPose = 0;
     MMPIDCommandForever PID;
     public Elevator(HardwareMap hardwareMap) {
-        super(kP, kI, kD, TOLERANCE);
+        super(kP, kI, kD, TOLERANCE, 1);
 
         register();
 
@@ -117,8 +117,7 @@ public class Elevator extends MMPIDSubsystem {
     }
 
     public Elevator(HardwareMap hardwareMap, boolean Void) {
-        super(kP, kI, kD, TOLERANCE);
-
+        super(kP, kI, kD, TOLERANCE, 1);
         register();
 
         motor1 = new CuttleMotor(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR1);
@@ -185,11 +184,7 @@ public class Elevator extends MMPIDSubsystem {
         if (targetPose > maxHeight) {
             power = 0.0;
         }
-        power = power / voltageSensor.getVoltage()*13;
 
-        if (isAuto && power < -1.0) {
-            power = -1.0;
-        }
 
         motor1.setPower(power);
         motor2.setPower(power);
@@ -242,10 +237,16 @@ public class Elevator extends MMPIDSubsystem {
     }
 
     public void updateToDashboard() {
-        FtcDashboard.getInstance().getTelemetry().addData("height", getHeight());
-        FtcDashboard.getInstance().getTelemetry().addData("target", targetPose);
+//        FtcDashboard.getInstance().getTelemetry().addData("height", getCurrentValue());
+//        FtcDashboard.getInstance().getTelemetry().addData("target", targetPose);
         FtcDashboard.getInstance().getTelemetry().addData("elevator at setpoint", getPidController().atSetpoint());
         FtcDashboard.getInstance().getTelemetry().addData("elevator power", motor1.getPower());
+
+        FtcDashboard.getInstance().getTelemetry().addData("error", getPidController().getError());
+//        FtcDashboard.getInstance().getTelemetry().addData("tollarance", getPidController().getErrorTolerance());
+
+        FtcDashboard.getInstance().getTelemetry().addData("PID setpoint", getPidController().getSetpoint());
+        FtcDashboard.getInstance().getTelemetry().addData("PID currentValue", getPidController().getMeasurement());
 
         FtcDashboard.getInstance().getTelemetry().update();
 

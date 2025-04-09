@@ -113,6 +113,10 @@ public class SQPIDController {
         lastTimeStamp = 0;
     }
 
+    public double getMeasurement(){
+        return m_measurement;
+    }
+
     public void setTargetVelocity(double velocity) {
         this.targetVelocity = velocity;
     }

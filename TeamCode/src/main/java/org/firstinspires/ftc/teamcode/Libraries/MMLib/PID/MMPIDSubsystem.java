@@ -22,6 +22,20 @@ public abstract class MMPIDSubsystem extends MMPowerSubsystem<Double> {
         pidController.setTolerance(tolerance);
     }
 
+
+    /**
+     * default constructor to create the {@link PIDController} object
+     * @param kP the P coefficient
+     * @param kI the I coefficient
+     * @param kD the D coefficient
+     * @param tolerance the controller's tolerance (what is "at point")
+     */
+    public MMPIDSubsystem(double kP, double kI, double kD, double tolerance, double iZone) {
+        pidController = new SQPIDController(kP, kI, kD);
+        pidController.setTolerance(tolerance);
+        pidController.setIZone(iZone);
+    }
+
     /**
      * this constructor can be used in case u want to insert ur own pid controller
      * @param pidController ur pid controller object
