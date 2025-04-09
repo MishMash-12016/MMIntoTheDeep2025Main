@@ -4,6 +4,8 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDController;
 
+import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.utils.SQPIDController;
 
 import java.util.function.DoubleSupplier;
@@ -26,7 +28,7 @@ public class MMPIDCommandForever extends CommandBase {
     @Override
     public void initialize() {
         pidController.reset();
-        pidController.setSetpoint(setPoint);
+        pidController.setSetpoint(MMRobot.getInstance().mmSystems.elevator.targetPose);
     }
 
     @Override
