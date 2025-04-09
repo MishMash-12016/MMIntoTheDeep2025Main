@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -35,7 +37,7 @@ public class TuningTest extends MMOpMode {
     HashMap<String, Double> poses = new HashMap<>();
 
 
-    private static final double changeBy = 0.1;
+    private static final double changeBy = 0.01;
     public TuningTest() {
         super(OpModeType.NonCompetition.EXPERIMENTING);
     }
@@ -54,34 +56,28 @@ public class TuningTest extends MMOpMode {
         robotInstance.mmSystems.initRobotSystemsTeleOp();
         robotInstance.mmSystems.initDriveTrain();
 
-//
-/////intake arm
-////        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-////                new SequentialCommandGroup(
-////                        new InstantCommand(() -> {
-////                            posIntakeArm += changeBy;
-////                            IntakeArm.intakeArmInitPose = posIntakeArm;
-////                        }),
-////                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.INIT_POSE)
-////                )
-////        );
-////
-////        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-////                    MMRobot.getInstance().mmSystems.linearIntake.setPosition(0.4)
-////        );
-////
-////        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-////                new SequentialCommandGroup(
-////                        new InstantCommand(() -> {
-////                            posIntakeArm -= changeBy;
-////                            IntakeArm.intakeArmInitPose = posIntakeArm;
-////                        }),
-////                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.INIT_POSE)
-////                )
-////        );
-//
-//
-//
+
+///intake arm
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            posIntakeArm += changeBy;
+                            IntakeArm.intakeArmInitPose = posIntakeArm;
+                        }),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.INIT_POSE)
+                )
+        );
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            posIntakeArm -= changeBy;
+                            IntakeArm.intakeArmInitPose = posIntakeArm;
+                        }),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.INIT_POSE)
+                )
+        );
+
 //        //claw
 //        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
 //                new SequentialCommandGroup(
@@ -130,26 +126,27 @@ public class TuningTest extends MMOpMode {
 //                )
 //        );
 //
-        ///scoring intake
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new SequentialCommandGroup(
-                        new InstantCommand(() -> {
-                            posIntakeArm += 0.05;
-                            ScoringClawEndUnit.scoringClawClosePos = posIntakeArm;
-                        }),
-                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
-                )
-        );
+//        ///scoring intake
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+//                new SequentialCommandGroup(
+//                        new InstantCommand(() -> {
+//                            posIntakeArm += 0.05;
+//                            ScoringClawEndUnit.scoringClawClosePos = posIntakeArm;
+//                        }),
+//                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
+//                )
+//        );
+//
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+//                new SequentialCommandGroup(
+//                        new InstantCommand(() -> {
+//                            posIntakeArm -= 0.05;
+//                            ScoringClawEndUnit.scoringClawClosePos = posIntakeArm;
+//                        }),
+//                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
+//                )
+//        );
 
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                new SequentialCommandGroup(
-                        new InstantCommand(() -> {
-                            posIntakeArm -= 0.05;
-                            ScoringClawEndUnit.scoringClawClosePos = posIntakeArm;
-                        }),
-                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
-                )
-        );
 //
 //
 //        new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05).whenActive(
@@ -175,54 +172,65 @@ public class TuningTest extends MMOpMode {
 ////        );
 ////
 ////
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
-//                new SequentialCommandGroup(
-//                        new InstantCommand(() -> {
-//                            posElbow += changeBy;
-//                            ScoringEndUnitElbow.ElbowScoreSpecimenPose = posElbow;
-//                        }),
-//                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
-//                )
-//        );
-//
-//
-//
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-//                new SequentialCommandGroup(
-//                        new InstantCommand(() -> {
-//                            posElbow -= changeBy;
-//                            ScoringEndUnitElbow.ElbowScoreSpecimenPose = posElbow;
-//                        }),
-//                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
-//                )
-//        );
-//
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-//                new SequentialCommandGroup(
-//                        new InstantCommand(() -> {
-//                            posArm += changeBy;
-//                            ScoringArm.scoringArmScorePose = posArm;
-//                        }),
-//                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE)
-//                )
-//        );
-//
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-//                new SequentialCommandGroup(
-//                        new InstantCommand(() -> {
-//                            posArm -= changeBy;
-//                            ScoringArm.scoringArmScorePose = posArm;
-//                        }),
-//                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE)
-//                )
-//        );
-//
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-//                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
-//        );
-//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
-//                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
-//        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            posElbow += changeBy;
+                            ScoringEndUnitElbow.ElbowScoreSpecimenPose = posElbow;
+                        }),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
+                )
+        );
+
+
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            posElbow -= changeBy;
+                            ScoringEndUnitElbow.ElbowScoreSpecimenPose = posElbow;
+                        }),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
+                )
+        );
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            posArm += changeBy;
+                            ScoringArm.scoringArmScorePose = posArm;
+                        }),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE)
+                )
+        );
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            posArm -= changeBy;
+                            ScoringArm.scoringArmScorePose = posArm;
+                        }),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORING_ARM_SCORE_POSE)
+                )
+        );
+
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
+        );
+
+                new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+                .whileActiveContinuous(
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+                );
+
+        new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+                .whileActiveContinuous(
+                        MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
+                );
+
 //
 //
 //
@@ -287,12 +295,12 @@ public class TuningTest extends MMOpMode {
 //                MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor()
 //        );
 
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE)
-        );
-                MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                        new ScoringArm_SpeedControll(time,0.19)
-                );
+//        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+//                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE)
+//        );
+//                MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+//                        new ScoringArm_SpeedControll(time,0.19)
+//                );
     }
 
     @Override
