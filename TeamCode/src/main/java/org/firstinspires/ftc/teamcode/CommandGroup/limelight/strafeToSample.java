@@ -15,6 +15,7 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.Vision;
+import org.firstinspires.ftc.teamcode.utils.MathTools;
 import org.firstinspires.ftc.teamcode.utils.geometry.Translation2d;
 import org.firstinspires.ftc.teamcode.utils.geometry.Rotation2d;
 import org.opencv.core.Mat;
@@ -48,7 +49,7 @@ public class strafeToSample extends CommandBase {
         double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset(lastResult) + plusDistanceX;
         double distanceY = (maxDistanceY - MMRobot.getInstance().mmSystems.vision.getDistance(lastResult)) / 25.4;
         double accelerationMultiplier = accelerationMultiplierLong;
-        if (Math.abs(distanceX) < limit){
+        if (MathTools.distance(distanceX, distanceY) < limit) {
             accelerationMultiplier = accelerationMultiplierShort;
         }
 
