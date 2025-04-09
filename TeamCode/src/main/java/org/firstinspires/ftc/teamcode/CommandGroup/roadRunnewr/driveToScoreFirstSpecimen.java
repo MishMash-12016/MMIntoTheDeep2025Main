@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 @Config
 public class driveToScoreFirstSpecimen extends CommandBase {
 
-    public static double minAccelMult = 1;
+    public static double minAccelMult = 1.5;
     public static double maxAccelMult = 1.5;
     public static double maxSpeedMult = 0.8;
 

@@ -91,12 +91,12 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(28, -37, Math.toRadians(225)), Math.toRadians(50),
+                .splineToLinearHeading(new Pose2d(28.8, -37, Math.toRadians(225)), Math.toRadians(50),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2)
                 );
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(28, -45), Math.toRadians(140),
+                .strafeToLinearHeading(new Vector2d(29.5, -47), Math.toRadians(140),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 2),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.6));
 
@@ -106,23 +106,23 @@ public class Red_Right_6 extends MMOpMode {
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(38.3, -45), Math.toRadians(140),
+                .strafeToLinearHeading(new Vector2d(38.7, -45), Math.toRadians(140),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 2),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.6));
 
         TrajectoryActionBuilder driveToPush3 = turnRobot2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(48, -34, Math.toRadians(210)), Math.toRadians(50),
+                .splineToLinearHeading(new Pose2d(47.5, -34, Math.toRadians(210)), Math.toRadians(50),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
         TrajectoryActionBuilder turnRobot3 = driveToPush3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .splineToSplineHeading(new Pose2d(48, -45, Math.toRadians(90)), Math.toRadians(270),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel))
-                .splineToLinearHeading(new Pose2d(48, -75, Math.toRadians(90)), Math.toRadians(270),
+                .splineToSplineHeading(new Pose2d(47.5, -47, Math.toRadians(90)), Math.toRadians(270),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*2),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel*1.4))
+                .splineToLinearHeading(new Pose2d(47.5, -75, Math.toRadians(90)), Math.toRadians(270),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.2),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.7, MecanumDrive.PARAMS.maxProfileAccel));
 
 //        TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
 //
@@ -172,7 +172,7 @@ public class Red_Right_6 extends MMOpMode {
                 .setTangent(Math.toRadians(310))
                 .splineToLinearHeading(new Pose2d(28, -50, Math.toRadians(140)), Math.toRadians(140 + 180),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.5),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.8, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel *1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
 
         FtcDashboard.getInstance().getTelemetry().addData("rotatorAngle", 0);
         FtcDashboard.getInstance().getTelemetry().addData("robotAngle", 0);
@@ -190,7 +190,7 @@ public class Red_Right_6 extends MMOpMode {
                                     drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
                                 }
                             }
-                        }.interruptOn(touchSensors::getStateArm),
+                        }.interruptOn(touchSensors::getStateIntake),
                         AutoSpecimensCommand.PrepareSpecimenScorePreLoad(),
                         new WaitCommand(300).andThen(
                                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
@@ -214,19 +214,20 @@ public class Red_Right_6 extends MMOpMode {
                         )
                 ),
                 //push first
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 new ActionCommand(driveToPush1.build()).alongWith(
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                         new WaitUntilCommand(() -> getAng() >= 180).andThen(
                                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING)
                         ),
                         new SequentialCommandGroup(
-                                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+
                                 new WaitCommand(200).andThen(setupForPushing())
                         )
                 ),
                 new ActionCommand(turnRobot.build()).alongWith(
                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
-                        new WaitCommand(300).andThen(
+                        new WaitUntilCommand(() -> getAng() <= 160).andThen(
                                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.15)
                         )
                 ),
@@ -241,7 +242,7 @@ public class Red_Right_6 extends MMOpMode {
                 //push second
                 new ActionCommand(turnRobot2.build()).alongWith(
                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
-                        new WaitCommand(300).andThen(
+                        new WaitUntilCommand(() -> getAng() <= 160).andThen(
                                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.08)
                         )
                 ),
@@ -253,7 +254,7 @@ public class Red_Right_6 extends MMOpMode {
                         setupForPushing()
                 ),
                 //push third
-                new ParallelCommandGroupNoCheck(
+                new ParallelCommandGroup(
                         new ActionCommand(turnRobot3.build()) {
                             public void end(boolean interrupted) {
                                 super.end(interrupted);
@@ -263,8 +264,8 @@ public class Red_Right_6 extends MMOpMode {
                                 }
                             }
                         },
-                        robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose),
-                        new WaitCommand(850).andThen(
+                        robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose).andThen(
+                        new WaitUntilCommand(() -> getAng() <= 170).andThen(
                                 new ParallelCommandGroup(
                                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmPrepareSampleTransferPose),
                                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
@@ -277,9 +278,9 @@ public class Red_Right_6 extends MMOpMode {
                                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
                                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                                 )
-                        )
+                        ))
                 ).interruptOn(
-                        () -> (touchSensors.getStateArm() && MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.toDouble() > Math.toRadians(45))),
+                        () -> (touchSensors.getStateIntake() && MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.toDouble() > Math.toRadians(45))),
 
                 new driveToScoreFirstSpecimen() {
                     @Override
@@ -291,7 +292,7 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateBumper).alongWith(
+                        .interruptOn(touchSensors::getStateScoring).alongWith(
                                 IntakeSpecimenCommand.SpecimenIntake()
                         ),
 
@@ -306,16 +307,18 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateArm)
+                        .interruptOn(touchSensors::getStateIntake)
                         .alongWith(
                                 new SequentialCommandGroup(
                                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                        new WaitCommand(300),
+                                        new WaitCommand(100),
                                         new ParallelCommandGroup(
                                                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
                                                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
-                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
-                                        )
+                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
+                                        ),
+                                        new WaitCommand(200),
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                                 )
                         ),
 
@@ -329,7 +332,7 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateBumper).alongWith(
+                        .interruptOn(touchSensors::getStateScoring).alongWith(
                                 IntakeSpecimenCommand.SpecimenIntakeAuto()
                         ),
 
@@ -344,7 +347,7 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateArm)
+                        .interruptOn(touchSensors::getStateIntake)
                         .alongWith(
                                 new SequentialCommandGroup(
                                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
@@ -352,8 +355,10 @@ public class Red_Right_6 extends MMOpMode {
                                         new ParallelCommandGroup(
                                                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
                                                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
-                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
-                                        )
+                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
+                                        ),
+                                        new WaitCommand(200),
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                                 )
                         ),
 
@@ -367,7 +372,7 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateBumper).alongWith(
+                        .interruptOn(touchSensors::getStateScoring).alongWith(
                                 IntakeSpecimenCommand.SpecimenIntakeAuto()
                         ),
 
@@ -382,16 +387,18 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateArm)
+                        .interruptOn(touchSensors::getStateIntake)
                         .alongWith(
                                 new SequentialCommandGroup(
                                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                        new WaitCommand(300),
+                                        new WaitCommand(100),
                                         new ParallelCommandGroup(
                                                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
                                                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
-                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
-                                        )
+                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
+                                        ),
+                                        new WaitCommand(200),
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                                 )
                         ),
 
@@ -406,7 +413,7 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateBumper).alongWith(
+                        .interruptOn(touchSensors::getStateScoring).alongWith(
                                 IntakeSpecimenCommand.SpecimenIntakeAuto()
                         ),
 
@@ -421,16 +428,18 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateArm)
+                        .interruptOn(touchSensors::getStateIntake)
                         .alongWith(
                                 new SequentialCommandGroup(
                                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                        new WaitCommand(300),
+                                        new WaitCommand(100),
                                         new ParallelCommandGroup(
                                                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
                                                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
-                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
-                                        )
+                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
+                                        ),
+                                        new WaitCommand(200),
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                                 )
                         ),
 
@@ -444,7 +453,7 @@ public class Red_Right_6 extends MMOpMode {
                         }
                     }
                 }
-                        .interruptOn(touchSensors::getStateBumper).alongWith(
+                        .interruptOn(touchSensors::getStateScoring).alongWith(
                                 IntakeSpecimenCommand.SpecimenIntakeAuto()
                         ),
 
@@ -460,8 +469,8 @@ public class Red_Right_6 extends MMOpMode {
     public void run() {
         super.run();
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
-        FtcDashboard.getInstance().getTelemetry().addData("touch sensor back", touchSensors.getStateBumper());
-        FtcDashboard.getInstance().getTelemetry().addData("touch sensor front", touchSensors.getStateArm());
+        FtcDashboard.getInstance().getTelemetry().addData("touch sensor back", touchSensors.getStateScoring());
+        FtcDashboard.getInstance().getTelemetry().addData("touch sensor front", touchSensors.getStateIntake());
         FtcDashboard.getInstance().getTelemetry().addData("ang of the big robot for ori", getAng());
         FtcDashboard.getInstance().getTelemetry().addData("a", getAng() >= Math.toRadians(200));
 

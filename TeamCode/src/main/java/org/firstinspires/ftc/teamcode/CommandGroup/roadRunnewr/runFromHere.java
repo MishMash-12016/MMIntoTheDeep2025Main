@@ -30,9 +30,7 @@ public class runFromHere extends CommandBase {
 
             TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
                     .setTangent(Math.toRadians(260))
-                    .splineToSplineHeading(new Pose2d(26.5, -46, Math.toRadians(160)), Math.toRadians(-10),
-                            new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.3),
-                            new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
+                    .splineToSplineHeading(new Pose2d(26.5, -46, Math.toRadians(160)), Math.toRadians(-10));
 
         strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
     }

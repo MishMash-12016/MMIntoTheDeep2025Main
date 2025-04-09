@@ -74,8 +74,9 @@ public class MMSystems {
     public Hook hook;
 
     public Vision vision;
-    public DigitalChannel touchSensorBumper;
-    public DigitalChannel touchSensorArm;
+    public DigitalChannel touchSensorScoring;
+    public DigitalChannel touchSensorIntake;
+    public DigitalChannel touchSensorIntakeHigh;
     public Climber climber;
 
 
@@ -98,8 +99,9 @@ public class MMSystems {
         if (!limelightInitFunc()){
             telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
         }
-        this.touchSensorBumper = hardwareMap.get(DigitalChannel.class, "tsBumper");
-        this.touchSensorArm = hardwareMap.get(DigitalChannel.class, "tsBL");
+        this.touchSensorScoring = hardwareMap.get(DigitalChannel.class, "tsS");
+        this.touchSensorIntake = hardwareMap.get(DigitalChannel.class, "tsIL");
+        this.touchSensorIntakeHigh = hardwareMap.get(DigitalChannel.class, "tsIH");
         this.climber = new Climber();
     }
 
@@ -118,8 +120,9 @@ public class MMSystems {
         if (!limelightInitFunc()){
             telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
         }
-        this.touchSensorBumper = hardwareMap.get(DigitalChannel.class, "tsBumper");
-        this.touchSensorArm = hardwareMap.get(DigitalChannel.class, "tsBL");
+        this.touchSensorScoring = hardwareMap.get(DigitalChannel.class, "tsS");
+        this.touchSensorIntake = hardwareMap.get(DigitalChannel.class, "tsIL");
+        this.touchSensorIntakeHigh = hardwareMap.get(DigitalChannel.class, "tsIH");
         this.climber = new Climber();
     }
 

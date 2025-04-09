@@ -32,7 +32,7 @@ public class driveToScoreSpecimen extends CommandBase {
                     .setTangent(Math.toRadians(260))
                     .splineToSplineHeading(new Pose2d(25, -45, Math.toRadians(140)), Math.toRadians(-10),
                             new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.3),
-                            new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel));
+                            new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel));
 
         strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
     }
