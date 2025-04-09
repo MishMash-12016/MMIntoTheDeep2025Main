@@ -26,10 +26,10 @@ public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
     public static double maxDistanceY = 376;
-    public static double plusDistanceX = 0.3;
+    public static double plusDistanceX = -0.1;
 
-    public static double accelerationMultiplierShort = 0.89;
-    public static double limit = 5;
+    public static double accelerationMultiplierShort = 0.7;
+    public static double limit = 10;
     public static double accelerationMultiplierLong = 1;
     Boolean finished = true;
 
@@ -67,7 +67,7 @@ public class strafeToSample extends CommandBase {
 
             TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
                     .strafeTo(new Vector2d(endPoint.getX(), endPoint.getY()),
-                            new TranslationalVelConstraint(65), new ProfileAccelConstraint(-45 * accelerationMultiplier, 45 *accelerationMultiplier) );
+                            new TranslationalVelConstraint(65), new ProfileAccelConstraint(-65 * accelerationMultiplier, 45 * accelerationMultiplier) );
 
             strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
             found = true;
