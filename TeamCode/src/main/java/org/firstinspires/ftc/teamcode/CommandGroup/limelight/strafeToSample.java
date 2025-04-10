@@ -28,13 +28,13 @@ public class strafeToSample extends CommandBase {
     public static double maxDistanceY = 420;
     public static double plusDistanceX = -0.1;
 
-    public static double accelerationMultiplierShort = 0.65;
+    public static double accelerationMultiplierShort = 0.7;
     public static double limit = 10;
+    public static double theOtherSide = -1.5;
+    public static double theOtherSideAdder = 1.2;
     public static double accelerationMultiplierLong = 1;
     Boolean finished = true;
 
-//    public static double pixelX = 7;
-//    public static double pixelY = 4;
 
     Boolean found = false;
     public strafeToSample() {
@@ -52,10 +52,16 @@ public class strafeToSample extends CommandBase {
         if (MathTools.distance(distanceX, distanceY) < limit) {
             accelerationMultiplier = accelerationMultiplierShort;
         }
+        FtcDashboard.getInstance().getTelemetry().addData("distanceX - ",distanceX);
+        FtcDashboard.getInstance().getTelemetry().addData("distanceY - ",distanceY);
+        FtcDashboard.getInstance().getTelemetry().addData("distanceALL - ",MathTools.distance(distanceX, distanceY));
 
         if (distanceX != 0) {
 //            distanceX += (Vision.length/pixelX) / 2.54;
 //            distanceY -= (Vision.height/pixelY) / 2.54;
+            if (distanceX > theOtherSide){
+                distanceX +=theOtherSideAdder;
+            }
 
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
 

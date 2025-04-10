@@ -150,7 +150,7 @@ public class AutoSample7 extends MMOpMode {
                                 )
                         ),
                         new ActionCommand(driveToScoreFirst.build()).alongWith(
-                                new WaitCommand(200).andThen(
+                                new WaitCommand(300).andThen(
                                         prepareHighWithOutIntake()
                                 )
                         )
@@ -169,7 +169,7 @@ public class AutoSample7 extends MMOpMode {
                                 )
                         ),
                         new ActionCommand(driveToScoreSecondSample.build()).alongWith(
-                                new WaitCommand(200).andThen(
+                                new WaitCommand(300).andThen(
                                         prepareHighWithOutIntake()
                                 )
                         )
@@ -188,7 +188,7 @@ public class AutoSample7 extends MMOpMode {
                                 )
                         ),
                         new ActionCommand(driveToScoreThird.build()).alongWith(
-                                new WaitCommand(200).andThen(
+                                new WaitCommand(300).andThen(
                                         prepareHighWithOutIntake()
                                 )
                         )
