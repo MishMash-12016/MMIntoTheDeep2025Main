@@ -7,6 +7,6 @@ public class touchSensors {
         return !MMRobot.getInstance().mmSystems.touchSensorScoring.getState();
     }
     public static boolean getStateIntake(){
-        return !MMRobot.getInstance().mmSystems.touchSensorIntake.getState() || MMRobot.getInstance().mmSystems.touchSensorIntakeHigh.getState();
+        return !MMRobot.getInstance().mmSystems.touchSensorIntake.getState() || !MMRobot.getInstance().mmSystems.touchSensorIntakeHigh.getState();
     }
 }

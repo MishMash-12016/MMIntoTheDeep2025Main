@@ -216,9 +216,10 @@ public class Red_Right_6 extends MMOpMode {
                 //push first
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 new ActionCommand(driveToPush1.build()).alongWith(
-                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                        new WaitUntilCommand(() -> getAng() >= 180).andThen(
-                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING)
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE).andThen(
+                                new WaitUntilCommand(() -> getAng() >= 180).andThen(
+                                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING)
+                                )
                         ),
                         new SequentialCommandGroup(
 
