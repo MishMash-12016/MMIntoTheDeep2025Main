@@ -114,17 +114,14 @@ public class IntakeSampleCommand {
                     new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
                     MMRobot.getInstance().mmSystems.vision.angleChange(),
                     limelightGetter.getRotateToSample(),
+                limelightGetter.strafeToSample(),
 
                     new ParallelCommandGroup(
-                            limelightGetter.strafeToSample(),
                             MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
                             MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE)),
 
-//                        limelightGetter.getOpenLinearToSample()
-                    MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                    new WaitCommand(200),
-                    FirstSampleIntake(),
-                new WaitCommand(300)
+                    new WaitCommand(400),
+                    FirstSampleIntake()
         ).interruptOn(
                 () -> MMRobot.getInstance().mmSystems.driveTrain.joystickMoved()).andThen(MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE));
     }

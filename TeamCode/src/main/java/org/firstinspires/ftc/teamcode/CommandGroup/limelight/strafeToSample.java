@@ -14,24 +14,25 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.Vision;
 import org.firstinspires.ftc.teamcode.utils.MathTools;
 import org.firstinspires.ftc.teamcode.utils.geometry.Translation2d;
 import org.firstinspires.ftc.teamcode.utils.geometry.Rotation2d;
-import org.opencv.core.Mat;
 
 
 @Config
 public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
-    public static double maxDistanceY = 376;
+    public static double maxDistanceY = 386;
     public static double plusDistanceX = -0.1;
 
-    public static double accelerationMultiplierShort = 0.65;
+    public static double accelerationMultiplierShortMax = 0.87;
+    public static double accelerationMultiplierShortMin = 0.65;
     public static double limit = 10;
-    public static double accelerationMultiplierLong = 1;
+    public static double accelerationMultiplierLongMax = 1;
+    public static double accelerationMultiplierLongMin = 1;
     Boolean finished = true;
+
 
 //    public static double pixelX = 7;
 //    public static double pixelY = 4;
@@ -48,9 +49,11 @@ public class strafeToSample extends CommandBase {
         LLResult lastResult = MMRobot.getInstance().mmSystems.vision.getPreviousResult();
         double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset(lastResult) + plusDistanceX;
         double distanceY = (maxDistanceY - MMRobot.getInstance().mmSystems.vision.getDistance(lastResult)) / 25.4;
-        double accelerationMultiplier = accelerationMultiplierLong;
+        double accelerationMultiplierMax = accelerationMultiplierLongMax;
+        double accelerationMultiplierMin = accelerationMultiplierLongMin;
         if (MathTools.distance(distanceX, distanceY) < limit) {
-            accelerationMultiplier = accelerationMultiplierShort;
+            accelerationMultiplierMax = accelerationMultiplierShortMax;
+            accelerationMultiplierMin = accelerationMultiplierShortMin;
         }
 
         if (distanceX != 0) {
@@ -67,7 +70,7 @@ public class strafeToSample extends CommandBase {
 
             TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
                     .strafeTo(new Vector2d(endPoint.getX(), endPoint.getY()),
-                            new TranslationalVelConstraint(65), new ProfileAccelConstraint(-65 * accelerationMultiplier, 45 * accelerationMultiplier) );
+                            new TranslationalVelConstraint(65), new ProfileAccelConstraint(-65 * accelerationMultiplierMin, 45 * accelerationMultiplierMax) );
 
             strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
             found = true;
