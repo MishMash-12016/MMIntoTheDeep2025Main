@@ -25,7 +25,7 @@ import org.opencv.core.Mat;
 public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
-    public static double maxDistanceY = 376;
+    public static double maxDistanceY = 420;
     public static double plusDistanceX = -0.1;
 
     public static double accelerationMultiplierShort = 0.65;

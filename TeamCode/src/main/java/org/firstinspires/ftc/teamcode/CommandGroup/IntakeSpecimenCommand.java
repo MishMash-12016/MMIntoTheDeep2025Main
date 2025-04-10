@@ -28,8 +28,13 @@ public class IntakeSpecimenCommand {
 
                 //score
                 new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SCORING_ARM_SCORE_POSE),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
+                        new ScoringArm_SpeedControll(300,ScoringArmState.SCORING_ARM_SCORE_POSE.position.get()),
+                        new SequentialCommandGroup(
+                                new WaitCommand(50),
+                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(0.35),
+                                new WaitCommand(50),
+                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
+                        )
                 )
         );
     }
@@ -38,14 +43,19 @@ public class IntakeSpecimenCommand {
         return new SequentialCommandGroup(
                 //intake
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
-                new WaitCommand(100),
-                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                new WaitCommand(100),
+                new WaitCommand(150),
 
                 //score
                 new ParallelCommandGroup(
-                        new ScoringArm_SpeedControll(500,ScoringArmState.SCORING_ARM_SCORE_POSE.position.get()),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
+                        new ParallelCommandGroup(
+                                new ScoringArm_SpeedControll(500,ScoringArmState.SCORING_ARM_SCORE_POSE.position.get()),
+                                new SequentialCommandGroup(
+                                        new WaitCommand(50),
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(0.35),
+                                        new WaitCommand(50),
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
+                                )
+                        )
                 )
         );
     }

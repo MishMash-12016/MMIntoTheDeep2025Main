@@ -118,7 +118,7 @@ public class Red_Right_6 extends MMOpMode {
         TrajectoryActionBuilder turnRobot3 = driveToPush3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
                 .splineToSplineHeading(new Pose2d(47.5, -47, Math.toRadians(90)), Math.toRadians(270),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*2),
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.2),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel))
                 .splineToLinearHeading(new Pose2d(47.5, -75, Math.toRadians(90)), Math.toRadians(270),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel),
@@ -268,7 +268,7 @@ public class Red_Right_6 extends MMOpMode {
                             }
                         },
                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose).andThen(
-                        new WaitUntilCommand(() -> getAng() <= 190).andThen(
+                        new WaitUntilCommand(() -> getAng() <= 175).andThen(
                                 new ParallelCommandGroup(
                                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmPrepareSampleTransferPose),
                                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
