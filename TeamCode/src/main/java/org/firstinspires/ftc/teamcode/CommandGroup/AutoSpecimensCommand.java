@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 public class AutoSpecimensCommand {
     public static Command PrepareSpecimenScorePreLoad() {
         return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_FROM_FRONT),
                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.ELBOW_SCORE_FROM_FRONT_POSE)
         );

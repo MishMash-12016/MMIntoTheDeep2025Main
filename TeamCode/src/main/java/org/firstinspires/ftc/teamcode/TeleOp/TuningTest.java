@@ -22,6 +22,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
+import java.util.AbstractSet;
 import java.util.HashMap;
 
 @TeleOp
@@ -248,31 +249,35 @@ public class TuningTest extends MMOpMode {
 //                new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.disablePID())
 //        );
 //
-//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
-//                .whileActiveContinuous(
-//                        new RunCommand(
-//                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0),
-//                                MMRobot.getInstance().mmSystems.elevator
-//                        )
-//                ).whenInactive(
-//                        new RunCommand(
-//                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0),
-//                                MMRobot.getInstance().mmSystems.elevator
-//                        )
-//                );
-//
-//        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
-//                .whileActiveContinuous(
-//                        new RunCommand(
-//                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(1.0),
-//                                MMRobot.getInstance().mmSystems.elevator
-//                        )
-//                ).whenInactive(
-//                        new RunCommand(
-//                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0),
-//                                MMRobot.getInstance().mmSystems.elevator
-//                        )
-//                );
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+                .whileActiveContinuous(
+                        new RunCommand(
+                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)),
+                                MMRobot.getInstance().mmSystems.elevator
+                        )
+                ).whenInactive(
+                        new RunCommand(
+                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0),
+                                MMRobot.getInstance().mmSystems.elevator
+                        )
+                );
+
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+                .whileActiveContinuous(
+                        new RunCommand(
+                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(-mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)),
+                                MMRobot.getInstance().mmSystems.elevator
+                        )
+                ).whenInactive(
+                        new RunCommand(
+                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0),
+                                MMRobot.getInstance().mmSystems.elevator
+                        )
+                );
+
+        MMRobot.getInstance().mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_ARM_SCORE_SAMPLE)
+        );
 
         /*
         DPAD_LEFT + elbow

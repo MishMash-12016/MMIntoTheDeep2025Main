@@ -44,7 +44,7 @@ public class IntakeSpecimenCommand {
 
                 //score
                 new ParallelCommandGroup(
-                        new ScoringArm_SpeedControll(600,ScoringArmState.SCORING_ARM_SCORE_POSE.position.get()),
+                        new ScoringArm_SpeedControll(500,ScoringArmState.SCORING_ARM_SCORE_POSE.position.get()),
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
                 )
         );
