@@ -45,7 +45,7 @@ public class ManualDrive_RED extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         mmSystems = robotInstance.mmSystems;
 
-        robotInstance.mmSystems.initRobotSystemsTeleOp();
+        robotInstance.mmSystems.initRobotSystemsTeleOp(this);
         robotInstance.mmSystems.initDriveTrain();
         robotInstance.mmSystems.teleop();
         robotInstance.mmSystems.vision.trackYellow();

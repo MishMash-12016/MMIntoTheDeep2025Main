@@ -51,7 +51,7 @@ public class configTeleOp extends MMOpMode {
         mmSystems = robotInstance.mmSystems;
 
 
-        robotInstance.mmSystems.initRobotSystems();
+        robotInstance.mmSystems.initRobotSystems(this);
         robotInstance.mmSystems.initDriveTrain();
     }
 

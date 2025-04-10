@@ -25,7 +25,7 @@ public class CheckSystemsTeleOp extends MMOpMode {
 
     @Override
     public void onInit() {
-        robotInstance.mmSystems.initRobotSystems();
+        robotInstance.mmSystems.initRobotSystems(this);
         robotInstance.mmSystems.initDriveTrain();
         MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 new SequentialCommandGroup(

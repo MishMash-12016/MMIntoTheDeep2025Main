@@ -51,7 +51,7 @@ public class AutoSample7 extends MMOpMode {
     @Override
     public void onInit() {
         robotInstance = MMRobot.getInstance();
-        robotInstance.mmSystems.initRobotSystems();
+        robotInstance.mmSystems.initRobotSystems(this);
 
         MMRobot.getInstance().mmSystems.vision.trackYellow();
         MMRobot.getInstance().mmSystems.vision.switchToDetector();

@@ -62,7 +62,7 @@ public class Red_Right_6 extends MMOpMode {
     public void onInit() {
 
         robotInstance = MMRobot.getInstance();
-        robotInstance.mmSystems.initRobotSystems();
+        robotInstance.mmSystems.initRobotSystems(this);
         MMRobot.getInstance().mmSystems.vision.trackYellow();
         MMRobot.getInstance().mmSystems.vision.switchToDetector();
 
@@ -119,10 +119,10 @@ public class Red_Right_6 extends MMOpMode {
                 .setTangent(Math.toRadians(270))
                 .splineToSplineHeading(new Pose2d(47.5, -47, Math.toRadians(90)), Math.toRadians(270),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*2),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel*1.4))
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel))
                 .splineToLinearHeading(new Pose2d(47.5, -75, Math.toRadians(90)), Math.toRadians(270),
-                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.2),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.7, MecanumDrive.PARAMS.maxProfileAccel));
+                        new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.7, MecanumDrive.PARAMS.maxProfileAccel*0.9));
 
 //        TrajectoryActionBuilder driveToIntakeFirstSpecimen = turnRobot3.endTrajectory().fresh()
 //
@@ -202,7 +202,7 @@ public class Red_Right_6 extends MMOpMode {
 
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                        IntakeSampleCommand.limeLightIntake_Auto_for_specimen().withTimeout(4000)
+                        IntakeSampleCommand.limeLightIntake_Auto_for_specimen().withTimeout(3500)
                 ),
 
 
@@ -462,7 +462,11 @@ public class Red_Right_6 extends MMOpMode {
 
                 //park
                 new runFromHereToPark().alongWith(
-                        IntakeSampleCommand.prepareSampleIntakeWithoutButton()
+                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.4)
                 )
         ).schedule();
 

@@ -40,6 +40,7 @@ public abstract class MMOpMode extends CommandOpMode {
 
     private final List<Runnable> runOnInit = new ArrayList<>();
     private final List<Command> commandsOnRun = new ArrayList<>();
+    public static MMOpMode mmOpMode;
 
 
     /**
@@ -48,6 +49,7 @@ public abstract class MMOpMode extends CommandOpMode {
      */
     public MMOpMode(OpModeType.NonCompetition opModeType) {
         this.opModeType = opModeType;
+        mmOpMode = this;
     }
 
     /**
@@ -57,6 +59,7 @@ public abstract class MMOpMode extends CommandOpMode {
      */
     public MMOpMode(AllianceColor allianceColor) {
         this.allianceColor = allianceColor;
+        mmOpMode = this;
     }
 
     /**
@@ -67,6 +70,7 @@ public abstract class MMOpMode extends CommandOpMode {
     public MMOpMode(AllianceColor allianceColor, AllianceSide allianceSide) {
         this(allianceColor);
         this.allianceSide = allianceSide;
+        mmOpMode = this;
     }
 
     /**

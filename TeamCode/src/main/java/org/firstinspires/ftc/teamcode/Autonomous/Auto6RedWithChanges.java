@@ -50,7 +50,7 @@ public class Auto6RedWithChanges extends MMOpMode {
     public void onInit() {
 
         robotInstance = MMRobot.getInstance();
-        robotInstance.mmSystems.initRobotSystems();
+        robotInstance.mmSystems.initRobotSystems(mmOpMode);
 //        MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.switchToDetector();
 

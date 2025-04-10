@@ -51,7 +51,7 @@ public class Red_Right_6_limelight extends MMOpMode {
     public void onInit() {
 
         robotInstance = MMRobot.getInstance();
-        robotInstance.mmSystems.initRobotSystems();
+        robotInstance.mmSystems.initRobotSystems(this);
         MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.switchToDetector();
 

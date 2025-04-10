@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleDigital;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleRevHub;
+import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMDistSensor;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
@@ -84,7 +85,7 @@ public class MMSystems {
 
 
     //creating and initiating all subsystems
-    public void initRobotSystems() {
+    public void initRobotSystems(MMOpMode mmOpMode) {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.elevator = new Elevator();
         this.linearIntake = new LinearIntake();
@@ -96,7 +97,7 @@ public class MMSystems {
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.hook = new Hook();
         vision = new Vision(hardwareMap, telemetry);
-        if (!limelightInitFunc()){
+        if (!limelightInitFunc(mmOpMode)){
             telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
         }
         this.touchSensorScoring = hardwareMap.get(DigitalChannel.class, "tsS");
@@ -105,7 +106,7 @@ public class MMSystems {
         this.climber = new Climber();
     }
 
-    public void initRobotSystemsTeleOp() {
+    public void initRobotSystemsTeleOp(MMOpMode mmOpMode) {
         this.scoringClawEndUnit = new ScoringClawEndUnit();
         this.elevator = new Elevator();
         this.linearIntake = new LinearIntake();
@@ -117,7 +118,7 @@ public class MMSystems {
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
         this.hook = new Hook();
         vision = new Vision(hardwareMap, telemetry);
-        if (!limelightInitFunc()){
+        if (!limelightInitFunc(mmOpMode)){
             telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
         }
         this.touchSensorScoring = hardwareMap.get(DigitalChannel.class, "tsS");
@@ -148,16 +149,16 @@ public class MMSystems {
     }
 
 
-    public boolean limelightInitFunc() {
+    public boolean limelightInitFunc(MMOpMode mmOpMode) {
         ElapsedTime elapsedTime = new ElapsedTime();
         ElapsedTime elapsedTimeAll = new ElapsedTime();
 
-        while (!MMRobot.getInstance().mmSystems.vision.switchToDetector()) {
+        while (!MMRobot.getInstance().mmSystems.vision.switchToDetector() && !mmOpMode.isStopRequested()) {
             if (elapsedTimeAll.seconds() > 5) {
                 return false;
             }
         }
-        while (MMRobot.getInstance().mmSystems.vision.getPipelineIndex() != Vision.currentPipeline) {
+        while (MMRobot.getInstance().mmSystems.vision.getPipelineIndex() != Vision.currentPipeline && !mmOpMode.isStopRequested()) {
             if (elapsedTimeAll.seconds() > 5) {
                 return false;
             }
@@ -173,7 +174,7 @@ public class MMSystems {
         elapsedTime.reset();
 
 
-        while (!vision.switchToPython()) {
+        while (!vision.switchToPython() && !mmOpMode.isStopRequested()) {
             if (elapsedTimeAll.seconds() > 5) {
                 return false;
             }
@@ -182,7 +183,7 @@ public class MMSystems {
         elapsedTime.reset();
 
 
-        while (vision.camera.getStatus().getPipelineIndex() != Vision.currentPipeline) {
+        while (vision.camera.getStatus().getPipelineIndex() != Vision.currentPipeline && !mmOpMode.isStopRequested()) {
             if (elapsedTimeAll.seconds() > 5) {
                 return false;
             }
@@ -200,17 +201,17 @@ public class MMSystems {
         FtcDashboard.getInstance().getTelemetry().addData("finished angle", elapsedTime.milliseconds());
         FtcDashboard.getInstance().getTelemetry().update();
 
-        while (!vision.switchToDetector()) {
+        while (!vision.switchToDetector() && !mmOpMode.isStopRequested()) {
             if (elapsedTimeAll.seconds() > 5) {
                 return false;
             }
         }
-        while (!vision.switchToPython()) {
+        while (!vision.switchToPython() && !mmOpMode.isStopRequested()) {
             if (elapsedTimeAll.seconds() > 5) {
                 return false;
             }
         }
-        while (!vision.switchToDetector()) {
+        while (!vision.switchToDetector() && !mmOpMode.isStopRequested()) {
             if (elapsedTimeAll.seconds() > 5) {
                 return false;
             }

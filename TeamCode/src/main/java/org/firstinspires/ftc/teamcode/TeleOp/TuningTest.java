@@ -55,7 +55,7 @@ public class TuningTest extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         mmSystems = robotInstance.mmSystems;
 
-        robotInstance.mmSystems.initRobotSystemsTeleOp();
+        robotInstance.mmSystems.initRobotSystemsTeleOp(this);
         robotInstance.mmSystems.initDriveTrain();
 
 
