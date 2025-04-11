@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TrajectoryBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutoSample7;
@@ -30,10 +31,11 @@ public class sampleGoToScore extends CommandBase {
         Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
 
         TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
-                .setTangent(Math.toRadians(200))
-                .splineToSplineHeading(AutoSample7.scorePose, Math.toRadians(240)
-                        , new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 1.1),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
+                .setTangent(Math.toRadians(180))
+                .splineTo(new Vector2d(-38,-20), Math.toRadians(240))
+                .splineTo(AutoSample7.scorePose.component1(), Math.toRadians(230),
+                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.3),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel*1.2));
 
 
         strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
