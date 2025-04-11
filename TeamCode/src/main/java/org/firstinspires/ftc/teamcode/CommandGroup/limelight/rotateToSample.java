@@ -27,7 +27,7 @@ public class rotateToSample extends InstantCommand {
     @Override
     public void initialize() {
         angle = MMRobot.getInstance().mmSystems.vision.getTurnServoDegree();
-        if ((angle <= 10 || angle >= 170) && Vision.length < Vision.height
+        if (((angle <= 10 || angle >= 170) && Vision.length < Vision.height)
                 || (angle >= 83 && angle <= 97 && Vision.length > Vision.height)) {
             angle = 180 - angle;
         }

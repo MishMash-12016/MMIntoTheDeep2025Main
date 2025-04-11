@@ -225,7 +225,7 @@ public class AutoSample7 extends MMOpMode {
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector())
                 ),
 
-                IntakeSampleCommand.limeLightIntake_Auto_Sample().withTimeout(3500),
+                IntakeSampleCommand.limeLightIntake_Auto().withTimeout(3500),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
@@ -237,7 +237,7 @@ public class AutoSample7 extends MMOpMode {
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector())
                 ),
 
-                IntakeSampleCommand.limeLightIntake_Auto_Sample().withTimeout(3500),
+                IntakeSampleCommand.limeLightIntake_Auto().withTimeout(3500),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
@@ -248,7 +248,7 @@ public class AutoSample7 extends MMOpMode {
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector())
                 ),
 
-                IntakeSampleCommand.limeLightIntake_Auto_Sample().withTimeout(3500),
+                IntakeSampleCommand.limeLightIntake_Auto().withTimeout(3500),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()

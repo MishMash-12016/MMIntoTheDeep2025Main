@@ -113,30 +113,20 @@ public class IntakeSampleCommand {
                 //Lamlam side:
                     new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
                     MMRobot.getInstance().mmSystems.vision.angleChange(),
-                    limelightGetter.getRotateToSample(),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 limelightGetter.strafeToSample(),
 
-                    new ParallelCommandGroup(
-                            MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
-                            MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE)),
-
-                    new WaitCommand(400),
-                    FirstSampleIntake()
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
+                new WaitCommand(400),
+                FirstSampleIntake()
         ).interruptOn(
                 () -> MMRobot.getInstance().mmSystems.driveTrain.joystickMoved()).andThen(MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE));
     }
 
     public static Command limeLightIntake_Auto() {
         return new FixedSequentialCommandGroup(
-//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered", "enderd")),
-//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered2", "not enderd")),
-//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered3", "not enderd")),
-//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered4", "not enderd")),
-//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered5", "not enderd")),
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
-//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered2", "enderd")),
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
-//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered3", "enderd")),
 
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
@@ -145,66 +135,18 @@ public class IntakeSampleCommand {
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE)
                 ),
 
-//                new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered4", "enderd")),
                 //Lamlam side:
-                new FixedSequentialCommandGroup(
-                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
-                        MMRobot.getInstance().mmSystems.vision.angleChange(),
-//                        new InstantCommand(()-> FtcDashboard.getInstance().getTelemetry().addData("endered5", "enderd")),
-//                        new WaitCommand(1000000),
-                        new ParallelCommandGroup(
-                                limelightGetter.strafeToSample(),
-                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
-                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE))
-
-//                        limelightGetter.getOpenLinearToSample()
-                ),
-//                new WaitCommand(200),
-//                FirstSampleIntake(),
-
-                new SequentialCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
-                        new WaitCommand(300),
-                        MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
-                        new WaitCommand(200),
-                        new ParallelCommandGroup(
-                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
-                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
-                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
-                        )
-                ),
-
-                new WaitCommand(300),
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
-        );
-    }
-
-    public static Command limeLightIntake_Auto_Sample() {
-        return new FixedSequentialCommandGroup(
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
+                MMRobot.getInstance().mmSystems.vision.angleChange(),
+                limelightGetter.getRotateToSample(),
+                limelightGetter.strafeToSample(),
 
                 new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE)
-                ),
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE)),
 
-                new FixedSequentialCommandGroup(
-                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
-                        MMRobot.getInstance().mmSystems.vision.angleChange(),
-                        new ParallelCommandGroup(
-                                limelightGetter.strafeToSample(),
-                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
-                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE))
-                ),
-
-                new SequentialCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
-                        new WaitCommand(300),
-                        MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
-                )
+                new WaitCommand(400),
+                FirstSampleIntake()
         );
     }
 
