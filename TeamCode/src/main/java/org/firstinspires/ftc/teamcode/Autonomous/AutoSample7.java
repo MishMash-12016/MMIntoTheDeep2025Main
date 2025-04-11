@@ -97,8 +97,8 @@ public class AutoSample7 extends MMOpMode {
                         null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.7, MecanumDrive.PARAMS.maxProfileAccel));
 
         TrajectoryActionBuilder driveToIntakeForth = driveToScoreThird.endTrajectory().fresh()
-                .setTangent(Math.toRadians(60))
-                .splineTo(intakePose.component1(), Math.toRadians(10),
+                .setTangent(Math.toRadians(70))
+                .splineToSplineHeading(intakePose, Math.toRadians(25),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.1),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.3, MecanumDrive.PARAMS.maxProfileAccel*1.2));
 
@@ -115,9 +115,9 @@ public class AutoSample7 extends MMOpMode {
 
         TrajectoryActionBuilder driveToIntakeFifth = driveToScoreForth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(70))
-                .splineTo(intakePose.component1(), Math.toRadians(10),
+                .splineToSplineHeading(intakePose, Math.toRadians(25),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.1),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.1, MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.3, MecanumDrive.PARAMS.maxProfileAccel*1.2));
 
         TrajectoryActionBuilder driveToScoreFifth = driveToIntakeFifth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
@@ -128,9 +128,9 @@ public class AutoSample7 extends MMOpMode {
 
         TrajectoryActionBuilder driveToIntakeSixth = driveToScoreFifth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(70))
-                .splineTo(intakePose.component1(), Math.toRadians(10),
+                .splineToSplineHeading(intakePose, Math.toRadians(25),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.1),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.1, MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.3, MecanumDrive.PARAMS.maxProfileAccel*1.2));
 
         TrajectoryActionBuilder driveToScoreSixth = driveToIntakeSixth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
@@ -141,9 +141,9 @@ public class AutoSample7 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPark = driveToScoreSixth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(70))
-                .splineTo(intakePose.component1(), 0,
-                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.3),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.1, MecanumDrive.PARAMS.maxProfileAccel*1.3));
+                .splineToSplineHeading(intakePose, Math.toRadians(25),
+                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.1),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.3, MecanumDrive.PARAMS.maxProfileAccel*1.2));
 
         new SequentialCommandGroup(
                 new InstantCommand(),
@@ -343,9 +343,7 @@ public class AutoSample7 extends MMOpMode {
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                new WaitCommand(100),
-
-                new WaitCommand(100),
+//                new WaitCommand(100),
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET).withTimeout(2500),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_ARM_SCORE_SAMPLE),
@@ -373,9 +371,7 @@ public class AutoSample7 extends MMOpMode {
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                new WaitCommand(100),
-
-                new WaitCommand(100),
+//                new WaitCommand(100),
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.HIGH_BASKET).withTimeout(2500),
                         new SequentialCommandGroup(
