@@ -179,6 +179,35 @@ public class IntakeSampleCommand {
         );
     }
 
+    public static Command limeLightIntake_Auto_Sample() {
+        return new FixedSequentialCommandGroup(
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
+
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE)
+                ),
+
+                new FixedSequentialCommandGroup(
+                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
+                        MMRobot.getInstance().mmSystems.vision.angleChange(),
+                        new ParallelCommandGroup(
+                                limelightGetter.strafeToSample(),
+                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
+                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE))
+                ),
+
+                new SequentialCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
+                        new WaitCommand(300),
+                        MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw()
+                )
+        );
+    }
+
     public static Command limeLightIntake_Auto_for_specimen() {
         return new FixedSequentialCommandGroup(
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),

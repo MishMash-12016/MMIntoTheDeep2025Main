@@ -50,7 +50,7 @@ public class Elevator extends MMPIDSubsystem {
     public static double kD = 0.0;
     public static double kG = 0.1005;
 
-    public static double TOLERANCE = .6;
+    public static double TOLERANCE = 2;
 
     public double ticksOffset = 0;
 
