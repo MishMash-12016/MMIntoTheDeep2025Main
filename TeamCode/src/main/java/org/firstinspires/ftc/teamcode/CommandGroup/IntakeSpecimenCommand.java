@@ -39,22 +39,20 @@ public class IntakeSpecimenCommand {
         );
     }
 
+
     public static Command SpecimenIntakeAuto() {
         return new SequentialCommandGroup(
                 //intake
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
-                new WaitCommand(150),
+                new WaitCommand(0),
 
                 //score
                 new ParallelCommandGroup(
-                        new ParallelCommandGroup(
-                                new ScoringArm_SpeedControll(500,ScoringArmState.SCORING_ARM_SCORE_POSE.position.get()),
-                                new SequentialCommandGroup(
-                                        new WaitCommand(50),
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(0.35),
-                                        new WaitCommand(50),
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
-                                )
+                        new ScoringArm_SpeedControll(500,ScoringArmState.SCORING_ARM_SCORE_POSE.position.get()),
+                        new SequentialCommandGroup(
+                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(0.35),
+                                new WaitCommand(50),
+                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SPECIMEN_POSE)
                         )
                 )
         );

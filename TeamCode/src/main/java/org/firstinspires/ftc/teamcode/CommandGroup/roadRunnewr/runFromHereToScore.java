@@ -35,7 +35,7 @@ public class runFromHereToScore extends CommandBase {
                 .setTangent(Math.toRadians(140))
                 .splineToLinearHeading(pose, Math.toRadians(110),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.2),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel*1.4));
 
         strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
     }

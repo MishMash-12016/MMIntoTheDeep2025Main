@@ -103,7 +103,7 @@ public class Elevator extends MMPIDSubsystem {
         motorEncoder = new CuttleEncoder(MMRobot.getInstance().mmSystems.expansionHub, Configuration.ELEVATOR_ENCODER, TICKS_PER_REV);
         resetTicks();
 
-        setDefaultCommand(new MMPIDCommandForever(this));
+//        setDefaultCommand(new MMPIDCommandForever(this));
     }
 
     public Command moveToPose(double setPoint) {

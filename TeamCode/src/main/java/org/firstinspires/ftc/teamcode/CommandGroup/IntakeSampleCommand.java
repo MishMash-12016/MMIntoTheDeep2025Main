@@ -185,31 +185,22 @@ public class IntakeSampleCommand {
                 new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
 
 
-
-                //Lamlam side:
                 new FixedSequentialCommandGroup(
-                        new ParallelCommandGroup(
-                                MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),
-                                new FixedSequentialCommandGroup(
-                                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
-                                        MMRobot.getInstance().mmSystems.vision.angleChange()
-                                )
-                        ),
+                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
+                        MMRobot.getInstance().mmSystems.vision.angleChange(),
                         new ParallelCommandGroup(
                                 limelightGetter.strafeToSample(),
                                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
-                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE)
-                        )
+                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE))
                 ),
 
                 new SequentialCommandGroup(
                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
-                        new WaitCommand(200),
+                        new WaitCommand(300),
                         MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                         new WaitCommand(200),
                         new ParallelCommandGroup(
+                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.4),
                                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
                         )

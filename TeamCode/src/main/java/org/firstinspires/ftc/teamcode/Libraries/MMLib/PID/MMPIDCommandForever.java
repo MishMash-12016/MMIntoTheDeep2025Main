@@ -34,13 +34,11 @@ public class MMPIDCommandForever extends CommandBase {
     @Override
     public void execute() {
 
-//        if (pidController.atSetpoint()){
-//            subsystem.setPower(0.0);
-//        }else {
-//            subsystem.setPower(pidController.calculate(subsystem.getCurrentValue()) + subsystem.getFeedForwardPower());
-//        }
-
-        subsystem.setPower(pidController.calculate(subsystem.getCurrentValue()) + subsystem.getFeedForwardPower());
+        if (pidController.atSetpoint()){
+            subsystem.setPower(0.0);
+        }else {
+            subsystem.setPower(pidController.calculate(subsystem.getCurrentValue()) + subsystem.getFeedForwardPower());
+        }
     }
 
     @Override
