@@ -67,7 +67,7 @@ public class ScoringSampleCommand {
                 new WaitCommand(100),
                 new ParallelDeadlineGroup(
                         new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() > 43),
-                        MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET).alongWith(
+                        MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET.position.get()+3).alongWith(
                                 new WaitCommand(200).andThen(
                                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
                                 )
@@ -99,7 +99,7 @@ public class ScoringSampleCommand {
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
                 new ParallelCommandGroup(
                         new ScoringArm_SpeedControll(500, ScoringArmState.SCORING_ARM_SCORE_POSE.position.get()),
-                        MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET),
+                        MMRobot.getInstance().mmSystems.elevator.moveToPose(ElevatorState.HIGH_BASKET.position.get()+3),
                         new WaitCommand(100).andThen(
                                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
                                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE)

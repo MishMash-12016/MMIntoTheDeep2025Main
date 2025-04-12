@@ -235,10 +235,10 @@ public class Vision extends SubsystemBase {
 
     //Switch to neural-detector based detection pipepline (AI omg ooga booga big words I love man)
     public boolean switchToDetector() {
-        telemetry.addData("time sinceupdate", camera.getTimeSinceLastUpdate());
+//        telemetry.addData("time sinceupdate", camera.getTimeSinceLastUpdate());
         currentPipeline = color;
         if (auto){
-            currentPipeline += 5;
+            currentPipeline += 6;
         }
         if (!camera.pipelineSwitch(currentPipeline)) {
             telemetry.addData("failed to switch to detector", 0);

@@ -236,6 +236,8 @@ public class ManualDrive_RED extends MMOpMode {
         super.run();
         FtcDashboard.getInstance().getTelemetry().addData("r", Red_Right_6.getAng());
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
+        MMRobot.getInstance().mmSystems.telemetry.addData("heading comp1", MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.component1());
+        MMRobot.getInstance().mmSystems.telemetry.addData("heading comp2", MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.component2());
         FtcDashboard.getInstance().getTelemetry().update();
         telemetry.update();
     }

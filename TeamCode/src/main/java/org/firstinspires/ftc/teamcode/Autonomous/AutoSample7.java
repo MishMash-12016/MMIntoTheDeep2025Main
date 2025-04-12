@@ -57,14 +57,19 @@ public class AutoSample7 extends MMOpMode {
 
     @Override
     public void onInit() {
+        MMRobot.getInstance().mmSystems.initLocalize();
+
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems(this);
 
         MMRobot.getInstance().mmSystems.vision.trackYellow();
+        MMRobot.getInstance().mmSystems.vision.setAutonumus();
+
 
         Pose2d currentPose = new Pose2d(-38.23, -65, Math.toRadians(180));
         robotInstance.mmSystems.initDriveTrain(currentPose);
         PinpointDrive drive = MMRobot.getInstance().mmSystems.driveTrain;
+
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);

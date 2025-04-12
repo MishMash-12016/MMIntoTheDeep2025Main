@@ -62,10 +62,13 @@ public class Red_Right_6 extends MMOpMode {
     @Override
     public void onInit() {
 
+
+        MMRobot.getInstance().mmSystems.initLocalize();
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems(this);
         MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.switchToDetector();
+        MMRobot.getInstance().mmSystems.vision.setAutonumus();
 
         Pose2d currentPose = new Pose2d(5.5, -61.23, Math.toRadians(270));
         robotInstance.mmSystems.initDriveTrain(currentPose);

@@ -59,7 +59,7 @@ public class MMSystems {
 
     public static GoBildaPinpointDriverRR localizer;
     static boolean hasImuBeenReset = false;
-    public Pose2d currentPose;
+    public Pose2d currentPose = new Pose2d(0,0,0);
 
     //Subsystems
     public PinpointDrive driveTrain;
@@ -233,18 +233,28 @@ public class MMSystems {
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
         this.intakeDistSensor = new MMDistSensor(hardwareMap);
-        if (!hasImuBeenReset) {
-            hasImuBeenReset = true;
-            localizer = hardwareMap.get(GoBildaPinpointDriverRR.class, "imu");
-            localizer.resetPosAndIMU();
-            localizer.setOffsets(-99, 9);
-            localizer.setEncoderResolution(GoBildaPinpointDriverRR.goBILDA_4_BAR_POD);
-            localizer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
-            localizer.setPosition(new Pose2d(0, 0, Math.toRadians(90)));
-        }
-        currentPose = new Pose2d(0, 0, Math.toRadians(0));
+        localizer = hardwareMap.get(GoBildaPinpointDriverRR.class, "imu");
+//        if (!hasImuBeenReset) {
+//            hasImuBeenReset = true;
+//            localizer = hardwareMap.get(GoBildaPinpointDriverRR.class, "imu");
+//            localizer.resetPosAndIMU();
+//            localizer.setOffsets(-99, 9);
+//            localizer.setEncoderResolution(GoBildaPinpointDriverRR.goBILDA_4_BAR_POD);
+//            localizer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+//            localizer.setPosition(new Pose2d(0, 0, Math.toRadians(90)));
+//        }
+//        currentPose = new Pose2d(0, 0, Math.toRadians(0));
 
 
         CommandScheduler.getInstance().reset(); //reset the scheduler
+    }
+
+
+    public void initLocalize() {
+        localizer.resetPosAndIMU();
+        localizer.setOffsets(-99, 9);
+        localizer.setEncoderResolution(GoBildaPinpointDriverRR.goBILDA_4_BAR_POD);
+        localizer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+        localizer.setPosition(new Pose2d(0, 0, Math.toRadians(90)));
     }
 }

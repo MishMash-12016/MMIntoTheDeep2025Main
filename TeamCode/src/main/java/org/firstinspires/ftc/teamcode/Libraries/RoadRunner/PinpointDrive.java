@@ -63,8 +63,8 @@ public class PinpointDrive extends MecanumDrive {
 
         try {
             Thread.sleep(300);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (InterruptedException ignored) {
+
         }
 
         pose = new Pose2d(pose.position.x, pose.position.y, pose.heading.toDouble());
