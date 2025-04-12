@@ -32,11 +32,11 @@ public class sampleGoToScore extends CommandBase {
         Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
 
         TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
-                .setTangent(Math.toRadians(180))
-                .splineTo(new Vector2d(-38,-20), Math.toRadians(240))
-                .splineTo(AutoSample7.scorePose.component1(), Math.toRadians(230),
-                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.3),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.2, MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                .setTangent(Math.toRadians(220))
+                .splineToSplineHeading(new Pose2d(-40,-18,Math.toRadians(240)), Math.toRadians(250))
+                .splineToSplineHeading(AutoSample7.scorePose, Math.toRadians(250),
+                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1, MecanumDrive.PARAMS.maxProfileAccel*1.2));
 
 
         strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
