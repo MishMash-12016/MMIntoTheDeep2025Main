@@ -146,9 +146,9 @@ public class AutoSample7 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPark = driveToScoreSixth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(70))
-                .splineToSplineHeading(intakePose, Math.toRadians(25),
-                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.1),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*1.3, MecanumDrive.PARAMS.maxProfileAccel*1.2));
+                .splineToSplineHeading(new Pose2d(-18, -9, Math.toRadians(180)), Math.toRadians(25),
+                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.7, MecanumDrive.PARAMS.maxProfileAccel*1.2));
 
         new SequentialCommandGroup(
                 new InstantCommand(),
@@ -255,22 +255,17 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.PrepareHighSample_Auto()
                 ),
 
-                new ParallelCommandGroup(
-                        new ActionCommand(driveToIntakeSixth.build()),
-                        ScoringSampleCommand.ScoreHighSample()
-                ),
                 new ActionCommand(driveToPark.build()).alongWith(
                         //basically scoring
                         new SequentialCommandGroup(
-                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                                new WaitCommand(200),
-                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SCORE_ARM_SCORE_SAMPLE),
+                                ScoringSampleCommand.ScoreHighSample(),
                                 new WaitCommand(200),
                                 new ParallelCommandGroup(
                                         MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
                                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK),
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PARK)
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PARK),
+                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw()
                                 )
                         )
                 )
