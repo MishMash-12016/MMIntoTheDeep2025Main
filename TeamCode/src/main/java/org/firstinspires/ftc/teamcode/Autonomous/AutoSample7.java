@@ -59,7 +59,6 @@ public class AutoSample7 extends MMOpMode {
         robotInstance.mmSystems.initRobotSystems(this);
 
         MMRobot.getInstance().mmSystems.vision.trackYellow();
-        MMRobot.getInstance().mmSystems.vision.switchToDetector();
 
         Pose2d currentPose = new Pose2d(-38.23, -65, Math.toRadians(180));
         robotInstance.mmSystems.initDriveTrain(currentPose);
@@ -162,7 +161,7 @@ public class AutoSample7 extends MMOpMode {
 
                 new ActionCommand(driveToIntakeFirst.build()).alongWith(
                         new SequentialCommandGroup(
-                                new WaitCommand(200),
+                                new WaitCommand(400),
                                 new ParallelCommandGroup(
                                         MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
                                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SAMPLE_POSE),
@@ -221,11 +220,10 @@ public class AutoSample7 extends MMOpMode {
 
                 new ParallelCommandGroup(
                         new ActionCommand(driveToIntakeForth.build()),
-                        ScoringSampleCommand.ScoreHighSample(),
-                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector())
+                        ScoringSampleCommand.ScoreHighSample()
                 ),
-
-                IntakeSampleCommand.limeLightIntake_Auto().withTimeout(3500),
+                new WaitCommand(500),
+                IntakeSampleCommand.limeLightIntake_TeleOp(),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
@@ -233,22 +231,20 @@ public class AutoSample7 extends MMOpMode {
 
                 new ParallelCommandGroup(
                         new ActionCommand(driveToIntakeFifth.build()),
-                        ScoringSampleCommand.ScoreHighSample(),
-                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector())
+                        ScoringSampleCommand.ScoreHighSample()
                 ),
-
-                IntakeSampleCommand.limeLightIntake_Auto().withTimeout(3500),
+                new WaitCommand(500),
+                IntakeSampleCommand.limeLightIntake_TeleOp(),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
                 ),
                 new ParallelCommandGroup(
                         new ActionCommand(driveToIntakeSixth.build()),
-                        ScoringSampleCommand.ScoreHighSample(),
-                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector())
+                        ScoringSampleCommand.ScoreHighSample()
                 ),
-
-                IntakeSampleCommand.limeLightIntake_Auto().withTimeout(3500),
+                new WaitCommand(500),
+                IntakeSampleCommand.limeLightIntake_TeleOp(),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()

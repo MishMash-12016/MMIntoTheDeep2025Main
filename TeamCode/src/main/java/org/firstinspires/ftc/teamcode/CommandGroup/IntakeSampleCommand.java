@@ -111,8 +111,8 @@ public class IntakeSampleCommand {
                 ),
 
                 //Lamlam side:
-                    new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
-                    MMRobot.getInstance().mmSystems.vision.angleChange(),
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
+                MMRobot.getInstance().mmSystems.vision.angleChange(),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 limelightGetter.strafeToSample(),
 
@@ -138,13 +138,10 @@ public class IntakeSampleCommand {
                 //Lamlam side:
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
                 MMRobot.getInstance().mmSystems.vision.angleChange(),
-                limelightGetter.getRotateToSample(),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 limelightGetter.strafeToSample(),
 
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE)),
-
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
                 new WaitCommand(400),
                 FirstSampleIntake()
         );
