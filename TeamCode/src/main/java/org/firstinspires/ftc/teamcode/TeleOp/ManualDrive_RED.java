@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Red_Right_6;
+import org.firstinspires.ftc.teamcode.CommandGroup.ClimbingCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSpecimenCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.RotateIntakeServoByRobotAngle;
@@ -49,6 +51,8 @@ public class ManualDrive_RED extends MMOpMode {
         robotInstance.mmSystems.initDriveTrain();
         robotInstance.mmSystems.teleop();
         robotInstance.mmSystems.vision.trackYellow();
+        robotInstance.mmSystems.driveTrain.pose = MMSystems.AutoPose;
+        robotInstance.mmSystems.currentPose = MMSystems.AutoPose;
 
         //drive
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05).whileActiveContinuous(
@@ -117,6 +121,14 @@ public class ManualDrive_RED extends MMOpMode {
                 ScoringSampleCommand.ScoreHighSample()
         );
 
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whileHeld(
+                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRed())
+        );
+
+        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whileHeld(
+                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackYellow())
+        );
+
 
 //        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
 //                .whileActiveContinuous(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0)); //left trigger
@@ -151,7 +163,7 @@ public class ManualDrive_RED extends MMOpMode {
         );
 
 
-        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whileHeld(
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whileHeld(
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             elbowOffset -= 0.035;
@@ -167,7 +179,7 @@ public class ManualDrive_RED extends MMOpMode {
         );
 
 
-        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whileHeld(
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whileHeld(
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             elbowOffset += 0.035;
@@ -181,6 +193,42 @@ public class ManualDrive_RED extends MMOpMode {
                         })
                 )
         );
+
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+                ClimbingCommand.PrepareClimbToThird()
+        );
+
+        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                ClimbingCommand.ClimbToThird()
+        );
+
+
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
+                .whileActiveContinuous(
+                        new RunCommand(
+                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)),
+                                MMRobot.getInstance().mmSystems.elevator
+                        )
+                ).whenInactive(
+                        new RunCommand(
+                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0),
+                                MMRobot.getInstance().mmSystems.elevator
+                        )
+                );
+
+        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05)
+                .whileActiveContinuous(
+                        new RunCommand(
+                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(-mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)),
+                                MMRobot.getInstance().mmSystems.elevator
+                        )
+                ).whenInactive(
+                        new RunCommand(
+                                () -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0),
+                                MMRobot.getInstance().mmSystems.elevator
+                        )
+                );
+
     }
 
     @Override

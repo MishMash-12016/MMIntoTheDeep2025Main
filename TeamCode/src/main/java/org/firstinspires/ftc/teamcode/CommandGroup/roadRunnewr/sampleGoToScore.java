@@ -28,6 +28,7 @@ public class sampleGoToScore extends CommandBase {
 
     @Override
     public void initialize() {
+        MMRobot.getInstance().mmSystems.driveTrain.pinpoint.update();
         Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
 
         TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)

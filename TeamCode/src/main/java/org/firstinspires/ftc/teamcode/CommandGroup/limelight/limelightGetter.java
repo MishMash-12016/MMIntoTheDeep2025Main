@@ -18,7 +18,7 @@ import java.util.function.BooleanSupplier;
 
 public class limelightGetter {
 
-
+    public static TrajectoryActionBuilder currentTraj;
     public static Command getRotateToSample() {
         return new rotateToSample();
     }
@@ -28,6 +28,10 @@ public class limelightGetter {
 
     public static Command strafeToSample() {
         return new strafeToSample();
+    }
+
+    public static Command strafeToSampleAuto() {
+        return new strafeToSampleAuto();
     }
 
     public static Command interruptibleTrajectory(BooleanSupplier flag , Vector2d pose2d, double tangent, VelConstraint velConstraint, AccelConstraint accelConstraint , Double setTangent) {

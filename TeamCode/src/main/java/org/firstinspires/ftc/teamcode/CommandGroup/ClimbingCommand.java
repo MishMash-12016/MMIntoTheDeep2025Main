@@ -15,14 +15,13 @@ import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 public class ClimbingCommand {
     public static Command PrepareClimbToThird() {
         return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_HIGH_CHAMBER),
-                MMRobot.getInstance().mmSystems.hook.OpenHook()
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_HIGH_CHAMBER)
         );
     }
 
     public static Command ClimbToThird() {
         return new SequentialCommandGroup(
-                new RunCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-0.8), MMRobot.getInstance().mmSystems.elevator)
+                new RunCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0), MMRobot.getInstance().mmSystems.elevator)
                         .interruptOn(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() < Elevator.ElevatorState.ELEVATOR_CLIMB.position.get()),
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0), MMRobot.getInstance().mmSystems.elevator)
         );

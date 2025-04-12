@@ -21,6 +21,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringArm_SpeedControll;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
+import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.CommandGroup.roadRunnewr.sampleGoToScore;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
@@ -35,6 +36,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.FixedSequentialCommandGroup;
+import org.firstinspires.ftc.teamcode.utils.LazyActionCommand;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 import org.firstinspires.ftc.teamcode.utils.ParallelCommandGroupNoCheck;
 
@@ -223,7 +225,11 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.ScoreHighSample()
                 ),
                 new WaitCommand(500),
-                IntakeSampleCommand.limeLightIntake_TeleOp(),
+                IntakeSampleCommand.limeLightIntake_Auto(),
+                new LazyActionCommand(()->limelightGetter.currentTraj.build()),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
+                new WaitCommand(400),
+                IntakeSampleCommand.FirstSampleIntake(),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
@@ -234,17 +240,27 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.ScoreHighSample()
                 ),
                 new WaitCommand(500),
-                IntakeSampleCommand.limeLightIntake_TeleOp(),
+                IntakeSampleCommand.limeLightIntake_Auto(),
+                new LazyActionCommand(()->limelightGetter.currentTraj.build()),
+
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
+                new WaitCommand(400),
+                IntakeSampleCommand.FirstSampleIntake(),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
                 ),
+
                 new ParallelCommandGroup(
                         new ActionCommand(driveToIntakeSixth.build()),
                         ScoringSampleCommand.ScoreHighSample()
                 ),
                 new WaitCommand(500),
-                IntakeSampleCommand.limeLightIntake_TeleOp(),
+                IntakeSampleCommand.limeLightIntake_Auto(),
+                new LazyActionCommand(()->limelightGetter.currentTraj.build()),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
+                new WaitCommand(400),
+                IntakeSampleCommand.FirstSampleIntake(),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
@@ -270,6 +286,8 @@ public class AutoSample7 extends MMOpMode {
     @Override
     public void run() {
         super.run();
+        MMSystems.AutoPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
+
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
         telemetry.addData("flag", flag);
         telemetry.addData("ele", MMRobot.getInstance().mmSystems.elevator.getElevatorSwitchState());
@@ -354,7 +372,6 @@ public class AutoSample7 extends MMOpMode {
                 )
         );
     }
-
 
 
     public static Command prepareHighWithOutIntakeSecond() {

@@ -31,6 +31,7 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
+import org.firstinspires.ftc.teamcode.MMSystems;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
@@ -481,6 +482,8 @@ public class Red_Right_6 extends MMOpMode {
     @Override
     public void run() {
         super.run();
+        MMSystems.AutoPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
+
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
         FtcDashboard.getInstance().getTelemetry().addData("touch sensor back", touchSensors.getStateScoring());
         FtcDashboard.getInstance().getTelemetry().addData("touch sensor front", touchSensors.getStateIntake());

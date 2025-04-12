@@ -31,7 +31,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.SubSystems.Vision;
-import org.firstinspires.ftc.teamcode.SubSystems.Hook;
 import org.firstinspires.ftc.teamcode.utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
@@ -72,13 +71,13 @@ public class MMSystems {
     public ScoringArm scoringArm;
     public ScoringClawEndUnit scoringClawEndUnit;
     public Elevator elevator;
-    public Hook hook;
 
     public Vision vision;
     public DigitalChannel touchSensorScoring;
     public DigitalChannel touchSensorIntake;
     public DigitalChannel touchSensorIntakeHigh;
     public Climber climber;
+    public static Pose2d AutoPose;
 
 
     public double servoDegrees = 0;
@@ -95,7 +94,6 @@ public class MMSystems {
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
-        this.hook = new Hook();
         vision = new Vision(hardwareMap, telemetry);
         if (!limelightInitFunc(mmOpMode)){
             telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
@@ -116,7 +114,6 @@ public class MMSystems {
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
         this.scoringEndUnitElbow = new ScoringEndUnitElbow();
-        this.hook = new Hook();
         vision = new Vision(hardwareMap, telemetry);
         if (!limelightInitFunc(mmOpMode)){
             telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");

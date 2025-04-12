@@ -139,12 +139,7 @@ public class IntakeSampleCommand {
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
                 MMRobot.getInstance().mmSystems.vision.angleChange(),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                limelightGetter.strafeToSample(),
-
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
-                new WaitCommand(400),
-                FirstSampleIntake()
-        );
+                limelightGetter.strafeToSampleAuto());
     }
 
     public static Command limeLightIntake_Auto_for_specimen() {
@@ -221,7 +216,7 @@ public class IntakeSampleCommand {
 
 
 
-    private static Command FirstSampleIntake() {
+    public static Command FirstSampleIntake() {
         return new SequentialCommandGroup(
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
                 new WaitCommand(300),
