@@ -232,7 +232,7 @@ public class MMSystems {
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
         this.intakeDistSensor = new MMDistSensor(hardwareMap);
-        if (localizer == null) {
+        if (localizer == null || opModeType == OpModeType.Competition.AUTO) {
             localizer = hardwareMap.get(GoBildaPinpointDriverRR.class, "imu");
             initLocalize();
         }

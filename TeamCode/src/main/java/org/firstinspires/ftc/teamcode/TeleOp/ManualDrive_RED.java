@@ -162,19 +162,23 @@ public class ManualDrive_RED extends MMOpMode {
                 ()-> MMRobot.getInstance().mmSystems.vision.switchToPython()
         );
 
-
         mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whileHeld(
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             elbowOffset -= 0.035;
-                            ScoringEndUnitElbow.ElbowTransferSamplePose += elbowOffset;
+                            ScoringEndUnitElbow.prepareSampleScorePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowScoreSamplePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowInitPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowTransferSamplePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowPrepareSampleTransferPose += elbowOffset;
-                            ScoringEndUnitElbow.ElbowScoreSpecimenPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowAfterScoreSpecimenPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowIntakeFromFrontPose += elbowOffset;
-                            ScoringEndUnitElbow.prepareSampleScorePose += elbowOffset;
-                        })
+                            ScoringEndUnitElbow.scoringElbowScoreFromFrontPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowAfterScoreFromFront += elbowOffset;
+                            ScoringEndUnitElbow.ElbowPark += elbowOffset;
+                            ScoringEndUnitElbow.est += elbowOffset;
+                        }),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.est)
                 )
         );
 
@@ -183,14 +187,19 @@ public class ManualDrive_RED extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             elbowOffset += 0.035;
-                            ScoringEndUnitElbow.ElbowTransferSamplePose += elbowOffset;
+                            ScoringEndUnitElbow.prepareSampleScorePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowScoreSamplePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowInitPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowTransferSamplePose += elbowOffset;
                             ScoringEndUnitElbow.ElbowPrepareSampleTransferPose += elbowOffset;
-                            ScoringEndUnitElbow.ElbowScoreSpecimenPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowAfterScoreSpecimenPose += elbowOffset;
                             ScoringEndUnitElbow.ElbowIntakeFromFrontPose += elbowOffset;
-                            ScoringEndUnitElbow.prepareSampleScorePose += elbowOffset;
-                        })
+                            ScoringEndUnitElbow.scoringElbowScoreFromFrontPose += elbowOffset;
+                            ScoringEndUnitElbow.ElbowAfterScoreFromFront += elbowOffset;
+                            ScoringEndUnitElbow.ElbowPark += elbowOffset;
+                            ScoringEndUnitElbow.est += elbowOffset;
+                        }),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.est)
                 )
         );
 

@@ -53,7 +53,7 @@ public class AutoSample7 extends MMOpMode {
     boolean flag = false;
 
     public AutoSample7() {
-        super(OpModeType.NonCompetition.EXPERIMENTING);
+        super(OpModeType.Competition.AUTO);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class AutoSample7 extends MMOpMode {
 
         TrajectoryActionBuilder driveToIntakeSecondSample = driveToScoreFirst.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-59.7, -48.5), Math.toRadians(268),
-                        null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.4, MecanumDrive.PARAMS.maxProfileAccel * 0.6));
+                        null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.45, MecanumDrive.PARAMS.maxProfileAccel * 0.6));
 
         TrajectoryActionBuilder driveToScoreSecondSample = driveToIntakeSecondSample.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-61.6, -51.2), Math.toRadians(250),
@@ -229,14 +229,11 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.ScoreHighSample()
                 ),
                 new WaitCommand(500),
-                new SequentialCommandGroup(
-                        IntakeSampleCommand.limeLightIntake_Auto(),
-                        new LazyActionCommand(()->limelightGetter.currentTraj.build()),
-                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
-                        new WaitCommand(400),
-                        IntakeSampleCommand.FirstSampleIntake()
-                ).withTimeout(4000),
-
+                IntakeSampleCommand.limeLightIntake_Auto(),
+                new LazyActionCommand(()->limelightGetter.currentTraj.build()),
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
+                new WaitCommand(400),
+                IntakeSampleCommand.FirstSampleIntake(),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
@@ -247,13 +244,12 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.ScoreHighSample()
                 ),
                 new WaitCommand(500),
-                new SequentialCommandGroup(
-                        IntakeSampleCommand.limeLightIntake_Auto(),
-                        new LazyActionCommand(()->limelightGetter.currentTraj.build()),
-                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
-                        new WaitCommand(400),
-                        IntakeSampleCommand.FirstSampleIntake()
-                ).withTimeout(4000),
+                IntakeSampleCommand.limeLightIntake_Auto(),
+                new LazyActionCommand(()->limelightGetter.currentTraj.build()),
+
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
+                new WaitCommand(400),
+                IntakeSampleCommand.FirstSampleIntake(),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()

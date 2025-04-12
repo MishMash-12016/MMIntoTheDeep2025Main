@@ -127,8 +127,8 @@ public class PinpointDrive extends MecanumDrive {
                     pinpoint.update();
                     Vector2d joystickDirection = new Vector2d(x.getAsDouble(), y.getAsDouble());
 //                    Vector2d fieldOrientedVector = joystickDirection.rotateBy(Math.toDegrees(-pinpoint.getHeading()-ManualDrive_RED.getAng())-90);
-                    double cosA = Math.cos(-pinpoint.getHeading()-ManualDrive_RED.getAng()/*-Math.toRadians(90)*/);
-                    double sinA = Math.sin(-pinpoint.getHeading()-ManualDrive_RED.getAng()/*-Math.toRadians(90)*/);
+                    double cosA = Math.cos(-pinpoint.getHeading()-ManualDrive_RED.getAng()-Math.toRadians(90));
+                    double sinA = Math.sin(-pinpoint.getHeading()-ManualDrive_RED.getAng()-Math.toRadians(90));
                     double xOut = x.getAsDouble() * cosA - y.getAsDouble() * sinA;
                     double yOut = x.getAsDouble() * sinA + y.getAsDouble() * cosA;
 //                    setPowerManually(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());

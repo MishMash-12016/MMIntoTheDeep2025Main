@@ -21,7 +21,7 @@ public class ScoringArm extends SubsystemBase {
     public static double scoringArmScoreFromFrontSpecimenPose = 0.42;
     public static double afterScoreFromFrontSpecimenPose = 0.3;
     public static double scoringArmScoreSample = 0.24;
-    public static double scoringArmPark = 0.42;
+    public static double scoringArmPark = 0.39;
     public static double estimatedPose = scoringArmInitPose;
 
     public enum ScoringArmState {

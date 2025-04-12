@@ -55,7 +55,7 @@ public class Red_Right_6 extends MMOpMode {
 
 
     public Red_Right_6() {
-        super(OpModeType.NonCompetition.EXPERIMENTING);
+        super(OpModeType.Competition.AUTO);
     }
 
 

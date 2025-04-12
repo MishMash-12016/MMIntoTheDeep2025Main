@@ -53,6 +53,7 @@ public class ScoringEndUnitElbow extends SubsystemBase {
     public ScoringEndUnitElbow() {
         servo = robotinstance.mmSystems.hardwareMap.get(Servo.class, "scoring elbow");
         servo.setPosition(ScoringElbowState.INIT_POSE.position.get());
+        est = ScoringElbowState.INIT_POSE.position.get();
     }
 
     public Command setPosition(double newPos) {
