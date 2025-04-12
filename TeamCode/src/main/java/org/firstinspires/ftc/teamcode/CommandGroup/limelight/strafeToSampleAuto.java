@@ -72,7 +72,7 @@ public class strafeToSampleAuto extends CommandBase {
                     .plus(distanceYVector);
 
             limelightGetter.currentTraj = MMRobot.getInstance().mmSystems.driveTrain.actionBuilder(currentPose)
-                    .strafeTo(new Vector2d(endPoint.getX(), endPoint.getY()),
+                    .strafeToConstantHeading(new Vector2d(endPoint.getX(), endPoint.getY()),
                             new TranslationalVelConstraint(65), new ProfileAccelConstraint(-65 * accelerationMultiplier, 45 * accelerationMultiplier));
         }
         finished = true;

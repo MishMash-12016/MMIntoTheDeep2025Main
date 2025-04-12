@@ -87,14 +87,14 @@ public class AutoSample7 extends MMOpMode {
 
         TrajectoryActionBuilder driveToIntakeSecondSample = driveToScoreFirst.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-59.7, -48.5), Math.toRadians(268),
-                        null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.45, MecanumDrive.PARAMS.maxProfileAccel * 0.6));
+                        null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.4, MecanumDrive.PARAMS.maxProfileAccel * 0.6));
 
         TrajectoryActionBuilder driveToScoreSecondSample = driveToIntakeSecondSample.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-61.6, -51.2), Math.toRadians(250),
                         null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.7, MecanumDrive.PARAMS.maxProfileAccel));
 
         TrajectoryActionBuilder driveToIntakeThird = driveToScoreSecondSample.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-57.7, -46.7), Math.toRadians(298),
+                .strafeToLinearHeading(new Vector2d(-57.7, -45.9), Math.toRadians(299),
                         null, new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.7, MecanumDrive.PARAMS.maxProfileAccel));
 
         TrajectoryActionBuilder driveToScoreThird = driveToIntakeThird.endTrajectory().fresh()
@@ -229,11 +229,14 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.ScoreHighSample()
                 ),
                 new WaitCommand(500),
-                IntakeSampleCommand.limeLightIntake_Auto(),
-                new LazyActionCommand(()->limelightGetter.currentTraj.build()),
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
-                new WaitCommand(400),
-                IntakeSampleCommand.FirstSampleIntake(),
+                new SequentialCommandGroup(
+                        IntakeSampleCommand.limeLightIntake_Auto(),
+                        new LazyActionCommand(()->limelightGetter.currentTraj.build()),
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
+                        new WaitCommand(400),
+                        IntakeSampleCommand.FirstSampleIntake()
+                ).withTimeout(4000),
+
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
@@ -244,12 +247,13 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.ScoreHighSample()
                 ),
                 new WaitCommand(500),
-                IntakeSampleCommand.limeLightIntake_Auto(),
-                new LazyActionCommand(()->limelightGetter.currentTraj.build()),
-
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
-                new WaitCommand(400),
-                IntakeSampleCommand.FirstSampleIntake(),
+                new SequentialCommandGroup(
+                        IntakeSampleCommand.limeLightIntake_Auto(),
+                        new LazyActionCommand(()->limelightGetter.currentTraj.build()),
+                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
+                        new WaitCommand(400),
+                        IntakeSampleCommand.FirstSampleIntake()
+                ).withTimeout(4000),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
@@ -382,6 +386,7 @@ public class AutoSample7 extends MMOpMode {
                                 MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_SCORE),
                                 new ParallelCommandGroup(
                                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0.51),
+                                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
                                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                                 ),

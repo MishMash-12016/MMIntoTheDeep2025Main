@@ -25,12 +25,11 @@ import org.opencv.core.Mat;
 public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
-    public static double maxDistanceY = 400;
-    public static double maxDistanceYShort = 424;
-    public static double plusDistanceX = -0.2;
+    public static double maxDistanceY = 416;
+    public static double plusDistanceX = -0.1;
     public static double accelerationMultiplierShort = 0.72;
-    public static double limit = 3;
-    public static double theOtherSide = -2;
+    public static double limit = 10;
+    public static double theOtherSide = -1.5;
     public static double theOtherSideAdder = 1.5;
     public static double accelerationMultiplierLong = 1;
     Boolean finished = true;
@@ -51,7 +50,7 @@ public class strafeToSample extends CommandBase {
         double accelerationMultiplier = accelerationMultiplierLong;
         if (Math.abs(distanceX) < limit) {
             accelerationMultiplier = accelerationMultiplierShort;
-            maxDistanceY = maxDistanceYShort;
+            maxDistanceY = 42;
         }
 
         FtcDashboard.getInstance().getTelemetry().addData("distanceX - ",distanceX);
@@ -74,7 +73,7 @@ public class strafeToSample extends CommandBase {
                     .plus(distanceYVector);
 
             TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
-                    .strafeTo(new Vector2d(endPoint.getX(), endPoint.getY()),
+                    .strafeToConstantHeading(new Vector2d(endPoint.getX(), endPoint.getY()),
                             new TranslationalVelConstraint(65), new ProfileAccelConstraint(-65 * accelerationMultiplier, 45 * accelerationMultiplier) );
 
             strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));

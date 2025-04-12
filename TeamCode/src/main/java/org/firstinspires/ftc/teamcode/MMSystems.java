@@ -127,13 +127,12 @@ public class MMSystems {
 
     public void initDriveTrain(Pose2d currentPose) {
         //roadRunner 90 is what we agree as 0 so reset it to 0
-        localizer.setPosition(new Pose2d(0, 0, localizer.getHeading() - Math.toRadians(90)));
+//        localizer.setPosition(new Pose2d(0, 0, localizer.getHeading() - Math.toRadians(90)));
         driveTrain = new PinpointDrive(hardwareMap, currentPose);
     }
 
     public void initDriveTrain() {
         //roadRunner 90 is what we agree as 0 so reset it to 0
-        localizer.setPosition(new Pose2d(0, 0, localizer.getPositionRR().heading.toDouble() - Math.toRadians(90)));
         driveTrain = new PinpointDrive(hardwareMap, new Pose2d(0,0,localizer.getPositionRR().heading.toDouble()));
     }
 
@@ -258,6 +257,6 @@ public class MMSystems {
         localizer.setOffsets(-99, 9);
         localizer.setEncoderResolution(GoBildaPinpointDriverRR.goBILDA_4_BAR_POD);
         localizer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
-        localizer.setPosition(new Pose2d(0, 0, Math.toRadians(90)));
+        localizer.setPosition(new Pose2d(0, 0, localizer.getPositionRR().heading.toDouble() - Math.toRadians(90)));
     }
 }

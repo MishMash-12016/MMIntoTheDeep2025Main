@@ -75,7 +75,7 @@ public class rotat extends MMOpMode {
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
 
         TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
-                .strafeToLinearHeading(new Vector2d(5, -61), Math.toRadians(180));
+                .strafeToLinearHeading(new Vector2d(5, -61), Math.toRadians(225));
         new SequentialCommandGroup(
                 new ActionCommand(driveToScorePreloadSample.build())
         ).schedule();

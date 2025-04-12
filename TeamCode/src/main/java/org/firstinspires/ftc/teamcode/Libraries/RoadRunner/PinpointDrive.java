@@ -24,6 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.messages.PoseMessage;
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.MMSystems;
+import org.firstinspires.ftc.teamcode.TeleOp.ManualDrive_RED;
 
 import java.util.function.DoubleSupplier;
 
@@ -125,9 +126,13 @@ public class PinpointDrive extends MecanumDrive {
                     localizer.update();
                     pinpoint.update();
                     Vector2d joystickDirection = new Vector2d(x.getAsDouble(), y.getAsDouble());
-                    Vector2d fieldOrientedVector = joystickDirection.rotateBy(Math.toDegrees(-pinpoint.getHeading()));
-                    setPowerManually(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());
-
+//                    Vector2d fieldOrientedVector = joystickDirection.rotateBy(Math.toDegrees(-pinpoint.getHeading()-ManualDrive_RED.getAng())-90);
+                    double cosA = Math.cos(-pinpoint.getHeading()-ManualDrive_RED.getAng()/*-Math.toRadians(90)*/);
+                    double sinA = Math.sin(-pinpoint.getHeading()-ManualDrive_RED.getAng()/*-Math.toRadians(90)*/);
+                    double xOut = x.getAsDouble() * cosA - y.getAsDouble() * sinA;
+                    double yOut = x.getAsDouble() * sinA + y.getAsDouble() * cosA;
+//                    setPowerManually(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());
+                    setPowerManually(xOut, yOut, yaw.getAsDouble());
                 }, this
         ).whenFinished(()->setPowerManually(0,0,0));
     }
