@@ -53,6 +53,7 @@ public class Vision extends SubsystemBase {
     public static double height = -1;
     public static double x = -1;
     public static double y = -1;
+    public boolean auto;
     public static List<Double> targetLeftUp;
 
     //telemtry idk man:
@@ -76,6 +77,12 @@ public class Vision extends SubsystemBase {
         camera.start();
     }
 
+    public void setAutonumus(){
+        auto = true;
+    }
+    public void setTeleop(){
+        auto = false;
+    }
     //Get degrees in X axis
     public double getTx(double defaultValue) {
         if (result == null) {
@@ -230,6 +237,9 @@ public class Vision extends SubsystemBase {
     public boolean switchToDetector() {
         telemetry.addData("time sinceupdate", camera.getTimeSinceLastUpdate());
         currentPipeline = color;
+        if (auto){
+            currentPipeline += 5;
+        }
         if (!camera.pipelineSwitch(currentPipeline)) {
             telemetry.addData("failed to switch to detector", 0);
             pipelineSwitchFail += 1;
