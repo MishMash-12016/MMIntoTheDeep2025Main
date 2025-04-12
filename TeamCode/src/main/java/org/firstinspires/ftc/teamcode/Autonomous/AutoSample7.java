@@ -235,20 +235,8 @@ public class AutoSample7 extends MMOpMode {
                 new WaitCommand(400),
                 IntakeSampleCommand.FirstSampleIntake(),
 
-                new sampleGoToScore() {
-                    @Override
-                    public void end(boolean interrupted) {
-                        super.end(interrupted);
-                        if (interrupted) {
-                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the preload");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
-                        }
-                    }
-                }.alongWith(
+                new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
-                ).interruptOn(() ->
-                (MMRobot.getInstance().mmSystems.driveTrain.pose.position.x >= 57 && MMRobot.getInstance().mmSystems.elevator.getHeight() >= 45)).andThen(
-                    MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                 ),
 
                 new ParallelCommandGroup(
@@ -263,47 +251,13 @@ public class AutoSample7 extends MMOpMode {
                 new WaitCommand(400),
                 IntakeSampleCommand.FirstSampleIntake(),
 
-                new sampleGoToScore() {
-                    @Override
-                    public void end(boolean interrupted) {
-                        super.end(interrupted);
-                        if (interrupted) {
-                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the preload");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
-                        }
-                    }
-                }.alongWith(
+                new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
-                ).interruptOn(() ->
-                        (MMRobot.getInstance().mmSystems.driveTrain.pose.position.x >= 57 && MMRobot.getInstance().mmSystems.elevator.getHeight() >= 45)).andThen(
-                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                 ),
 
                 new ParallelCommandGroup(
                         new ActionCommand(driveToIntakeSixth.build()),
                         ScoringSampleCommand.ScoreHighSample()
-                ),
-                new WaitCommand(500),
-                IntakeSampleCommand.limeLightIntake_Auto(),
-                new LazyActionCommand(()->limelightGetter.currentTraj.build()),
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
-                new WaitCommand(400),
-                IntakeSampleCommand.FirstSampleIntake(),
-
-                new sampleGoToScore() {
-                    @Override
-                    public void end(boolean interrupted) {
-                        super.end(interrupted);
-                        if (interrupted) {
-                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the preload");
-                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
-                        }
-                    }
-                }.alongWith(
-                        ScoringSampleCommand.PrepareHighSample_Auto()
-                ).interruptOn(() ->
-                        (MMRobot.getInstance().mmSystems.driveTrain.pose.position.x >= 57 && MMRobot.getInstance().mmSystems.elevator.getHeight() >= 45)).andThen(
-                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                 ),
                 new ActionCommand(driveToPark.build()).alongWith(
                         //basically scoring
@@ -315,8 +269,8 @@ public class AutoSample7 extends MMOpMode {
                                 new ParallelCommandGroup(
                                         MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
                                         MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE)
+                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.PARK),
+                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PARK)
                                 )
                         )
                 )
@@ -382,7 +336,7 @@ public class AutoSample7 extends MMOpMode {
                 MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
                 new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_TRANSFER_POSE),
-                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INIT_POSE),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
         );
     }
