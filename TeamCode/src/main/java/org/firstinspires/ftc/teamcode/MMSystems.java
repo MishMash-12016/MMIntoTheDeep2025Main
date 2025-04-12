@@ -77,7 +77,7 @@ public class MMSystems {
     public DigitalChannel touchSensorIntake;
     public DigitalChannel touchSensorIntakeHigh;
     public Climber climber;
-    public static Pose2d AutoPose;
+    public static Pose2d AutoPose = new Pose2d(0,0,0);
 
 
     public double servoDegrees = 0;
@@ -133,8 +133,8 @@ public class MMSystems {
 
     public void initDriveTrain() {
         //roadRunner 90 is what we agree as 0 so reset it to 0
-        localizer.setPosition(new Pose2d(0, 0, localizer.getHeading() - Math.toRadians(90)));
-        driveTrain = new PinpointDrive(hardwareMap, currentPose);
+        localizer.setPosition(new Pose2d(0, 0, localizer.getPositionRR().heading.toDouble() - Math.toRadians(90)));
+        driveTrain = new PinpointDrive(hardwareMap, new Pose2d(0,0,localizer.getPositionRR().heading.toDouble()));
     }
 
     public void teleop() {
@@ -233,7 +233,10 @@ public class MMSystems {
         this.telemetry = telemetry;
         this.battery = new MMBattery(hardwareMap);
         this.intakeDistSensor = new MMDistSensor(hardwareMap);
-        localizer = hardwareMap.get(GoBildaPinpointDriverRR.class, "imu");
+        if (localizer == null) {
+            localizer = hardwareMap.get(GoBildaPinpointDriverRR.class, "imu");
+            initLocalize();
+        }
 //        if (!hasImuBeenReset) {
 //            hasImuBeenReset = true;
 //            localizer = hardwareMap.get(GoBildaPinpointDriverRR.class, "imu");

@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.CommandGroup.ScoringArm_SpeedControll;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.CommandGroup.roadRunnewr.sampleGoToScore;
+import org.firstinspires.ftc.teamcode.CommandGroup.touchSensors;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
@@ -46,7 +47,7 @@ import java.util.function.BooleanSupplier;
 @Autonomous
 public class AutoSample7 extends MMOpMode {
     static MMRobot robotInstance;
-    public static final Pose2d scorePose = new Pose2d(-60, -55, Math.toRadians(240));
+    public static final Pose2d scorePose = new Pose2d(-59, -55, Math.toRadians(240));
     final Pose2d intakePose = new Pose2d(-24, -9, Math.toRadians(180));
 
     boolean flag = false;
@@ -57,8 +58,6 @@ public class AutoSample7 extends MMOpMode {
 
     @Override
     public void onInit() {
-        MMRobot.getInstance().mmSystems.initLocalize();
-
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems(this);
 
@@ -236,8 +235,20 @@ public class AutoSample7 extends MMOpMode {
                 new WaitCommand(400),
                 IntakeSampleCommand.FirstSampleIntake(),
 
-                new sampleGoToScore().alongWith(
+                new sampleGoToScore() {
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if (interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the preload");
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
+                        }
+                    }
+                }.alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
+                ).interruptOn(() ->
+                (MMRobot.getInstance().mmSystems.driveTrain.pose.position.x >= 57 && MMRobot.getInstance().mmSystems.elevator.getHeight() >= 45)).andThen(
+                    MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                 ),
 
                 new ParallelCommandGroup(
@@ -252,8 +263,20 @@ public class AutoSample7 extends MMOpMode {
                 new WaitCommand(400),
                 IntakeSampleCommand.FirstSampleIntake(),
 
-                new sampleGoToScore().alongWith(
+                new sampleGoToScore() {
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if (interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the preload");
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
+                        }
+                    }
+                }.alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
+                ).interruptOn(() ->
+                        (MMRobot.getInstance().mmSystems.driveTrain.pose.position.x >= 57 && MMRobot.getInstance().mmSystems.elevator.getHeight() >= 45)).andThen(
+                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                 ),
 
                 new ParallelCommandGroup(
@@ -267,8 +290,20 @@ public class AutoSample7 extends MMOpMode {
                 new WaitCommand(400),
                 IntakeSampleCommand.FirstSampleIntake(),
 
-                new sampleGoToScore().alongWith(
+                new sampleGoToScore() {
+                    @Override
+                    public void end(boolean interrupted) {
+                        super.end(interrupted);
+                        if (interrupted) {
+                            FtcDashboard.getInstance().getTelemetry().addLine("interrupted the preload");
+                            drive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
+                        }
+                    }
+                }.alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
+                ).interruptOn(() ->
+                        (MMRobot.getInstance().mmSystems.driveTrain.pose.position.x >= 57 && MMRobot.getInstance().mmSystems.elevator.getHeight() >= 45)).andThen(
+                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                 ),
                 new ActionCommand(driveToPark.build()).alongWith(
                         //basically scoring

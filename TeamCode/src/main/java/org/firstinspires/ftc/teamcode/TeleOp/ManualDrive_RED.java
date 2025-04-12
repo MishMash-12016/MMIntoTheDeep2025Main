@@ -51,8 +51,8 @@ public class ManualDrive_RED extends MMOpMode {
         robotInstance.mmSystems.initDriveTrain();
         robotInstance.mmSystems.teleop();
         robotInstance.mmSystems.vision.trackYellow();
-        robotInstance.mmSystems.driveTrain.pose = MMSystems.AutoPose;
-        robotInstance.mmSystems.currentPose = MMSystems.AutoPose;
+//        robotInstance.mmSystems.driveTrain.pose = MMSystems.AutoPose;
+//        robotInstance.mmSystems.currentPose = MMSystems.AutoPose;
 
         //drive
         new Trigger(() -> mmSystems.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05).whileActiveContinuous(
@@ -236,9 +236,17 @@ public class ManualDrive_RED extends MMOpMode {
         super.run();
         FtcDashboard.getInstance().getTelemetry().addData("r", Red_Right_6.getAng());
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
-        MMRobot.getInstance().mmSystems.telemetry.addData("heading comp1", MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.component1());
-        MMRobot.getInstance().mmSystems.telemetry.addData("heading comp2", MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.component2());
+//        MMRobot.getInstance().mmSystems.telemetry.addData("heading comp1", Math.toDegrees(MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.toDouble()));
+//        MMRobot.getInstance().mmSystems.telemetry.addData("heading comp2", Math.toDegrees(MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.toDouble()));
+//        MMRobot.getInstance().mmSystems.telemetry.addData("auto pose", getAng());
+        telemetry.addData("heading", Math.toDegrees(MMSystems.localizer.getPositionRR().heading.toDouble()));
         FtcDashboard.getInstance().getTelemetry().update();
         telemetry.update();
+    }
+
+    public static double getAng() {
+        double ang = Math.toDegrees(MMSystems.AutoPose.heading.toDouble());
+        ang = ang < 0 ? ang + 360 : ang;
+        return ang;
     }
 }

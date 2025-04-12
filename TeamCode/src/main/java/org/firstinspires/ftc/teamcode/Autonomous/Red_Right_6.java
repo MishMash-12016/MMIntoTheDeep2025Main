@@ -61,9 +61,6 @@ public class Red_Right_6 extends MMOpMode {
 
     @Override
     public void onInit() {
-
-
-        MMRobot.getInstance().mmSystems.initLocalize();
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems(this);
         MMRobot.getInstance().mmSystems.vision.trackRed();
@@ -495,6 +492,12 @@ public class Red_Right_6 extends MMOpMode {
 
         telemetry.update();
         FtcDashboard.getInstance().getTelemetry().update();
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+
     }
 
     private static Command setupForPushing() {
