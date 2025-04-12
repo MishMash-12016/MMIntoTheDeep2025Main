@@ -110,10 +110,10 @@ public class MMSystems {
         this.linearIntake = new LinearIntake();
         this.intakEndUnit = new IntakEndUnit();
         this.intakeArm = new IntakeArm(false);
-        this.scoringArm = new ScoringArm();
+        this.scoringArm = new ScoringArm(false);
         this.intakeEndUnitRotator = new IntakeEndUnitRotator();
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
-        this.scoringEndUnitElbow = new ScoringEndUnitElbow();
+        this.scoringEndUnitElbow = new ScoringEndUnitElbow(false);
         vision = new Vision(hardwareMap, telemetry);
         if (!limelightInitFunc(mmOpMode)){
             telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");

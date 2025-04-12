@@ -49,9 +49,16 @@ public class ScoringArm extends SubsystemBase {
         servoLeft = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "L outake arm ");//1
         servoRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "R outake arm");//4
 
-
         servoLeft.setPosition(ScoringArmState.INIT_POSE.position.get()+0.015);
         servoRight.setPosition(1 - ScoringArmState.INIT_POSE.position.get());
+    }
+
+    public ScoringArm(Boolean Void) {
+        servoLeft = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "L outake arm ");//1
+        servoRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "R outake arm");//4
+
+        servoLeft.setPosition(ScoringArmState.PARK.position.get()+0.015);
+        servoRight.setPosition(1 - ScoringArmState.PARK.position.get());
     }
 
     public Command setPosition(double newPos) {
