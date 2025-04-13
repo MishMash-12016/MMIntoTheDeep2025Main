@@ -59,6 +59,8 @@ public class Vision extends SubsystemBase {
     //telemtry idk man:
     Telemetry telemetry;
 
+    public boolean initiated = false;
+
 
     public Vision(final HardwareMap hardwareMap, Telemetry telemetry) {
         camera = hardwareMap.get(Limelight3A.class, "limelight");
@@ -317,6 +319,8 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         //updating the python endlessly
+        if (!initiated) return;
+
         camera.updatePythonInputs(
                 new double[]{0.0, 0.0, 0.0, length, height, x, y, 0.0}
         );

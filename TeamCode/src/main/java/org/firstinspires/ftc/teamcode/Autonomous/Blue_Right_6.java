@@ -295,7 +295,8 @@ public class Blue_Right_6 extends MMOpMode {
                                 ))
                 ).interruptOn(
                         () -> (touchSensors.getStateIntake() && MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.toDouble() > Math.toRadians(45))),
-
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
+                new WaitCommand(75),
                 new driveToScoreFirstSpecimen() {
                     @Override
                     public void end(boolean interrupted) {

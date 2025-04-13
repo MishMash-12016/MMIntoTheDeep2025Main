@@ -37,9 +37,10 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),//be prepared for transfer
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
+//                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                new IntakeArm_SpeedControl(300, IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get()),
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.rotateByButton(rotateLeftButton, rotateRightButton),
-                new WaitCommand(120).andThen(
+                new WaitCommand(140).andThen(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 )
         );

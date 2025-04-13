@@ -116,9 +116,9 @@ public class MMSystems {
         this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
         this.scoringEndUnitElbow = new ScoringEndUnitElbow(false);
         vision = new Vision(hardwareMap, telemetry);
-        if (!limelightInitFunc(mmOpMode)){
-            telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
-        }
+//        if (!limelightInitFunc(mmOpMode)){
+//            telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
+//        }
         this.touchSensorScoring = hardwareMap.get(DigitalChannel.class, "tsS");
         this.touchSensorIntake = hardwareMap.get(DigitalChannel.class, "tsIL");
         this.touchSensorIntakeHigh = hardwareMap.get(DigitalChannel.class, "tsIH");
@@ -213,6 +213,7 @@ public class MMSystems {
                 return false;
             }
         }
+        MMRobot.getInstance().mmSystems.vision.initiated = true;
         return true;
     }
 
