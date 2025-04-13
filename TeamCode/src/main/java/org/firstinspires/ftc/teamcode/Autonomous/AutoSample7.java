@@ -232,7 +232,7 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.ScoreHighSample()
                 ),
                 new WaitCommand(500),
-                IntakeSampleCommand.limeLightIntake_Auto(),
+                IntakeSampleCommand.limeLightIntake_Auto().withTimeout(3000),
                 new LazyActionCommand(()->limelightGetter.currentTraj.build()),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
                 new WaitCommand(400),
@@ -247,7 +247,7 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.ScoreHighSample()
                 ),
                 new WaitCommand(500),
-                IntakeSampleCommand.limeLightIntake_Auto(),
+                IntakeSampleCommand.limeLightIntake_Auto().withTimeout(3000),
                 new LazyActionCommand(()->limelightGetter.currentTraj.build()),
 
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),

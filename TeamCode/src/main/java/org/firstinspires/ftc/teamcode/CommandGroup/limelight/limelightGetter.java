@@ -12,13 +12,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.CommandGroup.interruptibleTrajectory;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
+import org.firstinspires.ftc.teamcode.MMRobot;
 
 import java.util.function.BooleanSupplier;
 
 
 public class limelightGetter {
 
-    public static TrajectoryActionBuilder currentTraj;
+    public static TrajectoryActionBuilder currentTraj = MMRobot.getInstance().mmSystems.driveTrain.actionBuilder(MMRobot.getInstance().mmSystems.currentPose);
     public static Command getRotateToSample() {
         return new rotateToSample();
     }

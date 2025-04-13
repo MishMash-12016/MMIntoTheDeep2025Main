@@ -312,7 +312,6 @@ public class Blue_Right_6 extends MMOpMode {
                         ),
 
                 //Second
-
                 new runFromHereToIntake() {
                     @Override
                     public void end(boolean interrupted) {

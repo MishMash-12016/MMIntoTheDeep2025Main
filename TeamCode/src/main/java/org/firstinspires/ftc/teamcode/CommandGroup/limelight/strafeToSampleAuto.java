@@ -24,7 +24,7 @@ import org.opencv.core.Mat;
 
 @Config
 public class strafeToSampleAuto extends CommandBase {
-    public static double maxDistanceY = 416;
+    public static double maxDistanceY = 416 - 80;
     public static double plusDistanceX = -0.1;
     public static double accelerationMultiplierShort = 0.72;
     public static double limit = 10;
@@ -49,7 +49,7 @@ public class strafeToSampleAuto extends CommandBase {
         double accelerationMultiplier = accelerationMultiplierLong;
         if (distanceX < limit) {
             accelerationMultiplier = accelerationMultiplierShort;
-            maxDistanceY = 424;
+            maxDistanceY = 424 - 80;
         }
 
         FtcDashboard.getInstance().getTelemetry().addData("distanceX - ",distanceX);

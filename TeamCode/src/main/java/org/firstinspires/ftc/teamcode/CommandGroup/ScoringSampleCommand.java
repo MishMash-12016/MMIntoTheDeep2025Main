@@ -33,7 +33,7 @@ public class ScoringSampleCommand {
                 ),
                 new WaitCommand(50),
                 MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.SAMPLE_TRANSFER_POSE),
-                new WaitCommand(50),
+                new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),

@@ -40,7 +40,7 @@ public class IntakeSampleCommand {
 //                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 new IntakeArm_SpeedControl(300, IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get()),
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.rotateByButton(rotateLeftButton, rotateRightButton),
-                new WaitCommand(140).andThen(
+                new WaitCommand(300).andThen(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 )
         );

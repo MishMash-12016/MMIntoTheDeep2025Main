@@ -59,7 +59,7 @@ public class Vision extends SubsystemBase {
     //telemtry idk man:
     Telemetry telemetry;
 
-    public boolean initiated = false;
+    public static boolean initiated = false;
 
 
     public Vision(final HardwareMap hardwareMap, Telemetry telemetry) {

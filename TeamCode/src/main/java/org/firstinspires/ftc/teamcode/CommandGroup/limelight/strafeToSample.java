@@ -25,7 +25,8 @@ import org.opencv.core.Mat;
 public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
-    public static double maxDistanceY = 416;
+    public static double maxDistanceY = 408;
+    public static double maxDistanceYShort = 412;
     public static double plusDistanceX = -0.1;
     public static double accelerationMultiplierShort = 0.72;
     public static double limit = 10;
@@ -50,7 +51,7 @@ public class strafeToSample extends CommandBase {
         double accelerationMultiplier = accelerationMultiplierLong;
         if (Math.abs(distanceX) < limit) {
             accelerationMultiplier = accelerationMultiplierShort;
-            maxDistanceY = 42;
+            maxDistanceY = maxDistanceYShort;
         }
 
         FtcDashboard.getInstance().getTelemetry().addData("distanceX - ",distanceX);
