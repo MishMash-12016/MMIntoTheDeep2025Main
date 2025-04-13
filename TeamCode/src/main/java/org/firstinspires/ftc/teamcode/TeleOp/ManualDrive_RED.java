@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -24,6 +25,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeEndUnitRotator;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
+import org.firstinspires.ftc.teamcode.SubSystems.ScoringClawEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
@@ -33,7 +36,6 @@ public class ManualDrive_RED extends MMOpMode {
     MMSystems mmSystems;
     private boolean SpecimenIntake;
     private double elbowOffset;
-    private boolean moved = false;
     ElapsedTime elapsedTime = new ElapsedTime();
 
 
@@ -49,7 +51,7 @@ public class ManualDrive_RED extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         mmSystems = robotInstance.mmSystems;
 
-        robotInstance.mmSystems.initRobotSystemsTeleOp(this);
+        robotInstance.mmSystems.initRobotSystemsDontMove(this);
         robotInstance.mmSystems.initDriveTrain();
         robotInstance.mmSystems.teleop();
         robotInstance.mmSystems.vision.trackYellow();
@@ -98,9 +100,13 @@ public class ManualDrive_RED extends MMOpMode {
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
                 new ConditionalCommand(
                         new ParallelCommandGroup(
+                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
+                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
+                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),
                                 robotInstance.mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                                 robotInstance.mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
                                 robotInstance.mmSystems.intakEndUnit.openIntakeClaw()
+
                         ),
                         IntakeSpecimenCommand.PrepareSpecimenIntakeFront().alongWith(
                                 new InstantCommand(() -> SpecimenIntake = true)
@@ -245,15 +251,12 @@ public class ManualDrive_RED extends MMOpMode {
     @Override
     public void run() {
         super.run();
-        if (!moved) {
-            moved = true;
-            mmSystems.goToInit();
-        }
 
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
         FtcDashboard.getInstance().getTelemetry().update();
         telemetry.update();
     }
+
 
     public static double getAng() {
         double ang = Math.toDegrees(MMSystems.AutoPose.heading.toDouble());

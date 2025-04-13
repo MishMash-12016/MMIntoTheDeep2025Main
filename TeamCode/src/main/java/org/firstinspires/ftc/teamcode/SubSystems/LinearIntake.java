@@ -17,7 +17,7 @@ import java.util.function.DoubleSupplier;
 public class LinearIntake extends SubsystemBase {
     private final Servo servoLeft;
     private final Servo servoRight;
-    public double pose = 0;
+    public double pose = 0.5;
 
     public static double config;
 

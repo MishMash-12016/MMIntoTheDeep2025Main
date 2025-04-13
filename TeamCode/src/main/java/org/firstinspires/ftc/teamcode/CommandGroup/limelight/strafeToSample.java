@@ -64,7 +64,7 @@ public class strafeToSample extends CommandBase {
             if (distanceX > theOtherSide){
                 distanceX +=theOtherSideAdder;
             }
-
+            MMRobot.getInstance().mmSystems.driveTrain.pinpoint.update();
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
 
             Translation2d distanceXVector = new Translation2d(distanceX,new Rotation2d(currentPose.heading.toDouble() + Math.toRadians(90)));

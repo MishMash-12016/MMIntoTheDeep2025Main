@@ -11,6 +11,7 @@ import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
 
 
 public class ClimbingCommand {
@@ -26,6 +27,7 @@ public class ClimbingCommand {
 
     public static Command ClimbToThird() {
         return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.INIT_POSE),
                 new RunCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(-1.0), MMRobot.getInstance().mmSystems.elevator)
                         .interruptOn(() -> MMRobot.getInstance().mmSystems.elevator.getHeight() < Elevator.ElevatorState.ELEVATOR_CLIMB.position.get()),
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.elevator.setPower(0.0), MMRobot.getInstance().mmSystems.elevator)

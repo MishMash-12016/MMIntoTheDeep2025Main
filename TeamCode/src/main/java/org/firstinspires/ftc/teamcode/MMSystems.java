@@ -6,8 +6,10 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -137,14 +139,6 @@ public class MMSystems {
         this.touchSensorScoring = hardwareMap.get(DigitalChannel.class, "tsS");
         this.touchSensorIntake = hardwareMap.get(DigitalChannel.class, "tsIL");
         this.touchSensorIntakeHigh = hardwareMap.get(DigitalChannel.class, "tsIH");
-    }
-    public void goToInit() {
-        scoringClawEndUnit.closeScoringClaw();
-        linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE);
-        intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE);
-        scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE);
-        intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INIT_POSE);
-        scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INIT_POSE);
     }
 
     public void initDriveTrain(Pose2d currentPose) {

@@ -345,7 +345,7 @@ public class AutoSample7 extends MMOpMode {
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SAMPLE_POSE),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE)
                 ),
-                new WaitCommand(150),
+                new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
@@ -372,7 +372,7 @@ public class AutoSample7 extends MMOpMode {
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.TRANSFER_SAMPLE_POSE),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.SAMPLE_TRANSFER_POSE)
                 ),
-                new WaitCommand(150),
+                new WaitCommand(200),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 new WaitCommand(100),
                 MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
