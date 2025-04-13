@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Libraries.RoadRunner;
 
 import static com.qualcomm.hardware.rev.RevHubOrientationOnRobot.zyxOrientation;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
@@ -120,6 +121,9 @@ public class PinpointDrive extends MecanumDrive {
         }
     }
 
+    public static double _autoStartAngle = 0;
+    public static DoubleSupplier autoStartAngle = () -> _autoStartAngle;
+
     public Command fieldOrientedDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier yaw) {
         return new RunCommand(
                 () -> {
@@ -127,10 +131,15 @@ public class PinpointDrive extends MecanumDrive {
                     pinpoint.update();
                     Vector2d joystickDirection = new Vector2d(x.getAsDouble(), y.getAsDouble());
 //                    Vector2d fieldOrientedVector = joystickDirection.rotateBy(Math.toDegrees(-pinpoint.getHeading()-ManualDrive_RED.getAng())-90);
-                    double cosA = Math.cos(-pinpoint.getHeading()-ManualDrive_RED.getAng()-Math.toRadians(90));
-                    double sinA = Math.sin(-pinpoint.getHeading()-ManualDrive_RED.getAng()-Math.toRadians(90));
+//                    double a = MMSystems.localizer.getPositionRR().heading.toDouble();
+                    double cosA = Math.cos(-pinpoint.getHeading() - Math.toRadians(autoStartAngle.getAsDouble()));
+                    double sinA = Math.sin(-pinpoint.getHeading() - Math.toRadians(autoStartAngle.getAsDouble()));
                     double xOut = x.getAsDouble() * cosA - y.getAsDouble() * sinA;
                     double yOut = x.getAsDouble() * sinA + y.getAsDouble() * cosA;
+                    FtcDashboard.getInstance().getTelemetry().addData("fieldori", Math.toDegrees(-pinpoint.getHeading()));
+                    FtcDashboard.getInstance().getTelemetry().addData("fieldori1", Math.toDegrees(- Math.toRadians(autoStartAngle.getAsDouble())));
+                    FtcDashboard.getInstance().getTelemetry().addData("fieldori2", Math.toDegrees(-pinpoint.getHeading() - Math.toRadians(autoStartAngle.getAsDouble())));
+                    FtcDashboard.getInstance().getTelemetry().update();
 //                    setPowerManually(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw.getAsDouble());
                     setPowerManually(xOut, yOut, yaw.getAsDouble());
                 }, this
@@ -138,7 +147,8 @@ public class PinpointDrive extends MecanumDrive {
     }
 
     public void resetRotation() {
-        pinpoint.setPosition(new Pose2d(pinpoint.getPositionRR().component1(), 0));
+        pinpoint.resetYaw();
+        _autoStartAngle = 180;
     }
 
     public Command temp() {

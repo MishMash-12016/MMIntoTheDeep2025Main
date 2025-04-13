@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -233,8 +234,8 @@ public class MMSystems {
         this.battery = new MMBattery(hardwareMap);
         this.intakeDistSensor = new MMDistSensor(hardwareMap);
         if (localizer == null || opModeType == OpModeType.Competition.AUTO) {
-            localizer = hardwareMap.get(GoBildaPinpointDriverRR.class, "imu");
-            initLocalize();
+//            localizer = hardwareMap.get(GoBildaPinpointDriverRR.class, "imu");
+            initLocalize(new Pose2d(0, 0, 0));
         }
 //        if (!hasImuBeenReset) {
 //            hasImuBeenReset = true;
@@ -247,16 +248,16 @@ public class MMSystems {
 //        }
 //        currentPose = new Pose2d(0, 0, Math.toRadians(0));
 
-
         CommandScheduler.getInstance().reset(); //reset the scheduler
     }
 
-
-    public void initLocalize() {
+    public void initLocalize(Pose2d currentPose) {
+        localizer = hardwareMap.get(GoBildaPinpointDriverRR.class, "imu");
         localizer.resetPosAndIMU();
         localizer.setOffsets(-99, 9);
         localizer.setEncoderResolution(GoBildaPinpointDriverRR.goBILDA_4_BAR_POD);
         localizer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
         localizer.setPosition(new Pose2d(0, 0, localizer.getPositionRR().heading.toDouble() - Math.toRadians(90)));
+//        localizer.setPosition(new Pose2d(currentPose.position, currentPose.heading.toDouble() - Math.toRadians(90)));
     }
 }

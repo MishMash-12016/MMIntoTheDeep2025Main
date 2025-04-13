@@ -58,7 +58,6 @@ public class Red_Right_6 extends MMOpMode {
         super(OpModeType.Competition.AUTO);
     }
 
-
     @Override
     public void onInit() {
         robotInstance = MMRobot.getInstance();
@@ -67,9 +66,14 @@ public class Red_Right_6 extends MMOpMode {
         MMRobot.getInstance().mmSystems.vision.switchToDetector();
         MMRobot.getInstance().mmSystems.vision.setAutonumus();
 
-        Pose2d currentPose = new Pose2d(5.5, -61.23, Math.toRadians(270));
+        Pose2d currentPose = new Pose2d(5.5, -61.23, Math.toRadians(PinpointDrive._autoStartAngle = 270));
+//        PinpointDrive._autoStartAngle -= 90;
+        MMSystems.localizer = null;
+        MMRobot.getInstance().mmSystems.initLocalize(currentPose);
         robotInstance.mmSystems.initDriveTrain(currentPose);
         PinpointDrive drive = MMRobot.getInstance().mmSystems.driveTrain;
+        drive.pinpoint.setPosition(currentPose);
+        drive.pinpoint.update();
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
@@ -180,6 +184,7 @@ public class Red_Right_6 extends MMOpMode {
         FtcDashboard.getInstance().getTelemetry().update();
 
         new SequentialCommandGroup(
+                new InstantCommand(() -> drive.pinpoint.setPosition(currentPose)),
                 MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw(),
                 new ParallelCommandGroup(
                         new ActionCommand(driveToScorePreload.build()) {

@@ -64,11 +64,14 @@ public class AutoSample7 extends MMOpMode {
         MMRobot.getInstance().mmSystems.vision.trackYellow();
         MMRobot.getInstance().mmSystems.vision.setAutonumus();
 
-
-        Pose2d currentPose = new Pose2d(-38.23, -65, Math.toRadians(180));
+        Pose2d currentPose = new Pose2d(-38.23, -65, Math.toRadians(PinpointDrive._autoStartAngle = 180));
+        PinpointDrive._autoStartAngle += 90;
+        MMSystems.localizer = null;
+        MMRobot.getInstance().mmSystems.initLocalize(currentPose);
         robotInstance.mmSystems.initDriveTrain(currentPose);
         PinpointDrive drive = MMRobot.getInstance().mmSystems.driveTrain;
-
+        drive.pinpoint.setPosition(currentPose);
+        drive.pinpoint.update();
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
         MMRobot.getInstance().mmSystems.linearIntake.setPosition(0);
@@ -151,7 +154,7 @@ public class AutoSample7 extends MMOpMode {
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.7, MecanumDrive.PARAMS.maxProfileAccel*1.2));
 
         new SequentialCommandGroup(
-                new InstantCommand(),
+                new InstantCommand(() -> drive.pinpoint.setPosition(currentPose)),
 
                 new ActionCommand(driveToScorePreloadSample.build()).alongWith(
                         new SequentialCommandGroup(

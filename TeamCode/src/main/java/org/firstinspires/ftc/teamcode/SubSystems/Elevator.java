@@ -56,7 +56,7 @@ public class Elevator extends MMPIDSubsystem {
 
     private static final double maxHeight = 70; //TODO:find new max height
 
-    public static double elevatorHighBasket = 50;
+    public static double elevatorHighBasket = 48;
     public static double elevatorDown = 0;
     public static double elevatorClimbHigh = 62; //TODO:find high bar height
     public static double elevatorClimb = 40;

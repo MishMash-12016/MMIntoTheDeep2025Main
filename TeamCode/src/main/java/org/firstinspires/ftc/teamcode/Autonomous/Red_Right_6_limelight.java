@@ -55,7 +55,7 @@ public class Red_Right_6_limelight extends MMOpMode {
         MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.switchToDetector();
 
-        Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
+        Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(PinpointDrive._autoStartAngle = 270)));
         robotInstance.mmSystems.initDriveTrain(currentPose);
         PinpointDrive drive = MMRobot.getInstance().mmSystems.driveTrain;
 

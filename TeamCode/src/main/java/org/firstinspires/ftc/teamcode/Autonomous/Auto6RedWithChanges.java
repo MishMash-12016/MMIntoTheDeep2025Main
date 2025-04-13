@@ -54,7 +54,7 @@ public class Auto6RedWithChanges extends MMOpMode {
 //        MMRobot.getInstance().mmSystems.vision.trackRed();
         MMRobot.getInstance().mmSystems.vision.switchToDetector();
 
-        Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(270)));
+        Pose2d currentPose = (new Pose2d(5.5, -61.23, Math.toRadians(PinpointDrive._autoStartAngle = 270)));
         PinpointDrive drive = new PinpointDrive(hardwareMap, currentPose);
 
         MMRobot.getInstance().mmSystems.scoringClawEndUnit.closeScoringClaw();// pre load
