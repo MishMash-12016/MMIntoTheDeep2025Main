@@ -47,7 +47,7 @@ import java.util.function.BooleanSupplier;
 @Autonomous
 public class AutoSample7 extends MMOpMode {
     static MMRobot robotInstance;
-    public static final Pose2d scorePose = new Pose2d(-59, -55, Math.toRadians(240));
+    public static final Pose2d scorePose = new Pose2d(-58.5, -54.5, Math.toRadians(240));
     final Pose2d intakePose = new Pose2d(-24, -9, Math.toRadians(180));
 
     boolean flag = false;
