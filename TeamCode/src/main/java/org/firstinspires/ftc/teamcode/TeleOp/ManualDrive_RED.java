@@ -163,7 +163,7 @@ public class ManualDrive_RED extends MMOpMode {
                 ()-> MMRobot.getInstance().mmSystems.vision.switchToPython()
         );
 
-//        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whileHeld(
+//        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
 //                new SequentialCommandGroup(
 //                        new InstantCommand(() -> {
 //                            elbowOffset -= 0.035;
@@ -184,7 +184,7 @@ public class ManualDrive_RED extends MMOpMode {
 //        );
 //
 //
-//        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whileHeld(
+//        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
 //                new SequentialCommandGroup(
 //                        new InstantCommand(() -> {
 //                            elbowOffset += 0.035;

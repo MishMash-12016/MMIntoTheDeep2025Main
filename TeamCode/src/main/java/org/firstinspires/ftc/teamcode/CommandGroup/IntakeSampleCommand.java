@@ -39,7 +39,7 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
                 MMRobot.getInstance().mmSystems.intakeEndUnitRotator.rotateByButton(rotateLeftButton, rotateRightButton),
-                new WaitCommand(100).andThen(
+                new WaitCommand(120).andThen(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 )
         );
@@ -53,7 +53,7 @@ public class IntakeSampleCommand {
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
 
-                new WaitCommand(70).andThen(
+                new WaitCommand(110).andThen(
                         MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 ));
     }

@@ -69,7 +69,7 @@ public class IntakeSpecimenCommand {
                 new WaitCommand(200),
                 new ParallelCommandGroup(
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
+                        new ScoringArm_SpeedControll(400,ScoringArmState.INTAKE_FROM_FRONT_POSE.position.get()),
                         MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
                 )
         );

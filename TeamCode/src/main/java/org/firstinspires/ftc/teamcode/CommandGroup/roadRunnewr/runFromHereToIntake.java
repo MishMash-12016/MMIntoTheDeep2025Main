@@ -33,7 +33,7 @@ public class runFromHereToIntake extends CommandBase {
                 .setTangent(Math.toRadians(310))
                 .strafeToLinearHeading(Red_Right_6.intakePose.component1(),Red_Right_6.intakePose.component2(),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1.1),
-                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.8,MecanumDrive.PARAMS.maxProfileAccel*1.3));
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel*0.65,MecanumDrive.PARAMS.maxProfileAccel*1.3));
 
         strafeTrajectory = MMRobot.getInstance().mmSystems.driveTrain.getCancelableFollowTrajectoryAction(strafe.build().get(0));
     }

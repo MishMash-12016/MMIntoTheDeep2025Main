@@ -42,7 +42,7 @@ import org.firstinspires.ftc.teamcode.utils.ParallelCommandGroupNoCheck;
 
 @Config
 @Autonomous
-public class Red_Right_6 extends MMOpMode {
+public class Blue_Right_6 extends MMOpMode {
     static MMRobot robotInstance;
     static final double halfOpenClaw = 0.6;
     static final double rotator = 0;
@@ -54,7 +54,7 @@ public class Red_Right_6 extends MMOpMode {
     public static final Pose2d scorePose = new Pose2d(2, -28, Math.toRadians(90));
 
 
-    public Red_Right_6() {
+    public Blue_Right_6() {
         super(OpModeType.Competition.AUTO);
     }
 
@@ -62,7 +62,7 @@ public class Red_Right_6 extends MMOpMode {
     public void onInit() {
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems(this);
-        MMRobot.getInstance().mmSystems.vision.trackRed();
+        MMRobot.getInstance().mmSystems.vision.trackBlue();
         MMRobot.getInstance().mmSystems.vision.setAutonumus();
 
         Pose2d currentPose = new Pose2d(5.5, -61.23, Math.toRadians(PinpointDrive._autoStartAngle = 270));
@@ -273,26 +273,26 @@ public class Red_Right_6 extends MMOpMode {
                             }
                         },
                         robotInstance.mmSystems.intakeArm.setPosition(intakeArmPose).andThen(
-                        new WaitUntilCommand(() -> getAng() <= 190).andThen(
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.15),
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE)
-                                )
-                        ),
-                        new WaitUntilCommand(() -> getAng() <= 175).andThen(
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmPrepareSampleTransferPose),
-                                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INIT_POSE),
-                                        MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.INIT_POSE)
+                                new WaitUntilCommand(() -> getAng() <= 190).andThen(
+                                        new ParallelCommandGroup(
+                                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(0.15),
+                                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.SCORE_SAMPLE_POSE)
+                                        )
                                 ),
-                                new WaitCommand(500),
-                                new ParallelCommandGroup(
-                                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
-                                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
-                                )
-                        ))
+                                new WaitUntilCommand(() -> getAng() <= 175).andThen(
+                                        new ParallelCommandGroup(
+                                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.scoringArmPrepareSampleTransferPose),
+                                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INIT_POSE),
+                                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
+                                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.INIT_POSE)
+                                        ),
+                                        new WaitCommand(500),
+                                        new ParallelCommandGroup(
+                                                MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INTAKE_FROM_FRONT_POSE),
+                                                MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.INTAKE_FROM_FRONT_POSE),
+                                                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw()
+                                        )
+                                ))
                 ).interruptOn(
                         () -> (touchSensors.getStateIntake() && MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.toDouble() > Math.toRadians(45))),
 
@@ -311,6 +311,7 @@ public class Red_Right_6 extends MMOpMode {
                         ),
 
                 //Second
+
                 new runFromHereToIntake() {
                     @Override
                     public void end(boolean interrupted) {
