@@ -32,8 +32,6 @@ public class IntakEndUnit extends SubsystemBase {
     public IntakEndUnit() {
         clawIntakeServo = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "intake claw");//4
         // clawIntakeServo = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.CLAW_INTAKE_SERVO);
-
-
     }
 
     public Command openIntakeClaw() {

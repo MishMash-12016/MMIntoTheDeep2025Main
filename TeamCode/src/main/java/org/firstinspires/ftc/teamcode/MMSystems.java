@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriver;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -22,7 +21,6 @@ import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMBattery;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.Utils.MMDistSensor;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.PinpointDrive;
-import org.firstinspires.ftc.teamcode.SubSystems.Climber;
 import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakEndUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeArm;
@@ -77,7 +75,6 @@ public class MMSystems {
     public DigitalChannel touchSensorScoring;
     public DigitalChannel touchSensorIntake;
     public DigitalChannel touchSensorIntakeHigh;
-    public Climber climber;
     public static Pose2d AutoPose = new Pose2d(0,0,0);
 
 
@@ -102,7 +99,6 @@ public class MMSystems {
         this.touchSensorScoring = hardwareMap.get(DigitalChannel.class, "tsS");
         this.touchSensorIntake = hardwareMap.get(DigitalChannel.class, "tsIL");
         this.touchSensorIntakeHigh = hardwareMap.get(DigitalChannel.class, "tsIH");
-        this.climber = new Climber();
     }
 
     public void initRobotSystemsTeleOp(MMOpMode mmOpMode) {
@@ -122,9 +118,34 @@ public class MMSystems {
         this.touchSensorScoring = hardwareMap.get(DigitalChannel.class, "tsS");
         this.touchSensorIntake = hardwareMap.get(DigitalChannel.class, "tsIL");
         this.touchSensorIntakeHigh = hardwareMap.get(DigitalChannel.class, "tsIH");
-        this.climber = new Climber();
     }
 
+    public void initRobotSystemsDontMove(MMOpMode mmOpMode) {
+        this.scoringClawEndUnit = new ScoringClawEndUnit(0);
+        this.elevator = new Elevator();
+        this.linearIntake = new LinearIntake(0);
+        this.intakEndUnit = new IntakEndUnit();
+        this.intakeArm = new IntakeArm(0);
+        this.scoringArm = new ScoringArm(0);
+        this.intakeEndUnitRotator = new IntakeEndUnitRotator(0);
+        this.elevatorSwitch = new CuttleDigital(MMRobot.getInstance().mmSystems.expansionHub, Configuration.elevatorTouchSensor);
+        this.scoringEndUnitElbow = new ScoringEndUnitElbow(0);
+        vision = new Vision(hardwareMap, telemetry);
+        if (!limelightInitFunc(mmOpMode)){
+            telemetry.addData("Oh no very sad no LIMELIGHT ):", "RESTART THE FUCKING ROBOT YOU WHORE");
+        }
+        this.touchSensorScoring = hardwareMap.get(DigitalChannel.class, "tsS");
+        this.touchSensorIntake = hardwareMap.get(DigitalChannel.class, "tsIL");
+        this.touchSensorIntakeHigh = hardwareMap.get(DigitalChannel.class, "tsIH");
+    }
+    public void goToInit() {
+        scoringClawEndUnit.closeScoringClaw();
+        linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE);
+        intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE);
+        scoringArm.setPosition(ScoringArm.ScoringArmState.INIT_POSE);
+        intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.INIT_POSE);
+        scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.INIT_POSE);
+    }
 
     public void initDriveTrain(Pose2d currentPose) {
         //roadRunner 90 is what we agree as 0 so reset it to 0

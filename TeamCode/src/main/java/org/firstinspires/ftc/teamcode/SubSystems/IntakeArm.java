@@ -53,6 +53,11 @@ public class IntakeArm extends SubsystemBase {
         servoRight.setPosition(1 - IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get()+0.015);
     }
 
+    public IntakeArm(int dontMove) {
+        servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_LEFT);
+        servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_RIGHT);
+    }
+
     public Command setPosition(double newPos) {
         estimatedPose = newPos;
         return new InstantCommand(() -> {

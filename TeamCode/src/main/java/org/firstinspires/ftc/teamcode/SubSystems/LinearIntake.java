@@ -39,6 +39,11 @@ public class LinearIntake extends SubsystemBase {
         config =0.6;
     }
 
+    public LinearIntake(int dontMove){
+        servoLeft = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "L linear intake ");//3
+        servoRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "R linear intake ");//5
+    }
+
     public Command setPosition(double newPos){
         return new InstantCommand(()-> {
             servoLeft.setPosition(newPos);

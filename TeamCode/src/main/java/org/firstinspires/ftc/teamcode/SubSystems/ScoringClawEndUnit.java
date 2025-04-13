@@ -33,6 +33,10 @@ public class ScoringClawEndUnit extends SubsystemBase {
         clawScoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_CLAW_SERVO);
         clawScoringServo.setPosition(ScoringClawState.CLOSE.position.get());
     }
+    public ScoringClawEndUnit(int dontMove) {
+        clawScoringServo = new CuttleServo(MMRobot.getInstance().mmSystems.expansionHub, Configuration.SCORING_CLAW_SERVO);
+    }
+
 
     public Command openScoringClaw() {
         return new InstantCommand(() -> {

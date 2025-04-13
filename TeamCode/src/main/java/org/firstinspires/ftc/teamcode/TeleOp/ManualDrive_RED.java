@@ -33,6 +33,7 @@ public class ManualDrive_RED extends MMOpMode {
     MMSystems mmSystems;
     private boolean SpecimenIntake;
     private double elbowOffset;
+    private boolean moved = false;
     ElapsedTime elapsedTime = new ElapsedTime();
 
 
@@ -244,6 +245,11 @@ public class ManualDrive_RED extends MMOpMode {
     @Override
     public void run() {
         super.run();
+        if (!moved) {
+            moved = true;
+            mmSystems.goToInit();
+        }
+
         MMRobot.getInstance().mmSystems.expansionHub.pullBulkData();
         FtcDashboard.getInstance().getTelemetry().update();
         telemetry.update();
