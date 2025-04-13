@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.RunCommand;
@@ -13,9 +14,13 @@ import org.firstinspires.ftc.teamcode.SubSystems.Elevator;
 
 
 public class ClimbingCommand {
+    static boolean goUp = true;
+
     public static Command PrepareClimbToThird() {
-        return new ParallelCommandGroup(
-                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_HIGH_CHAMBER)
+        return new ConditionalCommand(
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_HIGH_CHAMBER),
+                MMRobot.getInstance().mmSystems.elevator.moveToPose(Elevator.ElevatorState.ELEVATOR_HIGH_CHAMBER.position.get()/2),
+                () -> (goUp = !goUp)
         );
     }
 

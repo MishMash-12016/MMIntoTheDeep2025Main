@@ -214,7 +214,7 @@ public class Red_Right_6 extends MMOpMode {
 
                 new ParallelCommandGroupNoCheck(
                         new runFromHere(),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.4),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.34),
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                         new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.toDouble() < Math.toRadians(-135)).andThen(

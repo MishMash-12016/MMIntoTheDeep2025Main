@@ -275,30 +275,31 @@ public class Vision extends SubsystemBase {
     //Only change the angle of the intake rotator
     public SequentialCommandGroup angleChange() {
         return new SequentialCommandGroup(
-                new InstantCommand(() -> telemetry.addData("started angle", IntakeSampleCommand.elapsedTime.milliseconds())),
+//                new InstantCommand(() -> telemetry.addData("started angle", IntakeSampleCommand.elapsedTime.milliseconds())),
                 new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
 
                 new InstantCommand(() -> findClosestForPython()),
-                new InstantCommand(() -> telemetry.addData("findClosestForPython", IntakeSampleCommand.elapsedTime.milliseconds())),
+//                new InstantCommand(() -> telemetry.addData("findClosestForPython", IntakeSampleCommand.elapsedTime.milliseconds())),
                 new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
 
 
                 new WaitUntilCommand(() -> switchToPython()),
-                new InstantCommand(() -> telemetry.addData("switchToPython", IntakeSampleCommand.elapsedTime.milliseconds())),
+//                new InstantCommand(() -> telemetry.addData("switchToPython", IntakeSampleCommand.elapsedTime.milliseconds())),
                 new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
 
 
                 new WaitUntilCommand(() -> camera.getStatus().getPipelineIndex() == Vision.currentPipeline),
-                new InstantCommand(() -> telemetry.addData("switched to python time", IntakeSampleCommand.elapsedTime.milliseconds())),
+//                new InstantCommand(() -> telemetry.addData("switched to python time", IntakeSampleCommand.elapsedTime.milliseconds())),
                 new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
 
 
                 new InstantCommand(() -> camera.updatePythonInputs(new double[]{0.0, 0, 0, length, height, x, y, 0.0})),
                 new WaitUntilCommand(() -> camera.getLatestResult().getPythonOutput()[0] != 0),
-                new InstantCommand(() -> telemetry.addData("updated pyhton input", IntakeSampleCommand.elapsedTime.milliseconds())),
+//                new InstantCommand(() -> telemetry.addData("updated pyhton input", IntakeSampleCommand.elapsedTime.milliseconds())),
                 new InstantCommand(()->IntakeSampleCommand.elapsedTime.reset()),
-                limelightGetter.getRotateToSample(),
-                new InstantCommand(() -> telemetry.addData("finished angle", IntakeSampleCommand.elapsedTime.milliseconds()))
+                limelightGetter.getRotateToSample()
+//                ,
+//                new InstantCommand(() -> telemetry.addData("finished angle", IntakeSampleCommand.elapsedTime.milliseconds()))
         );
     }
 
@@ -325,45 +326,45 @@ public class Vision extends SubsystemBase {
         if (result != null) { //if it detects something
             if (currentPipeline == 0) {
                 List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
-                if (!detectorResults.isEmpty()) {
-//                    LLResultTypes.DetectorResult sample = detectorResults.get(0);
-//                    List<List<Double>> corners = sample.getTargetCorners();
-//                    List<Double> leftUp = corners.get(0);
-//                    List<Double> rightUp = corners.get(1);
-//                    List<Double> rightDown = corners.get(2);
-//                    List<Double> leftDown = corners.get(3);
-//                    telemetry.addData("leftUp ->", leftUp);
-//                    telemetry.addData("rightUp ->", rightUp);
-//                    telemetry.addData("rightDown ->", rightDown);
-//                    telemetry.addData("leftDown ->", leftDown);
-//                    telemetry.addData("length ->", MathTools.distance(leftUp, rightUp));
-//                    telemetry.addData("height ->", MathTools.distance(rightDown, rightUp));
-                } else {
-                    telemetry.addData("not found anything", -1);
-                }
-            } else {
-                telemetry.addData("Turn Servo Degrees", getTurnServoDegree());
+//                if (!detectorResults.isEmpty()) {
+////                    LLResultTypes.DetectorResult sample = detectorResults.get(0);
+////                    List<List<Double>> corners = sample.getTargetCorners();
+////                    List<Double> leftUp = corners.get(0);
+////                    List<Double> rightUp = corners.get(1);
+////                    List<Double> rightDown = corners.get(2);
+////                    List<Double> leftDown = corners.get(3);
+////                    telemetry.addData("leftUp ->", leftUp);
+////                    telemetry.addData("rightUp ->", rightUp);
+////                    telemetry.addData("rightDown ->", rightDown);
+////                    telemetry.addData("leftDown ->", leftDown);
+////                    telemetry.addData("length ->", MathTools.distance(leftUp, rightUp));
+////                    telemetry.addData("height ->", MathTools.distance(rightDown, rightUp));
+//                } else {
+////                    telemetry.addData("not found anything", -1);
+//                }
+//            } else {
+////                telemetry.addData("Turn Servo Degrees", getTurnServoDegree());
             }
             long staleness = result.getStaleness();
 
             // Less than 100 milliseconds old
             isDataOld = staleness >= 100;
 
-            telemetry.addData("last width", length);
-            telemetry.addData("last height", height);
-            telemetry.addData("last x", x);
-            telemetry.addData("last y", y);
-            telemetry.addData("Tx", result.getTx());
-            telemetry.addData("Ty", result.getTy());
-            telemetry.addData("Ta", result.getTa());
-            telemetry.addData("Strafe Offset", getStrafeOffset());
-            telemetry.addData("Distance", getDistance());
-            telemetry.addData("angle fail", angleFail);
-            telemetry.addData("pipeline fail", pipelineSwitchFail);
-            telemetry.addData("last Angle - ", lastAngle);
-            telemetry.addData("is data old - ", isDataOld);
-            telemetry.addData("pipline", camera.getStatus().getPipelineIndex());
-            telemetry.addData("pipline type", camera.getStatus().getPipelineType());
+//            telemetry.addData("last width", length);
+//            telemetry.addData("last height", height);
+//            telemetry.addData("last x", x);
+//            telemetry.addData("last y", y);
+//            telemetry.addData("Tx", result.getTx());
+//            telemetry.addData("Ty", result.getTy());
+//            telemetry.addData("Ta", result.getTa());
+//            telemetry.addData("Strafe Offset", getStrafeOffset());
+//            telemetry.addData("Distance", getDistance());
+//            telemetry.addData("angle fail", angleFail);
+//            telemetry.addData("pipeline fail", pipelineSwitchFail);
+//            telemetry.addData("last Angle - ", lastAngle);
+//            telemetry.addData("is data old - ", isDataOld);
+//            telemetry.addData("pipline", camera.getStatus().getPipelineIndex());
+//            telemetry.addData("pipline type", camera.getStatus().getPipelineType());
         }
     }
 }
