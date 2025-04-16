@@ -25,7 +25,7 @@ import org.opencv.core.Mat;
 @Config
 public class strafeToSampleAuto extends CommandBase {
 
-    public static double maxDistanceY = 410;
+    public static double maxDistanceY = 412;
     public static double maxDistanceYShort = 412;
     public static double plusDistanceX = 0.1;
     public static double accelerationMultiplierShort = 0.72;
@@ -49,7 +49,7 @@ public class strafeToSampleAuto extends CommandBase {
         double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset(lastResult) + plusDistanceX;
         double distanceY = (maxDistanceY - MMRobot.getInstance().mmSystems.vision.getDistance(lastResult)) / 25.4;
         double accelerationMultiplier = accelerationMultiplierLong;
-        if (distanceX < limit) {
+        if (Math.abs(distanceX) < limit) {
             accelerationMultiplier = accelerationMultiplierShort;
             maxDistanceY = maxDistanceYShort;
         }
@@ -61,13 +61,13 @@ public class strafeToSampleAuto extends CommandBase {
         if (distanceX != 0) {
 //            distanceX += (Vision.length/pixelX) / 2.54;
 //            distanceY -= (Vision.height/pixelY) / 2.54;
-            if (distanceX > theOtherSide) {
-                distanceX += theOtherSideAdder;
+            if (distanceX > theOtherSide){
+                distanceX +=theOtherSideAdder;
             }
             MMRobot.getInstance().mmSystems.driveTrain.pinpoint.update();
             Pose2d currentPose = MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR();
 
-            Translation2d distanceXVector = new Translation2d(distanceX, new Rotation2d(currentPose.heading.toDouble() + Math.toRadians(90)));
+            Translation2d distanceXVector = new Translation2d(distanceX,new Rotation2d(currentPose.heading.toDouble() + Math.toRadians(90)));
             Translation2d distanceYVector = new Translation2d(distanceY, new Rotation2d(currentPose.heading.toDouble()));
             Translation2d endPoint = new Translation2d(currentPose.position.x, currentPose.position.y)
                     .plus(distanceXVector)
