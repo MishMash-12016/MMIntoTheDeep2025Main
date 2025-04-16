@@ -95,12 +95,12 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush1 = driveToEject.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(28, -37, Math.toRadians(225)), Math.toRadians(50),
+                .splineToLinearHeading(new Pose2d(28.5, -37, Math.toRadians(225)), Math.toRadians(50),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2)
                 );
         TrajectoryActionBuilder turnRobot = driveToPush1.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(29.5, -47), Math.toRadians(140),
+                .strafeToLinearHeading(new Vector2d(31, -47), Math.toRadians(140),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 2),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.6));
 
@@ -116,15 +116,15 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush3 = turnRobot2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(47.5, -34, Math.toRadians(210)), Math.toRadians(50),
+                .splineToLinearHeading(new Pose2d(47, -34, Math.toRadians(210)), Math.toRadians(50),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.5));
         TrajectoryActionBuilder turnRobot3 = driveToPush3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(270))
-                .splineToSplineHeading(new Pose2d(47.5, -47, Math.toRadians(90)), Math.toRadians(270),
+                .splineToSplineHeading(new Pose2d(47, -47, Math.toRadians(90)), Math.toRadians(270),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel*1.5),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.2, MecanumDrive.PARAMS.maxProfileAccel * 1.2))
-                .splineToLinearHeading(new Pose2d(47.5, -75, Math.toRadians(90)), Math.toRadians(270),
+                .splineToLinearHeading(new Pose2d(47, -75, Math.toRadians(90)), Math.toRadians(270),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.7, MecanumDrive.PARAMS.maxProfileAccel*0.9));
 
@@ -201,15 +201,11 @@ public class Red_Right_6 extends MMOpMode {
                         AutoSpecimensCommand.PrepareSpecimenScorePreLoad(),
                         new WaitCommand(300).andThen(
                                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE)
-                        )
+                        ),
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
                 ),
 
-
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
-                        IntakeSampleCommand.limeLightIntake_Auto_for_specimen().withTimeout(3500)
-                ),
-
+                IntakeSampleCommand.limeLightIntake_Auto_for_specimen().withTimeout(4000),
 
                 new ParallelCommandGroupNoCheck(
                         new runFromHere(),
@@ -256,7 +252,7 @@ public class Red_Right_6 extends MMOpMode {
                 ),
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                 new ActionCommand(driveToPush3.build()).alongWith(
-                        new WaitUntilCommand(() -> getAng() >= 190).andThen(
+                        new WaitUntilCommand(() -> getAng() >= 180).andThen(
                                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING)
                         ),
                         setupForPushing()

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.CommandGroup;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
@@ -11,7 +10,6 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-//import org.firstinspires.ftc.teamcode.Autonomous.AutoOnePlusFiveRightRed;
 import org.firstinspires.ftc.teamcode.Autonomous.ActionCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -172,17 +170,15 @@ public class IntakeSampleCommand {
                                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE))
                 ),
 
-                new SequentialCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
-                        new WaitCommand(300),
-                        MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
-                        new WaitCommand(200),
-                        new ParallelCommandGroup(
-                                MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.34),
-                                MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
-                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE)
-                        )
-                )
+                intake()
+        );
+    }
+    public static Command intake() {
+        return new FixedSequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SAMPLE_INTAKE_POSE),
+                new WaitCommand(300),
+                MMRobot.getInstance().mmSystems.intakEndUnit.closeIntakeClaw(),
+                new WaitCommand(200)
         );
     }
     public static ActionCommand driveRight(){
