@@ -106,11 +106,11 @@ public class Red_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(38.3, -37, Math.toRadians(225)), Math.toRadians(50),
+                .splineToLinearHeading(new Pose2d(38.8, -37, Math.toRadians(225)), Math.toRadians(50),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(38.7, -45), Math.toRadians(130),
+                .strafeToLinearHeading(new Vector2d(39.2, -45), Math.toRadians(130),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 2),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.6));
 

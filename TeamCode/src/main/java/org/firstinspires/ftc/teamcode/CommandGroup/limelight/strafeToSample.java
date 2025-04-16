@@ -14,19 +14,17 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.Vision;
 import org.firstinspires.ftc.teamcode.utils.MathTools;
-import org.firstinspires.ftc.teamcode.utils.geometry.Translation2d;
 import org.firstinspires.ftc.teamcode.utils.geometry.Rotation2d;
-import org.opencv.core.Mat;
+import org.firstinspires.ftc.teamcode.utils.geometry.Translation2d;
 
 
 @Config
 public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
-    public static double maxDistanceY = 412;
-    public static double maxDistanceYShort = 412;
+    public static double maxDistanceY = 425;
+    public static double maxDistanceYShort = 425;
     public static double plusDistanceX = 0.1;
     public static double accelerationMultiplierShort = 0.72;
     public static double limit = 10;

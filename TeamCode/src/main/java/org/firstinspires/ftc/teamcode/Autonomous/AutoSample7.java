@@ -16,7 +16,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandGroup.IntakeSampleCommand;
 import org.firstinspires.ftc.teamcode.CommandGroup.ScoringSampleCommand;
-import org.firstinspires.ftc.teamcode.CommandGroup.limelight.limelightGetter;
 import org.firstinspires.ftc.teamcode.CommandGroup.roadRunnewr.sampleGoToScore;
 import org.firstinspires.ftc.teamcode.Libraries.MMLib.MMOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
@@ -30,7 +29,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.LinearIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringArm;
 import org.firstinspires.ftc.teamcode.SubSystems.ScoringEndUnitElbow;
 import org.firstinspires.ftc.teamcode.utils.FixedSequentialCommandGroup;
-import org.firstinspires.ftc.teamcode.utils.LazyActionCommand;
 import org.firstinspires.ftc.teamcode.utils.OpModeType;
 
 //TODO:rot
@@ -222,11 +220,7 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.ScoreHighSample()
                 ),
                 new WaitCommand(500),
-                IntakeSampleCommand.limeLightIntake_Auto().withTimeout(3000),
-                new LazyActionCommand(()->limelightGetter.currentTraj.build()),
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
-                new WaitCommand(400),
-                IntakeSampleCommand.FirstSampleIntake(),
+                IntakeSampleCommand.limeLightIntake_TeleOpButAuto().withTimeout(3000),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
@@ -237,12 +231,8 @@ public class AutoSample7 extends MMOpMode {
                         ScoringSampleCommand.ScoreHighSample()
                 ),
                 new WaitCommand(500),
-                IntakeSampleCommand.limeLightIntake_Auto().withTimeout(3000),
-                new LazyActionCommand(()->limelightGetter.currentTraj.build()),
+                IntakeSampleCommand.limeLightIntake_TeleOpButAuto().withTimeout(3000),
 
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
-                new WaitCommand(400),
-                IntakeSampleCommand.FirstSampleIntake(),
 
                 new sampleGoToScore().alongWith(
                         ScoringSampleCommand.PrepareHighSample_Auto()
