@@ -223,6 +223,7 @@ public class AutoSample7 extends MMOpMode {
                 IntakeSampleCommand.limeLightIntake_TeleOpButAuto().withTimeout(3000),
 
                 new sampleGoToScore().alongWith(
+                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
                         ScoringSampleCommand.PrepareHighSample_Auto()
                 ),
 

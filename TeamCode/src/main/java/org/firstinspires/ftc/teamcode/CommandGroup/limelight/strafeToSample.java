@@ -23,9 +23,9 @@ import org.firstinspires.ftc.teamcode.utils.geometry.Translation2d;
 public class strafeToSample extends CommandBase {
     MecanumDrive.CancelableFollowTrajectoryAction strafeTrajectory;
 
-    public static double maxDistanceY = 425;
-    public static double maxDistanceYShort = 425;
-    public static double plusDistanceX = 0.9;
+    public static double maxDistanceY = 412;
+    public static double maxDistanceYShort = 412;
+    public static double plusDistanceX = 0.5;
     public static double accelerationMultiplierShort = 0.72;
     public static double limit = 10;
     public static double theOtherSide = -2.5;
@@ -33,9 +33,13 @@ public class strafeToSample extends CommandBase {
     public static double accelerationMultiplierLong = 1;
     Boolean finished = true;
 
+    boolean isSample;
+    public static double samplePlusDis = 2.5;
+
 
     Boolean found = false;
-    public strafeToSample() {
+    public strafeToSample(boolean isSample) {
+        this.isSample = isSample;
         addRequirements(
                 MMRobot.getInstance().mmSystems.driveTrain);
     }
@@ -45,11 +49,17 @@ public class strafeToSample extends CommandBase {
     public void initialize() {
         LLResult lastResult = MMRobot.getInstance().mmSystems.vision.getPreviousResult();
         double distanceX = MMRobot.getInstance().mmSystems.vision.getStrafeOffset(lastResult) + plusDistanceX;
+        if (distanceX == plusDistanceX){
+            FtcDashboard.getInstance().getTelemetry().addData("OHHHHHHHHHNOOO","");
+        }
         double distanceY = (maxDistanceY - MMRobot.getInstance().mmSystems.vision.getDistance(lastResult)) / 25.4;
         double accelerationMultiplier = accelerationMultiplierLong;
         if (Math.abs(distanceX) < limit) {
             accelerationMultiplier = accelerationMultiplierShort;
             maxDistanceY = maxDistanceYShort;
+        }
+        if (isSample){
+            plusDistanceX = samplePlusDis;
         }
 
         FtcDashboard.getInstance().getTelemetry().addData("distanceX - ",distanceX);

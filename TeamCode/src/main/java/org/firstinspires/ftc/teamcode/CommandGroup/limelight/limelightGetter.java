@@ -27,12 +27,8 @@ public class limelightGetter {
         return new goToSpecimen(pose2d, tangent, velConstraint, accelConstraint, setTangent);
     }
 
-    public static Command strafeToSample() {
-        return new strafeToSample();
-    }
-
-    public static Command strafeToSampleAuto() {
-        return new strafeToSampleAuto();
+    public static Command strafeToSample(boolean isSample) {
+        return new strafeToSample(isSample);
     }
 
     public static Command interruptibleTrajectory(BooleanSupplier flag , Vector2d pose2d, double tangent, VelConstraint velConstraint, AccelConstraint accelConstraint , Double setTangent) {

@@ -80,11 +80,6 @@ public class ManualDrive_RED extends MMOpMode {
                                 new InstantCommand(() -> SpecimenIntake = false)
                         )
         );
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                IntakeSampleCommand.doLimelightIntake_Auto(IntakeEndUnitRotator.defaultPose).alongWith(
-                        new InstantCommand(() -> SpecimenIntake = false)
-                )
-        );
 
                 //prepareSampleIntake
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(

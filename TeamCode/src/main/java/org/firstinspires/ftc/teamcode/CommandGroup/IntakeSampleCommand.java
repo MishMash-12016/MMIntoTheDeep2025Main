@@ -103,7 +103,7 @@ public class IntakeSampleCommand {
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
                 MMRobot.getInstance().mmSystems.vision.angleChange(),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                limelightGetter.strafeToSample(),
+                limelightGetter.strafeToSample(true),
 
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
                 new WaitCommand(400),
@@ -128,31 +128,12 @@ public class IntakeSampleCommand {
                 new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
                 MMRobot.getInstance().mmSystems.vision.angleChange(),
                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                limelightGetter.strafeToSample(),
+                limelightGetter.strafeToSample(true),
 
                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
                 new WaitCommand(400),
                 FirstSampleIntake()
         );
-    }
-
-    public static Command limeLightIntake_Auto() {
-        return new FixedSequentialCommandGroup(
-                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
-
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE)
-                ),
-
-                //Lamlam side:
-                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
-                MMRobot.getInstance().mmSystems.vision.angleChange(),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                limelightGetter.strafeToSampleAuto());
     }
 
     public static Command limeLightIntake_Auto_for_specimen() {
@@ -165,7 +146,7 @@ public class IntakeSampleCommand {
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
                         MMRobot.getInstance().mmSystems.vision.angleChange(),
                         new ParallelCommandGroup(
-                                limelightGetter.strafeToSample(),
+                                limelightGetter.strafeToSample(false),
                                 MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
                                 MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE))
                 ),
@@ -187,43 +168,6 @@ public class IntakeSampleCommand {
                         .strafeTo(new Vector2d(MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().position.x,MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().position.y + 5 ))
                         .build());
     }
-
-    public static Command doLimelightIntake_Auto(double angle) {
-        return new FixedSequentialCommandGroup(
-                new ConditionalCommand(
-                                driveRight(),
-                        new InstantCommand(()->{}),
-                        ()->MMRobot.getInstance().mmSystems.vision.isTargetVisible()
-                ),
-                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
-                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
-
-                new ParallelCommandGroup(
-                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
-                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE)
-                ),
-
-                //Lamlam side:
-                new FixedSequentialCommandGroup(
-                        new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
-                        MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(angle),
-
-                        limelightGetter.strafeToSample().alongWith(
-                                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING))
-
-//                        limelightGetter.getOpenLinearToSample()
-                ).interruptOn(
-                        () -> MMRobot.getInstance().mmSystems.driveTrain.joystickMoved()),
-                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
-                new WaitCommand(200),
-                FirstSampleIntake(),
-                new WaitCommand(300),
-                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.CLOSED_POSE)
-        );
-    }
-
 
 
 
