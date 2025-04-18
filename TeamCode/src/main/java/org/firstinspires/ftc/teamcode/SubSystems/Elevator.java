@@ -55,7 +55,7 @@ public class Elevator extends MMPIDSubsystem {
 
     public static double elevatorHighBasket = 48;
     public static double elevatorDown = 0;
-    public static double elevatorClimbHigh = 63; //TODO:find high bar height
+    public static double elevatorClimbHigh = 64; //TODO:find high bar height
     public static double elevatorClimb = 40;
 
     public enum ElevatorState {
