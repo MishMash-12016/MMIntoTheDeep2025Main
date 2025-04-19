@@ -11,7 +11,6 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import edu.wpi.first.math.MathUtil;
 import lombok.Getter;
@@ -32,7 +31,8 @@ public class Vision extends SubsystemBase {
 
     private LLResult previousResult;
 
-    public static int color; //current color need to be detected
+    public static int colorToDetectPipeline; //current color need to be detected
+    public static int detectedColorID; //current color need to be detected
     public static int currentPipeline; // current color
 
 
@@ -53,7 +53,6 @@ public class Vision extends SubsystemBase {
     public static double height = -1;
     public static double x = -1;
     public static double y = -1;
-    public boolean auto;
     public static List<Double> targetLeftUp;
 
     //telemtry idk man:
@@ -79,12 +78,6 @@ public class Vision extends SubsystemBase {
         camera.start();
     }
 
-    public void setAutonumus(){
-        auto = true;
-    }
-    public void setTeleop(){
-        auto = false;
-    }
     //Get degrees in X axis
     public double getTx(double defaultValue) {
         if (result == null) {
@@ -203,45 +196,46 @@ public class Vision extends SubsystemBase {
     }
 
     public void trackRed() {
-        color = 0;
+        colorToDetectPipeline = 0;
     }
 
-    public void trackYellow() {
-        color = 1;
+    public void trackRedAndYellow() {
+        colorToDetectPipeline = 6;
+    }
+
+    public void trackBlueAndYellow() {
+        colorToDetectPipeline = 7;
     }
 
     public void trackBlue() {
-        color = 2;
-    }
-
-    public boolean trackSpecimen() {
-        currentPipeline = color + 5;
-        if (!camera.pipelineSwitch(currentPipeline)) {
-            telemetry.addData("failed to switch to python", color);
-            pipelineSwitchFail += 1;
-            return false;
-        }
-        return true;
+        colorToDetectPipeline = 2;
     }
 
     //Switch to python based detection pipepline
     public boolean switchToPython() {
-        currentPipeline = color + 3;
+        if (detectedColorID == 0){
+            currentPipeline =3;
+        }
+        else if (detectedColorID == 1){
+            currentPipeline =4;
+        }
+        else if (detectedColorID == 2){
+            currentPipeline =5;
+        }
         if (!camera.pipelineSwitch(currentPipeline)) {
-            telemetry.addData("failed to switch to python", color);
+            telemetry.addData("failed to switch to python", colorToDetectPipeline);
             pipelineSwitchFail += 1;
             return false;
         }
         return true;
     }
 
+
+
     //Switch to neural-detector based detection pipepline (AI omg ooga booga big words I love man)
     public boolean switchToDetector() {
 //        telemetry.addData("time sinceupdate", camera.getTimeSinceLastUpdate());
-        currentPipeline = color;
-        if (auto){
-            currentPipeline += 6;
-        }
+        currentPipeline = colorToDetectPipeline;
         if (!camera.pipelineSwitch(currentPipeline)) {
             telemetry.addData("failed to switch to detector", 0);
             pipelineSwitchFail += 1;
@@ -265,6 +259,7 @@ public class Vision extends SubsystemBase {
                 targetLeftUp = leftUp;
                 x = targetLeftUp.get(0);
                 y = targetLeftUp.get(1);
+                detectedColorID = dr.getClassId();
             }
         }
     }

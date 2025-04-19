@@ -63,7 +63,6 @@ public class Blue_Right_6 extends MMOpMode {
         robotInstance = MMRobot.getInstance();
         robotInstance.mmSystems.initRobotSystems(this);
         MMRobot.getInstance().mmSystems.vision.trackBlue();
-        MMRobot.getInstance().mmSystems.vision.setAutonumus();
 
         Pose2d currentPose = new Pose2d(5.5, -61.23, Math.toRadians(PinpointDrive._autoStartAngle = 270));
 //        PinpointDrive._autoStartAngle -= 90;

@@ -7,10 +7,9 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TrajectoryBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.Autonomous.AutoSample7;
+import org.firstinspires.ftc.teamcode.Autonomous.AutoSample7_Red;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MMRobot;
 
@@ -34,7 +33,7 @@ public class sampleGoToScore extends CommandBase {
         TrajectoryBuilder strafe = MMRobot.getInstance().mmSystems.driveTrain.trajectoryBuilder(currentPose)
                 .setTangent(Math.toRadians(220))
                 .splineToSplineHeading(new Pose2d(-40,-18,Math.toRadians(240)), Math.toRadians(250))
-                .splineToSplineHeading(AutoSample7.
+                .splineToSplineHeading(AutoSample7_Red.
                                 scorePose, Math.toRadians(250),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel*1),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel*1.2));

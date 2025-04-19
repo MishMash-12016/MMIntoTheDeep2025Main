@@ -54,7 +54,6 @@ public class ManualDrive_RED extends MMOpMode {
         robotInstance.mmSystems.initRobotSystemsDontMove(this);
         robotInstance.mmSystems.initDriveTrain();
         robotInstance.mmSystems.teleop();
-        robotInstance.mmSystems.vision.trackYellow();
 //        robotInstance.mmSystems.driveTrain.pose = MMSystems.AutoPose;
 //        robotInstance.mmSystems.currentPose = MMSystems.AutoPose;
 
@@ -69,16 +68,6 @@ public class ManualDrive_RED extends MMOpMode {
 
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
                 () -> mmSystems.driveTrain.resetRotation()
-        );
-
-
-
-//                 LIMELIGHT HAS RETURNED...
-        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-//                        new InstantCommand(()->MMRobot.getInstance().mmSystems.auto(), MMRobot.getInstance().mmSystems.driveTrain),
-                        IntakeSampleCommand.limeLightIntake_TeleOp().alongWith(
-                                new InstantCommand(() -> SpecimenIntake = false)
-                        )
         );
 
                 //prepareSampleIntake
@@ -121,16 +110,9 @@ public class ManualDrive_RED extends MMOpMode {
                 ScoringSampleCommand.PrepareHighSample()
         );
         mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                ScoringSampleCommand.ScoreHighSample()
+                ScoringSampleCommand.ScoreHighSampleTeleOp()
         );
 
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whileHeld(
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackRed())
-        );
-
-        mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whileHeld(
-                new InstantCommand(()->MMRobot.getInstance().mmSystems.vision.trackYellow())
-        );
 
 
 //        new Trigger(() -> mmSystems.gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05)
@@ -159,10 +141,6 @@ public class ManualDrive_RED extends MMOpMode {
                 new SequentialCommandGroup(
                         ScoringSampleCommand.PrepareHighSampleEran()
                 )
-        );
-
-        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                ()-> MMRobot.getInstance().mmSystems.vision.switchToPython()
         );
 
 //        mmSystems.gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(

@@ -122,4 +122,16 @@ public class ScoringSampleCommand {
                 )
         );
     }
+    public static Command ScoreHighSampleTeleOp(){
+        return new SequentialCommandGroup(
+                MMRobot.getInstance().mmSystems.scoringClawEndUnit.openScoringClaw(),
+                new WaitCommand(450),
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.elevator.ElevatorGetToZeroSensor(),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArm.IntakeArmState.SPECIMEN_INTAKE),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER)
+                )
+        );
+    }
 }
