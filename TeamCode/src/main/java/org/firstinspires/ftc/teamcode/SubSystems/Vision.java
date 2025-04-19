@@ -214,13 +214,13 @@ public class Vision extends SubsystemBase {
     //Switch to python based detection pipepline
     public boolean switchToPython() {
         if (detectedColorID == 0){
-            currentPipeline =3;
+            currentPipeline = 5;
         }
         else if (detectedColorID == 1){
-            currentPipeline =4;
+            currentPipeline = 3;
         }
         else if (detectedColorID == 2){
-            currentPipeline =5;
+            currentPipeline = 4;
         }
         if (!camera.pipelineSwitch(currentPipeline)) {
             telemetry.addData("failed to switch to python", colorToDetectPipeline);
