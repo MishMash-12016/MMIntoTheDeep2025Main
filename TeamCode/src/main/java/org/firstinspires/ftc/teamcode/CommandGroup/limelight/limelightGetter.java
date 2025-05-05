@@ -31,6 +31,10 @@ public class limelightGetter {
         return new strafeToSample(isSample);
     }
 
+    public static Command strafeToSampleFirst(boolean isSample) {
+        return new strafeToSampleFirst(isSample);
+    }
+
     public static Command interruptibleTrajectory(BooleanSupplier flag , Vector2d pose2d, double tangent, VelConstraint velConstraint, AccelConstraint accelConstraint , Double setTangent) {
         return new interruptibleTrajectory( flag ,  pose2d,  tangent,  velConstraint,  accelConstraint ,  setTangent);
     }

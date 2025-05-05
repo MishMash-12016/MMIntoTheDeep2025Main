@@ -220,7 +220,7 @@ public class AutoSample7_Red extends MMOpMode {
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector())
                 ),
                 new WaitCommand(500),
-                IntakeSampleCommand.limeLightIntake_TeleOpButAuto().withTimeout(3000),
+                IntakeSampleCommand.limeLightIntake_TeleOpButAuto_First().withTimeout(3000),
 
                 new sampleGoToScore().alongWith(
                         new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),

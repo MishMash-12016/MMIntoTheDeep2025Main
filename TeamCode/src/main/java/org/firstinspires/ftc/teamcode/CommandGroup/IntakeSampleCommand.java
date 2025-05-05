@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.CommandGroup;
 
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -111,6 +110,31 @@ public class IntakeSampleCommand {
                 FirstSampleIntake()
         );
     }
+
+    public static Command limeLightIntake_TeleOpButAuto_First() {
+        return new FixedSequentialCommandGroup(
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.switchToDetector()),
+                new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.vision.getPipelineIndex() == Vision.currentPipeline),
+
+                new ParallelCommandGroup(
+                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw(),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.SPECIMEN_INTAKE),
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE)
+                ),
+
+                //Lamlam side:
+                new InstantCommand(() -> MMRobot.getInstance().mmSystems.vision.setPreviousResult()),
+                MMRobot.getInstance().mmSystems.vision.angleChange(),
+                MMRobot.getInstance().mmSystems.intakeArm.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE),
+                limelightGetter.strafeToSampleFirst(true),
+
+                MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntakeState.MAX_OPENING),
+                new WaitCommand(400),
+                FirstSampleIntake()
+        );
+    }
+
 
     public static Command limeLightIntake_Auto_for_specimen() {
         return new FixedSequentialCommandGroup(
