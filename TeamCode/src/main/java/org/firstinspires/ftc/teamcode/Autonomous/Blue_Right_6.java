@@ -46,7 +46,7 @@ public class Blue_Right_6 extends MMOpMode {
     static MMRobot robotInstance;
     static final double halfOpenClaw = 0.65;
     static final double rotator = 0;
-    final double intakeArmPose = 0.58;
+    final double intakeArmPose = 0.66;
 
     //parking position
     public static final double tangentsToIntakeSpecimen = 310;
@@ -507,7 +507,7 @@ public class Blue_Right_6 extends MMOpMode {
     private static Command setupForPushing() {
         return new ParallelCommandGroup(
                 //MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                robotInstance.mmSystems.intakeArm.setPosition(0.5),
+                robotInstance.mmSystems.intakeArm.setPosition(0.66),
                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
                 robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)
         );

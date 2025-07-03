@@ -46,7 +46,7 @@ public class Red_Right_6 extends MMOpMode {
     static MMRobot robotInstance;
     static final double halfOpenClaw = 0.65;
     static final double rotator = 0;
-    final double intakeArmPose = 0.58;
+    final double intakeArmPose = 0.66;
 
     //parking position
     public static final double tangentsToIntakeSpecimen = 310;

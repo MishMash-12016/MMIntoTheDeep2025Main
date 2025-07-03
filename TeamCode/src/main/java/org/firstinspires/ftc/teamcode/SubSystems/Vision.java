@@ -237,7 +237,7 @@ public class Vision extends SubsystemBase {
 //        telemetry.addData("time sinceupdate", camera.getTimeSinceLastUpdate());
         currentPipeline = colorToDetectPipeline;
         if (!camera.pipelineSwitch(currentPipeline)) {
-            telemetry.addData("failed to switch to detector", 0);
+            telemetry.addData("fa   iled to switch to detector", 0);
             pipelineSwitchFail += 1;
             return false;
         }

@@ -10,14 +10,16 @@ import org.firstinspires.ftc.teamcode.MMRobot;
 import org.firstinspires.ftc.teamcode.utils.Configuration;
 
 import java.util.function.Supplier;
+
 //0.3
 @Config
-public class IntakeArm extends SubsystemBase {
-    public static double intakeArmIntakeSamplePos = 0.57;
-    public static double intakeArmPrepareIntakeSamplePose = 0.5;
-    public static double intakeArmSpecimenIntakePose = 0.2;
-    public static double intakeArmTransferSamplePose = 0.03;
-    public static double intakeArmInitPose = 0.05;
+public class
+IntakeArm extends SubsystemBase {
+    public static double intakeArmIntakeSamplePos = 0.61;
+    public static double intakeArmPrepareIntakeSamplePose = 0.52;
+    public static double intakeArmSpecimenIntakePose = 0.33;
+    public static double intakeArmTransferSamplePose = 0.08;
+    public static double intakeArmInitPose = 0.08;
     public double estimatedPose;
     CuttleServo servoLeft;
     CuttleServo servoRight;
