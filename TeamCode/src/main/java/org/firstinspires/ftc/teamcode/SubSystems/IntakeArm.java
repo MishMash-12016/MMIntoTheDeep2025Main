@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.MMRobot;
@@ -15,7 +16,7 @@ import java.util.function.Supplier;
 @Config
 public class
 IntakeArm extends SubsystemBase {
-    public static double intakeArmIntakeSamplePos = 0.61;
+    public static double intakeArmIntakeSamplePos = 0.63;
     public static double intakeArmPrepareIntakeSamplePose = 0.52;
     public static double intakeArmSpecimenIntakePose = 0.33;
     public static double intakeArmTransferSamplePose = 0.08;
@@ -37,34 +38,36 @@ IntakeArm extends SubsystemBase {
             this.position = position;
         }
     }
-
+    Servo intakeLeft;
+    Servo intakeRight;
     public IntakeArm() {
-        servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_LEFT);
-        servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_RIGHT);
+
+        intakeLeft = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "L intake arm ");//5
+        intakeRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "R intake arm"); //2
 
         estimatedPose = IntakeArmState.INIT_POSE.position.get();
-        servoLeft.setPosition(IntakeArmState.INIT_POSE.position.get());
-        servoRight.setPosition(1 - IntakeArmState.INIT_POSE.position.get()+0.015);
+        intakeLeft.setPosition(IntakeArmState.INIT_POSE.position.get());
+        intakeRight.setPosition(1 - IntakeArmState.INIT_POSE.position.get()+0.015);
     }
     public IntakeArm(boolean Void) {
-        servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_LEFT);
-        servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_RIGHT);
+        intakeLeft = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "L intake arm ");//5
+        intakeRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "R intake arm"); //2
 
         estimatedPose = IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get();
-        servoLeft.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get());
-        servoRight.setPosition(1 - IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get()+0.015);
+        intakeLeft.setPosition(IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get());
+        intakeRight.setPosition(1 - IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get()+0.015);
     }
 
     public IntakeArm(int dontMove) {
-        servoLeft = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_LEFT);
-        servoRight = new CuttleServo(MMRobot.getInstance().mmSystems.controlHub, Configuration.INTAKE_ARM_SERVO_RIGHT);
-    }
+        intakeLeft = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "L intake arm ");//5
+        intakeRight = MMRobot.getInstance().mmSystems.hardwareMap.get(Servo.class, "R intake arm"); //2
+ }
 
     public Command setPosition(double newPos) {
         estimatedPose = newPos;
         return new InstantCommand(() -> {
-            servoLeft.setPosition(newPos);
-            servoRight.setPosition(1 - newPos+0.015);
+            intakeLeft.setPosition(newPos);
+            intakeRight.setPosition(1 - newPos+0.015);
         },
                 this);
     }
@@ -72,8 +75,8 @@ IntakeArm extends SubsystemBase {
     public Command setPosition(IntakeArmState state) {
         estimatedPose = state.position.get();
         return new InstantCommand(() -> {
-            servoLeft.setPosition(state.position.get());
-            servoRight.setPosition(1 - state.position.get()+0.015);
+            intakeLeft.setPosition(state.position.get());
+            intakeRight.setPosition(1 - state.position.get()+0.015);
         },
                 this);
     }
@@ -81,15 +84,15 @@ IntakeArm extends SubsystemBase {
     public Command setPositionWithoutRequirments(IntakeArmState state) {
         estimatedPose = state.position.get();
         return new InstantCommand(() -> {
-            servoLeft.setPosition(state.position.get());
-            servoRight.setPosition(1 - state.position.get()+0.015);
+            intakeLeft.setPosition(state.position.get());
+            intakeRight.setPosition(1 - state.position.get()+0.015);
         });
     }
 
     public void setPositionVoid(double newPos) {
         estimatedPose = newPos;
-        servoLeft.setPosition(newPos);
-        servoRight.setPosition(1 - newPos+0.015);
+        intakeLeft.setPosition(newPos);
+        intakeRight.setPosition(1 - newPos+0.015);
     }
 
     public double getPosition() {

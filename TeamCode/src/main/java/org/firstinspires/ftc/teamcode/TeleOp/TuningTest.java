@@ -31,6 +31,8 @@ public class TuningTest extends MMOpMode {
     private static double posElbow = ScoringEndUnitElbow.ScoringElbowState.INIT_POSE.position.get();
     private static double posArm = ScoringArm.ScoringArmState.INIT_POSE.position.get();
     private static double posIntakeArm = IntakeArm.IntakeArmState.PREPARE_SAMPLE_INTAKE.position.get();
+    private static double posScoringArm = ScoringArm.ScoringArmState.SCORE_ARM_SCORE_SAMPLE.position.get();
+
     public static double time = 900;
 
     HashMap<String, Double> poses = new HashMap<>();
@@ -82,9 +84,9 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posElbow += 0.05;
-                            IntakEndUnit.IntakeClawOpenPos = posElbow;
+                            ScoringEndUnitElbow.ElbowAfterScoreFromFront = posElbow;
                         }),
-                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(posElbow)
                 )
         );
 
@@ -93,11 +95,33 @@ public class TuningTest extends MMOpMode {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             posElbow -= 0.05;
-                            IntakEndUnit.IntakeClawOpenPos = posElbow;
+                            ScoringEndUnitElbow.ElbowAfterScoreFromFront = posElbow;
                         }),
-                        MMRobot.getInstance().mmSystems.intakEndUnit.openIntakeClaw()
+                        MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(posElbow)
                 )
         );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            posArm += 0.05;
+                            ScoringArm.scoringArmScoreSample = posScoringArm;
+                        }),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(posScoringArm)
+                )
+        );
+        MMRobot.getInstance().mmSystems.gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            posArm -= 0.05;
+                            ScoringArm.scoringArmScoreSample = posScoringArm;
+                        }),
+                        MMRobot.getInstance().mmSystems.scoringArm.setPosition(posScoringArm)
+                )
+        );
+
+
+
+
 //
 //
 //        ///intake rot
