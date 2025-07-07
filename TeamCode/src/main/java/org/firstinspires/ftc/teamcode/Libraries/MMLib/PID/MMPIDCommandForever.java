@@ -15,12 +15,13 @@ public class MMPIDCommandForever extends CommandBase {
 
     public final MMPIDSubsystem subsystem;
     private final SQPIDController pidController;
-    double setPoint = 0;
+    private final DoubleSupplier setPoint;
 
 
 
-    public MMPIDCommandForever(MMPIDSubsystem subsystem) {
+    public MMPIDCommandForever(MMPIDSubsystem subsystem, DoubleSupplier setPoint) {
         this.subsystem = subsystem;
+        this.setPoint = setPoint;
         this.pidController = subsystem.getPidController();
         addRequirements(subsystem);
     }
