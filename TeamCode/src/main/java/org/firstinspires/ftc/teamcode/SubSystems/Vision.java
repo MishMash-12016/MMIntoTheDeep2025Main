@@ -154,19 +154,6 @@ public class Vision extends SubsystemBase {
         return Math.abs(distanceMM);
     }
 
-    // Get the distance for the strafe
-    public double getStrafeOffset() {
-        double tx = getTx(0);
-        if (tx != 0) {
-            double tanTX = Math.tan(Math.toRadians(tx));
-            double height = CAMERA_HEIGHT - TARGET_HEIGHT;
-            double distanceY = getDistance();
-            double diagonalLength = Math.sqrt(height * height + distanceY * distanceY);
-            return tanTX * diagonalLength / 2.54 / 10;
-        }
-        return 0;
-    }
-
     // Get the distance for the strafe with given result
     public double getStrafeOffset(LLResult lastResult) {
         if (lastResult != null) {

@@ -25,10 +25,11 @@ public class strafeToSample extends CommandBase {
 
     public static double maxDistanceY = 422;
     public static double maxDistanceYShort = 422;
+
     public static double accelerationMultiplierShort = 0.72;
     public static double limit = 10;
     public static double theOtherSide = -2.5;
-    public static double theOtherSideAdder = 2.2;
+    public static double theOtherSideAdder = -1;
     public static double accelerationMultiplierLong = 1;
     Boolean finished = true;
 

@@ -46,7 +46,7 @@ public class Blue_Right_6 extends MMOpMode {
     static MMRobot robotInstance;
     static final double halfOpenClaw = 0.65;
     static final double rotator = 0;
-    final double intakeArmPose = 0.61;
+    final double intakeArmPose = 0.67;
 
     //parking position
     public static final double tangentsToIntakeSpecimen = 310;
@@ -105,11 +105,11 @@ public class Blue_Right_6 extends MMOpMode {
 
         TrajectoryActionBuilder driveToPush2 = turnRobot.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(38.3, -37, Math.toRadians(225)), Math.toRadians(50),
+                .splineToLinearHeading(new Pose2d(38.8, -37, Math.toRadians(225)), Math.toRadians(50),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 1.4),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel, MecanumDrive.PARAMS.maxProfileAccel * 1.2));
         TrajectoryActionBuilder turnRobot2 = driveToPush2.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(38.7, -45), Math.toRadians(130),
+                .strafeToLinearHeading(new Vector2d(39.2, -45), Math.toRadians(130),
                         new AngularVelConstraint(MecanumDrive.PARAMS.maxAngVel * 2),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 1.5, MecanumDrive.PARAMS.maxProfileAccel * 1.6));
 
@@ -208,7 +208,7 @@ public class Blue_Right_6 extends MMOpMode {
 
                 new ParallelCommandGroupNoCheck(
                         new runFromHere(),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.34),
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.43),
                         MMRobot.getInstance().mmSystems.intakeEndUnitRotator.setPosition(IntakeEndUnitRotator.IntakeRotatorState.DEFAULT_POSE),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
                         new WaitUntilCommand(() -> MMRobot.getInstance().mmSystems.driveTrain.pinpoint.getPositionRR().heading.toDouble() < Math.toRadians(-135)).andThen(
@@ -477,7 +477,7 @@ public class Blue_Right_6 extends MMOpMode {
                         MMRobot.getInstance().mmSystems.scoringEndUnitElbow.setPosition(ScoringEndUnitElbow.ScoringElbowState.PREPARE_SAMPLE_TRANSFER),
                         MMRobot.getInstance().mmSystems.scoringArm.setPosition(ScoringArm.ScoringArmState.ARM_PREPARE_SAMPLE_TRANSFER_POSE),
                         MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.MAX_OPENING),
-                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.4)
+                        MMRobot.getInstance().mmSystems.intakeArm.setPosition(0.5)
                 )
         ).schedule();
 
@@ -507,7 +507,7 @@ public class Blue_Right_6 extends MMOpMode {
     private static Command setupForPushing() {
         return new ParallelCommandGroup(
                 //MMRobot.getInstance().mmSystems.linearIntake.setPosition(LinearIntake.LinearIntakeState.CLOSED_POSE),
-                robotInstance.mmSystems.intakeArm.setPosition(0.66),
+                robotInstance.mmSystems.intakeArm.setPosition(0.58),
                 robotInstance.mmSystems.intakeEndUnitRotator.setPosition(rotator),
                 robotInstance.mmSystems.intakEndUnit.setPose(halfOpenClaw)
         );
